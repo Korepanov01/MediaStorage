@@ -1,0 +1,66 @@
+media {
+	id bigserial pk increments unique
+	user_id bigint *> user.id
+	category_id bigint *> category.id
+	name varchar(200)
+	description varchar(10000) null
+	media_type_id bigint *> media_type.id
+	created_at timestamp
+	edited_at timestamp
+}
+
+tag {
+	id bigserial pk increments unique
+	name varchar(200) unique
+}
+
+file {
+	id bigserial pk increments unique
+	path varchar(200) unique
+	size smallint
+	extension varchar(20) null
+}
+
+media_tag {
+	media_id bigint *> media.id
+	tag_id bigint *> tag.id
+}
+
+user {
+	id bigserial pk increments unique
+	name varchar(200) unique
+	password_hash varchar(16)
+	email varchar(500) unique
+}
+
+category {
+	id bigserial pk increments unique
+	name varchar(200) unique
+	parent_category_id bigint null *> category.id
+}
+
+role {
+	id bigserial pk increments unique
+	name varchar(100) unique
+}
+
+user_role {
+	role_id bigint unique *> role.id
+	user_id bigint unique *> user.id
+}
+
+media_file {
+	media_id bigint unique *> media.id
+	file_id bigint unique *> file.id
+	file_type_id bigint unique *> file_type.id
+}
+
+file_type {
+	id bigserial pk increments unique
+	type varchar(100) unique
+}
+
+media_type {
+	id bigserial pk increments unique
+	name varchar(100) unique
+}
