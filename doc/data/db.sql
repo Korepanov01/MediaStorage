@@ -41,35 +41,35 @@ CREATE TABLE "public.user"
 
 CREATE TABLE "public.category"
 (
-    "id"                 bigserial       CONSTRAINT "category_pk" PRIMARY KEY,
-    "name"               varchar(200) NOT NULL UNIQUE,
+    "id"                 bigserial      CONSTRAINT "category_pk" PRIMARY KEY,
+    "name"               varchar(200)   NOT NULL UNIQUE,
     "parent_category_id" bigint
 );
 
 CREATE TABLE "public.role"
 (
-    "id"   bigserial       CONSTRAINT "role_pk" PRIMARY KEY,
+    "id"   bigserial    CONSTRAINT "role_pk" PRIMARY KEY,
     "name" varchar(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE "public.user_role"
 (
-    "id"   bigserial       CONSTRAINT "user_role_pk" PRIMARY KEY,
-    "role_id" bigint NOT NULL UNIQUE,
-    "user_id" bigint NOT NULL UNIQUE
+    "id"        bigserial   CONSTRAINT "user_role_pk" PRIMARY KEY,
+    "role_id"   bigint      NOT NULL UNIQUE,
+    "user_id"   bigint      NOT NULL UNIQUE
 );
 
 CREATE TABLE "public.media_file"
 (
-    "id"   bigserial       CONSTRAINT "media_file_pk" PRIMARY KEY,
-    "media_id"     bigint NOT NULL UNIQUE,
-    "file_id"      bigint NOT NULL UNIQUE,
-    "file_type_id" bigint NOT NULL UNIQUE
+    "id"           bigserial    CONSTRAINT "media_file_pk" PRIMARY KEY,
+    "media_id"     bigint       NOT NULL UNIQUE,
+    "file_id"      bigint       NOT NULL UNIQUE,
+    "file_type_id" bigint       NOT NULL UNIQUE
 );
 
 CREATE TABLE "public.file_type"
 (
-    "id"   bigserial       CONSTRAINT "file_type_pk" PRIMARY KEY,
+    "id"   bigserial    CONSTRAINT "file_type_pk" PRIMARY KEY,
     "type" varchar(100) NOT NULL UNIQUE
 );
 
