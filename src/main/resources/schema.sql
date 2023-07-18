@@ -106,24 +106,3 @@ ALTER TABLE "public.media_file"
     ADD CONSTRAINT "media_file_fk1" FOREIGN KEY ("file_id") REFERENCES "public.file" ("id");
 ALTER TABLE "public.media_file"
     ADD CONSTRAINT "media_file_fk2" FOREIGN KEY ("file_type_id") REFERENCES "public.file_type" ("id");
-
-
-CREATE INDEX idx_role_name ON "public.role" ("name");
-
-CREATE INDEX idx_user_role_user_id ON "public.user_role" ("user_id");
-
-CREATE INDEX idx_media_name ON "public.media" ("name");
-CREATE INDEX idx_media_media_type_id ON "public.media" ("media_type_id");
-CREATE INDEX idx_media_category_id ON "public.media" ("category_id");
-CREATE INDEX idx_media_created_at ON "public.media" ("created_at");
-CREATE INDEX idx_media_edited_at ON "public.media" ("edited_at");
-
-CREATE INDEX idx_tag_name ON "public.tag" ("name");
-
-CREATE INDEX idx_media_tag_media_id ON "public.media_tag" ("media_id");
-CREATE INDEX idx_media_tag_tag_id ON "public.media_tag" ("tag_id");
-
-CREATE INDEX idx_category_name ON "public.category" ("name");
-CREATE INDEX idx_category_parent_category_id ON "public.category" ("parent_category_id");
-
-CREATE INDEX idx_media_file_media_id ON "public.media_file" ("media_id");
