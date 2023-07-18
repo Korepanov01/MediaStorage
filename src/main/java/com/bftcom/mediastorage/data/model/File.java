@@ -8,6 +8,13 @@ public class File extends BaseModel {
 
     private String extension;
 
+    public File(Long id, String path, short size, String extension) {
+        super(id);
+        this.path = path;
+        this.size = size;
+        this.extension = extension;
+    }
+
     public String getPath() {
         return path;
     }

@@ -1,6 +1,11 @@
 package com.bftcom.mediastorage.data.model;
 
 public class Category extends BaseModel {
+    public Category(Long id, String name, Long parentCategoryId) {
+        super(id);
+        this.name = name;
+        this.parentCategoryId = parentCategoryId;
+    }
 
     private String name;
 

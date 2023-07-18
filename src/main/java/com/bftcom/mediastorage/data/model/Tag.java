@@ -4,6 +4,15 @@ public class Tag extends BaseModel {
 
     private String name;
 
+    public Tag(String name) {
+        this.name = name;
+    }
+
+    public Tag(Long id, String name) {
+        super(id);
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

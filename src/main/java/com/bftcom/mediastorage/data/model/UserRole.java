@@ -6,6 +6,12 @@ public class UserRole extends BaseModel {
 
     private long userId;
 
+    public UserRole(Long id, long roleId, long userId) {
+        super(id);
+        this.roleId = roleId;
+        this.userId = userId;
+    }
+
     public long getRoleId() {
         return roleId;
     }

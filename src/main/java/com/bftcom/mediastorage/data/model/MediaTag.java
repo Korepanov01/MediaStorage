@@ -6,6 +6,12 @@ public class MediaTag extends BaseModel {
 
     private long tagId;
 
+    public MediaTag(Long id, long mediaId, long tagId) {
+        super(id);
+        this.mediaId = mediaId;
+        this.tagId = tagId;
+    }
+
     public long getMediaId() {
         return mediaId;
     }

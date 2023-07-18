@@ -18,6 +18,17 @@ public class Media extends BaseModel {
 
     private LocalDateTime editedAt;
 
+    public Media(Long id, long userId, long categoryId, String name, String description, long mediaTypeId, LocalDateTime createdAt, LocalDateTime editedAt) {
+        super(id);
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.name = name;
+        this.description = description;
+        this.mediaTypeId = mediaTypeId;
+        this.createdAt = createdAt;
+        this.editedAt = editedAt;
+    }
+
     public long getUserId() {
         return userId;
     }

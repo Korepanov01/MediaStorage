@@ -8,6 +8,13 @@ public class MediaFile extends BaseModel {
 
     private long fileTypeId;
 
+    public MediaFile(Long id, long mediaId, long fileId, long fileTypeId) {
+        super(id);
+        this.mediaId = mediaId;
+        this.fileId = fileId;
+        this.fileTypeId = fileTypeId;
+    }
+
     public long getFileId() {
         return fileId;
     }

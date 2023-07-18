@@ -4,6 +4,11 @@ public class MediaType extends BaseModel {
 
     private String name;
 
+    public MediaType(Long id, String name) {
+        super(id);
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
