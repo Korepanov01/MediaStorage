@@ -22,6 +22,7 @@ file {
 }
 
 media_tag {
+    id bigserial pk increments unique
 	media_id bigint *> media.id
 	tag_id bigint *> tag.id
 }
@@ -45,11 +46,13 @@ role {
 }
 
 user_role {
+    id bigserial pk increments unique
 	role_id bigint unique *> role.id
 	user_id bigint unique *> user.id
 }
 
 media_file {
+    id bigserial pk increments unique
 	media_id bigint unique *> media.id
 	file_id bigint unique *> file.id
 	file_type_id bigint unique *> file_type.id
