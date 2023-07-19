@@ -2,29 +2,29 @@ package com.bftcom.mediastorage.data.model;
 
 public class MediaTag extends BaseModel {
 
-    private long mediaId;
+    private Long mediaId;
 
-    private long tagId;
+    private Long tagId;
 
-    public MediaTag(Long id, long mediaId, long tagId) {
+    public MediaTag(Long id, Long mediaId, Long tagId) {
         super(id);
         this.mediaId = mediaId;
         this.tagId = tagId;
     }
 
-    public long getMediaId() {
+    public Long getMediaId() {
         return mediaId;
     }
 
-    public void setMediaId(long mediaId) {
+    public void setMediaId(Long mediaId) {
         this.mediaId = mediaId;
     }
 
-    public long getTagId() {
+    public Long getTagId() {
         return tagId;
     }
 
-    public void setTagId(long tagId) {
+    public void setTagId(Long tagId) {
         this.tagId = tagId;
     }
 }

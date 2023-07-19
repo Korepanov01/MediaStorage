@@ -2,40 +2,40 @@ package com.bftcom.mediastorage.data.model;
 
 public class MediaFile extends BaseModel {
 
-    private long mediaId;
+    private Long mediaId;
 
-    private long fileId;
+    private Long fileId;
 
-    private long fileTypeId;
+    private Long fileTypeId;
 
-    public MediaFile(Long id, long mediaId, long fileId, long fileTypeId) {
+    public MediaFile(Long id, Long mediaId, Long fileId, Long fileTypeId) {
         super(id);
         this.mediaId = mediaId;
         this.fileId = fileId;
         this.fileTypeId = fileTypeId;
     }
 
-    public long getFileId() {
+    public Long getFileId() {
         return fileId;
     }
 
-    public void setFileId(long fileId) {
+    public void setFileId(Long fileId) {
         this.fileId = fileId;
     }
 
-    public long getFileTypeId() {
+    public Long getFileTypeId() {
         return fileTypeId;
     }
 
-    public void setFileTypeId(long fileTypeId) {
+    public void setFileTypeId(Long fileTypeId) {
         this.fileTypeId = fileTypeId;
     }
 
-    public long getMediaId() {
+    public Long getMediaId() {
         return mediaId;
     }
 
-    public void setMediaId(long mediaId) {
+    public void setMediaId(Long mediaId) {
         this.mediaId = mediaId;
     }
 }

@@ -4,21 +4,21 @@ import java.time.LocalDateTime;
 
 public class Media extends BaseModel {
 
-    private long userId;
+    private Long userId;
 
-    private long categoryId;
+    private Long categoryId;
 
     private String name;
 
     private String description;
 
-    private long mediaTypeId;
+    private Long mediaTypeId;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime editedAt;
 
-    public Media(Long id, long userId, long categoryId, String name, String description, long mediaTypeId, LocalDateTime createdAt, LocalDateTime editedAt) {
+    public Media(Long id, Long userId, Long categoryId, String name, String description, Long mediaTypeId, LocalDateTime createdAt, LocalDateTime editedAt) {
         super(id);
         this.userId = userId;
         this.categoryId = categoryId;
@@ -29,19 +29,19 @@ public class Media extends BaseModel {
         this.editedAt = editedAt;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public long getCategoryId() {
+    public Long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(long categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -61,11 +61,11 @@ public class Media extends BaseModel {
         this.description = description;
     }
 
-    public long getMediaTypeId() {
+    public Long getMediaTypeId() {
         return mediaTypeId;
     }
 
-    public void setMediaTypeId(long mediaTypeId) {
+    public void setMediaTypeId(Long mediaTypeId) {
         this.mediaTypeId = mediaTypeId;
     }
 

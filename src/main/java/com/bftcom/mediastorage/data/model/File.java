@@ -4,11 +4,11 @@ public class File extends BaseModel {
 
     private String path;
 
-    private short size;
+    private Short size;
 
     private String extension;
 
-    public File(Long id, String path, short size, String extension) {
+    public File(Long id, String path, Short size, String extension) {
         super(id);
         this.path = path;
         this.size = size;
@@ -23,11 +23,11 @@ public class File extends BaseModel {
         this.path = path;
     }
 
-    public short getSize() {
+    public Short getSize() {
         return size;
     }
 
-    public void setSize(short size) {
+    public void setSize(Short size) {
         this.size = size;
     }
 

@@ -2,29 +2,29 @@ package com.bftcom.mediastorage.data.model;
 
 public class UserRole extends BaseModel {
 
-    private long roleId;
+    private Long roleId;
 
-    private long userId;
+    private Long userId;
 
-    public UserRole(Long id, long roleId, long userId) {
+    public UserRole(Long id, Long roleId, Long userId) {
         super(id);
         this.roleId = roleId;
         this.userId = userId;
     }
 
-    public long getRoleId() {
+    public Long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(long roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }
