@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.data.repository;
 
-import com.bftcom.mediastorage.data.model.Tag;
+import com.bftcom.mediastorage.data.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -15,40 +15,41 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
-public class JdbcTagRepository implements IRepository<Tag, Long> {
+public class JdbcCategoryRepository implements IRepository<Category, Long> {
 
     private final JdbcTemplate jdbcTemplate;
 
     private final String SQL_FIND_BY_ID =
-            "SELECT id, name " +
-            "FROM \"public.tag\" " +
+            "SELECT id, name, parent_category_id " +
+            "FROM \"public.category\" " +
             "WHERE id=?";
 
     private final String SQL_FIND_ALL =
-            "SELECT id, name " +
-            "FROM \"public.tag\"";
+            "SELECT id, name, parent_category_id " +
+            "FROM \"public.category\"";
 
     private final String SQL_SAVE =
-            "INSERT INTO \"public.tag\"(name) VALUES(?)";
+            "INSERT INTO \"public.category\"(name, parent_category_id) VALUES(?, ?)";
 
     private final String SQL_UPDATE =
-            "UPDATE \"public.tag\" " +
-            "SET name = ? " +
+            "UPDATE \"public.category\" " +
+            "SET name = ?, parent_category_id = ? " +
             "WHERE id = ?";
 
     private final String SQL_DELETE =
-            "DELETE FROM \"public.tag\" " +
+            "DELETE FROM \"public.category\" " +
             "WHERE id = ?";
 
     @Autowired
-    public JdbcTagRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcCategoryRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     @Override
-    public Optional<Tag> findById(Long id) {
-        List<Tag> results = jdbcTemplate.query(
+    public Optional<Category> findById(Long id) {
+        List<Category> results = jdbcTemplate.query(
                 SQL_FIND_BY_ID,
-                this::mapRowToTag,
+                this::mapRowToCategory,
                 id);
         return results.size() == 0 ?
                 Optional.empty() :
@@ -56,51 +57,52 @@ public class JdbcTagRepository implements IRepository<Tag, Long> {
     }
 
     @Override
-    public List<Tag> findAll() {
+    public List<Category> findAll() {
         return jdbcTemplate.query(
                 SQL_FIND_ALL,
-                this::mapRowToTag);
+                this::mapRowToCategory);
     }
 
     @Override
-    public Tag save(Tag tag) {
+    public Category save(Category category) {
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     SQL_SAVE,
                     Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, tag.getName());
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.setLong(2, category.getParentCategoryId());
             return preparedStatement;
         }, generatedKeyHolder);
 
+        long id = (long) Objects.requireNonNull(generatedKeyHolder.getKeys()).get("id");
+        category.setId(id);
 
-        long id = (long)Objects.requireNonNull(generatedKeyHolder.getKeys()).get("id");
-
-        tag.setId(id);
-
-        return tag;
+        return category;
     }
 
     @Override
-    public void update(Tag tag) {
+    public void update(Category category) {
         jdbcTemplate.update(
                 SQL_UPDATE,
-                tag.getName(),
-                tag.getId());
+                category.getName(),
+                category.getParentCategoryId(),
+                category.getId());
     }
 
     @Override
-    public void delete(Tag tag) {
+    public void delete(Category category) {
         jdbcTemplate.update(
                 SQL_DELETE,
-                tag.getId());
+                category.getId());
     }
 
-    private Tag mapRowToTag(ResultSet row, int rowNum)
+    private Category mapRowToCategory(ResultSet row, int rowNum)
             throws SQLException {
-        return new Tag(
+        return new Category(
                 row.getLong("id"),
-                row.getString("name"));
+                row.getString("name"),
+                row.getLong("parent_category_id"));
     }
 }
