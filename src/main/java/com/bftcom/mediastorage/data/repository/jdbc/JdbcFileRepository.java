@@ -1,6 +1,7 @@
-package com.bftcom.mediastorage.data.repository;
+package com.bftcom.mediastorage.data.repository.jdbc;
 
 import com.bftcom.mediastorage.data.entity.File;
+import com.bftcom.mediastorage.data.repository.FileRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -8,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JdbcFileRepository extends JdbcCrudRepository<File, Long> {
+public class JdbcFileRepository extends JdbcCrudRepository<File, Long> implements FileRepository {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT id, path, size, extension " +

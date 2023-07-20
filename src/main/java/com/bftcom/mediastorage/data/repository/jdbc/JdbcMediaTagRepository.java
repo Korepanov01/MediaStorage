@@ -1,6 +1,7 @@
-package com.bftcom.mediastorage.data.repository;
+package com.bftcom.mediastorage.data.repository.jdbc;
 
 import com.bftcom.mediastorage.data.entity.MediaTag;
+import com.bftcom.mediastorage.data.repository.MediaTagRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -8,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JdbcMediaTagRepository extends JdbcCrudRepository<MediaTag, Long> {
+public class JdbcMediaTagRepository extends JdbcCrudRepository<MediaTag, Long> implements MediaTagRepository {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT id, media_id, tag_id " +

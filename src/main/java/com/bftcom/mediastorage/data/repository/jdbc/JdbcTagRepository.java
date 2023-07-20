@@ -1,6 +1,7 @@
-package com.bftcom.mediastorage.data.repository;
+package com.bftcom.mediastorage.data.repository.jdbc;
 
 import com.bftcom.mediastorage.data.entity.Tag;
+import com.bftcom.mediastorage.data.repository.TagRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -8,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JdbcTagRepository extends JdbcCrudRepository<Tag, Long> {
+public class JdbcTagRepository extends JdbcCrudRepository<Tag, Long> implements TagRepository {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT id, name " +

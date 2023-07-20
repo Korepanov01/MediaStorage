@@ -1,6 +1,7 @@
-package com.bftcom.mediastorage.data.repository;
+package com.bftcom.mediastorage.data.repository.jdbc;
 
 import com.bftcom.mediastorage.data.entity.BaseEntity;
+import com.bftcom.mediastorage.data.repository.CrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -21,12 +22,12 @@ import java.util.Optional;
  @param <T> The type of model that extends the BaseModel class.
 
  @see BaseEntity
- @see ICrudRepository
+ @see CrudRepository
  */
 @Repository
-public abstract class JdbcCrudRepository<T extends BaseEntity, TId> implements ICrudRepository<T, TId> {
+public abstract class JdbcCrudRepository<T extends BaseEntity, TId> implements CrudRepository<T, TId> {
 
-    private JdbcTemplate jdbcTemplate;
+    protected JdbcTemplate jdbcTemplate;
 
     private String sqlFindById;
     private String sqlFindAll;

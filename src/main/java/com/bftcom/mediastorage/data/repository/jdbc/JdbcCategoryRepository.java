@@ -1,6 +1,7 @@
-package com.bftcom.mediastorage.data.repository;
+package com.bftcom.mediastorage.data.repository.jdbc;
 
 import com.bftcom.mediastorage.data.entity.Category;
+import com.bftcom.mediastorage.data.repository.CategoryRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -8,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JdbcCategoryRepository extends JdbcCrudRepository<Category, Long> {
+public class JdbcCategoryRepository extends JdbcCrudRepository<Category, Long> implements CategoryRepository {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT id, name, parent_category_id " +
