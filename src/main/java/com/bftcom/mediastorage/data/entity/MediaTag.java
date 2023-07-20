@@ -1,6 +1,6 @@
-package com.bftcom.mediastorage.data.model;
+package com.bftcom.mediastorage.data.entity;
 
-public class MediaTag extends BaseModel {
+public class MediaTag extends BaseEntity {
 
     private Long mediaId;
 

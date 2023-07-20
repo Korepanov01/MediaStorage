@@ -1,8 +1,8 @@
-package com.bftcom.mediastorage.data.model;
+package com.bftcom.mediastorage.data.entity;
 
 import java.time.LocalDateTime;
 
-public class Media extends BaseModel {
+public class Media extends BaseEntity {
 
     private Long userId;
 

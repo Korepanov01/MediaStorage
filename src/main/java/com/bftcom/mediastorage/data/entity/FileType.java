@@ -1,6 +1,6 @@
-package com.bftcom.mediastorage.data.model;
+package com.bftcom.mediastorage.data.entity;
 
-public class FileType extends BaseModel {
+public class FileType extends BaseEntity {
     private String type;
 
     public FileType(Long id, String type) {

@@ -1,6 +1,6 @@
-package com.bftcom.mediastorage.data.model;
+package com.bftcom.mediastorage.data.entity;
 
-public class File extends BaseModel {
+public class File extends BaseEntity {
 
     private String path;
 

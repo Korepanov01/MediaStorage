@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.data.repository;
 
-import com.bftcom.mediastorage.data.model.Tag;
+import com.bftcom.mediastorage.data.entity.Tag;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;

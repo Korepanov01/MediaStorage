@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.data.repository;
 
-import com.bftcom.mediastorage.data.model.File;
+import com.bftcom.mediastorage.data.entity.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;

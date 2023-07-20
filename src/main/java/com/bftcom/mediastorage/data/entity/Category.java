@@ -1,6 +1,6 @@
-package com.bftcom.mediastorage.data.model;
+package com.bftcom.mediastorage.data.entity;
 
-public class Category extends BaseModel {
+public class Category extends BaseEntity {
     public Category(Long id, String name, Long parentCategoryId) {
         super(id);
         this.name = name;

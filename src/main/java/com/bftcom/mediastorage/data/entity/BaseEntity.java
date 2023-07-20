@@ -1,11 +1,11 @@
-package com.bftcom.mediastorage.data.model;
+package com.bftcom.mediastorage.data.entity;
 
-public abstract class BaseModel {
+public abstract class BaseEntity {
     private Long Id;
 
-    public BaseModel() {}
+    public BaseEntity() {}
 
-    public BaseModel(Long id) {
+    public BaseEntity(Long id) {
         Id = id;
     }
 

@@ -1,6 +1,6 @@
-package com.bftcom.mediastorage.data.model;
+package com.bftcom.mediastorage.data.entity;
 
-public class User extends BaseModel {
+public class User extends BaseEntity {
 
     private String name;
 

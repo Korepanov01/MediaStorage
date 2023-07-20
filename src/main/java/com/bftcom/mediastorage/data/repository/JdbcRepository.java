@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.data.repository;
 
-import com.bftcom.mediastorage.data.model.BaseModel;
+import com.bftcom.mediastorage.data.entity.BaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -20,11 +20,11 @@ import java.util.Optional;
 
  @param <T> The type of model that extends the BaseModel class.
 
- @see com.bftcom.mediastorage.data.model.BaseModel
+ @see BaseEntity
  @see IRepository
  */
 @Repository
-public abstract class JdbcRepository<T extends BaseModel> implements IRepository<T, Long> {
+public abstract class JdbcRepository<T extends BaseEntity> implements IRepository<T, Long> {
 
     private JdbcTemplate jdbcTemplate;
 

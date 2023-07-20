@@ -1,6 +1,6 @@
-package com.bftcom.mediastorage.data.model;
+package com.bftcom.mediastorage.data.entity;
 
-public class UserRole extends BaseModel {
+public class UserRole extends BaseEntity {
 
     private Long roleId;
 
