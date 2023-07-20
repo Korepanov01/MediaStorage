@@ -21,10 +21,10 @@ import java.util.Optional;
  @param <T> The type of model that extends the BaseModel class.
 
  @see BaseEntity
- @see IRepository
+ @see ICrudRepository
  */
 @Repository
-public abstract class JdbcRepository<T extends BaseEntity> implements IRepository<T, Long> {
+public abstract class JdbcCrudRepository<T extends BaseEntity, TId> implements ICrudRepository<T, TId> {
 
     private JdbcTemplate jdbcTemplate;
 
@@ -34,7 +34,7 @@ public abstract class JdbcRepository<T extends BaseEntity> implements IRepositor
     private String sqlUpdate;
     private String sqlDelete;
 
-    private JdbcRepository() {}
+    private JdbcCrudRepository() {}
 
     /**
      Constructor for JdbcRepository that initializes SQL queries.
@@ -44,7 +44,7 @@ public abstract class JdbcRepository<T extends BaseEntity> implements IRepositor
      @param sqlUpdate The SQL query to update an existing model in the database.
      @param sqlDelete The SQL query to delete a model from the database.
      */
-    public JdbcRepository(
+    public JdbcCrudRepository(
             String sqlFindById,
             String sqlFindAll,
             String sqlSave,
@@ -68,7 +68,7 @@ public abstract class JdbcRepository<T extends BaseEntity> implements IRepositor
      @return An Optional containing the retrieved model, or empty if not found.
      */
     @Override
-    public Optional<T> findById(Long id) {
+    public Optional<T> findById(TId id) {
         List<T> results = jdbcTemplate.query(
                 sqlFindById,
                 this::mapRowToModel,
@@ -90,58 +90,56 @@ public abstract class JdbcRepository<T extends BaseEntity> implements IRepositor
     }
 
     /**
-     Saves a new model into the database.
-     @param model The model to be saved.
-     @return The saved model with its updated ID.
+     Saves a new entity into the database.
+     @param entity The entity to be saved.
+     @return The saved entity with its updated ID.
      */
     @Override
-    public T save(T model) {
+    public T save(T entity) {
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     sqlSave,
                     Statement.RETURN_GENERATED_KEYS);
-            setPreparedSaveStatementValues(preparedStatement, model);
+            setPreparedSaveStatementValues(preparedStatement, entity);
             return preparedStatement;
         }, generatedKeyHolder);
 
 
         long id = (long) Objects.requireNonNull(generatedKeyHolder.getKeys()).get("id");
 
-        model.setId(id);
+        entity.setId(id);
 
-        return model;
+        return entity;
     }
 
     /**
-     Updates an existing model in the database.
-     @param model The model to be updated.
+     Updates an existing entity in the database.
+     @param entity The entity to be updated.
      */
     @Override
-    public void update(T model) {
+    public void update(T entity) {
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     sqlUpdate);
-            setPreparedUpdateStatementValues(preparedStatement, model);
+            setPreparedUpdateStatementValues(preparedStatement, entity);
             return preparedStatement;
         });
     }
 
     /**
-
-     Deletes a model from the database.
-     @param model The model to be deleted.
+     Deletes a entity from the database.
+     @param entity The entity to be deleted.
      */
     @Override
-    public void delete(T model) {
+    public void delete(T entity) {
         jdbcTemplate.update(
                 sqlDelete,
-                model.getId());
+                entity.getId());
     }
 
     /**
-
      Abstract method to map a ResultSet row to a model object.
      @param row The ResultSet row to be mapped.
      @param rowNum The row number within the ResultSet.
@@ -161,11 +159,11 @@ public abstract class JdbcRepository<T extends BaseEntity> implements IRepositor
             throws SQLException;
 
     /**
-     Abstract method to set prepared statement values for updating a model.
+     Abstract method to set prepared statement values for updating a entity.
      @param preparedStatement The PreparedStatement to set values on.
-     @param model The model to be updated.
+     @param entity The entity to be updated.
      @throws SQLException If a database access error occurs or other errors.
      */
-    protected abstract void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, T model)
+    protected abstract void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, T entity)
             throws SQLException;
 }

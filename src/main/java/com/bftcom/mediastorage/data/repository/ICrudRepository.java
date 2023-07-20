@@ -5,7 +5,7 @@ import com.bftcom.mediastorage.data.entity.BaseEntity;
 import java.util.List;
 import java.util.Optional;
 
-public interface IRepository<T extends BaseEntity, TId> {
+public interface ICrudRepository<T extends BaseEntity, TId> {
     Optional<T> findById(TId id);
     List<T> findAll();
     T save(T t);

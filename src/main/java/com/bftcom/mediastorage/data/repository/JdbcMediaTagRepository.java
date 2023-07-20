@@ -8,28 +8,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JdbcMediaTagRepository extends JdbcRepository<MediaTag> {
+public class JdbcMediaTagRepository extends JdbcCrudRepository<MediaTag, Long> {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT id, media_id, tag_id " +
-            "FROM \"public.media_tag\" " +
-            "WHERE id=?";
+                    "FROM \"public.media_tag\" " +
+                    "WHERE id=?";
 
     private static final String SQL_FIND_ALL =
             "SELECT id, media_id, tag_id " +
-            "FROM \"public.media_tag\"";
+                    "FROM \"public.media_tag\"";
 
     private static final String SQL_SAVE =
             "INSERT INTO \"public.media_tag\"(media_id, tag_id) VALUES(?, ?)";
 
     private static final String SQL_UPDATE =
             "UPDATE \"public.media_tag\" " +
-            "SET media_id = ?, tag_id = ? " +
-            "WHERE id = ?";
+                    "SET media_id = ?, tag_id = ? " +
+                    "WHERE id = ?";
 
     private static final String SQL_DELETE =
             "DELETE FROM \"public.media_tag\" " +
-            "WHERE id = ?";
+                    "WHERE id = ?";
 
     public JdbcMediaTagRepository() {
         super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
@@ -51,10 +51,10 @@ public class JdbcMediaTagRepository extends JdbcRepository<MediaTag> {
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, MediaTag mediaTag)
+    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, MediaTag entity)
             throws SQLException {
-        preparedStatement.setLong(1, mediaTag.getMediaId());
-        preparedStatement.setLong(2, mediaTag.getTagId());
-        preparedStatement.setLong(3, mediaTag.getId());
+        preparedStatement.setLong(1, entity.getMediaId());
+        preparedStatement.setLong(2, entity.getTagId());
+        preparedStatement.setLong(3, entity.getId());
     }
 }

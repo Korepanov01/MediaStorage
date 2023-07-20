@@ -9,29 +9,29 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 @Repository
-public class JdbcMediaRepository extends JdbcRepository<Media> {
+public class JdbcMediaRepository extends JdbcCrudRepository<Media, Long> {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT id, user_id, category_id, name, description, media_type_id, created_at, edited_at " +
-            "FROM \"public.media\" " +
-            "WHERE id=?";
+                    "FROM \"public.media\" " +
+                    "WHERE id=?";
 
     private static final String SQL_FIND_ALL =
             "SELECT id, user_id, category_id, name, description, media_type_id, created_at, edited_at " +
-            "FROM \"public.media\"";
+                    "FROM \"public.media\"";
 
     private static final String SQL_SAVE =
             "INSERT INTO \"public.media\"(user_id, category_id, name, description, media_type_id, created_at, edited_at) " +
-            "VALUES(?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
     private static final String SQL_UPDATE =
             "UPDATE \"public.media\" " +
-            "SET user_id = ?, category_id = ?, name = ?, description = ?, media_type_id = ?, edited_at = ? " +
-            "WHERE id = ?";
+                    "SET user_id = ?, category_id = ?, name = ?, description = ?, media_type_id = ?, edited_at = ? " +
+                    "WHERE id = ?";
 
     private static final String SQL_DELETE =
             "DELETE FROM \"public.media\" " +
-            "WHERE id = ?";
+                    "WHERE id = ?";
 
     public JdbcMediaRepository() {
         super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
@@ -63,14 +63,14 @@ public class JdbcMediaRepository extends JdbcRepository<Media> {
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, Media media)
+    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, Media entity)
             throws SQLException {
-        preparedStatement.setLong(1, media.getUserId());
-        preparedStatement.setLong(2, media.getCategoryId());
-        preparedStatement.setString(3, media.getName());
-        preparedStatement.setString(4, media.getDescription());
-        preparedStatement.setLong(5, media.getMediaTypeId());
-        preparedStatement.setObject(6, media.getEditedAt());
-        preparedStatement.setLong(7, media.getId());
+        preparedStatement.setLong(1, entity.getUserId());
+        preparedStatement.setLong(2, entity.getCategoryId());
+        preparedStatement.setString(3, entity.getName());
+        preparedStatement.setString(4, entity.getDescription());
+        preparedStatement.setLong(5, entity.getMediaTypeId());
+        preparedStatement.setObject(6, entity.getEditedAt());
+        preparedStatement.setLong(7, entity.getId());
     }
 }
