@@ -1,7 +1,7 @@
-package com.bftcom.mediastorage.data.repository.jdbc;
+package com.bftcom.mediastorage.repository.jdbc;
 
-import com.bftcom.mediastorage.data.entity.BaseEntity;
-import com.bftcom.mediastorage.data.repository.CrudRepository;
+import com.bftcom.mediastorage.model.entity.BaseEntity;
+import com.bftcom.mediastorage.repository.CrudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;

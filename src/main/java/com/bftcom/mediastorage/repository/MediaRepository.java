@@ -1,8 +1,8 @@
-package com.bftcom.mediastorage.data.repository;
+package com.bftcom.mediastorage.repository;
 
-import com.bftcom.mediastorage.data.entity.Category;
-import com.bftcom.mediastorage.data.entity.Media;
-import com.bftcom.mediastorage.data.entity.Tag;
+import com.bftcom.mediastorage.model.entity.Category;
+import com.bftcom.mediastorage.model.entity.Media;
+import com.bftcom.mediastorage.model.entity.Tag;
 
 import java.util.List;
 

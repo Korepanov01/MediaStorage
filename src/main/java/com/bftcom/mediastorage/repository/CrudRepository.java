@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.data.repository;
+package com.bftcom.mediastorage.repository;
 
 import com.bftcom.mediastorage.model.entity.BaseEntity;
 

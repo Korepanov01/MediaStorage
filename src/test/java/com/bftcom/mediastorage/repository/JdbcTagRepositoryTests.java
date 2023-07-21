@@ -1,7 +1,7 @@
-package com.bftcom.mediastorage.data.repository;
+package com.bftcom.mediastorage.repository;
 
-import com.bftcom.mediastorage.data.entity.Tag;
-import com.bftcom.mediastorage.data.repository.jdbc.JdbcTagRepository;
+import com.bftcom.mediastorage.repository.jdbc.JdbcTagRepository;
+import com.bftcom.mediastorage.model.entity.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

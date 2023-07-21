@@ -1,7 +1,7 @@
-package com.bftcom.mediastorage.data.repository.jdbc;
+package com.bftcom.mediastorage.repository.jdbc;
 
-import com.bftcom.mediastorage.data.entity.File;
-import com.bftcom.mediastorage.data.repository.FileRepository;
+import com.bftcom.mediastorage.repository.FileRepository;
+import com.bftcom.mediastorage.model.entity.File;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
