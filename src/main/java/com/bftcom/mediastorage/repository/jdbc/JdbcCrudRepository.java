@@ -11,9 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  JdbcRepository is an abstract class that serves as a base implementation for data access using JDBC.
@@ -167,4 +169,20 @@ public abstract class JdbcCrudRepository<T extends BaseEntity, TId> implements C
      */
     protected abstract void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, T entity)
             throws SQLException;
+
+    protected class WhereConstructor {
+        private List<String> whereParams = new ArrayList<>();
+
+        public void addParam(String param) {
+            whereParams.add(param);
+        }
+
+        public String getWhere() {
+            if (whereParams.isEmpty()) {
+                return "";
+            }
+
+            return "WHERE" + String.join(" AND ", whereParams) + "\n";
+        }
+    }
 }
