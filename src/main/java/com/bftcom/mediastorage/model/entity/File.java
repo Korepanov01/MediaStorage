@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.data.entity;
+package com.bftcom.mediastorage.model.entity;
 
 public class File extends BaseEntity {
 
