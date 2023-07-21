@@ -13,4 +13,6 @@ public interface MediaRepository extends CrudRepository<Media, Long> {
     List<Media> findByCategory(Category category);
 
     List<Media> findByName(String name);
+
+    List<Media> findRandom(int maxSize);
 }

@@ -54,6 +54,12 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media, Long> impleme
                     "FROM \"public.media\" " +
                     "WHERE LOWER(name) LIKE LOWER(?)";
 
+    private static final String SQL_FIND_RANDOM =
+            "SELECT id, user_id, category_id, name, description, media_type_id, created_at, edited_at " +
+                    "FROM \"public.media\" " +
+                    "ORDER BY RANDOM()\n" +
+                    "LIMIT ?;";
+
     public JdbcMediaRepository() {
         super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
@@ -117,5 +123,13 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media, Long> impleme
                 SQL_FIND_BY_NAME,
                 this::mapRowToModel,
                 "%" + name + "%");
+    }
+
+    @Override
+    public List<Media> findRandom(int maxCount) {
+        return jdbcTemplate.query(
+                SQL_FIND_RANDOM,
+                this::mapRowToModel,
+                maxCount);
     }
 }
