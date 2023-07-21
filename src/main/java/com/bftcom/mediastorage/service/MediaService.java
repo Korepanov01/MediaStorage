@@ -1,10 +1,8 @@
 package com.bftcom.mediastorage.service;
 
-import com.bftcom.mediastorage.data.entity.Media;
-import com.bftcom.mediastorage.data.repository.MediaRepository;
-import com.bftcom.mediastorage.data.repository.jdbc.JdbcMediaRepository;
+import com.bftcom.mediastorage.model.entity.Media;
+import com.bftcom.mediastorage.repository.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
 @Service
 public class MediaService {
 
-    private MediaRepository mediaRepository;
+    private final MediaRepository mediaRepository;
 
     @Autowired
     public MediaService(MediaRepository mediaRepository) {
