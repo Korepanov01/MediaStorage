@@ -1,12 +1,15 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Tag;
+import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcTagRepository extends JdbcCrudRepository<Tag, Long> implements TagRepository {
@@ -32,8 +35,13 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag, Long> implements 
             "DELETE FROM \"public.tag\" " +
                     "WHERE id = ?";
 
+    private static final String SQL_FIND_BY_PARAMETERS =
+            "SELECT id, name " +
+                    "FROM \"public.tag\" " +
+                    "WHERE id=?";
+
     public JdbcTagRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_FIND_BY_PARAMETERS);
     }
 
     @Override
@@ -54,5 +62,22 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag, Long> implements 
             throws SQLException {
         preparedStatement.setString(1, entity.getName());
         preparedStatement.setLong(2, entity.getId());
+    }
+
+    @Override
+    public List<Tag> findByParameters(SearchStringParameters parameters) {
+        String sqlFindByParameters =
+                "SELECT id, name " +
+                        "FROM \"public.tag\" " +
+                        "WHERE name LIKE ? " +
+                        "OFFSET ? " +
+                        "LIMIT ? ";
+
+        return jdbcTemplate.query(
+                sqlFindByParameters,
+                this::mapRowToModel,
+                parameters.getSearchString() != null ? "%" + parameters.getSearchString() + "%" : "%%",
+                parameters.getPageIndex() * parameters.getPageSize(),
+                parameters.getPageSize());
     }
 }
