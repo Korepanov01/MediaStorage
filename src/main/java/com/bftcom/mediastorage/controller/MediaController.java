@@ -1,13 +1,18 @@
 package com.bftcom.mediastorage.controller;
 
+import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.service.MediaService;
 import com.bftcom.mediastorage.model.parameters.MediaSearchParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api/media")
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/media")
 public class MediaController {
 
     private final MediaService mediaService;

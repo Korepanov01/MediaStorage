@@ -3,6 +3,7 @@ package com.bftcom.mediastorage.model.parameters;
 import java.util.List;
 
 public class MediaSearchParameters extends SearchStringParameters {
+
     private List<Long> tagIds;
 
     private Long categoryId;
