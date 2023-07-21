@@ -2,16 +2,16 @@ package com.bftcom.mediastorage.web.controller.parameters;
 
 public class PagingParameters {
 
-    private int PageIndex;
+    private int PageIndex = 0;
 
-    private int PageSize;
+    private int PageSize = 10;
 
     public int getPageIndex() {
         return PageIndex;
     }
 
     public void setPageIndex(int pageIndex) {
-        PageIndex = pageIndex;
+        PageIndex = pageIndex < 0 ? 1 : pageIndex;
     }
 
     public int getPageSize() {
@@ -19,6 +19,6 @@ public class PagingParameters {
     }
 
     public void setPageSize(int pageSize) {
-        PageSize = pageSize;
+        PageSize = pageSize < 1 ? 1 : (pageSize > 100 ? 100 : pageSize);
     }
 }
