@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.web.controller.parameters;
+package com.bftcom.mediastorage.model.parameters;
 
 public class SearchStringParameters extends PagingParameters {
 

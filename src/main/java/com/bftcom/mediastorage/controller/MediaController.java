@@ -1,8 +1,7 @@
-package com.bftcom.mediastorage.web.controller;
+package com.bftcom.mediastorage.controller;
 
 import com.bftcom.mediastorage.service.MediaService;
-import com.bftcom.mediastorage.web.controller.parameters.MediaSearchParameters;
-import com.bftcom.mediastorage.web.controller.parameters.PagingParameters;
+import com.bftcom.mediastorage.model.parameters.MediaSearchParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
