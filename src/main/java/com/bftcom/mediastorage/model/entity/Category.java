@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.data.entity;
+package com.bftcom.mediastorage.model.entity;
 
 public class Category extends BaseEntity {
     public Category(Long id, String name, Long parentCategoryId) {

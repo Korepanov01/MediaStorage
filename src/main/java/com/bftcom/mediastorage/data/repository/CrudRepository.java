@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.data.repository;
 
-import com.bftcom.mediastorage.data.entity.BaseEntity;
+import com.bftcom.mediastorage.model.entity.BaseEntity;
 
 import java.util.List;
 import java.util.Optional;

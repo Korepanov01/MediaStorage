@@ -1,14 +1,10 @@
-package com.bftcom.mediastorage.data.entity;
+package com.bftcom.mediastorage.model.entity;
 
-public class Tag extends BaseEntity {
+public class Role extends BaseEntity {
 
     private String name;
 
-    public Tag(String name) {
-        this.name = name;
-    }
-
-    public Tag(Long id, String name) {
+    public Role(Long id, String name) {
         super(id);
         this.name = name;
     }
