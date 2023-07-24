@@ -38,10 +38,15 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag, Long> implements 
     private static final String SQL_FIND_BY_PARAMETERS =
             "SELECT id, name " +
                     "FROM \"public.tag\" " +
-                    "WHERE id=?";
+                    "WHERE name LIKE ? " +
+                    "OFFSET ? " +
+                    "LIMIT ? ";
+
+    private static final String SQL_FIND_BY_NAME =
+            "SELECT id, name FROM \"public.tag\" WHERE name = ? LIMIT 1";
 
     public JdbcTagRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_FIND_BY_PARAMETERS);
+        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
 
     @Override
@@ -66,18 +71,23 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag, Long> implements 
 
     @Override
     public List<Tag> findByParameters(SearchStringParameters parameters) {
-        String sqlFindByParameters =
-                "SELECT id, name " +
-                        "FROM \"public.tag\" " +
-                        "WHERE name LIKE ? " +
-                        "OFFSET ? " +
-                        "LIMIT ? ";
-
         return jdbcTemplate.query(
-                sqlFindByParameters,
+                SQL_FIND_BY_PARAMETERS,
                 this::mapRowToModel,
                 parameters.getSearchString() != null ? "%" + parameters.getSearchString() + "%" : "%%",
                 parameters.getPageIndex() * parameters.getPageSize(),
                 parameters.getPageSize());
+    }
+
+    @Override
+    public Optional<Tag> findByName(String name) {
+        List<Tag> results = jdbcTemplate.query(
+                SQL_FIND_BY_NAME,
+                this::mapRowToModel,
+                name);
+
+        return results.size() == 0 ?
+                Optional.empty() :
+                Optional.of(results.get(0));
     }
 }
