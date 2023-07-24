@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.service;
 
+import com.bftcom.mediastorage.exception.TagAlreadyExistsException;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
@@ -27,7 +28,9 @@ public class TagService {
         return tagRepository.findByParameters(parameters);
     }
 
-    public Tag save(Tag tag) {
+    public Tag save(Tag tag) throws TagAlreadyExistsException {
+        if (tagRepository.findByName(tag.getName()).isPresent())
+            throw new TagAlreadyExistsException();
         return tagRepository.save(tag);
     }
 
