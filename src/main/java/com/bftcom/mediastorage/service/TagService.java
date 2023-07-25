@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.service;
 
+import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
@@ -28,21 +29,31 @@ public class TagService implements IService<Tag, SearchStringParameters> {
         return tagRepository.findByName(name).isPresent();
     }
 
-    public Optional<Tag> findById(Long id) {
-        return tagRepository.findById(id);
-    }
-
     @Override
     public List<Tag> findByParameters(SearchStringParameters parameters) {
         return tagRepository.findByParameters(parameters);
     }
 
     @Override
-    public Tag save(Tag tag) {
+    public Tag save(Tag tag) throws EntityAlreadyExistsException {
+        if (isTagNameExists(tag.getName())) {
+            throw new EntityAlreadyExistsException();
+        }
+
         return tagRepository.save(tag);
     }
 
-    public void update(Tag tag) {
+    public void update(Tag tag) throws EntityAlreadyExistsException, EntityNotFoundException {
+        Optional<Tag> optionalTag = tagRepository.findById(tag.getId());
+
+        if (optionalTag.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        if (isTagNameExists(tag.getName())) {
+            throw new EntityAlreadyExistsException();
+        }
+
         tagRepository.update(tag);
     }
 

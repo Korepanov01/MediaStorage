@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.web.controller;
 
+import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.dto.TagDto;
 import com.bftcom.mediastorage.model.entity.Tag;
@@ -10,7 +11,6 @@ import com.bftcom.mediastorage.model.response.PostEntityResponse;
 import com.bftcom.mediastorage.service.TagService;
 import com.bftcom.mediastorage.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +30,7 @@ public class TagController {
     }
 
     @GetMapping
-    public List<TagDto> getTags(
+    public List<TagDto> get(
             SearchStringParameters parameters) {
         List<Tag> tags = tagService.findByParameters(parameters);
         return tags
@@ -40,39 +40,22 @@ public class TagController {
     }
 
     @PostMapping
-    public ResponseEntity<?> postTag(
+    public ResponseEntity<?> post(
             @Valid
             @RequestBody
             PostTagRequest request) {
-        if (tagService.isTagNameExists(request.getName())) {
+        Tag tag = PostTagRequest.convertToTag(request);
+
+        try {
+            tagService.save(tag);
+        }
+        catch (EntityAlreadyExistsException exception) {
             return Response.TagNameAlreadyExists;
         }
-
-        Tag tag = PostTagRequest.convertToTag(request);
-        tagService.save(tag);
 
         PostEntityResponse response = PostEntityResponse.convertFromEntity(tag);
 
         return ResponseEntity.ok(response);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> putTag(
-            @PathVariable Long id,
-            @Valid @RequestBody PutTagRequest request) {
-        if (tagService.isTagExists(id)) {
-            return Response.TagNotFound;
-        }
-
-        if (tagService.isTagNameExists(request.getName())) {
-            return Response.TagNameAlreadyExists;
-        }
-
-        Tag tag = PutTagRequest.convertToTag(request);
-        tag.setId(id);
-        tagService.update(tag);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -84,9 +67,27 @@ public class TagController {
             tagService.delete(id);
         }
         catch (EntityNotFoundException exception) {
-             return Response.TagNotFound;
+            return Response.TagNotFound;
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return Response.Ok;
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> putTag(
+            @PathVariable Long id,
+            @Valid @RequestBody PutTagRequest request) {
+        Tag tag = PutTagRequest.convertToTag(request);
+        tag.setId(id);
+
+        try {
+            tagService.update(tag);
+        } catch (EntityNotFoundException exception) {
+            return Response.TagNotFound;
+        } catch (EntityAlreadyExistsException exception) {
+            return Response.TagNameAlreadyExists;
+        }
+
+        return Response.Ok;
     }
 }
