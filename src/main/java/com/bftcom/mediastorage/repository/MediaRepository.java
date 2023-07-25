@@ -5,9 +5,7 @@ import com.bftcom.mediastorage.model.parameters.MediaSearchParameters;
 
 import java.util.List;
 
-public interface MediaRepository extends CrudRepository<Media> {
+public interface MediaRepository extends ParametersSearchRepository<Media, MediaSearchParameters> {
 
     List<Media> findRandom(int maxSize);
-
-    List<Media> findByParameters(MediaSearchParameters parameters);
 }

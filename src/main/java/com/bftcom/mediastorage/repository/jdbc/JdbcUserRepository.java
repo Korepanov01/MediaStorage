@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.User;
+import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.UserRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcUserRepository extends JdbcCrudRepository<User> implements UserRepository {
@@ -44,5 +46,21 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
         preparedStatement.setString(2, user.getPasswordHash());
         preparedStatement.setString(3, user.getEmail());
         preparedStatement.setLong(4, user.getId());
+    }
+
+    @Override
+    public List<User> findByParameters(SearchStringParameters parameters) {
+        ParametersSearchSqlBuilder builder = new ParametersSearchSqlBuilder("id, name, password_hash, email", "\"public.tag\"");
+
+        builder.addSearchStringCondition("name", parameters.getSearchString());
+
+        builder.addPagination(parameters.getPageIndex(), parameters.getPageSize());
+
+        return jdbcTemplate.query(builder.getQuery(), this::mapRowToModel, builder.getQueryParams());
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return findByUniqueField("email", email);
     }
 }
