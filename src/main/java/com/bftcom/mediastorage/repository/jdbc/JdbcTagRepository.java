@@ -4,12 +4,10 @@ import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,22 +60,13 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
 
     @Override
     public List<Tag> findByParameters(SearchStringParameters parameters) {
-        StringBuilder sqlBuilder = new StringBuilder(
-                "SELECT id, name " +
-                        "FROM \"public.tag\" WHERE 1=1");
-        List<Object> queryParams = new ArrayList<>();
+        ParametersSearchSqlBuilder builder = new ParametersSearchSqlBuilder("id, name", "\"public.tag\"");
 
-        if (parameters.getSearchString() != null && StringUtils.hasText(parameters.getSearchString())) {
-            sqlBuilder.append(" AND LOWER(name) LIKE LOWER(?)");
-            queryParams.add("%" + parameters.getSearchString() + "%");
-        }
+        builder.addSearchStringCondition("name", parameters.getSearchString());
 
-        int offset = parameters.getPageIndex() * parameters.getPageSize();
-        sqlBuilder.append(" OFFSET ? LIMIT ?");
-        queryParams.add(offset);
-        queryParams.add(parameters.getPageSize());
+        builder.addPagination(parameters.getPageIndex(), parameters.getPageSize());
 
-        return jdbcTemplate.query(sqlBuilder.toString(), this::mapRowToModel, queryParams.toArray());
+        return jdbcTemplate.query(builder.getQuery(), this::mapRowToModel, builder.getQueryParams());
     }
 
     @Override

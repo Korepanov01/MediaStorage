@@ -1,17 +1,13 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Role;
-import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.RoleRepository;
-import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,21 +73,13 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
 
     @Override
     public List<Role> findByParameters(SearchStringParameters parameters) {
-        StringBuilder sqlBuilder = new StringBuilder(
-                "SELECT id, name " +
-                        "FROM \"public.role\" WHERE 1=1");
-        List<Object> queryParams = new ArrayList<>();
+        ParametersSearchSqlBuilder builder = new ParametersSearchSqlBuilder(
+                "id, name",
+                "\"public.role\"");
 
-        if (parameters.getSearchString() != null && StringUtils.hasText(parameters.getSearchString())) {
-            sqlBuilder.append(" AND LOWER(name) LIKE LOWER(?)");
-            queryParams.add("%" + parameters.getSearchString() + "%");
-        }
+        builder.addSearchStringCondition("name", parameters.getSearchString());
+        builder.addPagination(parameters.getPageIndex(), parameters.getPageSize());
 
-        int offset = parameters.getPageIndex() * parameters.getPageSize();
-        sqlBuilder.append(" OFFSET ? LIMIT ?");
-        queryParams.add(offset);
-        queryParams.add(parameters.getPageSize());
-
-        return jdbcTemplate.query(sqlBuilder.toString(), this::mapRowToModel, queryParams.toArray());
+        return jdbcTemplate.query(builder.getQuery(), this::mapRowToModel, builder.getQueryParams());
     }
 }
