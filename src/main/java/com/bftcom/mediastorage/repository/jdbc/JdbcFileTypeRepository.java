@@ -16,10 +16,6 @@ public class JdbcFileTypeRepository extends JdbcCrudRepository<FileType> impleme
                     "FROM \"public.file_type\" " +
                     "WHERE id = ?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT id, type " +
-                    "FROM \"public.file_type\"";
-
     private static final String SQL_SAVE =
             "INSERT INTO \"public.file_type\"(type) VALUES(?)";
 
@@ -33,7 +29,7 @@ public class JdbcFileTypeRepository extends JdbcCrudRepository<FileType> impleme
                     "WHERE id = ?";
 
     public JdbcFileTypeRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
 
     @Override

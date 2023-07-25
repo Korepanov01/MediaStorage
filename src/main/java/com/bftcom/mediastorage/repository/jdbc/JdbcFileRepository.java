@@ -16,10 +16,6 @@ public class JdbcFileRepository extends JdbcCrudRepository<File> implements File
                     "FROM \"public.file\" " +
                     "WHERE id = ?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT id, path, size, extension " +
-                    "FROM \"public.file\"";
-
     private static final String SQL_SAVE =
             "INSERT INTO \"public.file\"(path, size, extension) VALUES(?, ?, ?)";
 
@@ -33,7 +29,7 @@ public class JdbcFileRepository extends JdbcCrudRepository<File> implements File
                     "WHERE id = ?";
 
     public JdbcFileRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
 
     @Override

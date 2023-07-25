@@ -16,10 +16,6 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
                     "FROM \"public.user\" " +
                     "WHERE id = ?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT id, name, password_hash, email " +
-                    "FROM \"public.user\"";
-
     private static final String SQL_SAVE =
             "INSERT INTO \"public.user\"(name, password_hash, email) VALUES(?, ?, ?)";
 
@@ -33,7 +29,7 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
                     "WHERE id = ?";
 
     public JdbcUserRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
 
     @Override

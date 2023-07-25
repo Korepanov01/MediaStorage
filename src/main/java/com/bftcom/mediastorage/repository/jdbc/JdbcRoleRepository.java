@@ -23,10 +23,6 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
                     "FROM \"public.role\" " +
                     "WHERE id = ?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT id, name " +
-                    "FROM \"public.role\"";
-
     private static final String SQL_SAVE =
             "INSERT INTO \"public.role\"(name) VALUES(?)";
 
@@ -45,7 +41,7 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
                     "WHERE name = ?";
 
     public JdbcRoleRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
 
     @Override

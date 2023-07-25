@@ -16,10 +16,6 @@ public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole> impleme
                     "FROM \"public.user_role\" " +
                     "WHERE id = ?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT id, role_id, user_id " +
-                    "FROM \"public.user_role\"";
-
     private static final String SQL_SAVE =
             "INSERT INTO \"public.user_role\"(role_id, user_id) VALUES(?, ?)";
 
@@ -33,7 +29,7 @@ public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole> impleme
                     "WHERE id = ?";
 
     public JdbcUserRoleRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
 
     @Override

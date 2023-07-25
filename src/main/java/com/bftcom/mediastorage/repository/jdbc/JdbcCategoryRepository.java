@@ -16,10 +16,6 @@ public class JdbcCategoryRepository extends JdbcCrudRepository<Category> impleme
                     "FROM \"public.category\" " +
                     "WHERE id = ?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT id, name, parent_category_id " +
-                    "FROM \"public.category\"";
-
     private static final String SQL_SAVE =
             "INSERT INTO \"public.category\"(name, parent_category_id) VALUES(?, ?)";
 
@@ -33,7 +29,7 @@ public class JdbcCategoryRepository extends JdbcCrudRepository<Category> impleme
                     "WHERE id = ?";
 
     public JdbcCategoryRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
 
     @Override

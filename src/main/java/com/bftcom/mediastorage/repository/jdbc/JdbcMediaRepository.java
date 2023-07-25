@@ -23,10 +23,6 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
                     "FROM \"public.media\" " +
                     "WHERE id=?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT id, user_id, category_id, name, description, media_type_id, created_at, edited_at " +
-                    "FROM \"public.media\"";
-
     private static final String SQL_SAVE =
             "INSERT INTO \"public.media\"(user_id, category_id, name, description, media_type_id, created_at, edited_at) " +
                     "VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -64,7 +60,7 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
                     "LIMIT ?;";
 
     public JdbcMediaRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
 
     @Override

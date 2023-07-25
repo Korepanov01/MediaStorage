@@ -16,10 +16,6 @@ public class JdbcMediaTagRepository extends JdbcCrudRepository<MediaTag> impleme
                     "FROM \"public.media_tag\" " +
                     "WHERE id=?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT id, media_id, tag_id " +
-                    "FROM \"public.media_tag\"";
-
     private static final String SQL_SAVE =
             "INSERT INTO \"public.media_tag\"(media_id, tag_id) VALUES(?, ?)";
 
@@ -33,7 +29,7 @@ public class JdbcMediaTagRepository extends JdbcCrudRepository<MediaTag> impleme
                     "WHERE id = ?";
 
     public JdbcMediaTagRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
 
     @Override

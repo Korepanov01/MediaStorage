@@ -16,10 +16,6 @@ public class JdbcMediaTypeRepository extends JdbcCrudRepository<MediaType> imple
                     "FROM \"public.media_type\" " +
                     "WHERE id = ?";
 
-    private static final String SQL_FIND_ALL =
-            "SELECT id, name " +
-                    "FROM \"public.media_type\"";
-
     private static final String SQL_SAVE =
             "INSERT INTO \"public.media_type\"(name) VALUES(?)";
 
@@ -33,7 +29,7 @@ public class JdbcMediaTypeRepository extends JdbcCrudRepository<MediaType> imple
                     "WHERE id = ?";
 
     public JdbcMediaTypeRepository() {
-        super(SQL_FIND_BY_ID, SQL_FIND_ALL, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
     }
 
     @Override
