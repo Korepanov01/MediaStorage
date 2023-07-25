@@ -7,29 +7,17 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole> implements UserRoleRepository {
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT id, role_id, user_id " +
-                    "FROM \"public.user_role\" " +
-                    "WHERE id = ?";
-
-    private static final String SQL_SAVE =
-            "INSERT INTO \"public.user_role\"(role_id, user_id) VALUES(?, ?)";
-
-    private static final String SQL_UPDATE =
-            "UPDATE \"public.user_role\" " +
-                    "SET role_id = ?, user_id = ? " +
-                    "WHERE id = ?";
-
-    private static final String SQL_DELETE =
-            "DELETE FROM \"public.user_role\" " +
-                    "WHERE id = ?";
+    private static final String TABLE_NAME = "\"public.user_role\"";
+    private static final String ID_FIELD = "id";
+    private static final String[] OTHER_FIELDS = {"role_id", "user_id"};
 
     public JdbcUserRoleRepository() {
-        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
 
     @Override

@@ -7,29 +7,17 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class JdbcMediaTypeRepository extends JdbcCrudRepository<MediaType> implements MediaTypeRepository {
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT id, name " +
-                    "FROM \"public.media_type\" " +
-                    "WHERE id = ?";
-
-    private static final String SQL_SAVE =
-            "INSERT INTO \"public.media_type\"(name) VALUES(?)";
-
-    private static final String SQL_UPDATE =
-            "UPDATE \"public.media_type\" " +
-                    "SET name = ? " +
-                    "WHERE id = ?";
-
-    private static final String SQL_DELETE =
-            "DELETE FROM \"public.media_type\" " +
-                    "WHERE id = ?";
+    private static final String TABLE_NAME = "\"public.media_type\"";
+    private static final String ID_FIELD = "id";
+    private static final String[] OTHER_FIELDS = {"name"};
 
     public JdbcMediaTypeRepository() {
-        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
 
     @Override

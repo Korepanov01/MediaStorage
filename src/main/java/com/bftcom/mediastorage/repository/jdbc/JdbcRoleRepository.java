@@ -14,22 +14,9 @@ import java.util.Optional;
 @Repository
 public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements RoleRepository {
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT id, name " +
-                    "FROM \"public.role\" " +
-                    "WHERE id = ?";
-
-    private static final String SQL_SAVE =
-            "INSERT INTO \"public.role\"(name) VALUES(?)";
-
-    private static final String SQL_UPDATE =
-            "UPDATE \"public.role\" " +
-                    "SET name = ? " +
-                    "WHERE id = ?";
-
-    private static final String SQL_DELETE =
-            "DELETE FROM \"public.role\" " +
-                    "WHERE id = ?";
+    private static final String TABLE_NAME = "\"public.role\"";
+    private static final String ID_FIELD = "id";
+    private static final String[] OTHER_FIELDS = {"name"};
 
     private static final String SQL_FIND_BY_NAME =
             "SELECT id, name " +
@@ -37,7 +24,7 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
                     "WHERE name = ?";
 
     public JdbcRoleRepository() {
-        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
 
     @Override

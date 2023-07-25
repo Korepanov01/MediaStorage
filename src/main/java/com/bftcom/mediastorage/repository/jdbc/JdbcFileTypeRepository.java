@@ -1,35 +1,24 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
-import com.bftcom.mediastorage.repository.FileTypeRepository;
 import com.bftcom.mediastorage.model.entity.FileType;
+import com.bftcom.mediastorage.repository.FileTypeRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class JdbcFileTypeRepository extends JdbcCrudRepository<FileType> implements FileTypeRepository {
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT id, type " +
-                    "FROM \"public.file_type\" " +
-                    "WHERE id = ?";
 
-    private static final String SQL_SAVE =
-            "INSERT INTO \"public.file_type\"(type) VALUES(?)";
-
-    private static final String SQL_UPDATE =
-            "UPDATE \"public.file_type\" " +
-                    "SET type = ? " +
-                    "WHERE id = ?";
-
-    private static final String SQL_DELETE =
-            "DELETE FROM \"public.file_type\" " +
-                    "WHERE id = ?";
+    private static final String TABLE_NAME = "\"public.file_type\"";
+    private static final String ID_FIELD = "id";
+    private static final String[] OTHER_FIELDS = {"type"};
 
     public JdbcFileTypeRepository() {
-        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
 
     @Override

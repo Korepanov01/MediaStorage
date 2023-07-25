@@ -13,13 +13,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRepository<T> {
 
     protected JdbcTemplate jdbcTemplate;
 
-    private String sqlFindById;
+    private String tableName;
+    private List<String> fields;
+
+    private String sqlSelectFrom;
     private String sqlSave;
     private String sqlUpdate;
     private String sqlDelete;
@@ -27,14 +31,42 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
     private JdbcCrudRepository() {}
 
     public JdbcCrudRepository(
-            String sqlFindById,
-            String sqlSave,
-            String sqlUpdate,
-            String sqlDelete) {
-        this.sqlFindById = sqlFindById;
-        this.sqlSave = sqlSave;
-        this.sqlUpdate = sqlUpdate;
-        this.sqlDelete = sqlDelete;
+            String tableName,
+            String idFiled,
+            List<String> otherFields) {
+        this.tableName = tableName;
+
+        this.fields = new ArrayList<>();
+        this.fields.add(idFiled);
+        this.fields.addAll(otherFields);
+
+        this.sqlSelectFrom = String.format(
+                "SELECT %s FROM %s",
+                String.join(", ", fields),
+                tableName);
+
+//        this.sqlFindById = String.format(
+//                "SELECT %s FROM %s WHERE %s = ?",
+//                String.join(", ", fields),
+//                tableName,
+//                idFiled);
+
+        this.sqlSave = String.format(
+                "INSERT INTO %s (%s) VALUES(%s)",
+                tableName,
+                String.join(", ", otherFields),
+                String.join(", ", Collections.nCopies(otherFields.size(), "?")));
+
+        this.sqlUpdate = String.format(
+                "UPDATE %s SET %s WHERE %s = ?",
+                tableName,
+                otherFields.stream().map(field -> field + " = ?").collect(Collectors.joining(", ")),
+                idFiled);
+
+        this.sqlDelete = String.format(
+                "DELETE FROM %s WHERE %s = ?",
+                tableName,
+                idFiled);
     }
 
     @Autowired
@@ -42,15 +74,21 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
-    public Optional<T> findById(Long id) {
+    public Optional<T> findByField(String fieldName, Object field) {
+        String sql = this.sqlSelectFrom + " WHERE " + fieldName + " = ?";
+
         List<T> results = jdbcTemplate.query(
-                sqlFindById,
+                sql,
                 this::mapRowToModel,
-                id);
-        return results.size() == 0 ?
+                field);
+        return results.isEmpty() ?
                 Optional.empty() :
                 Optional.of(results.get(0));
+    }
+
+    @Override
+    public Optional<T> findById(Long id) {
+        return findByField(fields.get(0), id);
     }
 
     @Override

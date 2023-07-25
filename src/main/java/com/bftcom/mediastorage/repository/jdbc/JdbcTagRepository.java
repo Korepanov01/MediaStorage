@@ -14,28 +14,15 @@ import java.util.Optional;
 @Repository
 public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRepository {
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT id, name " +
-                    "FROM \"public.tag\" " +
-                    "WHERE id=?";
-
-    private static final String SQL_SAVE =
-            "INSERT INTO \"public.tag\"(name) VALUES(?)";
-
-    private static final String SQL_UPDATE =
-            "UPDATE \"public.tag\" " +
-                    "SET name = ? " +
-                    "WHERE id = ?";
-
-    private static final String SQL_DELETE =
-            "DELETE FROM \"public.tag\" " +
-                    "WHERE id = ?";
+    private static final String TABLE_NAME = "\"public.tag\"";
+    private static final String ID_FIELD = "id";
+    private static final String[] OTHER_FIELDS = {"name"};
 
     private static final String SQL_FIND_BY_NAME =
             "SELECT id, name FROM \"public.tag\" WHERE name = ? LIMIT 1";
 
     public JdbcTagRepository() {
-        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
 
     @Override

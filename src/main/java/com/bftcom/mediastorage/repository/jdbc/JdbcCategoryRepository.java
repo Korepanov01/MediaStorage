@@ -7,29 +7,17 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class JdbcCategoryRepository extends JdbcCrudRepository<Category> implements CategoryRepository {
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT id, name, parent_category_id " +
-                    "FROM \"public.category\" " +
-                    "WHERE id = ?";
-
-    private static final String SQL_SAVE =
-            "INSERT INTO \"public.category\"(name, parent_category_id) VALUES(?, ?)";
-
-    private static final String SQL_UPDATE =
-            "UPDATE \"public.category\" " +
-                    "SET name = ?, parent_category_id = ? " +
-                    "WHERE id = ?";
-
-    private static final String SQL_DELETE =
-            "DELETE FROM \"public.category\" " +
-                    "WHERE id = ?";
+    private static final String TABLE_NAME = "\"public.category\"";
+    private static final String ID_FIELD = "id";
+    private static final String[] OTHER_FIELDS = {"name", "parent_category_id"};
 
     public JdbcCategoryRepository() {
-        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
 
     @Override

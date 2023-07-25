@@ -18,23 +18,17 @@ import java.util.List;
 @Repository
 public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements MediaRepository {
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT id, user_id, category_id, name, description, media_type_id, created_at, edited_at " +
-                    "FROM \"public.media\" " +
-                    "WHERE id=?";
-
-    private static final String SQL_SAVE =
-            "INSERT INTO \"public.media\"(user_id, category_id, name, description, media_type_id, created_at, edited_at) " +
-                    "VALUES(?, ?, ?, ?, ?, ?, ?)";
-
-    private static final String SQL_UPDATE =
-            "UPDATE \"public.media\" " +
-                    "SET user_id = ?, category_id = ?, name = ?, description = ?, media_type_id = ?, edited_at = ? " +
-                    "WHERE id = ?";
-
-    private static final String SQL_DELETE =
-            "DELETE FROM \"public.media\" " +
-                    "WHERE id = ?";
+    private static final String TABLE_NAME = "\"public.media\"";
+    private static final String ID_FIELD = "id";
+    private static final String[] OTHER_FIELDS = {
+            "user_id",
+            "category_id",
+            "name",
+            "description",
+            "media_type_id",
+            "created_at",
+            "edited_at"
+    };
 
     private static final String SQL_FIND_BY_TAG =
             "SELECT m.id, m.user_id, m.category_id, m.name, m.description, m.media_type_id, m.created_at, m.edited_at " +
@@ -60,7 +54,7 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
                     "LIMIT ?;";
 
     public JdbcMediaRepository() {
-        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
 
     @Override

@@ -1,34 +1,23 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
-import com.bftcom.mediastorage.repository.MediaFileRepository;
 import com.bftcom.mediastorage.model.entity.MediaFile;
+import com.bftcom.mediastorage.repository.MediaFileRepository;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> implements MediaFileRepository {
 
-    private static final String SQL_FIND_BY_ID =
-            "SELECT id, media_id, file_id, file_type_id " +
-                    "FROM \"public.media_file\" " +
-                    "WHERE id = ?";
-    private static final String SQL_SAVE =
-            "INSERT INTO \"public.media_file\"(media_id, file_id, file_type_id) VALUES(?, ?, ?)";
-
-    private static final String SQL_UPDATE =
-            "UPDATE \"public.media_file\" " +
-                    "SET media_id = ?, file_id = ?, file_type_id = ? " +
-                    "WHERE id = ?";
-
-    private static final String SQL_DELETE =
-            "DELETE FROM \"public.media_file\" " +
-                    "WHERE id = ?";
+    private static final String TABLE_NAME = "\"public.media_file\"";
+    private static final String ID_FIELD = "id";
+    private static final String[] OTHER_FIELDS = {"media_id", "file_id", "file_type_id"};
 
     public JdbcMediaFileRepository() {
-        super(SQL_FIND_BY_ID, SQL_SAVE, SQL_UPDATE, SQL_DELETE);
+        super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
 
     @Override
