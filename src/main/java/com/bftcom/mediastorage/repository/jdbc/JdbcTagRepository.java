@@ -4,15 +4,17 @@ import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class JdbcTagRepository extends JdbcCrudRepository<Tag, Long> implements TagRepository {
+public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRepository {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT id, name " +
@@ -34,13 +36,6 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag, Long> implements 
     private static final String SQL_DELETE =
             "DELETE FROM \"public.tag\" " +
                     "WHERE id = ?";
-
-    private static final String SQL_FIND_BY_PARAMETERS =
-            "SELECT id, name " +
-                    "FROM \"public.tag\" " +
-                    "WHERE name LIKE ? " +
-                    "OFFSET ? " +
-                    "LIMIT ? ";
 
     private static final String SQL_FIND_BY_NAME =
             "SELECT id, name FROM \"public.tag\" WHERE name = ? LIMIT 1";
@@ -71,12 +66,22 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag, Long> implements 
 
     @Override
     public List<Tag> findByParameters(SearchStringParameters parameters) {
-        return jdbcTemplate.query(
-                SQL_FIND_BY_PARAMETERS,
-                this::mapRowToModel,
-                parameters.getSearchString() != null ? "%" + parameters.getSearchString() + "%" : "%%",
-                parameters.getPageIndex() * parameters.getPageSize(),
-                parameters.getPageSize());
+        StringBuilder sqlBuilder = new StringBuilder(
+                "SELECT id, name " +
+                        "FROM \"public.tag\" WHERE 1=1");
+        List<Object> queryParams = new ArrayList<>();
+
+        if (parameters.getSearchString() != null && StringUtils.hasText(parameters.getSearchString())) {
+            sqlBuilder.append(" AND LOWER(name) LIKE LOWER(?)");
+            queryParams.add("%" + parameters.getSearchString() + "%");
+        }
+
+        int offset = parameters.getPageIndex() * parameters.getPageSize();
+        sqlBuilder.append(" OFFSET ? LIMIT ?");
+        queryParams.add(offset);
+        queryParams.add(parameters.getPageSize());
+
+        return jdbcTemplate.query(sqlBuilder.toString(), this::mapRowToModel, queryParams.toArray());
     }
 
     @Override

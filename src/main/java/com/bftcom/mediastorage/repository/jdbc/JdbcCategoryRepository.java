@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JdbcCategoryRepository extends JdbcCrudRepository<Category, Long> implements CategoryRepository {
+public class JdbcCategoryRepository extends JdbcCrudRepository<Category> implements CategoryRepository {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT id, name, parent_category_id " +

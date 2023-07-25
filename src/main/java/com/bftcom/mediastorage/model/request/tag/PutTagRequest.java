@@ -1,14 +1,14 @@
-package com.bftcom.mediastorage.model.request;
+package com.bftcom.mediastorage.model.request.tag;
 
 import com.bftcom.mediastorage.model.entity.Tag;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-public class PostTagRequest {
+public class PutTagRequest {
 
     @NotBlank(message = "Name must not be blank")
-    //@Max(value = 200, message = "Name length must be no more than 200")
+    @Size(max = 200, message = "Name length must be no more than 200")
     private String name;
 
     public void setName(String name) {
@@ -19,7 +19,7 @@ public class PostTagRequest {
         return name;
     }
 
-    static public Tag convertToTag(PostTagRequest request) {
+    static public Tag convertToTag(PutTagRequest request) {
         return new Tag(request.getName());
     }
 }

@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole, Long> implements UserRoleRepository {
+public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole> implements UserRoleRepository {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT id, role_id, user_id " +

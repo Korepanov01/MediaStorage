@@ -1,14 +1,13 @@
 package com.bftcom.mediastorage.web.controller;
 
-import com.bftcom.mediastorage.exception.TagAlreadyExistsException;
 import com.bftcom.mediastorage.model.dto.TagDto;
 import com.bftcom.mediastorage.model.entity.Tag;
-import com.bftcom.mediastorage.model.parameters.PagingParameters;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
-import com.bftcom.mediastorage.model.request.PostTagRequest;
+import com.bftcom.mediastorage.model.request.tag.PostTagRequest;
+import com.bftcom.mediastorage.model.request.tag.PutTagRequest;
 import com.bftcom.mediastorage.model.response.PostEntityResponse;
 import com.bftcom.mediastorage.service.TagService;
-import com.bftcom.mediastorage.web.BadResponses;
+import com.bftcom.mediastorage.web.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -33,7 +33,10 @@ public class TagController {
     public List<TagDto> getTags(
             SearchStringParameters parameters) {
         List<Tag> tags = tagService.findByParameters(parameters);
-        return tags.stream().map(TagDto::ConvertToDto).collect(Collectors.toList());
+        return tags
+                .stream()
+                .map(TagDto::ConvertToDto)
+                .collect(Collectors.toList());
     }
 
     @PostMapping
@@ -41,17 +44,48 @@ public class TagController {
             @Valid
             @RequestBody
             PostTagRequest request) {
-        Tag tag = PostTagRequest.convertToTag(request);
+        if (tagService.isTagNameExists(request.getName())) {
+            return Response.TagNameAlreadyExists;
+        }
 
-        try {
-            tagService.save(tag);
-        }
-        catch (TagAlreadyExistsException e) {
-            return BadResponses.TagAlreadyExists;
-        }
+        Tag tag = PostTagRequest.convertToTag(request);
+        tagService.save(tag);
 
         PostEntityResponse response = PostEntityResponse.convertFromEntity(tag);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> putTag(
+            @PathVariable Long id,
+            @Valid @RequestBody PutTagRequest request) {
+        if (tagService.isTagExists(id)) {
+            return Response.TagNotFound;
+        }
+
+        if (tagService.isTagNameExists(request.getName())) {
+            return Response.TagNameAlreadyExists;
+        }
+
+        Tag tag = PutTagRequest.convertToTag(request);
+        tag.setId(id);
+        tagService.update(tag);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTag(
+            @PathVariable Long id) {
+        Optional<Tag> optionalTag = tagService.findById(id);
+
+        if (optionalTag.isEmpty()) {
+            return Response.TagNotFound;
+        }
+
+        tagService.delete(optionalTag.get());
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

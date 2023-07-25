@@ -1,6 +1,5 @@
 package com.bftcom.mediastorage.service;
 
-import com.bftcom.mediastorage.exception.TagAlreadyExistsException;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
@@ -11,13 +10,21 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TagService {
+public class TagService implements IService<Tag> {
 
     private final TagRepository tagRepository;
 
     @Autowired
     public TagService(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
+    }
+
+    public boolean isTagExists(Long id) {
+        return tagRepository.findById(id).isPresent();
+    }
+
+    public boolean isTagNameExists(String name) {
+        return tagRepository.findByName(name).isPresent();
     }
 
     public Optional<Tag> findById(Long id) {
@@ -28,9 +35,8 @@ public class TagService {
         return tagRepository.findByParameters(parameters);
     }
 
-    public Tag save(Tag tag) throws TagAlreadyExistsException {
-        if (tagRepository.findByName(tag.getName()).isPresent())
-            throw new TagAlreadyExistsException();
+    @Override
+    public Tag save(Tag tag) {
         return tagRepository.save(tag);
     }
 
@@ -38,6 +44,7 @@ public class TagService {
         tagRepository.update(tag);
     }
 
+    @Override
     public void delete(Tag tag) {
         tagRepository.delete(tag);
     }

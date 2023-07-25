@@ -1,16 +1,12 @@
 package com.bftcom.mediastorage.web;
 
-import com.bftcom.mediastorage.exception.TagAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class BadResponses {
+public class Response {
 
     private static class BadResponseBody {
 
@@ -38,9 +34,16 @@ public class BadResponses {
         }
     }
 
-    public static ResponseEntity<BadResponseBody> TagAlreadyExists = new ResponseEntity<>(
+    public static ResponseEntity<BadResponseBody> TagNameAlreadyExists = new ResponseEntity<>(
             new BadResponseBody(
                     HttpStatus.BAD_REQUEST.value(),
                     List.of("Tag already exists!")),
             HttpStatus.BAD_REQUEST);
+
+
+    public static ResponseEntity<BadResponseBody> TagNotFound = new ResponseEntity<>(
+            new BadResponseBody(
+                    HttpStatus.NOT_FOUND.value(),
+                    List.of("Tag doesnt exists!")),
+            HttpStatus.NOT_FOUND);
 }

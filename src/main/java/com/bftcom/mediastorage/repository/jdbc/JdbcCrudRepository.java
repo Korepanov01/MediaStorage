@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  JdbcRepository is an abstract class that serves as a base implementation for data access using JDBC.
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
  @see CrudRepository
  */
 @Repository
-public abstract class JdbcCrudRepository<T extends BaseEntity, TId> implements CrudRepository<T, TId> {
+public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRepository<T> {
 
     protected JdbcTemplate jdbcTemplate;
 
@@ -71,7 +70,7 @@ public abstract class JdbcCrudRepository<T extends BaseEntity, TId> implements C
      @return An Optional containing the retrieved model, or empty if not found.
      */
     @Override
-    public Optional<T> findById(TId id) {
+    public Optional<T> findById(Long id) {
         List<T> results = jdbcTemplate.query(
                 sqlFindById,
                 this::mapRowToModel,

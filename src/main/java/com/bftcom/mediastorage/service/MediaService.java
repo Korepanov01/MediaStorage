@@ -1,6 +1,9 @@
 package com.bftcom.mediastorage.service;
 
+import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.Media;
+import com.bftcom.mediastorage.model.parameters.MediaSearchParameters;
 import com.bftcom.mediastorage.repository.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MediaService {
+public class MediaService implements IService<Media>{
 
     private final MediaRepository mediaRepository;
 
@@ -24,4 +27,16 @@ public class MediaService {
         return mediaRepository.findRandom(limit);
     }
 
+    public List<Media> findByParameters(MediaSearchParameters parameters) {
+        return mediaRepository.findByParameters(parameters);
+    }
+    @Override
+    public Media save(Media t) throws EntityAlreadyExistsException {
+        return null;
+    }
+
+    @Override
+    public void delete(Media t) throws EntityNotFoundException {
+
+    }
 }

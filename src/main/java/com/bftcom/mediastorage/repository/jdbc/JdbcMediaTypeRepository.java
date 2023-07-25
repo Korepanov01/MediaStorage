@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
-public class JdbcMediaTypeRepository extends JdbcCrudRepository<MediaType, Long> implements MediaTypeRepository {
+public class JdbcMediaTypeRepository extends JdbcCrudRepository<MediaType> implements MediaTypeRepository {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT id, name " +
