@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.web.controller;
 
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.dto.TagDto;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -77,14 +77,15 @@ public class TagController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTag(
-            @PathVariable Long id) {
-        Optional<Tag> optionalTag = tagService.findById(id);
+            @PathVariable
+            Long id) {
 
-        if (optionalTag.isEmpty()) {
-            return Response.TagNotFound;
+        try {
+            tagService.delete(id);
         }
-
-        tagService.delete(optionalTag.get());
+        catch (EntityNotFoundException exception) {
+             return Response.TagNotFound;
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,7 +29,7 @@ public class RoleController {
     }
 
     @GetMapping
-    public List<RoleDto> getRoles(
+    public List<RoleDto> get(
             SearchStringParameters parameters) {
         List<Role> roles = roleService.findByParameters(parameters);
         return roles
@@ -40,7 +39,7 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<?> postRole(
+    public ResponseEntity<?> post(
             @Valid
             @RequestBody
             PostRoleRequest request) {
@@ -59,16 +58,11 @@ public class RoleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTag(
-            @PathVariable Long id) {
-        Optional<Role> optionalTag = roleService.findById(id);
-
-        if (optionalTag.isEmpty()) {
-            return Response.TagNotFound;
-        }
-
+    public ResponseEntity<?> delete(
+            @PathVariable
+            Long id) {
         try {
-            roleService.delete(optionalTag.get());
+            roleService.delete(id);
         }
         catch (EntityNotFoundException exception) {
             return Response.RoleNotFound;

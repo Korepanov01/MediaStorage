@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.service;
 
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
@@ -46,7 +47,13 @@ public class TagService implements IService<Tag, SearchStringParameters> {
     }
 
     @Override
-    public void delete(Tag tag) {
-        tagRepository.delete(tag);
+    public void delete(Long id) throws EntityNotFoundException {
+        Optional<Tag> optionalTag = tagRepository.findById(id);
+
+        if(optionalTag.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        tagRepository.delete(optionalTag.get());
     }
 }

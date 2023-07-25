@@ -11,7 +11,7 @@ public interface IService<Entity extends BaseEntity, SearchParameters extends Pa
 
     List<Entity> findByParameters(SearchParameters parameters);
 
-    Entity save(Entity t) throws EntityAlreadyExistsException;
+    Entity save(Entity entity) throws EntityAlreadyExistsException;
 
-    void delete(Entity t) throws EntityNotFoundException;
+    void delete(Long id) throws EntityNotFoundException;
 }

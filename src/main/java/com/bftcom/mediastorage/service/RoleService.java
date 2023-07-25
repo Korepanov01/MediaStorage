@@ -43,11 +43,13 @@ public class RoleService implements IService<Role, SearchStringParameters> {
     }
 
     @Override
-    public void delete(Role role) throws EntityNotFoundException {
-        if(repository.findById(role.getId()).isEmpty()) {
+    public void delete(Long id) throws EntityNotFoundException {
+        Optional<Role> optionalRole = repository.findById(id);
+
+        if(optionalRole.isEmpty()) {
             throw new EntityNotFoundException();
         }
 
-        repository.delete(role);
+        repository.delete(optionalRole.get());
     }
 }
