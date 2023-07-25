@@ -1,8 +1,6 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
-import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.model.entity.Media;
-import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.MediaSearchParameters;
 import com.bftcom.mediastorage.repository.MediaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -29,23 +27,6 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
             "created_at",
             "edited_at"
     };
-
-    private static final String SQL_FIND_BY_TAG =
-            "SELECT m.id, m.user_id, m.category_id, m.name, m.description, m.media_type_id, m.created_at, m.edited_at " +
-                    "FROM \"public.media\" m " +
-                    "INNER JOIN \"public.media_tag\" mt ON m.id = mt.media_id " +
-                    "INNER JOIN \"public.tag\" t ON mt.tag_id = t.id " +
-                    "WHERE t.id = ?";
-
-    private static final String SQL_FIND_BY_CATEGORY =
-            "SELECT id, user_id, category_id, name, description, media_type_id, created_at, edited_at " +
-                    "FROM \"public.media\" " +
-                    "WHERE category_id = ?";
-
-    private static final String SQL_FIND_BY_NAME =
-            "SELECT id, user_id, category_id, name, description, media_type_id, created_at, edited_at " +
-                    "FROM \"public.media\" " +
-                    "WHERE LOWER(name) LIKE LOWER(?)";
 
     private static final String SQL_FIND_RANDOM =
             "SELECT id, user_id, category_id, name, description, media_type_id, created_at, edited_at " +
@@ -95,30 +76,6 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
     }
 
     @Override
-    public List<Media> findByTag(Tag tag) {
-        return jdbcTemplate.query(
-                SQL_FIND_BY_TAG,
-                this::mapRowToModel,
-                tag.getId());
-    }
-
-    @Override
-    public List<Media> findByCategory(Category category) {
-        return jdbcTemplate.query(
-                SQL_FIND_BY_CATEGORY,
-                this::mapRowToModel,
-                category.getId());
-    }
-
-    @Override
-    public List<Media> findByName(String name) {
-        return jdbcTemplate.query(
-                SQL_FIND_BY_NAME,
-                this::mapRowToModel,
-                "%" + name + "%");
-    }
-
-    @Override
     public List<Media> findRandom(int maxCount) {
         return jdbcTemplate.query(
                 SQL_FIND_RANDOM,
@@ -128,40 +85,27 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
 
     @Override
     public List<Media> findByParameters(MediaSearchParameters parameters) {
-        StringBuilder sqlBuilder = new StringBuilder(
-                "SELECT id, user_id, category_id, name, description, media_type_id, created_at, edited_at " +
-                        "FROM \"public.media\" WHERE 1=1");
-        List<Object> queryParams = new ArrayList<>();
+        ParametersSearchSqlBuilder builder = new ParametersSearchSqlBuilder(
+                "id, user_id, category_id, name, description, media_type_id, created_at, edited_at",
+                "\"public.media\"");
 
         if (parameters.getCategoryId() != null) {
-            sqlBuilder.append(" AND category_id = ?");
-            queryParams.add(parameters.getCategoryId());
+            builder.addCondition("category_id = ?", parameters.getCategoryId());
         }
 
         if (parameters.getTagIds() != null && !parameters.getTagIds().isEmpty()) {
-            sqlBuilder.append(" AND id IN (" +
-                    "SELECT m.id " +
-                    "FROM \"public.media\" m " +
-                    "INNER JOIN \"public.media_tag\" mt ON m.id = mt.media_id " +
-                    "WHERE mt.tag_id IN (?");
-            for (int i = 1; i < parameters.getTagIds().size(); i++) {
-                sqlBuilder.append(", ?");
-            }
-            sqlBuilder.append("))");
-
-            queryParams.addAll(parameters.getTagIds());
+            builder.addCondition("id IN (SELECT m.id FROM \"public.media\" m " +
+                            "INNER JOIN \"public.media_tag\" mt ON m.id = mt.media_id " +
+                            "WHERE mt.tag_id IN (" + String.join(", ", Collections.nCopies(parameters.getTagIds().size(), "?")) + "))",
+                    parameters.getTagIds().toArray());
         }
 
         if (parameters.getSearchString() != null && StringUtils.hasText(parameters.getSearchString())) {
-            sqlBuilder.append(" AND LOWER(name) LIKE LOWER(?)");
-            queryParams.add("%" + parameters.getSearchString() + "%");
+            builder.addSearchStringCondition("name", parameters.getSearchString());
         }
 
-        int offset = parameters.getPageIndex() * parameters.getPageSize();
-        sqlBuilder.append(" OFFSET ? LIMIT ?");
-        queryParams.add(offset);
-        queryParams.add(parameters.getPageSize());
+        builder.addPagination(parameters.getPageIndex(), parameters.getPageSize());
 
-        return jdbcTemplate.query(sqlBuilder.toString(), this::mapRowToModel, queryParams.toArray());
+        return jdbcTemplate.query(builder.getQuery(), this::mapRowToModel, builder.getQueryParams());
     }
 }

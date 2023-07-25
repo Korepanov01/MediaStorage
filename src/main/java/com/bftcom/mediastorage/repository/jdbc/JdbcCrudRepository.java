@@ -45,12 +45,6 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
                 String.join(", ", fields),
                 tableName);
 
-//        this.sqlFindById = String.format(
-//                "SELECT %s FROM %s WHERE %s = ?",
-//                String.join(", ", fields),
-//                tableName,
-//                idFiled);
-
         this.sqlSave = String.format(
                 "INSERT INTO %s (%s) VALUES(%s)",
                 tableName,
@@ -74,13 +68,18 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Optional<T> findByField(String fieldName, Object field) {
+    protected List<T> findByField(String fieldName, Object field) {
         String sql = this.sqlSelectFrom + " WHERE " + fieldName + " = ?";
 
-        List<T> results = jdbcTemplate.query(
+        return jdbcTemplate.query(
                 sql,
                 this::mapRowToModel,
                 field);
+    }
+
+    protected Optional<T> findByUniqueField(String fieldName, Object field) {
+        List<T> results = findByField(fieldName, field);
+
         return results.isEmpty() ?
                 Optional.empty() :
                 Optional.of(results.get(0));
@@ -88,7 +87,7 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
 
     @Override
     public Optional<T> findById(Long id) {
-        return findByField(fields.get(0), id);
+        return findByUniqueField(fields.get(0), id);
     }
 
     @Override
