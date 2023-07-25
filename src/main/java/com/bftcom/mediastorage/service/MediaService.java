@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MediaService implements IService<Media>{
+public class MediaService implements IService<Media, MediaSearchParameters>{
 
     private final MediaRepository mediaRepository;
 

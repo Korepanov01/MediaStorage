@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TagService implements IService<Tag> {
+public class TagService implements IService<Tag, SearchStringParameters> {
 
     private final TagRepository tagRepository;
 
@@ -31,6 +31,7 @@ public class TagService implements IService<Tag> {
         return tagRepository.findById(id);
     }
 
+    @Override
     public List<Tag> findByParameters(SearchStringParameters parameters) {
         return tagRepository.findByParameters(parameters);
     }

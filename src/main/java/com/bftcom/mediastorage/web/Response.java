@@ -37,13 +37,26 @@ public class Response {
     public static ResponseEntity<BadResponseBody> TagNameAlreadyExists = new ResponseEntity<>(
             new BadResponseBody(
                     HttpStatus.BAD_REQUEST.value(),
-                    List.of("Tag already exists!")),
+                    List.of("Тег уже существует!")),
             HttpStatus.BAD_REQUEST);
 
 
     public static ResponseEntity<BadResponseBody> TagNotFound = new ResponseEntity<>(
             new BadResponseBody(
                     HttpStatus.NOT_FOUND.value(),
-                    List.of("Tag doesnt exists!")),
+                    List.of("Тег не найден!")),
+            HttpStatus.NOT_FOUND);
+
+    public static ResponseEntity<BadResponseBody> RoleNameAlreadyExists = new ResponseEntity<>(
+            new BadResponseBody(
+                    HttpStatus.BAD_REQUEST.value(),
+                    List.of("Роль уже существует!")),
+            HttpStatus.BAD_REQUEST);
+
+
+    public static ResponseEntity<BadResponseBody> RoleNotFound = new ResponseEntity<>(
+            new BadResponseBody(
+                    HttpStatus.NOT_FOUND.value(),
+                    List.of("Роль не найдена!")),
             HttpStatus.NOT_FOUND);
 }
