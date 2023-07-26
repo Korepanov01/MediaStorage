@@ -18,11 +18,6 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
     private static final String ID_FIELD = "id";
     private static final String[] OTHER_FIELDS = {"name"};
 
-    private static final String SQL_FIND_BY_NAME =
-            "SELECT id, name " +
-                    "FROM \"public.role\" " +
-                    "WHERE name = ?";
-
     public JdbcRoleRepository() {
         super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
@@ -49,20 +44,12 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
 
     @Override
     public Optional<Role> findByName(String name) {
-        List<Role> results = jdbcTemplate.query(
-                SQL_FIND_BY_NAME,
-                this::mapRowToModel,
-                name);
-        return results.size() == 0 ?
-                Optional.empty() :
-                Optional.of(results.get(0));
+        return this.findByUniqueField("name", name);
     }
 
     @Override
     public List<Role> findByParameters(SearchStringParameters parameters) {
-        ParametersSearchSqlBuilder builder = new ParametersSearchSqlBuilder(
-                "id, name",
-                "\"public.role\"");
+        ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
 
         builder.addSearchStringCondition("name", parameters.getSearchString());
         builder.addPagination(parameters.getPageIndex(), parameters.getPageSize());

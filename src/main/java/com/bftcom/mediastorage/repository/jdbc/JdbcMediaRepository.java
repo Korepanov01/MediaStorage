@@ -76,18 +76,16 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
     }
 
     @Override
-    public List<Media> findRandom(int maxCount) {
+    public List<Media> findRandom(int limit) {
         return jdbcTemplate.query(
-                SQL_FIND_RANDOM,
+                this.getSqlSelectFrom() + " ORDER BY RANDOM() LIMIT ?",
                 this::mapRowToModel,
-                maxCount);
+                limit);
     }
 
     @Override
     public List<Media> findByParameters(MediaSearchParameters parameters) {
-        ParametersSearchSqlBuilder builder = new ParametersSearchSqlBuilder(
-                "id, user_id, category_id, name, description, media_type_id, created_at, edited_at",
-                "\"public.media\"");
+        ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
 
         if (parameters.getCategoryId() != null) {
             builder.addCondition("category_id = ?", parameters.getCategoryId());

@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface UserRepository extends ParametersSearchRepository<User, SearchStringParameters> {
 
     Optional<User> findByEmail(String email);
+
+    Optional<User> findByName(String name);
 }

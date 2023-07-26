@@ -12,10 +12,9 @@ import java.util.List;
 @Repository
 public class JdbcFileTypeRepository extends JdbcCrudRepository<FileType> implements FileTypeRepository {
 
-
     private static final String TABLE_NAME = "\"public.file_type\"";
     private static final String ID_FIELD = "id";
-    private static final String[] OTHER_FIELDS = {"type"};
+    private static final String[] OTHER_FIELDS = {"name"};
 
     public JdbcFileTypeRepository() {
         super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
@@ -31,13 +30,13 @@ public class JdbcFileTypeRepository extends JdbcCrudRepository<FileType> impleme
     @Override
     protected void setPreparedSaveStatementValues(PreparedStatement preparedStatement, FileType fileType)
             throws SQLException {
-        preparedStatement.setString(1, fileType.getType());
+        preparedStatement.setString(1, fileType.getName());
     }
 
     @Override
     protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, FileType entity)
             throws SQLException {
-        preparedStatement.setString(1, entity.getType());
+        preparedStatement.setString(1, entity.getName());
         preparedStatement.setLong(2, entity.getId());
     }
 }

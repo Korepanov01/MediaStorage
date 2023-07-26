@@ -1,46 +1,48 @@
-//package com.bftcom.mediastorage.service;
-//
-//import com.bftcom.mediastorage.exception.EntityNotFoundException;
-//import com.bftcom.mediastorage.model.entity.BaseEntity;
-//import com.bftcom.mediastorage.repository.CrudRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.Optional;
-//
-//@Service
-//public abstract class BaseService<T extends BaseEntity>
-//        implements IService<T> {
-//
-//    private CrudRepository<T> repository;
-//
-//    @Autowired
-//    public void setRepository(CrudRepository<T> repository) {
-//        this.repository = repository;
-//    }
-//
-//    @Override
-//    public boolean isExists(Long id) {
-//        return repository.findById(id).isPresent();
-//    }
-//
-//    @Override
-//    public Optional<T> findById(Long id) {
-//        return repository.findById(id);
-//    }
-//
-//    @Override
-//    public T save(T entity) {
-//        repository.save(entity);
-//        return entity;
-//    }
-//
-//    @Override
-//    public void delete(T entity) throws EntityNotFoundException {
-//        if(!isExists(entity.getId())) {
-//            throw new EntityNotFoundException();
-//        }
-//
-//        repository.delete(entity);
-//    }
-//}
+package com.bftcom.mediastorage.service;
+
+import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
+import com.bftcom.mediastorage.model.entity.BaseEntity;
+import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
+import com.bftcom.mediastorage.repository.ParametersSearchRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public abstract class BaseService<Entity extends BaseEntity, SearchParameters extends SearchStringParameters>
+        implements IService<Entity, SearchParameters> {
+
+    protected abstract ParametersSearchRepository<Entity, SearchParameters> getMainRepository();
+
+    @Override
+    public List<Entity> findByParameters(SearchParameters parameters) {
+        return getMainRepository().findByParameters(parameters);
+    }
+
+    @Override
+    public Entity save(Entity entity) throws EntityAlreadyExistsException {
+        if (isEntityExists(entity)) {
+            throw new EntityAlreadyExistsException();
+        }
+        return getMainRepository().save(entity);
+    }
+
+    @Override
+    public void delete(Long id) throws EntityNotFoundException {
+        Optional<Entity> optionalEntity = getMainRepository().findById(id);
+
+        if (optionalEntity.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        getMainRepository().delete(optionalEntity.get());
+    }
+
+    public Optional<Entity> findById(Long id) {
+        return getMainRepository().findById(id);
+    }
+
+    protected abstract boolean isEntityExists(Entity entity);
+}

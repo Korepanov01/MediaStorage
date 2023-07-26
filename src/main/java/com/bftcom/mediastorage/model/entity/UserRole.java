@@ -12,6 +12,11 @@ public class UserRole extends BaseEntity {
         this.userId = userId;
     }
 
+    public UserRole(Long roleId, Long userId) {
+        this.roleId = roleId;
+        this.userId = userId;
+    }
+
     public Long getRoleId() {
         return roleId;
     }

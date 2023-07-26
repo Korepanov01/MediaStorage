@@ -6,6 +6,11 @@ public class MediaTag extends BaseEntity {
 
     private Long tagId;
 
+    public MediaTag(Long mediaId, Long tagId) {
+        this.mediaId = mediaId;
+        this.tagId = tagId;
+    }
+
     public MediaTag(Long id, Long mediaId, Long tagId) {
         super(id);
         this.mediaId = mediaId;
