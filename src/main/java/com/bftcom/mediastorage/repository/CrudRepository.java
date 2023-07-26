@@ -4,9 +4,9 @@ import com.bftcom.mediastorage.model.entity.BaseEntity;
 
 import java.util.Optional;
 
-public interface CrudRepository<T extends BaseEntity> {
-    Optional<T> findById(Long id);
-    T save(T t);
-    void update(T t);
-    void delete(T t);
+public interface CrudRepository<Entity extends BaseEntity> {
+    Optional<Entity> findById(Long id);
+    Entity save(Entity entity);
+    void update(Entity entity);
+    void delete(Entity entity);
 }
