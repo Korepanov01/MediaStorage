@@ -93,6 +93,11 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
     }
 
     @Override
+    public boolean isExists(@NonNull Long id) {
+        return findById(id).isPresent();
+    }
+
+    @Override
     public Entity save(@NonNull Entity entity) {
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
@@ -110,6 +115,12 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         entity.setId(id);
 
         return entity;
+    }
+
+    @Override
+    public List<Entity> saveAll(@NonNull List<Entity> entities) {
+        entities.forEach(this::save);
+        return entities;
     }
 
     @Override
