@@ -4,16 +4,17 @@ import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import com.bftcom.mediastorage.repository.UserRepository;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService extends BaseService<User, SearchStringParameters> {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(@NonNull UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -23,7 +24,7 @@ public class UserService extends BaseService<User, SearchStringParameters> {
     }
 
     @Override
-    protected boolean isEntityExists(User user) {
+    protected boolean isEntityExists(@NonNull User user) {
         return userRepository.findByEmail(user.getEmail()).isPresent()
                 || userRepository.findByName(user.getName()).isPresent();
     }
