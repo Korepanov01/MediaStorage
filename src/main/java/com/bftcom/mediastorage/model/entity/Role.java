@@ -1,23 +1,17 @@
 package com.bftcom.mediastorage.model.entity;
 
-public class Role extends BaseEntity {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class Role extends BaseEntity {
     private String name;
 
     public Role(Long id, String name) {
         super(id);
-        this.name = name;
-    }
-
-    public Role(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 }
