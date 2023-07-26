@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.web.controller;
+package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.model.dto.RoleDto;
 import com.bftcom.mediastorage.model.entity.Role;

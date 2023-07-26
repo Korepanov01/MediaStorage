@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.web.handler;
+package com.bftcom.mediastorage.api.handler;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.web.controller;
+package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
@@ -8,7 +8,7 @@ import com.bftcom.mediastorage.model.parameters.PagingParameters;
 import com.bftcom.mediastorage.model.request.PostEntityRequest;
 import com.bftcom.mediastorage.model.response.PostEntityResponse;
 import com.bftcom.mediastorage.service.BaseService;
-import com.bftcom.mediastorage.web.Response;
+import com.bftcom.mediastorage.api.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

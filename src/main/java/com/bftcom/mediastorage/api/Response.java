@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.web;
+package com.bftcom.mediastorage.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
