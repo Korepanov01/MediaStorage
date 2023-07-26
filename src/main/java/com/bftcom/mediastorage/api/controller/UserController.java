@@ -18,7 +18,7 @@ public class UserController extends BaseController<
         PostUserRequest,
         SearchStringParameters>{
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
