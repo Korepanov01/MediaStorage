@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.MediaTag;
 import com.bftcom.mediastorage.repository.MediaTagRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class JdbcMediaTagRepository extends JdbcCrudRepository<MediaTag> impleme
     }
 
     @Override
-    protected MediaTag mapRowToModel(ResultSet row, int rowNum) throws SQLException {
+    protected MediaTag mapRowToModel(@NonNull ResultSet row, int rowNum) throws SQLException {
         return new MediaTag(
                 row.getLong("id"),
                 row.getLong("media_id"),
@@ -29,14 +30,14 @@ public class JdbcMediaTagRepository extends JdbcCrudRepository<MediaTag> impleme
     }
 
     @Override
-    protected void setPreparedSaveStatementValues(PreparedStatement preparedStatement, MediaTag mediaTag)
+    protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull MediaTag mediaTag)
             throws SQLException {
         preparedStatement.setLong(1, mediaTag.getMediaId());
         preparedStatement.setLong(2, mediaTag.getTagId());
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, MediaTag entity)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull MediaTag entity)
             throws SQLException {
         preparedStatement.setLong(1, entity.getMediaId());
         preparedStatement.setLong(2, entity.getTagId());

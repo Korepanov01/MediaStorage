@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.FileType;
 import com.bftcom.mediastorage.repository.FileTypeRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -21,20 +22,20 @@ public class JdbcFileTypeRepository extends JdbcCrudRepository<FileType> impleme
     }
 
     @Override
-    protected FileType mapRowToModel(ResultSet row, int rowNum) throws SQLException {
+    protected FileType mapRowToModel(@NonNull ResultSet row, int rowNum) throws SQLException {
         return new FileType(
                 row.getLong("id"),
                 row.getString("type"));
     }
 
     @Override
-    protected void setPreparedSaveStatementValues(PreparedStatement preparedStatement, FileType fileType)
+    protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull FileType fileType)
             throws SQLException {
         preparedStatement.setString(1, fileType.getName());
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, FileType entity)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull FileType entity)
             throws SQLException {
         preparedStatement.setString(1, entity.getName());
         preparedStatement.setLong(2, entity.getId());
