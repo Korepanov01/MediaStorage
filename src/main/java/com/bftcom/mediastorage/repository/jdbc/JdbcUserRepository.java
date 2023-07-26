@@ -63,4 +63,9 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
     public Optional<User> findByEmail(String email) {
         return findByUniqueField("email", email);
     }
+
+    @Override
+    public Optional<User> findByName(String name) {
+        return findByUniqueField("name", name);
+    }
 }
