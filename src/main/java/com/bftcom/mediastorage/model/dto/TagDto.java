@@ -2,7 +2,7 @@ package com.bftcom.mediastorage.model.dto;
 
 import com.bftcom.mediastorage.model.entity.Tag;
 
-public class TagDto {
+public class TagDto extends BaseDto {
 
     private final Long id;
 
@@ -16,15 +16,12 @@ public class TagDto {
         return name;
     }
 
+    public TagDto(Tag tag) {
+        this(tag.getId(), tag.getName());
+    }
+
     public TagDto(Long id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    static public TagDto ConvertToDto(Tag tag) {
-        return new TagDto(
-                tag.getId(),
-                tag.getName()
-        );
     }
 }

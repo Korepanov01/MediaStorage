@@ -1,11 +1,12 @@
 package com.bftcom.mediastorage.model.request.tag;
 
 import com.bftcom.mediastorage.model.entity.Tag;
+import com.bftcom.mediastorage.model.request.PostEntityRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class PostTagRequest {
+public class PostTagRequest extends PostEntityRequest<Tag> {
 
     @NotBlank(message = "Name must not be blank")
     @Size(max = 200, message = "Name length must be no more than 200")
@@ -19,7 +20,8 @@ public class PostTagRequest {
         return name;
     }
 
-    static public Tag convertToTag(PostTagRequest request) {
-        return new Tag(request.getName());
+    @Override
+    public Tag covertToEntity() {
+        return new Tag(name);
     }
 }

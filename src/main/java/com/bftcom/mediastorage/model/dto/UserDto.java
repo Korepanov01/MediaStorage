@@ -2,7 +2,7 @@ package com.bftcom.mediastorage.model.dto;
 
 import com.bftcom.mediastorage.model.entity.User;
 
-public class UserDto {
+public class UserDto extends BaseDto {
 
     private Long id;
 
@@ -29,10 +29,7 @@ public class UserDto {
         this.name = name;
     }
 
-    static public UserDto ConvertToDto(User user) {
-        return new UserDto(
-                user.getId(),
-                user.getName()
-        );
+    public UserDto(User user) {
+        this(user.getId(),user.getName());
     }
 }

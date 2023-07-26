@@ -2,7 +2,7 @@ package com.bftcom.mediastorage.model.dto;
 
 import com.bftcom.mediastorage.model.entity.Role;
 
-public class RoleDto {
+public class RoleDto extends BaseDto {
 
     private final Long id;
 
@@ -16,15 +16,12 @@ public class RoleDto {
         return name;
     }
 
+    public RoleDto(Role role) {
+        this(role.getId(), role.getName());
+    }
+
     public RoleDto(Long id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    static public RoleDto ConvertToDto(Role role) {
-        return new RoleDto(
-                role.getId(),
-                role.getName()
-        );
     }
 }

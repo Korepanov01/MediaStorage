@@ -34,45 +34,18 @@ public class Response {
         }
     }
 
-    public static ResponseEntity<BadResponseBody> Ok = new ResponseEntity<>(
+    public static final ResponseEntity<BadResponseBody> OK = new ResponseEntity<>(
             HttpStatus.OK);
 
-    public static ResponseEntity<BadResponseBody> TagNameAlreadyExists = new ResponseEntity<>(
-            new BadResponseBody(
-                    HttpStatus.BAD_REQUEST.value(),
-                    List.of("Тег уже существует!")),
-            HttpStatus.BAD_REQUEST);
-
-
-    public static ResponseEntity<BadResponseBody> TagNotFound = new ResponseEntity<>(
+    public static final ResponseEntity<BadResponseBody> ENTITY_NOT_FOUND = new ResponseEntity<>(
             new BadResponseBody(
                     HttpStatus.NOT_FOUND.value(),
-                    List.of("Тег не найден!")),
+                    List.of("Записи не существует!")),
             HttpStatus.NOT_FOUND);
 
-    public static ResponseEntity<BadResponseBody> RoleNameAlreadyExists = new ResponseEntity<>(
-            new BadResponseBody(
-                    HttpStatus.BAD_REQUEST.value(),
-                    List.of("Роль уже существует!")),
-            HttpStatus.BAD_REQUEST);
-
-
-    public static ResponseEntity<BadResponseBody> RoleNotFound = new ResponseEntity<>(
+    public static final ResponseEntity<BadResponseBody> ENTITY_ALREADY_EXISTS = new ResponseEntity<>(
             new BadResponseBody(
                     HttpStatus.NOT_FOUND.value(),
-                    List.of("Роль не найдена!")),
+                    List.of("Такая запись уже существует!")),
             HttpStatus.NOT_FOUND);
-
-    public static ResponseEntity<BadResponseBody> UserAlreadyExists = new ResponseEntity<>(
-            new BadResponseBody(
-                    HttpStatus.BAD_REQUEST.value(),
-                    List.of("Пользователь уже существует!")),
-            HttpStatus.BAD_REQUEST);
-
-    public static ResponseEntity<BadResponseBody> UserNotFound = new ResponseEntity<>(
-            new BadResponseBody(
-                    HttpStatus.NOT_FOUND.value(),
-                    List.of("Пользователь не найден!")),
-            HttpStatus.NOT_FOUND);
-
 }

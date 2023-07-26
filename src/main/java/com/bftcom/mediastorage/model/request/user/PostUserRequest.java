@@ -1,11 +1,12 @@
 package com.bftcom.mediastorage.model.request.user;
 
 import com.bftcom.mediastorage.model.entity.User;
+import com.bftcom.mediastorage.model.request.PostEntityRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class PostUserRequest {
+public class PostUserRequest extends PostEntityRequest<User> {
 
     @NotBlank(message = "Имя не должно быть пустым")
     @Size(max = 200, message = "Имя должно быть не больше 200 символов")
@@ -44,10 +45,11 @@ public class PostUserRequest {
         return name;
     }
 
-    static public User convertToUser(PostUserRequest request) {
+    @Override
+    public User covertToEntity() {
         return new User(
-                request.getName(),
-                String.valueOf(request.getPassword().hashCode()),
-                request.getEmail());
+                name,
+                String.valueOf(password.hashCode()),
+                email);
     }
 }
