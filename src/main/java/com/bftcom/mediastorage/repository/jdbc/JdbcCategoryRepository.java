@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.repository.CategoryRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class JdbcCategoryRepository extends JdbcCrudRepository<Category> impleme
     }
 
     @Override
-    protected Category mapRowToModel(ResultSet row, int rowNum) throws SQLException {
+    protected Category mapRowToModel(@NonNull ResultSet row, int rowNum) throws SQLException {
         return new Category(
                 row.getLong("id"),
                 row.getString("name"),
@@ -29,14 +30,14 @@ public class JdbcCategoryRepository extends JdbcCrudRepository<Category> impleme
     }
 
     @Override
-    protected void setPreparedSaveStatementValues(PreparedStatement preparedStatement, Category category)
+    protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Category category)
             throws SQLException {
         preparedStatement.setString(1, category.getName());
         preparedStatement.setLong(2, category.getParentCategoryId());
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, Category entity)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Category entity)
             throws SQLException {
         preparedStatement.setString(1, entity.getName());
         preparedStatement.setLong(2, entity.getParentCategoryId());

@@ -24,20 +24,20 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
     }
 
     @Override
-    protected Role mapRowToModel(ResultSet row, int rowNum) throws SQLException {
+    protected Role mapRowToModel(@NonNull ResultSet row, int rowNum) throws SQLException {
         return new Role(
                 row.getLong("id"),
                 row.getString("name"));
     }
 
     @Override
-    protected void setPreparedSaveStatementValues(PreparedStatement preparedStatement, Role role)
+    protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Role role)
             throws SQLException {
         preparedStatement.setString(1, role.getName());
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, Role role)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Role role)
             throws SQLException {
         preparedStatement.setString(1, role.getName());
         preparedStatement.setLong(2, role.getId());

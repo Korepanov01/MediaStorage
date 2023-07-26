@@ -24,20 +24,20 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
     }
 
     @Override
-    protected Tag mapRowToModel(ResultSet row, int rowNum) throws SQLException {
+    protected Tag mapRowToModel(@NonNull ResultSet row, int rowNum) throws SQLException {
         return new Tag(
                 row.getLong("id"),
                 row.getString("name"));
     }
 
     @Override
-    protected void setPreparedSaveStatementValues(PreparedStatement preparedStatement, Tag tag)
+    protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Tag tag)
             throws SQLException {
         preparedStatement.setString(1, tag.getName());
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, Tag entity)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Tag entity)
             throws SQLException {
         preparedStatement.setString(1, entity.getName());
         preparedStatement.setLong(2, entity.getId());

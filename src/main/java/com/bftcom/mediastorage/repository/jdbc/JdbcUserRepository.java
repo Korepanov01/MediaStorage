@@ -24,7 +24,7 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
     }
 
     @Override
-    protected User mapRowToModel(ResultSet row, int rowNum) throws SQLException {
+    protected User mapRowToModel(@NonNull ResultSet row, int rowNum) throws SQLException {
         return new User(
                 row.getLong("id"),
                 row.getString("name"),
@@ -33,7 +33,7 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
     }
 
     @Override
-    protected void setPreparedSaveStatementValues(PreparedStatement preparedStatement, User user)
+    protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull User user)
             throws SQLException {
         preparedStatement.setString(1, user.getName());
         preparedStatement.setString(2, user.getPasswordHash());
@@ -41,7 +41,7 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, User user)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull User user)
             throws SQLException {
         preparedStatement.setString(1, user.getName());
         preparedStatement.setString(2, user.getPasswordHash());
