@@ -136,7 +136,7 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
     protected abstract void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, T entity)
             throws SQLException;
 
-    protected static class ParametersSearchSqlBuilder {
+    protected class ParametersSearchSqlBuilder {
 
         private boolean paginated = false;
 
@@ -144,17 +144,13 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
 
         private final List<Object> queryParams = new ArrayList<>();
 
-        public ParametersSearchSqlBuilder(String selectParams, String tableName) {
-            sqlBuilder = new StringBuilder()
-                    .append(" SELECT ")
-                    .append(selectParams)
-                    .append(" FROM ")
-                    .append(tableName)
-                    .append(" WHERE 1=1 ");
+        public ParametersSearchSqlBuilder() {
+            sqlBuilder = new StringBuilder();
+            sqlBuilder.append(sqlSelectFrom).append(" WHERE 1=1");
         }
 
         public void addStatement(String statement, Object... params) {
-            sqlBuilder.append(statement);
+            sqlBuilder.append(" ").append(statement);
             queryParams.addAll(Arrays.asList(params));
         }
 
@@ -163,18 +159,18 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
                 throw new RuntimeException("Нельзя добавлять условия после добавления страниц!");
             }
 
-            addStatement(" AND " + condition, params);
+            addStatement("AND " + condition, params);
         }
 
         public void addSearchStringCondition(String fieldName, String searchString) {
             if (StringUtils.hasText(searchString)) {
-                addCondition(" LOWER(" + fieldName + ") LIKE LOWER(?) ", "%" + searchString + "%");
+                addCondition("LOWER(" + fieldName + ") LIKE LOWER(?)", "%" + searchString + "%");
             }
         }
 
         public void addPagination(int pageIndex, int pageSize) {
             int offset = pageIndex * pageSize;
-            addStatement(" OFFSET ? LIMIT ? ", offset, pageSize);
+            addStatement("OFFSET ? LIMIT ?", offset, pageSize);
             paginated = true;
         }
 

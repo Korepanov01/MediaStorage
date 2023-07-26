@@ -60,9 +60,7 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
 
     @Override
     public List<Role> findByParameters(SearchStringParameters parameters) {
-        ParametersSearchSqlBuilder builder = new ParametersSearchSqlBuilder(
-                "id, name",
-                "\"public.role\"");
+        ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
 
         builder.addSearchStringCondition("name", parameters.getSearchString());
         builder.addPagination(parameters.getPageIndex(), parameters.getPageSize());
