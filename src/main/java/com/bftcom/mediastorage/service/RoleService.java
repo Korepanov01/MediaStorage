@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RoleService extends BaseService<Role, SearchStringParameters> {
+public class RoleService extends BaseService<Role, SearchStringParameters> implements IRoleService {
 
     private final RoleRepository roleRepository;
 
@@ -19,7 +19,7 @@ public class RoleService extends BaseService<Role, SearchStringParameters> {
     }
 
     @Override
-    protected boolean isEntityExists(@NonNull Role role) {
+    protected boolean isSameEntityExists(@NonNull Role role) {
         return roleRepository.findByName(role.getName()).isPresent();
     }
 

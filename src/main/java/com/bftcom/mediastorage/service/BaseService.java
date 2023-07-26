@@ -24,7 +24,7 @@ public abstract class BaseService<Entity extends BaseEntity, SearchParameters ex
 
     @Override
     public Entity save(@NonNull Entity entity) throws EntityAlreadyExistsException {
-        if (isEntityExists(entity)) {
+        if (isSameEntityExists(entity)) {
             throw new EntityAlreadyExistsException();
         }
         return getMainRepository().save(entity);
@@ -41,9 +41,5 @@ public abstract class BaseService<Entity extends BaseEntity, SearchParameters ex
         getMainRepository().delete(optionalEntity.get());
     }
 
-    public Optional<Entity> findById(@NonNull Long id) {
-        return getMainRepository().findById(id);
-    }
-
-    protected abstract boolean isEntityExists(@NonNull Entity entity);
+    protected abstract boolean isSameEntityExists(@NonNull Entity entity);
 }

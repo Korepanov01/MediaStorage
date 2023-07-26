@@ -28,7 +28,7 @@ public class TagService extends BaseService<Tag, SearchStringParameters> {
     }
 
     @Override
-    protected boolean isEntityExists(@NonNull Tag tag) {
+    protected boolean isSameEntityExists(@NonNull Tag tag) {
         return tagRepository.findByName(tag.getName()).isPresent();
     }
 
@@ -39,7 +39,7 @@ public class TagService extends BaseService<Tag, SearchStringParameters> {
             throw new EntityNotFoundException();
         }
 
-        if (isEntityExists(tag)) {
+        if (isSameEntityExists(tag)) {
             throw new EntityAlreadyExistsException();
         }
 
