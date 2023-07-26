@@ -8,6 +8,12 @@ public class User extends BaseEntity {
 
     private String email;
 
+    public User(String name, String passwordHash, String email) {
+        this.name = name;
+        this.passwordHash = passwordHash;
+        this.email = email;
+    }
+
     public String getName() {
         return name;
     }

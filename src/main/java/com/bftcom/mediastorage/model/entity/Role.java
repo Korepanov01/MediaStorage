@@ -13,6 +13,10 @@ public class Role extends BaseEntity {
         return name;
     }
 
+    public Role(String name) {
+        this.name = name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

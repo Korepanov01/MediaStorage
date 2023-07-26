@@ -2,40 +2,34 @@ package com.bftcom.mediastorage.model.entity;
 
 public class File extends BaseEntity {
 
-    private String path;
+    private String name;
 
-    private Short size;
+    private byte[] data;
 
-    private String extension;
+    public File(String name, byte[] data) {
+        this.name = name;
+        this.data = data;
+    }
 
-    public File(Long id, String path, Short size, String extension) {
+    public File(Long id, String name, byte[] data) {
         super(id);
-        this.path = path;
-        this.size = size;
-        this.extension = extension;
+        this.name = name;
+        this.data = data;
     }
 
-    public String getPath() {
-        return path;
+    public String getName() {
+        return name;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Short getSize() {
-        return size;
+    public byte[] getData() {
+        return data;
     }
 
-    public void setSize(Short size) {
-        this.size = size;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public void setExtension(String extension) {
-        this.extension = extension;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 }
