@@ -7,6 +7,11 @@ public class Category extends BaseEntity {
         this.parentCategoryId = parentCategoryId;
     }
 
+    public Category(String name, Long parentCategoryId) {
+        this.name = name;
+        this.parentCategoryId = parentCategoryId;
+    }
+
     private String name;
 
     private Long parentCategoryId;

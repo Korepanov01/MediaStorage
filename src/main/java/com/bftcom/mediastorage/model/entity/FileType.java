@@ -1,18 +1,22 @@
 package com.bftcom.mediastorage.model.entity;
 
 public class FileType extends BaseEntity {
-    private String type;
+    private String name;
 
     public FileType(Long id, String type) {
         super(id);
-        this.type = type;
+        this.name = type;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public FileType(String name) {
+        this.name = name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

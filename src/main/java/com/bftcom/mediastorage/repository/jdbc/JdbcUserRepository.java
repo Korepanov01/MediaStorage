@@ -50,7 +50,7 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
 
     @Override
     public List<User> findByParameters(SearchStringParameters parameters) {
-        ParametersSearchSqlBuilder builder = new ParametersSearchSqlBuilder("id, name, password_hash, email", "\"public.tag\"");
+        ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
 
         builder.addSearchStringCondition("name", parameters.getSearchString());
 
