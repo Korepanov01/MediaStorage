@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.repository.CrudRepository;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -90,12 +91,12 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
     }
 
     @Override
-    public Optional<T> findById(Long id) {
+    public Optional<T> findById(@NonNull Long id) {
         return findByUniqueField(fields.get(0), id);
     }
 
     @Override
-    public T save(T entity) {
+    public T save(@NonNull T entity) {
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -115,7 +116,7 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
     }
 
     @Override
-    public void update(T entity) {
+    public void update(@NonNull T entity) {
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     sqlUpdate);
@@ -125,7 +126,7 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
     }
 
     @Override
-    public void delete(T entity) {
+    public void delete(@NonNull T entity) {
         jdbcTemplate.update(
                 sqlDelete,
                 entity.getId());

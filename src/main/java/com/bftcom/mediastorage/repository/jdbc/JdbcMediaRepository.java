@@ -3,6 +3,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.model.parameters.MediaSearchParameters;
 import com.bftcom.mediastorage.repository.MediaRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -84,7 +85,7 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
     }
 
     @Override
-    public List<Media> findByParameters(MediaSearchParameters parameters) {
+    public List<Media> findByParameters(@NonNull MediaSearchParameters parameters) {
         ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
 
         if (parameters.getCategoryId() != null) {

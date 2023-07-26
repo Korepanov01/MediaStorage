@@ -3,6 +3,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.RoleRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -43,12 +44,12 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
     }
 
     @Override
-    public Optional<Role> findByName(String name) {
+    public Optional<Role> findByName(@NonNull String name) {
         return this.findByUniqueField("name", name);
     }
 
     @Override
-    public List<Role> findByParameters(SearchStringParameters parameters) {
+    public List<Role> findByParameters(@NonNull SearchStringParameters parameters) {
         ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
 
         builder.addSearchStringCondition("name", parameters.getSearchString());

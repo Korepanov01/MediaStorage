@@ -3,6 +3,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -43,7 +44,7 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
     }
 
     @Override
-    public List<Tag> findByParameters(SearchStringParameters parameters) {
+    public List<Tag> findByParameters(@NonNull SearchStringParameters parameters) {
         ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
 
         builder.addSearchStringCondition("name", parameters.getSearchString());
@@ -54,7 +55,7 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
     }
 
     @Override
-    public Optional<Tag> findByName(String name) {
+    public Optional<Tag> findByName(@NonNull String name) {
         return this.findByUniqueField("name", name);
     }
 }

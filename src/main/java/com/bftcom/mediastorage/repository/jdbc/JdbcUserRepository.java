@@ -3,6 +3,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.UserRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -49,7 +50,7 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
     }
 
     @Override
-    public List<User> findByParameters(SearchStringParameters parameters) {
+    public List<User> findByParameters(@NonNull SearchStringParameters parameters) {
         ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
 
         builder.addSearchStringCondition("name", parameters.getSearchString());
@@ -60,12 +61,12 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> findByEmail(@NonNull String email) {
         return findByUniqueField("email", email);
     }
 
     @Override
-    public Optional<User> findByName(String name) {
+    public Optional<User> findByName(@NonNull String name) {
         return findByUniqueField("name", name);
     }
 }
