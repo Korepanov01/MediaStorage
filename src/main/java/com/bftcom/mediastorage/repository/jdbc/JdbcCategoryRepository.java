@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Category;
+import com.bftcom.mediastorage.model.parameters.CategorySearchParameters;
 import com.bftcom.mediastorage.repository.CategoryRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcCategoryRepository extends JdbcCrudRepository<Category> implements CategoryRepository {
@@ -42,5 +44,23 @@ public class JdbcCategoryRepository extends JdbcCrudRepository<Category> impleme
         preparedStatement.setString(1, entity.getName());
         preparedStatement.setLong(2, entity.getParentCategoryId());
         preparedStatement.setLong(3, entity.getId());
+    }
+
+    @Override
+    public Optional<Category> findByName(@NonNull String name) {
+        return findByUniqueField("name", name);
+    }
+
+    @Override
+    public List<Category> findByParameters(@NonNull CategorySearchParameters parameters) {
+        ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
+
+        builder.addSearchStringCondition("name", parameters.getSearchString());
+
+        builder.addCondition("parent_category_id = ?", parameters.getParentCategoryId());
+
+        builder.addPagination(parameters.getPageIndex(), parameters.getPageSize());
+
+        return jdbcTemplate.query(builder.getQuery(), this::mapRowToModel, builder.getQueryParams());
     }
 }
