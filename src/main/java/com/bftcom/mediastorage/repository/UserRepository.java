@@ -5,9 +5,9 @@ import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 
 import java.util.Optional;
 
-public interface UserRepository extends ParametersSearchRepository<User, SearchStringParameters> {
+public interface UserRepository
+        extends ParametersSearchRepository<User, SearchStringParameters>,
+        NameSearchRepository<User> {
 
     Optional<User> findByEmail(String email);
-
-    Optional<User> findByName(String name);
 }
