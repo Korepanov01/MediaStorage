@@ -63,6 +63,10 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
                 idFiled);
     }
 
+    protected String getSqlSelectFrom() {
+        return sqlSelectFrom;
+    }
+
     @Autowired
     private void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

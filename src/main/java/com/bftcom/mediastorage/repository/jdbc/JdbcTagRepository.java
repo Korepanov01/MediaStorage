@@ -18,9 +18,6 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
     private static final String ID_FIELD = "id";
     private static final String[] OTHER_FIELDS = {"name"};
 
-    private static final String SQL_FIND_BY_NAME =
-            "SELECT id, name FROM \"public.tag\" WHERE name = ? LIMIT 1";
-
     public JdbcTagRepository() {
         super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
@@ -58,13 +55,6 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
 
     @Override
     public Optional<Tag> findByName(String name) {
-        List<Tag> results = jdbcTemplate.query(
-                SQL_FIND_BY_NAME,
-                this::mapRowToModel,
-                name);
-
-        return results.size() == 0 ?
-                Optional.empty() :
-                Optional.of(results.get(0));
+        return this.findByUniqueField("name", name);
     }
 }

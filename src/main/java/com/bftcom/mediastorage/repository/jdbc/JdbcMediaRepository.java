@@ -76,11 +76,11 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
     }
 
     @Override
-    public List<Media> findRandom(int maxCount) {
+    public List<Media> findRandom(int limit) {
         return jdbcTemplate.query(
-                SQL_FIND_RANDOM,
+                this.getSqlSelectFrom() + " ORDER BY RANDOM() LIMIT ?",
                 this::mapRowToModel,
-                maxCount);
+                limit);
     }
 
     @Override

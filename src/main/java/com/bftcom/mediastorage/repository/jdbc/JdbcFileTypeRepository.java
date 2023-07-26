@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public class JdbcFileTypeRepository extends JdbcCrudRepository<FileType> implements FileTypeRepository {
 
-
     private static final String TABLE_NAME = "\"public.file_type\"";
     private static final String ID_FIELD = "id";
     private static final String[] OTHER_FIELDS = {"name"};
