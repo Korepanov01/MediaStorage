@@ -33,12 +33,9 @@ CREATE UNIQUE INDEX uidx_tag_name ON "public.tag"(name);
 CREATE TABLE "public.file"
 (
     "id"        bigserial       CONSTRAINT "file_pk" PRIMARY KEY,
-    "path"      varchar(200)    NOT NULL,
-    "size"      smallint        NOT NULL,
-    "extension" varchar(20)
+    "name"      varchar(200)    NOT NULL,
+    "data"      bytea           NOT NULL
 );
-
-CREATE UNIQUE INDEX uidx_file_path ON "public.file"(path);
 
 
 CREATE TABLE "public.media_tag"
@@ -112,10 +109,10 @@ CREATE INDEX idx_media_file_file_type_id    ON "public.media_file" ("file_type_i
 CREATE TABLE "public.file_type"
 (
     "id"   bigserial    CONSTRAINT "file_type_pk" PRIMARY KEY,
-    "type" varchar(100) NOT NULL
+    "name" varchar(100) NOT NULL
 );
 
-CREATE UNIQUE INDEX uidx_file_type_type ON "public.file_type" ("type");
+CREATE UNIQUE INDEX uidx_file_type_type ON "public.file_type" ("name");
 
 
 CREATE TABLE "public.media_type"
@@ -125,6 +122,7 @@ CREATE TABLE "public.media_type"
 );
 
 CREATE UNIQUE INDEX uidx_media_type_name ON "public.media_type" ("name");
+
 
 --Foreign keys for public.media
 ALTER TABLE "public.media"

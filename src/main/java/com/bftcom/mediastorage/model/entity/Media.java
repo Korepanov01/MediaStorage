@@ -8,6 +8,16 @@ public class Media extends BaseEntity {
 
     private Long categoryId;
 
+    public Media(Long userId, Long categoryId, String name, String description, Long mediaTypeId, LocalDateTime createdAt, LocalDateTime editedAt) {
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.name = name;
+        this.description = description;
+        this.mediaTypeId = mediaTypeId;
+        this.createdAt = createdAt;
+        this.editedAt = editedAt;
+    }
+
     private String name;
 
     private String description;

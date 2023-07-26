@@ -6,6 +6,12 @@ public class MediaFile extends BaseEntity {
 
     private Long fileId;
 
+    public MediaFile(Long mediaId, Long fileId, Long fileTypeId) {
+        this.mediaId = mediaId;
+        this.fileId = fileId;
+        this.fileTypeId = fileTypeId;
+    }
+
     private Long fileTypeId;
 
     public MediaFile(Long id, Long mediaId, Long fileId, Long fileTypeId) {
