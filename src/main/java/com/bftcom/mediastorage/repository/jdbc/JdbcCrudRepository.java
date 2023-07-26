@@ -175,7 +175,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             addStatement("AND " + condition, params);
         }
 
-        public void addSearchStringCondition(@NonNull String fieldName, @NonNull String searchString) {
+        public void addSearchStringCondition(@NonNull String fieldName, String searchString) {
             if (StringUtils.hasText(searchString)) {
                 addCondition("LOWER(" + fieldName + ") LIKE LOWER(?)", "%" + searchString + "%");
             }
