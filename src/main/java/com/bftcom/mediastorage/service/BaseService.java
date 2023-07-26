@@ -3,7 +3,7 @@ package com.bftcom.mediastorage.service;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
-import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
+import com.bftcom.mediastorage.model.parameters.PagingParameters;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public abstract class BaseService<Entity extends BaseEntity, SearchParameters extends SearchStringParameters>
+public abstract class BaseService<Entity extends BaseEntity, SearchParameters extends PagingParameters>
         implements IService<Entity, SearchParameters> {
 
     protected abstract ParametersSearchRepository<Entity, SearchParameters> getMainRepository();
