@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.UserRole;
 import com.bftcom.mediastorage.repository.UserRoleRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole> impleme
     }
 
     @Override
-    protected UserRole mapRowToModel(ResultSet row, int rowNum) throws SQLException {
+    protected UserRole mapRowToModel(@NonNull ResultSet row, int rowNum) throws SQLException {
         return new UserRole(
                 row.getLong("id"),
                 row.getLong("role_id"),
@@ -29,14 +30,14 @@ public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole> impleme
     }
 
     @Override
-    protected void setPreparedSaveStatementValues(PreparedStatement preparedStatement, UserRole userRole)
+    protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull UserRole userRole)
             throws SQLException {
         preparedStatement.setLong(1, userRole.getRoleId());
         preparedStatement.setLong(2, userRole.getUserId());
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, UserRole userRole)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull UserRole userRole)
             throws SQLException {
         preparedStatement.setLong(1, userRole.getRoleId());
         preparedStatement.setLong(2, userRole.getUserId());

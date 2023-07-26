@@ -2,6 +2,9 @@ package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.repository.CrudRepository;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -16,14 +19,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRepository<T> {
+public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements CrudRepository<Entity> {
 
     protected JdbcTemplate jdbcTemplate;
 
-    private String tableName;
     private List<String> fields;
 
+    @Getter(AccessLevel.PROTECTED)
     private String sqlSelectFrom;
+
     private String sqlSave;
     private String sqlUpdate;
     private String sqlDelete;
@@ -31,11 +35,9 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
     private JdbcCrudRepository() {}
 
     public JdbcCrudRepository(
-            String tableName,
-            String idFiled,
-            List<String> otherFields) {
-        this.tableName = tableName;
-
+            @NonNull String tableName,
+            @NonNull String idFiled,
+            @NonNull List<String> otherFields) {
         this.fields = new ArrayList<>();
         this.fields.add(idFiled);
         this.fields.addAll(otherFields);
@@ -63,16 +65,12 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
                 idFiled);
     }
 
-    protected String getSqlSelectFrom() {
-        return sqlSelectFrom;
-    }
-
     @Autowired
-    private void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    private void setJdbcTemplate(@NonNull JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    protected List<T> findByField(String fieldName, Object field) {
+    protected List<Entity> findByField(@NonNull String fieldName, @NonNull Object field) {
         String sql = this.sqlSelectFrom + " WHERE " + fieldName + " = ?";
 
         return jdbcTemplate.query(
@@ -81,8 +79,8 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
                 field);
     }
 
-    protected Optional<T> findByUniqueField(String fieldName, Object field) {
-        List<T> results = findByField(fieldName, field);
+    protected Optional<Entity> findByUniqueField(@NonNull String fieldName, @NonNull Object field) {
+        List<Entity> results = findByField(fieldName, field);
 
         return results.isEmpty() ?
                 Optional.empty() :
@@ -90,12 +88,17 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
     }
 
     @Override
-    public Optional<T> findById(Long id) {
+    public Optional<Entity> findById(@NonNull Long id) {
         return findByUniqueField(fields.get(0), id);
     }
 
     @Override
-    public T save(T entity) {
+    public boolean isExists(@NonNull Long id) {
+        return findById(id).isPresent();
+    }
+
+    @Override
+    public Entity save(@NonNull Entity entity) {
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -115,7 +118,13 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
     }
 
     @Override
-    public void update(T entity) {
+    public List<Entity> saveAll(@NonNull List<Entity> entities) {
+        entities.forEach(this::save);
+        return entities;
+    }
+
+    @Override
+    public void update(@NonNull Entity entity) {
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     sqlUpdate);
@@ -125,19 +134,19 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
     }
 
     @Override
-    public void delete(T entity) {
+    public void delete(@NonNull Entity entity) {
         jdbcTemplate.update(
                 sqlDelete,
                 entity.getId());
     }
 
-    protected abstract T mapRowToModel(ResultSet row, int rowNum)
+    protected abstract Entity mapRowToModel(@NonNull ResultSet row, int rowNum)
             throws SQLException;
 
-    protected abstract void setPreparedSaveStatementValues(PreparedStatement preparedStatement, T model)
+    protected abstract void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Entity model)
             throws SQLException;
 
-    protected abstract void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, T entity)
+    protected abstract void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Entity entity)
             throws SQLException;
 
     protected class ParametersSearchSqlBuilder {
@@ -153,12 +162,12 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
             sqlBuilder.append(sqlSelectFrom).append(" WHERE 1=1");
         }
 
-        public void addStatement(String statement, Object... params) {
+        public void addStatement(@NonNull String statement, @NonNull Object... params) {
             sqlBuilder.append(" ").append(statement);
             queryParams.addAll(Arrays.asList(params));
         }
 
-        public void addCondition(String condition, Object... params) {
+        public void addCondition(@NonNull String condition,@NonNull Object... params) {
             if (paginated) {
                 throw new RuntimeException("Нельзя добавлять условия после добавления страниц!");
             }
@@ -166,7 +175,7 @@ public abstract class JdbcCrudRepository<T extends BaseEntity> implements CrudRe
             addStatement("AND " + condition, params);
         }
 
-        public void addSearchStringCondition(String fieldName, String searchString) {
+        public void addSearchStringCondition(@NonNull String fieldName, @NonNull String searchString) {
             if (StringUtils.hasText(searchString)) {
                 addCondition("LOWER(" + fieldName + ") LIKE LOWER(?)", "%" + searchString + "%");
             }

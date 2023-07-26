@@ -1,22 +1,17 @@
 package com.bftcom.mediastorage.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class FileType extends BaseEntity {
     private String name;
 
-    public FileType(Long id, String type) {
+    public FileType(Long id, String name) {
         super(id);
-        this.name = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public FileType(String name) {
-        this.name = name;
-    }
-
-    public void setName(String name) {
         this.name = name;
     }
 }

@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.MediaFile;
 import com.bftcom.mediastorage.repository.MediaFileRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
     }
 
     @Override
-    protected MediaFile mapRowToModel(ResultSet row, int rowNum) throws SQLException {
+    protected MediaFile mapRowToModel(@NonNull ResultSet row, int rowNum) throws SQLException {
         return new MediaFile(
                 row.getLong("id"),
                 row.getLong("media_id"),
@@ -30,7 +31,7 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
     }
 
     @Override
-    protected void setPreparedSaveStatementValues(PreparedStatement preparedStatement, MediaFile mediaFile)
+    protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull MediaFile mediaFile)
             throws SQLException {
         preparedStatement.setLong(1, mediaFile.getMediaId());
         preparedStatement.setLong(2, mediaFile.getFileId());
@@ -42,7 +43,7 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, MediaFile mediaFile)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull MediaFile mediaFile)
             throws SQLException {
         preparedStatement.setLong(1, mediaFile.getMediaId());
         preparedStatement.setLong(2, mediaFile.getFileId());

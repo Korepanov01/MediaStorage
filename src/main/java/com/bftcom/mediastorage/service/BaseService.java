@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.model.parameters.PagingParameters;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,20 +18,20 @@ public abstract class BaseService<Entity extends BaseEntity, SearchParameters ex
     protected abstract ParametersSearchRepository<Entity, SearchParameters> getMainRepository();
 
     @Override
-    public List<Entity> findByParameters(SearchParameters parameters) {
+    public List<Entity> findByParameters(@NonNull SearchParameters parameters) {
         return getMainRepository().findByParameters(parameters);
     }
 
     @Override
-    public Entity save(Entity entity) throws EntityAlreadyExistsException {
-        if (isEntityExists(entity)) {
+    public Entity save(@NonNull Entity entity) throws EntityAlreadyExistsException {
+        if (isSameEntityExists(entity)) {
             throw new EntityAlreadyExistsException();
         }
         return getMainRepository().save(entity);
     }
 
     @Override
-    public void delete(Long id) throws EntityNotFoundException {
+    public void delete(@NonNull Long id) throws EntityNotFoundException {
         Optional<Entity> optionalEntity = getMainRepository().findById(id);
 
         if (optionalEntity.isEmpty()) {
@@ -40,9 +41,5 @@ public abstract class BaseService<Entity extends BaseEntity, SearchParameters ex
         getMainRepository().delete(optionalEntity.get());
     }
 
-    public Optional<Entity> findById(Long id) {
-        return getMainRepository().findById(id);
-    }
-
-    protected abstract boolean isEntityExists(Entity entity);
+    protected abstract boolean isSameEntityExists(@NonNull Entity entity);
 }

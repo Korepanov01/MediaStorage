@@ -3,6 +3,7 @@ package com.bftcom.mediastorage.repository.jdbc;
 import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.model.parameters.MediaSearchParameters;
 import com.bftcom.mediastorage.repository.MediaRepository;
+import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -28,18 +29,12 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
             "edited_at"
     };
 
-    private static final String SQL_FIND_RANDOM =
-            "SELECT id, user_id, category_id, name, description, media_type_id, created_at, edited_at " +
-                    "FROM \"public.media\" " +
-                    "ORDER BY RANDOM()\n" +
-                    "LIMIT ?;";
-
     public JdbcMediaRepository() {
         super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
     }
 
     @Override
-    protected Media mapRowToModel(ResultSet row, int rowNum) throws SQLException {
+    protected Media mapRowToModel(@NonNull ResultSet row, int rowNum) throws SQLException {
         return new Media(
                 row.getLong("id"),
                 row.getLong("user_id"),
@@ -52,7 +47,7 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
     }
 
     @Override
-    protected void setPreparedSaveStatementValues(PreparedStatement preparedStatement, Media media)
+    protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Media media)
             throws SQLException {
         preparedStatement.setLong(1, media.getUserId());
         preparedStatement.setLong(2, media.getCategoryId());
@@ -64,7 +59,7 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(PreparedStatement preparedStatement, Media entity)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Media entity)
             throws SQLException {
         preparedStatement.setLong(1, entity.getUserId());
         preparedStatement.setLong(2, entity.getCategoryId());
@@ -84,7 +79,7 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
     }
 
     @Override
-    public List<Media> findByParameters(MediaSearchParameters parameters) {
+    public List<Media> findByParameters(@NonNull MediaSearchParameters parameters) {
         ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
 
         if (parameters.getCategoryId() != null) {
