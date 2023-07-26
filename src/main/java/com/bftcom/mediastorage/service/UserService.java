@@ -24,6 +24,7 @@ public class UserService extends BaseService<User, SearchStringParameters> {
 
     @Override
     protected boolean isEntityExists(User user) {
-        return userRepository.findByEmail(user.getEmail()).isPresent();
+        return userRepository.findByEmail(user.getEmail()).isPresent()
+                || userRepository.findByName(user.getName()).isPresent();
     }
 }
