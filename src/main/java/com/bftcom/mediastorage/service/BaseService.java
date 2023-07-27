@@ -18,16 +18,21 @@ public abstract class BaseService<Entity extends BaseEntity, SearchParameters ex
     protected abstract ParametersSearchRepository<Entity, SearchParameters> getMainRepository();
 
     @Override
+    public Optional<Entity> findById(@NonNull Long id) {
+        return getMainRepository().findById(id);
+    }
+
+    @Override
     public List<Entity> findByParameters(@NonNull SearchParameters parameters) {
         return getMainRepository().findByParameters(parameters);
     }
 
     @Override
-    public Entity save(@NonNull Entity entity) throws EntityAlreadyExistsException {
+    public void save(@NonNull Entity entity) throws EntityAlreadyExistsException {
         if (isSameEntityExists(entity)) {
             throw new EntityAlreadyExistsException();
         }
-        return getMainRepository().save(entity);
+        getMainRepository().save(entity);
     }
 
     @Override
