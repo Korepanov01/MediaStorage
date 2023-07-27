@@ -2,10 +2,14 @@ package com.bftcom.mediastorage.model.request.user;
 
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.request.PostEntityRequest;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class PostUserRequest extends PostEntityRequest<User> {
 
     @NotBlank(message = "Имя не должно быть пустым")
@@ -20,30 +24,6 @@ public class PostUserRequest extends PostEntityRequest<User> {
     @Size(min = 8, message = "Пароль должен иметь больше 8 символов")
     @Size(max = 100, message = "Пароль не должен быть больше 100 символов")
     private String password;
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     @Override
     public User covertToEntity() {

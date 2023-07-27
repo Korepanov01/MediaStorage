@@ -4,6 +4,7 @@ import com.bftcom.mediastorage.model.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
@@ -13,7 +14,7 @@ public class CategoryDto extends BaseDto {
     private String name;
     private Long parentCategoryId;
 
-    public CategoryDto(Category category) {
+    public CategoryDto(@NonNull Category category) {
         this(category.getId(), category.getName(), category.getParentCategoryId());
     }
 }
