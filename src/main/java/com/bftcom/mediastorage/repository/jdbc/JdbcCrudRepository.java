@@ -42,8 +42,11 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             @NonNull String idFiled,
             @NonNull List<String> otherFields) {
         this.fields = new ArrayList<>();
-        this.fields.add(idFiled);
-        this.fields.addAll(otherFields);
+        this.fields.add(tableName + ".id");
+        this.fields.addAll(
+                otherFields.stream()
+                        .map(field -> tableName + "." + field)
+                        .collect(Collectors.toList()));
 
         this.sqlSelectFrom = String.format(
                 "SELECT %s FROM %s",
@@ -97,7 +100,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
 
     @Override
     public boolean isExists(@NonNull Long id) {
-        return findById(id).isPresent();
+        return findById(id).isEmpty();
     }
 
     @Override
@@ -154,15 +157,20 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
 
     protected class ParametersSearcher {
 
-        private boolean paginated = false;
-
         private final StringBuilder sqlBuilder;
 
         private final List<Object> queryParams = new ArrayList<>();
 
         public ParametersSearcher() {
-            sqlBuilder = new StringBuilder();
-            sqlBuilder.append(sqlSelectFrom).append(" WHERE 1=1");
+            this(null);
+        }
+
+        public ParametersSearcher(String join) {
+            sqlBuilder = new StringBuilder(sqlSelectFrom);
+            if (join != null) {
+                sqlBuilder.append(" JOIN ").append(join);
+            }
+            sqlBuilder.append(" WHERE 1=1");
         }
 
         private void addStatement(@NonNull String statement, @NonNull Object... params) {
@@ -171,11 +179,11 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         }
 
         public void addCondition(@NonNull String condition,@NonNull Object... params) {
-            if (paginated) {
-                throw new RuntimeException("Нельзя добавлять условия после добавления страниц!");
-            }
-
             addStatement("AND " + condition, params);
+        }
+
+        public void addEqualsCondition(@NonNull String fieldName,@NonNull Object param) {
+            addCondition(fieldName + " = ?", param);
         }
 
         public void addSearchStringCondition(@NonNull String fieldName, String searchString) {
@@ -187,17 +195,20 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         private void addPagination(int pageIndex, int pageSize) {
             int offset = pageIndex * pageSize;
             addStatement("OFFSET ? LIMIT ?", offset, pageSize);
-            paginated = true;
+        }
+
+        public List<Entity> findByParameters(RowMapper<Entity> rowMapper) {
+            String sql = sqlBuilder.toString();
+
+            log.debug("Сгенерирован запрос: " + sql);
+
+            return jdbcTemplate.query(sql, rowMapper, queryParams.toArray());
         }
 
         public List<Entity> findByParameters(int pageIndex, int pageSize, RowMapper<Entity> rowMapper) {
             addPagination(pageIndex, pageSize);
 
-            String sql = sqlBuilder.toString();
-
-            log.debug("Сгенерирован запрос: " + sql);
-
-            return jdbcTemplate.query(sql, rowMapper, queryParams);
+            return findByParameters(rowMapper);
         }
     }
 }
