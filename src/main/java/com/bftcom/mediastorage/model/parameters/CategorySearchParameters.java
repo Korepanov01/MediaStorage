@@ -6,5 +6,5 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CategorySearchParameters extends SearchStringParameters {
-    private long parentCategoryId;
+    private Long parentCategoryId;
 }

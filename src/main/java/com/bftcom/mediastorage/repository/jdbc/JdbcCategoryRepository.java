@@ -35,15 +35,23 @@ public class JdbcCategoryRepository extends JdbcCrudRepository<Category> impleme
     protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Category category)
             throws SQLException {
         preparedStatement.setString(1, category.getName());
-        preparedStatement.setLong(2, category.getParentCategoryId());
+        if (category.getParentCategoryId() != null) {
+            preparedStatement.setLong(2, category.getParentCategoryId());
+        } else {
+            preparedStatement.setNull(2, java.sql.Types.BIGINT);
+        }
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Category entity)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Category category)
             throws SQLException {
-        preparedStatement.setString(1, entity.getName());
-        preparedStatement.setLong(2, entity.getParentCategoryId());
-        preparedStatement.setLong(3, entity.getId());
+        preparedStatement.setString(1, category.getName());
+        if (category.getParentCategoryId() != null) {
+            preparedStatement.setLong(2, category.getParentCategoryId());
+        } else {
+            preparedStatement.setNull(2, java.sql.Types.BIGINT);
+        }
+        preparedStatement.setLong(3, category.getId());
     }
 
     @Override
@@ -57,7 +65,9 @@ public class JdbcCategoryRepository extends JdbcCrudRepository<Category> impleme
 
         builder.addSearchStringCondition("name", parameters.getSearchString());
 
-        builder.addCondition("parent_category_id = ?", parameters.getParentCategoryId());
+        if (parameters.getParentCategoryId() != null) {
+            builder.addCondition("parent_category_id = ?", parameters.getParentCategoryId());
+        }
 
         builder.addPagination(parameters.getPageIndex(), parameters.getPageSize());
 
