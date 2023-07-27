@@ -16,15 +16,14 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
 public abstract class BaseController<
-        Dto extends BaseDto,
+        ListItemDto extends BaseDto,
         Entity extends BaseEntity,
         PostRequest extends PostEntityRequest<Entity>,
         SearchParameters extends PagingParameters> {
 
     @GetMapping
-    public List<Dto> get(
+    public List<ListItemDto> get(
             SearchParameters parameters) {
         List<Entity> entities = getMainService().findByParameters(parameters);
         return entities
@@ -33,7 +32,7 @@ public abstract class BaseController<
                 .collect(Collectors.toList());
     }
 
-    protected abstract Dto convertToDto(Entity entity);
+    protected abstract ListItemDto convertToDto(Entity entity);
 
     protected abstract BaseService<Entity, SearchParameters> getMainService();
 
