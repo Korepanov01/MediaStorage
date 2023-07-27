@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole> implements UserRoleRepository {
@@ -42,5 +43,24 @@ public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole> impleme
         preparedStatement.setLong(1, userRole.getRoleId());
         preparedStatement.setLong(2, userRole.getUserId());
         preparedStatement.setLong(3, userRole.getId());
+    }
+
+    @Override
+    public Optional<UserRole> findByUserAndRole(@NonNull Long userId, @NonNull Long roleId) {
+        ParametersSearcher searcher = this.new ParametersSearcher();
+
+        searcher.addEqualsCondition("role_id", roleId);
+        searcher.addEqualsCondition("user_id", userId);
+
+        List<UserRole> results = searcher.findByParameters(0, 1, this::mapRowToModel);;
+
+        return results.isEmpty() ?
+                Optional.empty() :
+                Optional.of(results.get(0));
+    }
+
+    @Override
+    public boolean isExists(@NonNull Long userId, @NonNull Long roleId) {
+        return findByUserAndRole(userId, roleId).isPresent();
     }
 }
