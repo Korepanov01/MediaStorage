@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.repository.CrudRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -18,6 +19,7 @@ import java.sql.Statement;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Repository
 public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements CrudRepository<Entity> {
 
@@ -188,7 +190,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         }
 
         public String getQuery() {
-            System.out.println(sqlBuilder.toString());
+            log.debug("Сгенерирован запрос: " + sqlBuilder.toString());
             return sqlBuilder.toString();
         }
 
