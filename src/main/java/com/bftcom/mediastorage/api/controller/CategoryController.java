@@ -7,9 +7,11 @@ import com.bftcom.mediastorage.model.request.category.PostCategoryRequest;
 import com.bftcom.mediastorage.service.BaseService;
 import com.bftcom.mediastorage.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/category")
 public class CategoryController extends BaseController<
         CategoryDto,
         Category,
