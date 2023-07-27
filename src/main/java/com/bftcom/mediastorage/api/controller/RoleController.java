@@ -6,10 +6,13 @@ import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.request.role.PostRoleRequest;
 import com.bftcom.mediastorage.service.BaseService;
 import com.bftcom.mediastorage.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequestMapping("/api/roles")
+@RequiredArgsConstructor
 public class RoleController extends BaseController<
         RoleDto,
         Role,
@@ -17,11 +20,6 @@ public class RoleController extends BaseController<
         SearchStringParameters>{
 
     private final RoleService roleService;
-
-    @Autowired
-    public RoleController(RoleService roleService) {
-        this.roleService = roleService;
-    }
 
     @Override
     protected RoleDto convertToDto(Role role) {

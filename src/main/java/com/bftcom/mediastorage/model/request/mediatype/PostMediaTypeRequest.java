@@ -11,8 +11,8 @@ import javax.validation.constraints.Size;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class PostMediaTypeRequest extends PostEntityRequest<MediaType> {
-    @NotBlank(message = "Имя категории не может быть пустым")
-    @Size(max = 100, message = "Имя категории не может быть длиннее 200 символов")
+    @NotBlank(message = "Имя медиа не может быть пустым")
+    @Size(max = 100, message = "Имя медиа не может быть длиннее 100 символов")
     private String name;
 
     @Override

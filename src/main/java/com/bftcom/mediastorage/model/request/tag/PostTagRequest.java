@@ -12,8 +12,8 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 public class PostTagRequest extends PostEntityRequest<Tag> {
 
-    @NotBlank(message = "Имя категории не может быть пустым")
-    @Size(max = 200, message = "Имя категории не может быть длиннее 200 символов")
+    @NotBlank(message = "Имя тега не может быть пустым")
+    @Size(max = 200, message = "Имя тега не может быть длиннее 200 символов")
     private String name;
 
     @Override
