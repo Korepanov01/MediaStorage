@@ -6,10 +6,10 @@ CREATE TABLE "public.media"
 (
     "id"            bigserial       CONSTRAINT "media_pk" PRIMARY KEY,
     "user_id"       bigint          NOT NULL,
-    "category_id"   bigint,
+    "category_id"   bigint          NOT NULL,
     "name"          varchar(200)    NOT NULL,
     "description"   varchar(10000),
-    "media_type_id" bigint,
+    "media_type_id" bigint          NOT NULL,
     "created_at"    TIMESTAMP       NOT NULL,
     "edited_at"     TIMESTAMP       NOT NULL
 );
@@ -54,7 +54,7 @@ CREATE TABLE "public.user"
 (
     "id"                bigserial       CONSTRAINT "user_pk" PRIMARY KEY,
     "name"              varchar(200)    NOT NULL,
-    "password_hash"     varchar(16)     NOT NULL,
+    "password_hash"     varchar(256)    NOT NULL,
     "email"             varchar(500)    NOT NULL
 );
 
@@ -98,7 +98,7 @@ CREATE TABLE "public.media_file"
     "id"           bigserial    CONSTRAINT "media_file_pk" PRIMARY KEY,
     "media_id"     bigint       NOT NULL,
     "file_id"      bigint       NOT NULL,
-    "file_type_id" bigint
+    "file_type_id" bigint       NOT NULL
 );
 
 CREATE UNIQUE INDEX uidx_media_file_media_id_file_id ON "public.media_file" ("media_id", "file_id");
@@ -124,7 +124,7 @@ CREATE TABLE "public.media_type"
 CREATE UNIQUE INDEX uidx_media_type_name ON "public.media_type" ("name");
 
 
---Foreign keys for public.media
+--Внешние ключи для public.media
 ALTER TABLE "public.media"
     ADD CONSTRAINT "media_fk0"
         FOREIGN KEY ("user_id") REFERENCES "public.user" ("id")
@@ -133,15 +133,15 @@ ALTER TABLE "public.media"
 ALTER TABLE "public.media"
     ADD CONSTRAINT "media_fk1"
         FOREIGN KEY ("category_id") REFERENCES "public.category" ("id")
-            ON DELETE SET NULL
+            ON DELETE CASCADE
             ON UPDATE CASCADE;
 ALTER TABLE "public.media"
     ADD CONSTRAINT "media_fk2"
         FOREIGN KEY ("media_type_id") REFERENCES "public.media_type" ("id")
-            ON DELETE SET NULL
+            ON DELETE CASCADE
             ON UPDATE CASCADE;
 
---Foreign keys for public.media_tag
+--Внешние ключи для public.media_tag
 ALTER TABLE "public.media_tag"
     ADD CONSTRAINT "media_tag_fk0"
         FOREIGN KEY ("media_id") REFERENCES "public.media" ("id")
@@ -186,5 +186,5 @@ ALTER TABLE "public.media_file"
 ALTER TABLE "public.media_file"
     ADD CONSTRAINT "media_file_fk2"
         FOREIGN KEY ("file_type_id") REFERENCES "public.file_type" ("id")
-            ON DELETE SET NULL
+            ON DELETE CASCADE
             ON UPDATE CASCADE;
