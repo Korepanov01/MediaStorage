@@ -8,7 +8,7 @@ import lombok.NonNull;
 
 import java.util.List;
 
-public interface IService<Entity extends BaseEntity, SearchParameters extends PagingParameters> {
+public interface Service<Entity extends BaseEntity, SearchParameters extends PagingParameters> {
 
     List<Entity> findByParameters(@NonNull SearchParameters parameters);
 

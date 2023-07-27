@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService extends BaseService<User, SearchStringParameters> implements IUserService {
+public class UserService extends BaseService<User, SearchStringParameters> {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;

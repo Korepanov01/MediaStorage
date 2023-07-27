@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryService extends BaseService<Category, CategorySearchParameters>
-        implements ICategoryService {
+public class CategoryService extends BaseService<Category, CategorySearchParameters> {
 
     private final CategoryRepository categoryRepository;
 
