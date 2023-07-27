@@ -7,20 +7,16 @@ import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import com.bftcom.mediastorage.repository.TagRepository;
 import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TagService extends BaseService<Tag, SearchStringParameters> {
 
     private final TagRepository tagRepository;
-
-    @Autowired
-    public TagService(@NonNull TagRepository tagRepository) {
-        this.tagRepository = tagRepository;
-    }
 
     @Override
     protected ParametersSearchRepository<Tag, SearchStringParameters> getMainRepository() {

@@ -5,18 +5,14 @@ import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import com.bftcom.mediastorage.repository.RoleRepository;
 import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class RoleService extends BaseService<Role, SearchStringParameters> {
 
     private final RoleRepository roleRepository;
-
-    @Autowired
-    public RoleService(@NonNull RoleRepository repository) {
-        this.roleRepository = repository;
-    }
 
     @Override
     protected boolean isSameEntityExists(@NonNull Role role) {

@@ -5,18 +5,14 @@ import com.bftcom.mediastorage.model.parameters.CategorySearchParameters;
 import com.bftcom.mediastorage.repository.CategoryRepository;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService extends BaseService<Category, CategorySearchParameters> {
 
     private final CategoryRepository categoryRepository;
-
-    @Autowired
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     @Override
     protected ParametersSearchRepository<Category, CategorySearchParameters> getMainRepository() {
