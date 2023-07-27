@@ -47,7 +47,7 @@ public abstract class BaseController<
         try {
             getMainService().save(entity);
         } catch (EntityAlreadyExistsException exception) {
-            return Response.ENTITY_ALREADY_EXISTS;
+            return Response.getEntityAlreadyExists(exception.getMessage());
         }
 
         PostEntityResponse response = PostEntityResponse.convertFromEntity(entity);
@@ -61,9 +61,9 @@ public abstract class BaseController<
         try {
             getMainService().delete(id);
         } catch (EntityNotFoundException exception) {
-            return Response.ENTITY_NOT_FOUND;
+            return Response.getEntityNotFound(exception.getMessage());
         }
 
-        return Response.OK;
+        return Response.getOk();
     }
 }

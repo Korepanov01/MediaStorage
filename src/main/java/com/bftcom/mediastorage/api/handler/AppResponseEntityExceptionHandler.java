@@ -23,12 +23,11 @@ public class AppResponseEntityExceptionHandler extends ResponseEntityExceptionHa
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             @NonNull HttpHeaders headers,
-            HttpStatus status,
+            @NonNull HttpStatus status,
             @NonNull WebRequest request) {
 
         Map<String, Object> responseBody = new LinkedHashMap<>();
         responseBody.put("timestamp", new Date());
-        responseBody.put("status", status.value());
 
         List<String> errors = ex.getBindingResult().getFieldErrors()
                 .stream()
