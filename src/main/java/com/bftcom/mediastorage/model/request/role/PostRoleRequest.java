@@ -11,8 +11,8 @@ import javax.validation.constraints.Size;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class PostRoleRequest extends PostEntityRequest<Role> {
-    @NotBlank(message = "Name must not be blank")
-    @Size(max = 100, message = "Name length must be no more than 100")
+    @NotBlank(message = "Имя категории не может быть пустым")
+    @Size(max = 100, message = "Имя категории не может быть длиннее 200 символов")
     private String name;
 
     @Override
