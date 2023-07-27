@@ -80,25 +80,23 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
 
     @Override
     public List<Media> findByParameters(@NonNull MediaSearchParameters parameters) {
-        ParametersSearchSqlBuilder builder = this.new ParametersSearchSqlBuilder();
+        ParametersSearcher parametersSearcher = this.new ParametersSearcher();
 
         if (parameters.getCategoryId() != null) {
-            builder.addCondition("category_id = ?", parameters.getCategoryId());
+            parametersSearcher.addCondition("category_id = ?", parameters.getCategoryId());
         }
 
         if (parameters.getTagIds() != null && !parameters.getTagIds().isEmpty()) {
-            builder.addCondition("id IN (SELECT m.id FROM \"public.media\" m " +
+            parametersSearcher.addCondition("id IN (SELECT m.id FROM \"public.media\" m " +
                             "INNER JOIN \"public.media_tag\" mt ON m.id = mt.media_id " +
                             "WHERE mt.tag_id IN (" + String.join(", ", Collections.nCopies(parameters.getTagIds().size(), "?")) + "))",
                     parameters.getTagIds().toArray());
         }
 
         if (parameters.getSearchString() != null && StringUtils.hasText(parameters.getSearchString())) {
-            builder.addSearchStringCondition("name", parameters.getSearchString());
+            parametersSearcher.addSearchStringCondition("name", parameters.getSearchString());
         }
 
-        builder.addPagination(parameters.getPageIndex(), parameters.getPageSize());
-
-        return jdbcTemplate.query(builder.getQuery(), this::mapRowToModel, builder.getQueryParams());
+        return parametersSearcher.findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
 }

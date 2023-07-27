@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.MediaType;
+import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.MediaTypeRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcMediaTypeRepository extends JdbcCrudRepository<MediaType> implements MediaTypeRepository {
@@ -39,5 +41,19 @@ public class JdbcMediaTypeRepository extends JdbcCrudRepository<MediaType> imple
             throws SQLException {
         preparedStatement.setString(1, mediaType.getName());
         preparedStatement.setLong(2, mediaType.getId());
+    }
+
+    @Override
+    public Optional<MediaType> findByName(@NonNull String name) {
+        return findByUniqueField("name", name);
+    }
+
+    @Override
+    public List<MediaType> findByParameters(@NonNull SearchStringParameters parameters) {
+        ParametersSearcher parametersSearcher = this.new ParametersSearcher();
+
+        parametersSearcher.addSearchStringCondition("name", parameters.getSearchString());
+
+        return parametersSearcher.findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
 }

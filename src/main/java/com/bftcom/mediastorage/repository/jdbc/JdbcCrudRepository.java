@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -151,7 +152,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
     protected abstract void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Entity entity)
             throws SQLException;
 
-    protected class ParametersSearchSqlBuilder {
+    protected class ParametersSearcher {
 
         private boolean paginated = false;
 
@@ -159,12 +160,12 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
 
         private final List<Object> queryParams = new ArrayList<>();
 
-        public ParametersSearchSqlBuilder() {
+        public ParametersSearcher() {
             sqlBuilder = new StringBuilder();
             sqlBuilder.append(sqlSelectFrom).append(" WHERE 1=1");
         }
 
-        public void addStatement(@NonNull String statement, @NonNull Object... params) {
+        private void addStatement(@NonNull String statement, @NonNull Object... params) {
             sqlBuilder.append(" ").append(statement);
             queryParams.addAll(Arrays.asList(params));
         }
@@ -183,19 +184,20 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             }
         }
 
-        public void addPagination(int pageIndex, int pageSize) {
+        private void addPagination(int pageIndex, int pageSize) {
             int offset = pageIndex * pageSize;
             addStatement("OFFSET ? LIMIT ?", offset, pageSize);
             paginated = true;
         }
 
-        public String getQuery() {
-            log.debug("Сгенерирован запрос: " + sqlBuilder.toString());
-            return sqlBuilder.toString();
-        }
+        public List<Entity> findByParameters(int pageIndex, int pageSize, RowMapper<Entity> rowMapper) {
+            addPagination(pageIndex, pageSize);
 
-        public Object[] getQueryParams() {
-            return queryParams.toArray();
+            String sql = sqlBuilder.toString();
+
+            log.debug("Сгенерирован запрос: " + sql);
+
+            return jdbcTemplate.query(sql, rowMapper, queryParams);
         }
     }
 }
