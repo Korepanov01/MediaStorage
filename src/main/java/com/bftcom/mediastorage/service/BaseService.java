@@ -6,14 +6,13 @@ import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.model.parameters.PagingParameters;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import lombok.NonNull;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@org.springframework.stereotype.Service
 public abstract class BaseService<Entity extends BaseEntity, SearchParameters extends PagingParameters>
-        implements IService<Entity, SearchParameters> {
+        implements Service<Entity, SearchParameters> {
 
     protected abstract ParametersSearchRepository<Entity, SearchParameters> getMainRepository();
 
