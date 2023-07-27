@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RoleService extends BaseService<Role, SearchStringParameters> implements IRoleService {
+public class RoleService extends BaseService<Role, SearchStringParameters> {
 
     private final RoleRepository roleRepository;
 
