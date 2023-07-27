@@ -8,11 +8,17 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RoleService extends BaseService<Role, SearchStringParameters> {
 
     private final RoleRepository roleRepository;
+
+    public List<Role> getUserRoles(@NonNull Long userId) {
+        return roleRepository.findByUserId(userId);
+    }
 
     @Override
     protected boolean isSameEntityExists(@NonNull Role role) {
