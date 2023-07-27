@@ -9,27 +9,19 @@ import com.bftcom.mediastorage.repository.RoleRepository;
 import com.bftcom.mediastorage.repository.UserRepository;
 import com.bftcom.mediastorage.repository.UserRoleRepository;
 import lombok.NonNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService extends BaseService<User, SearchStringParameters> {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
-
-    @Autowired
-    public UserService(@NonNull UserRepository userRepository,
-                       @NonNull RoleRepository roleRepository,
-                       @NonNull UserRoleRepository userRoleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.userRoleRepository = userRoleRepository;
-    }
 
     public void addRoles(@NonNull Long userId, @NonNull List<Long> rolesIds)
             throws EntityNotFoundException {
