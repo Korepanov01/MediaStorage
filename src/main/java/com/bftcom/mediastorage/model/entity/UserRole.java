@@ -10,8 +10,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class UserRole extends BaseEntity {
+
     @NotNull
     private Long roleId;
+
     @NotNull
     private Long userId;
 
