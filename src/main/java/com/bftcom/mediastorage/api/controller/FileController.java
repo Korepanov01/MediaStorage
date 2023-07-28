@@ -35,8 +35,8 @@ public class FileController {
         File file = optionalFile.get();
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "name" + "\"")
-                .header(HttpHeaders.CONTENT_TYPE, "image/.png")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+                .header(HttpHeaders.CONTENT_TYPE, file.getContentType())
                 .body(file.getData());
 
     }
@@ -56,7 +56,11 @@ public class FileController {
 
         File file;
         try {
-            file = new File(multipartFile.getName(), multipartFile.getBytes());
+            file = new File(
+                    multipartFile.getName(),
+                    multipartFile.getContentType(),
+                    multipartFile.getSize(),
+                    multipartFile.getBytes());
         }
         catch (IOException exception) {
             return Response.getBadFileReading();
