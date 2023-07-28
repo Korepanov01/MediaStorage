@@ -3,7 +3,7 @@ package com.bftcom.mediastorage.service;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.Tag;
-import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
+import com.bftcom.mediastorage.model.parameters.TagSearchParameters;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import com.bftcom.mediastorage.repository.TagRepository;
 import lombok.NonNull;
@@ -14,12 +14,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TagService extends BaseService<Tag, SearchStringParameters> {
+public class TagService extends CrudService<Tag, TagSearchParameters> {
 
     private final TagRepository tagRepository;
 
     @Override
-    protected ParametersSearchRepository<Tag, SearchStringParameters> getMainRepository() {
+    protected ParametersSearchRepository<Tag, TagSearchParameters> getMainRepository() {
         return tagRepository;
     }
 

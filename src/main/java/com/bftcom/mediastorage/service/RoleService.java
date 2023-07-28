@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RoleService extends BaseService<Role, SearchStringParameters> {
+public class RoleService extends CrudService<Role, SearchStringParameters> {
 
     private final RoleRepository roleRepository;
 

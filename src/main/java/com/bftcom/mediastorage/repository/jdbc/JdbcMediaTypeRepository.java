@@ -50,10 +50,8 @@ public class JdbcMediaTypeRepository extends JdbcCrudRepository<MediaType> imple
 
     @Override
     public List<MediaType> findByParameters(@NonNull SearchStringParameters parameters) {
-        ParametersSearcher parametersSearcher = this.new ParametersSearcher();
-
-        parametersSearcher.addSearchStringCondition("name", parameters.getSearchString());
-
-        return parametersSearcher.findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+        return this.new ParametersSearcher()
+                .addSearchStringCondition("name", parameters.getSearchString())
+                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
 }

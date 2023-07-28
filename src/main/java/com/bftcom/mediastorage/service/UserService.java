@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService extends BaseService<User, SearchStringParameters> {
+public class UserService extends CrudService<User, SearchStringParameters> {
 
     private final UserRepository userRepository;
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class FileTypeService extends BaseService<FileType, SearchStringParameters> {
+public class FileTypeService extends CrudService<FileType, SearchStringParameters> {
 
     private final FileTypeRepository fileTypeRepository;
 

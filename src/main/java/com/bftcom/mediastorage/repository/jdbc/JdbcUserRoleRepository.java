@@ -47,16 +47,10 @@ public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole> impleme
 
     @Override
     public Optional<UserRole> findByUserAndRole(@NonNull Long userId, @NonNull Long roleId) {
-        ParametersSearcher searcher = this.new ParametersSearcher();
-
-        searcher.addEqualsCondition("role_id", roleId);
-        searcher.addEqualsCondition("user_id", userId);
-
-        List<UserRole> results = searcher.findByParameters(0, 1, this::mapRowToModel);;
-
-        return results.isEmpty() ?
-                Optional.empty() :
-                Optional.of(results.get(0));
+        return this.new ParametersSearcher()
+                .addEqualsCondition("role_id", roleId)
+                .addEqualsCondition("user_id", userId)
+                .findUniqueByParameters(this::mapRowToModel);
     }
 
     @Override

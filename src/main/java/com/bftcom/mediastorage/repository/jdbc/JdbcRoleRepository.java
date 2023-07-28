@@ -50,19 +50,15 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
 
     @Override
     public List<Role> findByParameters(@NonNull SearchStringParameters parameters) {
-        ParametersSearcher parametersSearcher = this.new ParametersSearcher();
-
-        parametersSearcher.addSearchStringCondition("name", parameters.getSearchString());
-
-        return parametersSearcher.findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+        return this.new ParametersSearcher()
+                .addSearchStringCondition("name", parameters.getSearchString())
+                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
 
     @Override
     public List<Role> findByUserId(@NonNull Long userId) {
-        ParametersSearcher searcher = this.new ParametersSearcher(String.format("\"public.user_role\" ur ON %s.id = ur.role_id", TABLE_NAME));
-
-        searcher.addEqualsCondition("ur.\"user_id\"", userId);
-
-        return searcher.findByParameters(this::mapRowToModel);
+        return this.new ParametersSearcher(String.format("\"public.user_role\" ur ON %s.id = ur.role_id", TABLE_NAME))
+                .addEqualsCondition("ur.\"user_id\"", userId)
+                .findByParameters(this::mapRowToModel);
     }
 }

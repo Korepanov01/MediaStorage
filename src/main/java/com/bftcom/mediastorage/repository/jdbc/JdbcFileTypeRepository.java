@@ -50,10 +50,8 @@ public class JdbcFileTypeRepository extends JdbcCrudRepository<FileType> impleme
 
     @Override
     public List<FileType> findByParameters(@NonNull SearchStringParameters parameters) {
-        ParametersSearcher parametersSearcher = this.new ParametersSearcher();
-
-        parametersSearcher.addSearchStringCondition("name", parameters.getSearchString());
-
-        return parametersSearcher.findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+        return this.new ParametersSearcher()
+                .addSearchStringCondition("name", parameters.getSearchString())
+                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
 }

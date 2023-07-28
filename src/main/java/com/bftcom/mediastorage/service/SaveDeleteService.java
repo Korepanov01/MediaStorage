@@ -3,29 +3,13 @@ package com.bftcom.mediastorage.service;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
-import com.bftcom.mediastorage.model.parameters.PagingParameters;
-import com.bftcom.mediastorage.repository.ParametersSearchRepository;
+import com.bftcom.mediastorage.repository.CrudRepository;
 import lombok.NonNull;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
-@Service
-public abstract class BaseService<Entity extends BaseEntity, SearchParameters extends PagingParameters>
-        implements CrudService<Entity, SearchParameters> {
-
-    protected abstract ParametersSearchRepository<Entity, SearchParameters> getMainRepository();
-
-    @Override
-    public Optional<Entity> findById(@NonNull Long id) {
-        return getMainRepository().findById(id);
-    }
-
-    @Override
-    public List<Entity> findByParameters(@NonNull SearchParameters parameters) {
-        return getMainRepository().findByParameters(parameters);
-    }
+public abstract class SaveDeleteService <Entity extends BaseEntity>
+        implements com.bftcom.mediastorage.service.interfaces.SaveDeleteService<Entity> {
 
     @Override
     public void save(@NonNull Entity entity) throws EntityAlreadyExistsException {
@@ -45,6 +29,8 @@ public abstract class BaseService<Entity extends BaseEntity, SearchParameters ex
 
         getMainRepository().delete(optionalEntity.get());
     }
+
+    protected abstract CrudRepository<Entity> getMainRepository();
 
     protected abstract boolean isSameEntityExists(@NonNull Entity entity);
 }
