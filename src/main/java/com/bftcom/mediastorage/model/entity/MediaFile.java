@@ -10,10 +10,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class MediaFile extends BaseEntity {
+
     @NotNull
     private Long mediaId;
+
     @NotNull
     private Long fileId;
+
     @NotNull
     private Long fileTypeId;
 
