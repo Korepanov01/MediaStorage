@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -171,24 +172,30 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             sqlBuilder.append(" WHERE 1=1");
         }
 
-        private ParametersSearcher addStatement(@NonNull String statement, @NonNull Object... params) {
-            sqlBuilder.append(" ").append(statement);
-            queryParams.addAll(Arrays.asList(params));
+        private ParametersSearcher addStatement(String statement, @NonNull Object... params) {
+            if (StringUtils.hasText(statement) && params != null && params.length != 0) {
+                sqlBuilder.append(" ").append(statement);
+                queryParams.addAll(Arrays.asList(params));
+            }
             return this;
         }
 
-        public ParametersSearcher addCondition(@NonNull String condition,@NonNull Object... params) {
-            addStatement("AND " + condition, params);
+        public ParametersSearcher addCondition(String condition, Object... params) {
+            if (StringUtils.hasText(condition) && params != null && params.length != 0) {
+                addStatement("AND " + condition, params);
+            }
             return this;
         }
 
-        public ParametersSearcher addEqualsCondition(@NonNull String fieldName,@NonNull Object param) {
-            addCondition(fieldName + " = ?", param);
+        public ParametersSearcher addEqualsCondition(String fieldName, Object param) {
+            if (StringUtils.hasText(fieldName) && param != null) {
+                addCondition(fieldName + " = ?", param);
+            }
             return this;
         }
 
-        public ParametersSearcher addSearchStringCondition(@NonNull String fieldName, String searchString) {
-            if (StringUtils.hasText(searchString)) {
+        public ParametersSearcher addSearchStringCondition(String fieldName, String searchString) {
+            if (StringUtils.hasText(fieldName) && StringUtils.hasText(searchString)) {
                 addCondition("LOWER(" + fieldName + ") LIKE LOWER(?)", "%" + searchString + "%");
             }
             return this;
@@ -200,14 +207,14 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             return this;
         }
 
-        public Optional<Entity> findUniqueByParameters(RowMapper<Entity> rowMapper) {
+        public Optional<Entity> findUniqueByParameters(@NotNull RowMapper<Entity> rowMapper) {
             List<Entity> results = findByParameters(0, 1, rowMapper);
             return results.isEmpty() ?
                     Optional.empty() :
                     Optional.of(results.get(0));
         }
 
-        public List<Entity> findByParameters(RowMapper<Entity> rowMapper) {
+        public List<Entity> findByParameters(@NotNull RowMapper<Entity> rowMapper) {
             String sql = sqlBuilder.toString();
 
             log.debug("Сгенерирован запрос: " + sql);
@@ -215,10 +222,9 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             return jdbcTemplate.query(sql, rowMapper, queryParams.toArray());
         }
 
-        public List<Entity> findByParameters(int pageIndex, int pageSize, RowMapper<Entity> rowMapper) {
-            addPagination(pageIndex, pageSize);
-
-            return findByParameters(rowMapper);
+        public List<Entity> findByParameters(int pageIndex, int pageSize, @NotNull RowMapper<Entity> rowMapper) {
+            return addPagination(pageIndex, pageSize)
+                    .findByParameters(rowMapper);
         }
     }
 }
