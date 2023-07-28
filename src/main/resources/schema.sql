@@ -34,7 +34,7 @@ CREATE TABLE "public.file"
 (
     "id"            bigserial       CONSTRAINT "file_pk" PRIMARY KEY,
     "name"          varchar(200)    NOT NULL,
-    "content_type"  varchar(200)    NOT NULL,
+    "content_type"  varchar(50)    NOT NULL,
     "size"          BIGINT          NOT NULL,
     "data"          bytea           NOT NULL
 );
