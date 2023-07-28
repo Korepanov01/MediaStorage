@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class UserRole extends BaseEntity {
+    @NotNull
     private Long roleId;
+    @NotNull
     private Long userId;
 
     public UserRole(Long id, Long roleId, Long userId) {

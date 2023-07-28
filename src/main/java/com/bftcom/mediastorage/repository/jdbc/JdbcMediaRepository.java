@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -52,22 +53,30 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
         preparedStatement.setLong(1, media.getUserId());
         preparedStatement.setLong(2, media.getCategoryId());
         preparedStatement.setString(3, media.getName());
-        preparedStatement.setString(4, media.getDescription());
+        if (media.getDescription() != null) {
+            preparedStatement.setString(4, media.getDescription());
+        } else {
+            preparedStatement.setNull(4, Types.VARCHAR);
+        }
         preparedStatement.setLong(5, media.getMediaTypeId());
         preparedStatement.setObject(6, media.getCreatedAt());
         preparedStatement.setObject(7, media.getEditedAt());
     }
 
     @Override
-    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Media entity)
+    protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Media media)
             throws SQLException {
-        preparedStatement.setLong(1, entity.getUserId());
-        preparedStatement.setLong(2, entity.getCategoryId());
-        preparedStatement.setString(3, entity.getName());
-        preparedStatement.setString(4, entity.getDescription());
-        preparedStatement.setLong(5, entity.getMediaTypeId());
-        preparedStatement.setObject(6, entity.getEditedAt());
-        preparedStatement.setLong(7, entity.getId());
+        preparedStatement.setLong(1, media.getUserId());
+        preparedStatement.setLong(2, media.getCategoryId());
+        preparedStatement.setString(3, media.getName());
+        if (media.getDescription() != null) {
+            preparedStatement.setString(4, media.getDescription());
+        } else {
+            preparedStatement.setNull(4, Types.VARCHAR);
+        }
+        preparedStatement.setLong(5, media.getMediaTypeId());
+        preparedStatement.setObject(6, media.getEditedAt());
+        preparedStatement.setLong(7, media.getId());
     }
 
     @Override

@@ -35,11 +35,7 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
             throws SQLException {
         preparedStatement.setLong(1, mediaFile.getMediaId());
         preparedStatement.setLong(2, mediaFile.getFileId());
-        if (mediaFile.getFileTypeId() != null) {
-            preparedStatement.setLong(3, mediaFile.getFileTypeId());
-        } else {
-            preparedStatement.setNull(3, java.sql.Types.BIGINT);
-        }
+        preparedStatement.setLong(3, mediaFile.getFileTypeId());
     }
 
     @Override
@@ -47,11 +43,7 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
             throws SQLException {
         preparedStatement.setLong(1, mediaFile.getMediaId());
         preparedStatement.setLong(2, mediaFile.getFileId());
-        if (mediaFile.getFileTypeId() != null) {
-            preparedStatement.setLong(3, mediaFile.getFileTypeId());
-        } else {
-            preparedStatement.setNull(3, java.sql.Types.BIGINT);
-        }
+        preparedStatement.setLong(3, mediaFile.getFileTypeId());
         preparedStatement.setLong(4, mediaFile.getId());
     }
 }
