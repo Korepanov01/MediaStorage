@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Tag extends BaseEntity {
+    @NotNull
     private String name;
 
     public Tag(Long id, String name) {
