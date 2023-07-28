@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.api.controller;
+package com.bftcom.mediastorage.api.controller.base;
 
 import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.model.request.DeleteEntityRequest;

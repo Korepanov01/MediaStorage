@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
+import com.bftcom.mediastorage.api.controller.base.ParametersSearchController;
 import com.bftcom.mediastorage.model.dto.TagDto;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.TagSearchParameters;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/tags")
 @RequiredArgsConstructor
-public class TagController extends GetByParametersController<
+public class TagController extends ParametersSearchController<
         TagDto,
         Tag,
         PostTagRequest,

@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.api.controller;
+package com.bftcom.mediastorage.api.controller.base;
 
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;

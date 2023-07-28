@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.api.controller;
+package com.bftcom.mediastorage.api.controller.base;
 
 import com.bftcom.mediastorage.model.dto.BaseDto;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class GetByParametersController<
+public abstract class ParametersSearchController<
         ListItemDto extends BaseDto,
         Entity extends BaseEntity,
         PostRequest extends PostEntityRequest<Entity>,

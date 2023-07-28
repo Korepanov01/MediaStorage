@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
+import com.bftcom.mediastorage.api.controller.base.ParametersSearchController;
 import com.bftcom.mediastorage.model.dto.MediaListItemDto;
 import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.model.entity.Media;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/media")
 @RequiredArgsConstructor
 
-public class MediaController extends GetByParametersController<MediaListItemDto, Media, PostMediaRequest, MediaSearchParameters> {
+public class MediaController extends ParametersSearchController<MediaListItemDto, Media, PostMediaRequest, MediaSearchParameters> {
 
     private final MediaService mediaService;
     private final UserService userService;

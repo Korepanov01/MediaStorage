@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
+import com.bftcom.mediastorage.api.controller.base.ParametersSearchController;
 import com.bftcom.mediastorage.model.dto.MediaTypeDto;
 import com.bftcom.mediastorage.model.entity.MediaType;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/api/media_type")
 @RequiredArgsConstructor
-public class MediaTypeController extends GetByParametersController<
+public class MediaTypeController extends ParametersSearchController<
         MediaTypeDto,
         MediaType,
         PostMediaTypeRequest,

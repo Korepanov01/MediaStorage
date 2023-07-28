@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.controller.base.ParametersSearchController;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.dto.RoleDto;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-public class UserController extends GetByParametersController<
+public class UserController extends ParametersSearchController<
         UserDto,
         User,
         PostUserRequest,

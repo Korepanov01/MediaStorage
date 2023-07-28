@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.controller.base.LinkObjectsController;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.MediaTag;
 import com.bftcom.mediastorage.model.request.mediatag.DeleteMediaTagRequest;

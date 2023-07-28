@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
+import com.bftcom.mediastorage.api.controller.base.ParametersSearchController;
 import com.bftcom.mediastorage.model.dto.FileTypeDto;
 import com.bftcom.mediastorage.model.entity.FileType;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/file_types")
 @RequiredArgsConstructor
-public class FileTypeController extends GetByParametersController<
+public class FileTypeController extends ParametersSearchController<
         FileTypeDto,
         FileType,
         PostFileTypeRequest,

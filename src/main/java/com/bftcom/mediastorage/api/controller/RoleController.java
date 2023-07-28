@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
+import com.bftcom.mediastorage.api.controller.base.ParametersSearchController;
 import com.bftcom.mediastorage.model.dto.RoleDto;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/roles")
 @RequiredArgsConstructor
-public class RoleController extends GetByParametersController<
+public class RoleController extends ParametersSearchController<
         RoleDto,
         Role,
         PostRoleRequest,

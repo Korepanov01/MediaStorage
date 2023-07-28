@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
+import com.bftcom.mediastorage.api.controller.base.ParametersSearchController;
 import com.bftcom.mediastorage.model.dto.CategoryDto;
 import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.model.parameters.CategorySearchParameters;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/category")
 @RequiredArgsConstructor
-public class CategoryController extends GetByParametersController<
+public class CategoryController extends ParametersSearchController<
         CategoryDto,
         Category,
         PostCategoryRequest,
