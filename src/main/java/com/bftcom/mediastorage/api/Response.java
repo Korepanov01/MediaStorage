@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Response {
@@ -33,9 +35,7 @@ public class Response {
             return getEntityNotFound();
         }
 
-        return new ResponseEntity<>(
-                new BadResponseBody(List.of(message)),
-                HttpStatus.NOT_FOUND);
+        return getResponse(message, HttpStatus.NOT_FOUND);
     }
 
     public static ResponseEntity<BadResponseBody> getEntityAlreadyExists() {
@@ -47,8 +47,25 @@ public class Response {
             return getEntityAlreadyExists();
         }
 
+        return getResponse(message, HttpStatus.BAD_REQUEST);
+    }
+
+    public static ResponseEntity<BadResponseBody> getFileTooBig(String message) {
+        return getResponse(message, HttpStatus.BAD_REQUEST);
+    }
+
+    public static ResponseEntity<BadResponseBody> getBadFileReading() {
+        return getResponse("Произошла ошибка при чтении файла", HttpStatus.BAD_REQUEST);
+    }
+
+    private static ResponseEntity<BadResponseBody> getResponse(String message, HttpStatus httpStatus) {
+        List<String> errors = new ArrayList<>();
+        if (StringUtils.hasText(message)) {
+            errors.add(message);
+        }
+
         return new ResponseEntity<>(
-                new BadResponseBody(List.of(message)),
-                HttpStatus.BAD_REQUEST);
+                new BadResponseBody(errors),
+                httpStatus);
     }
 }
