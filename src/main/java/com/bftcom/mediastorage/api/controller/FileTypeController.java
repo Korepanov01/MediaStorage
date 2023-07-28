@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/file_types")
 @RequiredArgsConstructor
-public class FileTypeController extends CrudController<
+public class FileTypeController extends GetByParametersController<
         FileTypeDto,
         FileType,
         PostFileTypeRequest,

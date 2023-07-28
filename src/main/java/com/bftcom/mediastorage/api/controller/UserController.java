@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-public class UserController extends CrudController<
+public class UserController extends GetByParametersController<
         UserDto,
         User,
         PostUserRequest,

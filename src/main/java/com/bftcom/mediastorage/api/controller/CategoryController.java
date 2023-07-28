@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/category")
 @RequiredArgsConstructor
-public class CategoryController extends CrudController<
+public class CategoryController extends GetByParametersController<
         CategoryDto,
         Category,
         PostCategoryRequest,

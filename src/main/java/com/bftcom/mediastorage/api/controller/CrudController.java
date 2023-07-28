@@ -1,33 +1,28 @@
 package com.bftcom.mediastorage.api.controller;
 
-import com.bftcom.mediastorage.model.dto.BaseDto;
+import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
-import com.bftcom.mediastorage.model.parameters.PagingParameters;
 import com.bftcom.mediastorage.model.request.PostEntityRequest;
-import com.bftcom.mediastorage.service.ParameterSearchService;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 public abstract class CrudController<
-        ListItemDto extends BaseDto,
         Entity extends BaseEntity,
-        PostRequest extends PostEntityRequest<Entity>,
-        SearchParameters extends PagingParameters>
-        extends SaveDeleteController<Entity, PostRequest> {
+        PostRequest extends PostEntityRequest<Entity>>
+        extends SaveController<Entity, PostRequest> {
 
-    @GetMapping
-    public List<ListItemDto> get(
-            SearchParameters parameters) {
-        List<Entity> entities = getMainService().findByParameters(parameters);
-        return entities
-                .stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(
+            @PathVariable
+            Long id) {
+        try {
+            getMainService().delete(id);
+        } catch (EntityNotFoundException exception) {
+            return Response.getEntityNotFound(exception.getMessage());
+        }
+
+        return Response.getOk();
     }
-
-    protected abstract ListItemDto convertToDto(Entity entity);
-
-    protected abstract ParameterSearchService<Entity, SearchParameters> getMainService();
 }

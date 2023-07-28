@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/roles")
 @RequiredArgsConstructor
-public class RoleController extends CrudController<
+public class RoleController extends GetByParametersController<
         RoleDto,
         Role,
         PostRoleRequest,

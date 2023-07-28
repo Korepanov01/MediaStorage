@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/api/media_type")
 @RequiredArgsConstructor
-public class MediaTypeController extends CrudController<
+public class MediaTypeController extends GetByParametersController<
         MediaTypeDto,
         MediaType,
         PostMediaTypeRequest,

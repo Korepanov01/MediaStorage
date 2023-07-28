@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/tags")
 @RequiredArgsConstructor
-public class TagController extends CrudController<
+public class TagController extends GetByParametersController<
         TagDto,
         Tag,
         PostTagRequest,

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/media")
 @RequiredArgsConstructor
 
-public class MediaController extends CrudController<MediaListItemDto, Media, PostMediaRequest, MediaSearchParameters> {
+public class MediaController extends GetByParametersController<MediaListItemDto, Media, PostMediaRequest, MediaSearchParameters> {
 
     private final MediaService mediaService;
     private final UserService userService;

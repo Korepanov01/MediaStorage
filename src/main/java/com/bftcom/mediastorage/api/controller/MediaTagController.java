@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/media_tag")
 @RequiredArgsConstructor
-public class MediaTagController extends SaveDeleteController<MediaTag, PostMediaTag> {
+public class MediaTagController extends LinkObjectsController<MediaTag, PostMediaTag, DeleteMediaTagRequest> {
 
     private final MediaTagService mediaTagService;
 
