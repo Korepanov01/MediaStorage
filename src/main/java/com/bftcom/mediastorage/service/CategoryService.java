@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryService extends CrudService<Category, CategorySearchParameters> {
+public class CategoryService extends ParameterSearchService<Category, CategorySearchParameters> {
 
     private final CategoryRepository categoryRepository;
 

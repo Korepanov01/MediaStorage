@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MediaTypeService extends CrudService<MediaType, SearchStringParameters> {
+public class MediaTypeService extends ParameterSearchService<MediaType, SearchStringParameters> {
 
     private final MediaTypeRepository mediaTypeRepository;
 
