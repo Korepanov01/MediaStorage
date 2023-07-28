@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.model.dto.FileTypeDto;
 import com.bftcom.mediastorage.model.entity.FileType;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.request.filetype.PostFileTypeRequest;
-import com.bftcom.mediastorage.service.CrudService;
+import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.FileTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class FileTypeController extends CrudController<
     }
 
     @Override
-    protected CrudService<FileType, SearchStringParameters> getMainService() {
+    protected ParameterSearchService<FileType, SearchStringParameters> getMainService() {
         return fileTypeService;
     }
 }

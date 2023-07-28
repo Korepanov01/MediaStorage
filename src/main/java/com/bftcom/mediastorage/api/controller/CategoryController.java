@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.model.dto.CategoryDto;
 import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.model.parameters.CategorySearchParameters;
 import com.bftcom.mediastorage.model.request.category.PostCategoryRequest;
-import com.bftcom.mediastorage.service.CrudService;
+import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class CategoryController extends CrudController<
     }
 
     @Override
-    protected CrudService<Category, CategorySearchParameters> getMainService() {
+    protected ParameterSearchService<Category, CategorySearchParameters> getMainService() {
         return categoryService;
     }
 }

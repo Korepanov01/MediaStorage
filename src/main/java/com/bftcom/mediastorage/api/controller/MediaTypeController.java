@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.model.dto.MediaTypeDto;
 import com.bftcom.mediastorage.model.entity.MediaType;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.request.mediatype.PostMediaTypeRequest;
-import com.bftcom.mediastorage.service.CrudService;
+import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.MediaTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ public class MediaTypeController extends CrudController<
     }
 
     @Override
-    protected CrudService<MediaType, SearchStringParameters> getMainService() {
+    protected ParameterSearchService<MediaType, SearchStringParameters> getMainService() {
         return mediaTypeService;
     }
 }

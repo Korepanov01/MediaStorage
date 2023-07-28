@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.model.dto.RoleDto;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.request.role.PostRoleRequest;
-import com.bftcom.mediastorage.service.CrudService;
+import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class RoleController extends CrudController<
     }
 
     @Override
-    protected CrudService<Role, SearchStringParameters> getMainService() {
+    protected ParameterSearchService<Role, SearchStringParameters> getMainService() {
         return roleService;
     }
 }

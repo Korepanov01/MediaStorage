@@ -2,9 +2,9 @@ package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.model.dto.TagDto;
 import com.bftcom.mediastorage.model.entity.Tag;
-import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
+import com.bftcom.mediastorage.model.parameters.TagSearchParameters;
 import com.bftcom.mediastorage.model.request.tag.PostTagRequest;
-import com.bftcom.mediastorage.service.CrudService;
+import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public class TagController extends CrudController<
         TagDto,
         Tag,
         PostTagRequest,
-        SearchStringParameters> {
+        TagSearchParameters> {
 
     private final TagService tagService;
 
@@ -27,7 +27,7 @@ public class TagController extends CrudController<
     }
 
     @Override
-    protected CrudService<Tag, SearchStringParameters> getMainService() {
+    protected ParameterSearchService<Tag, TagSearchParameters> getMainService() {
         return tagService;
     }
 }

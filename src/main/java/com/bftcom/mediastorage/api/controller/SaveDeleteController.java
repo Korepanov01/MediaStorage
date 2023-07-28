@@ -6,7 +6,7 @@ import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.model.request.PostEntityRequest;
 import com.bftcom.mediastorage.model.response.PostEntityResponse;
-import com.bftcom.mediastorage.service.SaveDeleteService;
+import com.bftcom.mediastorage.service.CrudService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +19,7 @@ public abstract class SaveDeleteController<
         Entity extends BaseEntity,
         PostRequest extends PostEntityRequest<Entity>> {
 
-    protected abstract SaveDeleteService<Entity> getMainService();
+    protected abstract CrudService<Entity> getMainService();
 
     @PostMapping
     public ResponseEntity<?> post(

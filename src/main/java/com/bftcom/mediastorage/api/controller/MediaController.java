@@ -35,7 +35,7 @@ public class MediaController extends CrudController<MediaListItemDto, Media, Pos
     }
 
     @Override
-    protected CrudService<Media, MediaSearchParameters> getMainService() {
+    protected ParameterSearchService<Media, MediaSearchParameters> getMainService() {
         return mediaService;
     }
 }

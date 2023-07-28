@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.model.dto.BaseDto;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.model.parameters.PagingParameters;
 import com.bftcom.mediastorage.model.request.PostEntityRequest;
-import com.bftcom.mediastorage.service.CrudService;
+import com.bftcom.mediastorage.service.ParameterSearchService;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
@@ -29,5 +29,5 @@ public abstract class CrudController<
 
     protected abstract ListItemDto convertToDto(Entity entity);
 
-    protected abstract CrudService<Entity, SearchParameters> getMainService();
+    protected abstract ParameterSearchService<Entity, SearchParameters> getMainService();
 }

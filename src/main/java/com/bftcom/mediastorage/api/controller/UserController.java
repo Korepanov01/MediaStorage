@@ -10,7 +10,7 @@ import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.request.user.AddDeleteRoleRequest;
 import com.bftcom.mediastorage.model.request.user.PostUserRequest;
-import com.bftcom.mediastorage.service.CrudService;
+import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.RoleService;
 import com.bftcom.mediastorage.service.UserRoleService;
 import com.bftcom.mediastorage.service.UserService;
@@ -91,7 +91,7 @@ public class UserController extends CrudController<
     }
 
     @Override
-    protected CrudService<User, SearchStringParameters> getMainService() {
+    protected ParameterSearchService<User, SearchStringParameters> getMainService() {
         return userService;
     }
 }
