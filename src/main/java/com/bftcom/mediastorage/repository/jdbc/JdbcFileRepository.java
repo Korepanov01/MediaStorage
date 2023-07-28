@@ -15,7 +15,7 @@ public class JdbcFileRepository extends JdbcCrudRepository<File> implements File
 
     private static final String TABLE_NAME = "\"public.file\"";
     private static final String ID_FIELD = "id";
-    private static final String[] OTHER_FIELDS = {"name", "data"};
+    private static final String[] OTHER_FIELDS = {"name", "content_type", "size", "data"};
 
     public JdbcFileRepository() {
         super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
@@ -26,6 +26,8 @@ public class JdbcFileRepository extends JdbcCrudRepository<File> implements File
         return new File(
                 row.getLong("id"),
                 row.getString("name"),
+                row.getString("content_type"),
+                row.getLong("size"),
                 row.getBytes("data"));
     }
 
@@ -33,14 +35,18 @@ public class JdbcFileRepository extends JdbcCrudRepository<File> implements File
     protected void setPreparedSaveStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull File file)
             throws SQLException {
         preparedStatement.setString(1, file.getName());
-        preparedStatement.setBytes(2, file.getData());
+        preparedStatement.setString(2, file.getContentType());
+        preparedStatement.setLong(3, file.getSize());
+        preparedStatement.setBytes(4, file.getData());
     }
 
     @Override
     protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull File file)
             throws SQLException {
         preparedStatement.setString(1, file.getName());
-        preparedStatement.setBytes(2, file.getData());
-        preparedStatement.setLong(3, file.getId());
+        preparedStatement.setString(2, file.getContentType());
+        preparedStatement.setLong(3, file.getSize());
+        preparedStatement.setBytes(4, file.getData());
+        preparedStatement.setLong(5, file.getId());
     }
 }

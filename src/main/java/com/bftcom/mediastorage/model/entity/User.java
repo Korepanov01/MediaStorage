@@ -4,17 +4,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
-    @NotNull
+
+    @NotBlank
+    @Size(max = 200)
     private String name;
-    @NotNull
+
+    @NotBlank
+    @Size(max = 256)
     private String passwordHash;
-    @NotNull
+
+    @NotBlank
+    @Size(max = 500)
+    @Email
     private String email;
 
     public User(Long id, String name, String passwordHash, String email) {
