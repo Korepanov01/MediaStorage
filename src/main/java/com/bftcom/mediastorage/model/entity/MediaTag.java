@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class MediaTag extends BaseEntity {
+    @NotNull
     private Long mediaId;
+    @NotNull
     private Long tagId;
 
     public MediaTag(Long id, Long mediaId, Long tagId) {
