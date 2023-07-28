@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.model.dto.FileTypeDto;
 import com.bftcom.mediastorage.model.entity.FileType;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.request.filetype.PostFileTypeRequest;
-import com.bftcom.mediastorage.service.BaseService;
+import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.FileTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/file_types")
 @RequiredArgsConstructor
-public class FileTypeController extends BaseController<
+public class FileTypeController extends CrudController<
         FileTypeDto,
         FileType,
         PostFileTypeRequest,
@@ -27,7 +27,7 @@ public class FileTypeController extends BaseController<
     }
 
     @Override
-    protected BaseService<FileType, SearchStringParameters> getMainService() {
+    protected CrudService<FileType, SearchStringParameters> getMainService() {
         return fileTypeService;
     }
 }

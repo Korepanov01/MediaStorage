@@ -1,40 +1,25 @@
 package com.bftcom.mediastorage.api.controller;
 
+import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
-import com.bftcom.mediastorage.model.dto.BaseDto;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
-import com.bftcom.mediastorage.model.parameters.PagingParameters;
 import com.bftcom.mediastorage.model.request.PostEntityRequest;
 import com.bftcom.mediastorage.model.response.PostEntityResponse;
-import com.bftcom.mediastorage.service.BaseService;
-import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.service.SaveDeleteService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
-public abstract class BaseController<
-        ListItemDto extends BaseDto,
+public abstract class SaveDeleteController<
         Entity extends BaseEntity,
-        PostRequest extends PostEntityRequest<Entity>,
-        SearchParameters extends PagingParameters> {
+        PostRequest extends PostEntityRequest<Entity>> {
 
-    @GetMapping
-    public List<ListItemDto> get(
-            SearchParameters parameters) {
-        List<Entity> entities = getMainService().findByParameters(parameters);
-        return entities
-                .stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-    }
-
-    protected abstract ListItemDto convertToDto(Entity entity);
-
-    protected abstract BaseService<Entity, SearchParameters> getMainService();
+    protected abstract SaveDeleteService<Entity> getMainService();
 
     @PostMapping
     public ResponseEntity<?> post(

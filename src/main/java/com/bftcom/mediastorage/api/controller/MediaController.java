@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/media")
 @RequiredArgsConstructor
 
-public class MediaController extends BaseController<MediaListItemDto, Media, PostMediaRequest, MediaSearchParameters> {
+public class MediaController extends CrudController<MediaListItemDto, Media, PostMediaRequest, MediaSearchParameters> {
 
     private final MediaService mediaService;
     private final UserService userService;
@@ -27,17 +27,15 @@ public class MediaController extends BaseController<MediaListItemDto, Media, Pos
     protected MediaListItemDto convertToDto(Media media) {
         User user = userService.findById(media.getUserId()).orElseThrow();
 
-        Category category = categoryService.findById(media.getCategoryId()).orElse(null);
+        Category category = categoryService.findById(media.getCategoryId()).orElseThrow();
 
-        MediaType mediaType = mediaTypeService.findById(media.getMediaTypeId()).orElse(null);
-
-
+        MediaType mediaType = mediaTypeService.findById(media.getMediaTypeId()).orElseThrow();
 
         return new MediaListItemDto(media, user, category, mediaType, null);
     }
 
     @Override
-    protected BaseService<Media, MediaSearchParameters> getMainService() {
+    protected CrudService<Media, MediaSearchParameters> getMainService() {
         return mediaService;
     }
 }

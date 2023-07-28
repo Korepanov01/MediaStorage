@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.model.dto.RoleDto;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.request.role.PostRoleRequest;
-import com.bftcom.mediastorage.service.BaseService;
+import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/roles")
 @RequiredArgsConstructor
-public class RoleController extends BaseController<
+public class RoleController extends CrudController<
         RoleDto,
         Role,
         PostRoleRequest,
-        SearchStringParameters>{
+        SearchStringParameters> {
 
     private final RoleService roleService;
 
@@ -27,7 +27,7 @@ public class RoleController extends BaseController<
     }
 
     @Override
-    protected BaseService<Role, SearchStringParameters> getMainService() {
+    protected CrudService<Role, SearchStringParameters> getMainService() {
         return roleService;
     }
 }

@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.model.dto.TagDto;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.request.tag.PostTagRequest;
-import com.bftcom.mediastorage.service.BaseService;
+import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/tags")
 @RequiredArgsConstructor
-public class TagController extends BaseController<
+public class TagController extends CrudController<
         TagDto,
         Tag,
         PostTagRequest,
-        SearchStringParameters>{
+        SearchStringParameters> {
 
     private final TagService tagService;
 
@@ -27,7 +27,7 @@ public class TagController extends BaseController<
     }
 
     @Override
-    protected BaseService<Tag, SearchStringParameters> getMainService() {
+    protected CrudService<Tag, SearchStringParameters> getMainService() {
         return tagService;
     }
 }

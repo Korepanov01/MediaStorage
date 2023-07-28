@@ -10,7 +10,7 @@ import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.request.user.AddDeleteRoleRequest;
 import com.bftcom.mediastorage.model.request.user.PostUserRequest;
-import com.bftcom.mediastorage.service.BaseService;
+import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.RoleService;
 import com.bftcom.mediastorage.service.UserRoleService;
 import com.bftcom.mediastorage.service.UserService;
@@ -26,11 +26,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-public class UserController extends BaseController<
+public class UserController extends CrudController<
         UserDto,
         User,
         PostUserRequest,
-        SearchStringParameters>{
+        SearchStringParameters> {
 
     private final UserService userService;
     private final UserRoleService userRoleService;
@@ -91,7 +91,7 @@ public class UserController extends BaseController<
     }
 
     @Override
-    protected BaseService<User, SearchStringParameters> getMainService() {
+    protected CrudService<User, SearchStringParameters> getMainService() {
         return userService;
     }
 }
