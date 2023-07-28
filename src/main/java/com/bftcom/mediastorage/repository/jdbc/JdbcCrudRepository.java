@@ -78,12 +78,9 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
     }
 
     protected List<Entity> findByField(@NonNull String fieldName, @NonNull Object field) {
-        String sql = this.sqlSelectFrom + " WHERE " + fieldName + " = ?";
-
-        return jdbcTemplate.query(
-                sql,
-                this::mapRowToModel,
-                field);
+        return this.new ParametersSearcher()
+                .addEqualsCondition(fieldName, field)
+                .findByParameters(this::mapRowToModel);
     }
 
     protected Optional<Entity> findByUniqueField(@NonNull String fieldName, @NonNull Object field) {
@@ -174,28 +171,40 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             sqlBuilder.append(" WHERE 1=1");
         }
 
-        private void addStatement(@NonNull String statement, @NonNull Object... params) {
+        private ParametersSearcher addStatement(@NonNull String statement, @NonNull Object... params) {
             sqlBuilder.append(" ").append(statement);
             queryParams.addAll(Arrays.asList(params));
+            return this;
         }
 
-        public void addCondition(@NonNull String condition,@NonNull Object... params) {
+        public ParametersSearcher addCondition(@NonNull String condition,@NonNull Object... params) {
             addStatement("AND " + condition, params);
+            return this;
         }
 
-        public void addEqualsCondition(@NonNull String fieldName,@NonNull Object param) {
+        public ParametersSearcher addEqualsCondition(@NonNull String fieldName,@NonNull Object param) {
             addCondition(fieldName + " = ?", param);
+            return this;
         }
 
-        public void addSearchStringCondition(@NonNull String fieldName, String searchString) {
+        public ParametersSearcher addSearchStringCondition(@NonNull String fieldName, String searchString) {
             if (StringUtils.hasText(searchString)) {
                 addCondition("LOWER(" + fieldName + ") LIKE LOWER(?)", "%" + searchString + "%");
             }
+            return this;
         }
 
-        private void addPagination(int pageIndex, int pageSize) {
+        private ParametersSearcher addPagination(int pageIndex, int pageSize) {
             int offset = pageIndex * pageSize;
             addStatement("OFFSET ? LIMIT ?", offset, pageSize);
+            return this;
+        }
+
+        public Optional<Entity> findUniqueByParameters(RowMapper<Entity> rowMapper) {
+            List<Entity> results = findByParameters(0, 1, rowMapper);
+            return results.isEmpty() ?
+                    Optional.empty() :
+                    Optional.of(results.get(0));
         }
 
         public List<Entity> findByParameters(RowMapper<Entity> rowMapper) {

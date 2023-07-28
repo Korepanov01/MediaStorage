@@ -45,11 +45,9 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
 
     @Override
     public List<Tag> findByParameters(@NonNull SearchStringParameters parameters) {
-        ParametersSearcher parametersSearcher = this.new ParametersSearcher();
-
-        parametersSearcher.addSearchStringCondition("name", parameters.getSearchString());
-
-        return parametersSearcher.findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+        return this.new ParametersSearcher()
+                .addSearchStringCondition("name", parameters.getSearchString())
+                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
 
     @Override
