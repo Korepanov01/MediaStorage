@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TagService extends BaseService<Tag, SearchStringParameters> {
+public class TagService extends CrudService<Tag, SearchStringParameters> {
 
     private final TagRepository tagRepository;
 
