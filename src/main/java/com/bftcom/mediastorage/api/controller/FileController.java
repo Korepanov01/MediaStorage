@@ -7,6 +7,7 @@ import com.bftcom.mediastorage.model.response.PostEntityResponse;
 import com.bftcom.mediastorage.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,20 +39,35 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
                 .header(HttpHeaders.CONTENT_TYPE, file.getContentType())
                 .body(file.getData());
-
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadFile(
-            @RequestPart
-            MultipartFile multipartFile
-//            @RequestPart
-//            @Valid
-//            UploadFileRequest request
-        ) {
-
+            @RequestPart(name = "file")
+            MultipartFile multipartFile,
+            @RequestPart(name = "mediaId")
+            String stringMediaId,
+            @RequestPart(name = "fileTypeId")
+            String stringFileTypeId
+    ) {
         if (multipartFile.getSize() > 5 * 1024 * 1024) {
             return Response.getFileTooBig("Файл не может быть больше 5МБ");
+        }
+
+        long mediaId;
+        try {
+            mediaId = Long.parseLong(stringMediaId);
+        }
+        catch (NumberFormatException exception) {
+            return Response.getResponse("mediaId не является числом", HttpStatus.BAD_REQUEST);
+        }
+
+        long fileTypeId;
+        try {
+            fileTypeId = Long.parseLong(stringFileTypeId);
+        }
+        catch (NumberFormatException exception) {
+            return Response.getResponse("fileTypeId не является числом", HttpStatus.BAD_REQUEST);
         }
 
         File file;
@@ -67,7 +83,7 @@ public class FileController {
         }
 
         try {
-            fileService.save(file);
+            fileService.save(file, mediaId, fileTypeId);
         } catch (EntityAlreadyExistsException exception) {
             return Response.getEntityAlreadyExists(exception.getMessage());
         }

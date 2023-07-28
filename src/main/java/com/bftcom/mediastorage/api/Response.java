@@ -58,7 +58,7 @@ public class Response {
         return getResponse("Произошла ошибка при чтении файла", HttpStatus.BAD_REQUEST);
     }
 
-    private static ResponseEntity<BadResponseBody> getResponse(String message, HttpStatus httpStatus) {
+    public static ResponseEntity<BadResponseBody> getResponse(String message, HttpStatus httpStatus) {
         List<String> errors = new ArrayList<>();
         if (StringUtils.hasText(message)) {
             errors.add(message);
