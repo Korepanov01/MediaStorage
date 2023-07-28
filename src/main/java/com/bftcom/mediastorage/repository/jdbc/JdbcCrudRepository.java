@@ -13,6 +13,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import javax.validation.Valid;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -104,7 +105,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
     }
 
     @Override
-    public Entity save(@NonNull Entity entity) {
+    public Entity save(@NonNull @Valid Entity entity) {
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
