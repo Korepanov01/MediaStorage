@@ -10,8 +10,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class MediaTag extends BaseEntity {
+
     @NotNull
     private Long mediaId;
+
     @NotNull
     private Long tagId;
 
