@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcMediaTagRepository extends JdbcCrudRepository<MediaTag> implements MediaTagRepository {
@@ -42,5 +43,18 @@ public class JdbcMediaTagRepository extends JdbcCrudRepository<MediaTag> impleme
         preparedStatement.setLong(1, entity.getMediaId());
         preparedStatement.setLong(2, entity.getTagId());
         preparedStatement.setLong(3, entity.getId());
+    }
+
+    @Override
+    public Optional<MediaTag> findByMediaIdTagId(Long mediaId, Long tagId) {
+        return this.new ParametersSearcher()
+                .addEqualsCondition("media_id", mediaId)
+                .addEqualsCondition("tag_id", tagId)
+                .findUniqueByParameters(this::mapRowToModel);
+    }
+
+    @Override
+    public boolean isExists(Long mediaId, Long tagId) {
+        return findByMediaIdTagId(mediaId, tagId).isPresent();
     }
 }

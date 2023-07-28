@@ -1,13 +1,11 @@
 package com.bftcom.mediastorage.repository;
 
+import com.bftcom.mediastorage.model.parameters.TagSearchParameters;
 import com.bftcom.mediastorage.repository.jdbc.JdbcTagRepository;
-import com.bftcom.mediastorage.model.entity.Tag;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.UUID;
 
 @SpringBootTest
 public class JdbcTagRepositoryTests {
@@ -20,11 +18,15 @@ public class JdbcTagRepositoryTests {
     }
 
     @Test
-    public void WhenSaved_ThenFoundById() {
-        Tag tag = new Tag(UUID.randomUUID().toString());
+    public void FoundById() {
+        Assertions.assertTrue(repository.findById(1L).isPresent());
+    }
 
-        tag = repository.save(new Tag(UUID.randomUUID().toString()));
+    @Test
+    public void FoundByMediaId() {
+        TagSearchParameters parameters = new TagSearchParameters();
+        parameters.setMediaId(1L);
 
-        Assertions.assertTrue(repository.findById(tag.getId()).isPresent());
+        Assertions.assertFalse(repository.findByParameters(parameters).isEmpty());
     }
 }

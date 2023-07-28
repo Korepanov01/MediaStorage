@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Tag;
-import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
+import com.bftcom.mediastorage.model.parameters.TagSearchParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
@@ -44,12 +44,15 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
     }
 
     @Override
-    public List<Tag> findByParameters(@NonNull SearchStringParameters parameters) {
-        ParametersSearcher parametersSearcher = this.new ParametersSearcher();
+    public List<Tag> findByParameters(@NonNull TagSearchParameters parameters) {
+        ParametersSearcher searcher = parameters.getMediaId() == null
+                ? this.new ParametersSearcher()
+                : this.new ParametersSearcher("\"public.media_tag\" ON \"public.tag\".id = \"public.media_tag\".tag_id");
 
-        parametersSearcher.addSearchStringCondition("name", parameters.getSearchString());
-
-        return parametersSearcher.findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+        return searcher
+                .addSearchStringCondition("name", parameters.getSearchString())
+                .addEqualsCondition("\"public.media_tag\".media_id", parameters.getMediaId())
+                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
 
     @Override
