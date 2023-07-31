@@ -98,7 +98,7 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
     @Override
     public List<Media> findByParameters(@NonNull MediaSearchParameters parameters) {
         ParametersSearcher searcher = parameters.getCategoryId() != null
-                ? this.new ParametersSearcher("category_recursive cr ON \"public.media\".category_id = cr.id;")
+                ? this.new ParametersSearcher("category_recursive cr ON \"public.media\".category_id = cr.id")
                     .addBefore(CATEGORY_RECURSIVE, parameters.getCategoryId())
                 : this.new ParametersSearcher();
 
@@ -110,7 +110,6 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
         }
 
         return searcher
-                .tryAddEqualsCondition("category_id", parameters.getCategoryId())
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
                 .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
