@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.MediaFile;
+import com.bftcom.mediastorage.model.parameters.MediaFilesSearchParameters;
 import com.bftcom.mediastorage.repository.MediaFileRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
@@ -45,5 +46,18 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
         preparedStatement.setLong(2, mediaFile.getFileId());
         preparedStatement.setLong(3, mediaFile.getFileTypeId());
         preparedStatement.setLong(4, mediaFile.getId());
+    }
+
+    @Override
+    public List<MediaFile> findByParameters(@NonNull MediaFilesSearchParameters parameters) {
+
+        ParametersSearcher searcher = parameters.getType() != null
+                ? new ParametersSearcher("\"public.file_type\" ON \"public.media_file\".file_type_id = \"public.file_type\".id")
+                    .addSearchStringCondition("\"public.file_type\".name", parameters.getType())
+                : new ParametersSearcher();
+
+        searcher.addEqualsCondition("media_id", parameters.getMediaId());
+
+        return searcher.findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
 }
