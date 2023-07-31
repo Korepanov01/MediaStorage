@@ -61,12 +61,13 @@ public class JdbcCategoryRepository extends JdbcCrudRepository<Category> impleme
 
     @Override
     public List<Category> findByParameters(@NonNull CategorySearchParameters parameters) {
-        ParametersSearcher parametersSearcher = this.new ParametersSearcher();
-
-        parametersSearcher.addSearchStringCondition("name", parameters.getSearchString());
+        ParametersSearcher parametersSearcher = this.new ParametersSearcher()
+                .addSearchStringCondition("name", parameters.getSearchString());
 
         if (parameters.getParentCategoryId() != null) {
-            parametersSearcher.addCondition("parent_category_id = ?", parameters.getParentCategoryId());
+            if (parameters.getParentCategoryId() != 0)
+                parametersSearcher.addEqualsCondition("parent_category_id", parameters.getParentCategoryId());
+            else parametersSearcher.addCondition("parent_category_id IS NULL");
         }
 
         return parametersSearcher.findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
