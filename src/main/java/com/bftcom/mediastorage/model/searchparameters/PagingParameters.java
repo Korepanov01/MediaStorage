@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.parameters;
+package com.bftcom.mediastorage.model.searchparameters;
 
 import lombok.Data;
 

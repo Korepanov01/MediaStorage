@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.repository;
 
 import com.bftcom.mediastorage.model.entity.BaseEntity;
-import com.bftcom.mediastorage.model.parameters.PagingParameters;
+import com.bftcom.mediastorage.model.searchparameters.PagingParameters;
 import lombok.NonNull;
 
 import java.util.List;

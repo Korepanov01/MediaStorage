@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.repository;
 
 import com.bftcom.mediastorage.model.entity.User;
-import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
+import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import lombok.NonNull;
 
 import java.util.Optional;

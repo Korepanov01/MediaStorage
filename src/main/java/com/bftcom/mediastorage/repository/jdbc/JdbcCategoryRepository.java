@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Category;
-import com.bftcom.mediastorage.model.parameters.CategorySearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.CategorySearchParameters;
 import com.bftcom.mediastorage.repository.CategoryRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;

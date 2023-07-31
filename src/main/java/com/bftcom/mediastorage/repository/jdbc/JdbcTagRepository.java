@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Tag;
-import com.bftcom.mediastorage.model.parameters.TagSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.TagSearchParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
