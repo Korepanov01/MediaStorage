@@ -1,19 +1,18 @@
 package com.bftcom.mediastorage.repository;
 
 import com.bftcom.mediastorage.model.searchparameters.TagSearchParameters;
-import com.bftcom.mediastorage.repository.jdbc.JdbcTagRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class JdbcTagRepositoryTests {
+public class TagRepositoryTests {
 
-    private final JdbcTagRepository repository;
+    private final TagRepository repository;
 
     @Autowired
-    public JdbcTagRepositoryTests(JdbcTagRepository repository) {
+    public TagRepositoryTests(TagRepository repository) {
         this.repository = repository;
     }
 
