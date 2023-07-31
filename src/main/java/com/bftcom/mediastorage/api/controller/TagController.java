@@ -3,7 +3,7 @@ package com.bftcom.mediastorage.api.controller;
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.TagDto;
 import com.bftcom.mediastorage.model.entity.Tag;
-import com.bftcom.mediastorage.model.parameters.TagSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.TagSearchParameters;
 import com.bftcom.mediastorage.model.request.tag.PostTagRequest;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.TagService;

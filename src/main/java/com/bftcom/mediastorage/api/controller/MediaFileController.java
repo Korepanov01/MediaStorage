@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.api.controller.interfaces.ParametersSearchControl
 import com.bftcom.mediastorage.model.dto.FileInfoDto;
 import com.bftcom.mediastorage.model.entity.FileType;
 import com.bftcom.mediastorage.model.entity.MediaFile;
-import com.bftcom.mediastorage.model.parameters.MediaFilesSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.MediaFilesSearchParameters;
 import com.bftcom.mediastorage.service.FileTypeService;
 import com.bftcom.mediastorage.service.MediaFileService;
 import com.bftcom.mediastorage.service.ParameterSearchService;

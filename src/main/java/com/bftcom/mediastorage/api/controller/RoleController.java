@@ -3,7 +3,7 @@ package com.bftcom.mediastorage.api.controller;
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.RoleDto;
 import com.bftcom.mediastorage.model.entity.Role;
-import com.bftcom.mediastorage.model.parameters.RoleSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.RoleSearchParameters;
 import com.bftcom.mediastorage.model.request.role.PostRoleRequest;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.RoleService;

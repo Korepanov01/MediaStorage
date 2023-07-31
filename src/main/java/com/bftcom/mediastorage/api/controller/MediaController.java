@@ -6,7 +6,7 @@ import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.model.entity.MediaType;
 import com.bftcom.mediastorage.model.entity.User;
-import com.bftcom.mediastorage.model.parameters.MediaSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.model.request.media.PostMediaRequest;
 import com.bftcom.mediastorage.service.*;
 import lombok.RequiredArgsConstructor;

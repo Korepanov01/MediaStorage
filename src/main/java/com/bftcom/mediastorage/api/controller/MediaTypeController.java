@@ -3,7 +3,7 @@ package com.bftcom.mediastorage.api.controller;
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.MediaTypeDto;
 import com.bftcom.mediastorage.model.entity.MediaType;
-import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
+import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.request.mediatype.PostMediaTypeRequest;
 import com.bftcom.mediastorage.service.MediaTypeService;
 import com.bftcom.mediastorage.service.ParameterSearchService;

@@ -3,7 +3,7 @@ package com.bftcom.mediastorage.api.controller;
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.CategoryDto;
 import com.bftcom.mediastorage.model.entity.Category;
-import com.bftcom.mediastorage.model.parameters.CategorySearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.CategorySearchParameters;
 import com.bftcom.mediastorage.model.request.category.PostCategoryRequest;
 import com.bftcom.mediastorage.service.CategoryService;
 import com.bftcom.mediastorage.service.ParameterSearchService;
