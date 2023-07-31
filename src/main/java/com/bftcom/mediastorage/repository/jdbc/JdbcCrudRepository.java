@@ -172,32 +172,38 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             sqlBuilder.append(" WHERE 1=1");
         }
 
-        private ParametersSearcher addStatement(String statement, @NonNull Object... params) {
-            if (StringUtils.hasText(statement) && params != null && params.length != 0) {
-                sqlBuilder.append(" ").append(statement);
+        private ParametersSearcher addStatement(@NonNull String statement, Object... params) {
+            sqlBuilder.append(" ").append(statement);
+            if (params != null) {
                 queryParams.addAll(Arrays.asList(params));
             }
             return this;
         }
 
-        public ParametersSearcher addCondition(String condition, Object... params) {
-            if (StringUtils.hasText(condition) && params != null && params.length != 0) {
-                addStatement("AND " + condition, params);
-            }
+        public ParametersSearcher addCondition(@NonNull String condition, Object... params) {
+            addStatement("AND " + condition, params);
             return this;
         }
 
-        public ParametersSearcher addEqualsCondition(String fieldName, Object param) {
-            if (StringUtils.hasText(fieldName) && param != null) {
-                addCondition(fieldName + " = ?", param);
-            }
+        public ParametersSearcher addEqualsCondition(@NonNull String fieldName, @NonNull Object param) {
+            addCondition(fieldName + " = ?", param);
             return this;
         }
 
-        public ParametersSearcher addSearchStringCondition(String fieldName, String searchString) {
-            if (StringUtils.hasText(fieldName) && StringUtils.hasText(searchString)) {
-                addCondition("LOWER(" + fieldName + ") LIKE LOWER(?)", "%" + searchString + "%");
-            }
+        public ParametersSearcher tryAddEqualsCondition(String fieldName, Object param) {
+            if (StringUtils.hasText(fieldName) && param != null)
+                addEqualsCondition(fieldName, param);
+            return this;
+        }
+
+        public ParametersSearcher addSearchStringCondition(@NonNull String fieldName, @NonNull String searchString) {
+            addCondition("LOWER(" + fieldName + ") LIKE LOWER(?)", "%" + searchString + "%");
+            return this;
+        }
+
+        public ParametersSearcher tryAddSearchStringCondition(String fieldName, String searchString) {
+            if (StringUtils.hasText(fieldName) && StringUtils.hasText(searchString))
+                addSearchStringCondition(fieldName, searchString);
             return this;
         }
 
