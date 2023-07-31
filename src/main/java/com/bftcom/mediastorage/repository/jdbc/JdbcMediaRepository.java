@@ -5,7 +5,6 @@ import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.repository.MediaRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,23 +88,18 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
 
     @Override
     public List<Media> findByParameters(@NonNull MediaSearchParameters parameters) {
-        ParametersSearcher parametersSearcher = this.new ParametersSearcher();
-
-        if (parameters.getCategoryId() != null) {
-            parametersSearcher.addCondition("category_id = ?", parameters.getCategoryId());
-        }
+        ParametersSearcher searcher = this.new ParametersSearcher();
 
         if (parameters.getTagIds() != null && !parameters.getTagIds().isEmpty()) {
-            parametersSearcher.addCondition("id IN (SELECT m.id FROM \"public.media\" m " +
+            searcher.addCondition("id IN (SELECT m.id FROM \"public.media\" m " +
                             "INNER JOIN \"public.media_tag\" mt ON m.id = mt.media_id " +
                             "WHERE mt.tag_id IN (" + String.join(", ", Collections.nCopies(parameters.getTagIds().size(), "?")) + "))",
                     parameters.getTagIds().toArray());
         }
 
-        if (parameters.getSearchString() != null && StringUtils.hasText(parameters.getSearchString())) {
-            parametersSearcher.addSearchStringCondition("name", parameters.getSearchString());
-        }
-
-        return parametersSearcher.findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+        return searcher
+                .tryAddEqualsCondition("category_id", parameters.getCategoryId())
+                .tryAddSearchStringCondition("name", parameters.getSearchString())
+                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
 }
