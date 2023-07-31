@@ -1,20 +1,21 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.model.entity.MediaFile;
-import com.bftcom.mediastorage.repository.CrudRepository;
+import com.bftcom.mediastorage.model.parameters.MediaFilesSearchParameters;
 import com.bftcom.mediastorage.repository.MediaFileRepository;
+import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MediaFileService extends CrudService<MediaFile> {
+public class MediaFileService extends ParameterSearchService<MediaFile, MediaFilesSearchParameters> {
 
     private final MediaFileRepository repository;
 
     @Override
-    protected CrudRepository<MediaFile> getMainRepository() {
+    protected ParametersSearchRepository<MediaFile, MediaFilesSearchParameters> getMainRepository() {
         return repository;
     }
 
