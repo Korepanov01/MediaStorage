@@ -7,7 +7,7 @@ import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.model.entity.MediaType;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
-import com.bftcom.mediastorage.model.request.post.PostMediaRequest;
+import com.bftcom.mediastorage.model.api.request.post.PostMediaRequest;
 import com.bftcom.mediastorage.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;

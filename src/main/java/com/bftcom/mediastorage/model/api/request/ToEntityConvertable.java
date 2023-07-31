@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.request;
+package com.bftcom.mediastorage.model.api.request;
 
 import com.bftcom.mediastorage.model.entity.BaseEntity;
 

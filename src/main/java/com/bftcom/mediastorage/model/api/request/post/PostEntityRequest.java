@@ -1,8 +1,8 @@
-package com.bftcom.mediastorage.model.request.post;
+package com.bftcom.mediastorage.model.api.request.post;
 
+import com.bftcom.mediastorage.model.api.request.Request;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
-import com.bftcom.mediastorage.model.request.Request;
-import com.bftcom.mediastorage.model.request.ToEntityConvertable;
+import com.bftcom.mediastorage.model.api.request.ToEntityConvertable;
 
 public abstract class PostEntityRequest<Entity extends BaseEntity>
         extends Request

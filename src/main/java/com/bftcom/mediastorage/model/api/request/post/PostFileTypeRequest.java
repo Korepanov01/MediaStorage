@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.request.post;
+package com.bftcom.mediastorage.model.api.request.post;
 
 import com.bftcom.mediastorage.model.entity.FileType;
 import lombok.Data;
