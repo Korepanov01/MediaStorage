@@ -1,9 +1,11 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.controller.interfaces.DeleteController;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.model.entity.File;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
+import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +21,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/files")
 @RequiredArgsConstructor
-public class FileController {
+public class FileController implements DeleteController<File> {
 
     private final FileService fileService;
 
@@ -89,5 +91,10 @@ public class FileController {
         }
 
         return ResponseEntity.ok(new PostEntityResponse(file.getId()));
+    }
+
+    @Override
+    public CrudService<File> getMainService() {
+        return fileService;
     }
 }

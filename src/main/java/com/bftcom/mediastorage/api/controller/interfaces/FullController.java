@@ -11,5 +11,5 @@ public interface FullController <
         PostRequest extends PostEntityRequest<Entity>,
         SearchParameters extends PagingParameters>
         extends ParametersSearchController<ListItemDto, Entity, SearchParameters>,
-        SaveController<Entity, PostRequest> {
+        SaveDeleteController<Entity, PostRequest> {
 }
