@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.model.entity.FileType;
-import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
+import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.FileTypeRepository;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import lombok.NonNull;

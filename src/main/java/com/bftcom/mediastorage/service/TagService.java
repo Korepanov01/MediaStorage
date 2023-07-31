@@ -3,7 +3,7 @@ package com.bftcom.mediastorage.service;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.Tag;
-import com.bftcom.mediastorage.model.parameters.TagSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.TagSearchParameters;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import com.bftcom.mediastorage.repository.TagRepository;
 import lombok.NonNull;

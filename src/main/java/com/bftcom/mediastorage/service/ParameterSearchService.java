@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.model.entity.BaseEntity;
-import com.bftcom.mediastorage.model.parameters.PagingParameters;
+import com.bftcom.mediastorage.model.searchparameters.PagingParameters;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
