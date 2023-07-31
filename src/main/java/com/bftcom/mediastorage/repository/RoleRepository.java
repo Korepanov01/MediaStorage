@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.repository;
 
 import com.bftcom.mediastorage.model.entity.Role;
-import com.bftcom.mediastorage.model.parameters.RoleSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.RoleSearchParameters;
 
 import java.util.List;
 

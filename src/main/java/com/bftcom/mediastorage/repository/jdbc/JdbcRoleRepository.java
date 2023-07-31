@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Role;
-import com.bftcom.mediastorage.model.parameters.RoleSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.RoleSearchParameters;
 import com.bftcom.mediastorage.repository.RoleRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
