@@ -2,7 +2,6 @@ package com.bftcom.mediastorage.model.api.request;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,7 +14,4 @@ public class UploadFileRequest {
 
     @NotNull(message = "Должен быть указан id медиа (mediaId)")
     private Long mediaId;
-
-    @NotNull
-    private MultipartFile file;
 }

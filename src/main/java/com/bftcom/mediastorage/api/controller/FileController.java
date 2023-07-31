@@ -3,6 +3,7 @@ package com.bftcom.mediastorage.api.controller;
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.api.controller.interfaces.DeleteController;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
+import com.bftcom.mediastorage.model.api.request.UploadFileRequest;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
 import com.bftcom.mediastorage.model.entity.File;
 import com.bftcom.mediastorage.service.CrudService;
@@ -46,8 +47,7 @@ public class FileController implements DeleteController<File> {
     public ResponseEntity<?> uploadFile(
             @RequestParam(name = "file")
             MultipartFile multipartFile,
-            long mediaId,
-            long fileTypeId) {
+            UploadFileRequest request) {
         if (multipartFile.getSize() > 5 * 1024 * 1024) {
             return Response.getFileTooBig("Файл не может быть больше 5МБ");
         }
@@ -65,7 +65,7 @@ public class FileController implements DeleteController<File> {
         }
 
         try {
-            fileService.save(file, mediaId, fileTypeId);
+            fileService.save(file, request.getMediaId(), request.getFileTypeId());
         } catch (EntityAlreadyExistsException exception) {
             return Response.getEntityAlreadyExists(exception.getMessage());
         }
