@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
-import com.bftcom.mediastorage.api.controller.base.ParametersSearchController;
+import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.dto.RoleDto;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-public class UserController extends ParametersSearchController<
+public class UserController implements FullController<
         UserDto,
         User,
         PostUserRequest,
@@ -67,7 +67,7 @@ public class UserController extends ParametersSearchController<
             @Valid
             AddDeleteRoleRequest request) {
 
-        return addDeleteRole(id, request, true);
+        return addDeleteRole(id, request, false);
     }
 
     private ResponseEntity<?> addDeleteRole(@NonNull Long id, @NonNull AddDeleteRoleRequest request, boolean isDelete) {
@@ -87,12 +87,12 @@ public class UserController extends ParametersSearchController<
     }
 
     @Override
-    protected UserDto convertToDto(User user) {
+    public UserDto convertToDto(User user) {
         return new UserDto(user);
     }
 
     @Override
-    protected ParameterSearchService<User, SearchStringParameters> getMainService() {
+    public ParameterSearchService<User, SearchStringParameters> getMainService() {
         return userService;
     }
 }

@@ -1,23 +1,26 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
-import com.bftcom.mediastorage.api.controller.base.SaveController;
+import com.bftcom.mediastorage.api.controller.interfaces.SaveController;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.MediaTag;
 import com.bftcom.mediastorage.model.request.mediatag.DeleteMediaTagRequest;
 import com.bftcom.mediastorage.model.request.mediatag.PostMediaTag;
-import com.bftcom.mediastorage.service.MediaTagService;
 import com.bftcom.mediastorage.service.CrudService;
+import com.bftcom.mediastorage.service.MediaTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/media_tag")
 @RequiredArgsConstructor
-public class MediaTagController extends SaveController<MediaTag, PostMediaTag> {
+public class MediaTagController implements SaveController<MediaTag, PostMediaTag> {
 
     private final MediaTagService mediaTagService;
 
@@ -35,7 +38,7 @@ public class MediaTagController extends SaveController<MediaTag, PostMediaTag> {
     }
 
     @Override
-    protected CrudService<MediaTag> getMainService() {
+    public CrudService<MediaTag> getMainService() {
         return mediaTagService;
     }
 }
