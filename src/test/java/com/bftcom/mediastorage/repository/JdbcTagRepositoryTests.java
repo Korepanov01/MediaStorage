@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.repository;
 
-import com.bftcom.mediastorage.model.parameters.TagSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.TagSearchParameters;
 import com.bftcom.mediastorage.repository.jdbc.JdbcTagRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
