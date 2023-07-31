@@ -3,13 +3,12 @@ package com.bftcom.mediastorage.api.controller;
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.api.controller.interfaces.DeleteController;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
-import com.bftcom.mediastorage.model.entity.File;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
+import com.bftcom.mediastorage.model.entity.File;
 import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,31 +44,12 @@ public class FileController implements DeleteController<File> {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadFile(
-            @RequestPart(name = "file")
+            @RequestParam(name = "file")
             MultipartFile multipartFile,
-            @RequestPart(name = "mediaId")
-            String stringMediaId,
-            @RequestPart(name = "fileTypeId")
-            String stringFileTypeId
-    ) {
+            long mediaId,
+            long fileTypeId) {
         if (multipartFile.getSize() > 5 * 1024 * 1024) {
             return Response.getFileTooBig("Файл не может быть больше 5МБ");
-        }
-
-        long mediaId;
-        try {
-            mediaId = Long.parseLong(stringMediaId);
-        }
-        catch (NumberFormatException exception) {
-            return Response.getResponse("mediaId не является числом", HttpStatus.BAD_REQUEST);
-        }
-
-        long fileTypeId;
-        try {
-            fileTypeId = Long.parseLong(stringFileTypeId);
-        }
-        catch (NumberFormatException exception) {
-            return Response.getResponse("fileTypeId не является числом", HttpStatus.BAD_REQUEST);
         }
 
         File file;
