@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Role;
-import com.bftcom.mediastorage.model.parameters.SearchStringParameters;
+import com.bftcom.mediastorage.model.parameters.RoleSearchParameters;
 import com.bftcom.mediastorage.repository.RoleRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
@@ -49,8 +49,12 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
     }
 
     @Override
-    public List<Role> findByParameters(@NonNull SearchStringParameters parameters) {
-        return this.new ParametersSearcher()
+    public List<Role> findByParameters(@NonNull RoleSearchParameters parameters) {
+        ParametersSearcher searcher = parameters.getUserId() != null
+                ? this.new ParametersSearcher("\"public.user_role\" ON \"public.role\".id = \"public.user_role\".role_id")
+                .addEqualsCondition("\"public.user_role\".user_id", parameters.getUserId())
+                : this.new ParametersSearcher();
+        return searcher
                 .addSearchStringCondition("name", parameters.getSearchString())
                 .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
