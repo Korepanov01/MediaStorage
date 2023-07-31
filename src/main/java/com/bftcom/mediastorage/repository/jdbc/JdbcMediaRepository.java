@@ -86,9 +86,21 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
                 limit);
     }
 
+    private final static String CATEGORY_RECURSIVE = "WITH RECURSIVE category_recursive AS (\n" +
+            "    SELECT id\n" +
+            "    FROM \"public.category\"\n" +
+            "    WHERE id = ?\n" +
+            "    UNION ALL\n" +
+            "    SELECT c.id\n" +
+            "    FROM \"public.category\" c\n" +
+            "    JOIN category_recursive cr ON c.parent_category_id = cr.id\n)";
+
     @Override
     public List<Media> findByParameters(@NonNull MediaSearchParameters parameters) {
-        ParametersSearcher searcher = this.new ParametersSearcher();
+        ParametersSearcher searcher = parameters.getCategoryId() != null
+                ? this.new ParametersSearcher("category_recursive cr ON \"public.media\".category_id = cr.id;")
+                    .addBefore(CATEGORY_RECURSIVE, parameters.getCategoryId())
+                : this.new ParametersSearcher();
 
         if (parameters.getTagIds() != null && !parameters.getTagIds().isEmpty()) {
             searcher.addCondition("id IN (SELECT m.id FROM \"public.media\" m " +
