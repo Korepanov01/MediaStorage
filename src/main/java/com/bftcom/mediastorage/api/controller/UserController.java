@@ -16,11 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController implements FullController<
         UserDto,
+        UserDto,
         User,
         PostUserRequest,
         SearchStringParameters> {
 
     private final UserService userService;
+
+    @Override
+    public UserDto convertToListItemDto(User user) {
+        return new UserDto(user);
+    }
 
     @Override
     public UserDto convertToDto(User user) {

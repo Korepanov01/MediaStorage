@@ -16,11 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TagController implements FullController<
         TagDto,
+        TagDto,
         Tag,
         PostTagRequest,
         TagSearchParameters> {
 
     private final TagService tagService;
+
+    @Override
+    public TagDto convertToListItemDto(Tag tag) {
+        return new TagDto(tag);
+    }
 
     @Override
     public TagDto convertToDto(Tag tag) {

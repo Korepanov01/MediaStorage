@@ -20,11 +20,11 @@ public interface ParametersSearchController <
         return getMainService()
                 .findByParameters(parameters)
                 .stream()
-                .map(this::convertToDto)
+                .map(this::convertToListItemDto)
                 .collect(Collectors.toList());
     }
 
-    ListItemDto convertToDto(Entity entity);
+    ListItemDto convertToListItemDto(Entity entity);
 
     ParameterSearchService<Entity, SearchParameters> getMainService();
 }

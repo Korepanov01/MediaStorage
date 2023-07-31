@@ -16,11 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class FileTypeController implements FullController<
         FileTypeDto,
+        FileTypeDto,
         FileType,
         PostFileTypeRequest,
         SearchStringParameters> {
 
     private final FileTypeService fileTypeService;
+
+    @Override
+    public FileTypeDto convertToListItemDto(FileType fileType) {
+        return new FileTypeDto(fileType);
+    }
 
     @Override
     public FileTypeDto convertToDto(FileType fileType) {

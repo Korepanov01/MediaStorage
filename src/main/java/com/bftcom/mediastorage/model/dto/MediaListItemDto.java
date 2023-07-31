@@ -4,10 +4,11 @@ import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.model.entity.MediaType;
 import com.bftcom.mediastorage.model.entity.User;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Data
+@Setter(AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class MediaListItemDto extends BaseDto {
     private final Long id;

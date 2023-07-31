@@ -16,11 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RoleController implements FullController<
         RoleDto,
+        RoleDto,
         Role,
         PostRoleRequest,
         RoleSearchParameters> {
 
     private final RoleService roleService;
+
+    @Override
+    public RoleDto convertToListItemDto(Role role) {
+        return new RoleDto(role);
+    }
 
     @Override
     public RoleDto convertToDto(Role role) {

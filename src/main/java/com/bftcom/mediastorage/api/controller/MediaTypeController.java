@@ -16,11 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class MediaTypeController implements FullController<
         MediaTypeDto,
+        MediaTypeDto,
         MediaType,
         PostMediaTypeRequest,
         SearchStringParameters> {
 
     private final MediaTypeService mediaTypeService;
+
+    @Override
+    public MediaTypeDto convertToListItemDto(MediaType mediaType) {
+        return new MediaTypeDto(mediaType);
+    }
 
     @Override
     public MediaTypeDto convertToDto(MediaType mediaType) {

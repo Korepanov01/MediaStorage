@@ -6,10 +6,12 @@ import com.bftcom.mediastorage.model.searchparameters.PagingParameters;
 import com.bftcom.mediastorage.model.api.request.post.PostEntityRequest;
 
 public interface FullController <
+        Dto extends BaseDto,
         ListItemDto extends BaseDto,
         Entity extends BaseEntity,
         PostRequest extends PostEntityRequest<Entity>,
         SearchParameters extends PagingParameters>
         extends ParametersSearchController<ListItemDto, Entity, SearchParameters>,
-        SaveDeleteController<Entity, PostRequest> {
+        SaveDeleteController<Entity, PostRequest>,
+        GetByIdController<Dto, Entity> {
 }

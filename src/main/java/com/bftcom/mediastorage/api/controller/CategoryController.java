@@ -16,11 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class CategoryController implements FullController<
         CategoryDto,
+        CategoryDto,
         Category,
         PostCategoryRequest,
         CategorySearchParameters> {
 
     private final CategoryService categoryService;
+
+    @Override
+    public CategoryDto convertToListItemDto(Category category) {
+        return new CategoryDto(category);
+    }
 
     @Override
     public CategoryDto convertToDto(Category category) {

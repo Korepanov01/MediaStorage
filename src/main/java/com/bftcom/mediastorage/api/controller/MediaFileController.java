@@ -21,7 +21,7 @@ public class MediaFileController implements ParametersSearchController<FileInfoD
     private final MediaFileService mediaFileService;
 
     @Override
-    public FileInfoDto convertToDto(MediaFile mediaFile) {
+    public FileInfoDto convertToListItemDto(MediaFile mediaFile) {
         FileType fileType = fileTypeService.findById(mediaFile.getFileTypeId()).orElseThrow();
         return new FileInfoDto(mediaFile, fileType);
     }
