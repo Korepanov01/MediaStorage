@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.CategoryDto;
 import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.model.searchparameters.CategorySearchParameters;
-import com.bftcom.mediastorage.model.request.category.PostCategoryRequest;
+import com.bftcom.mediastorage.model.request.post.PostCategoryRequest;
 import com.bftcom.mediastorage.service.CategoryService;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import lombok.RequiredArgsConstructor;

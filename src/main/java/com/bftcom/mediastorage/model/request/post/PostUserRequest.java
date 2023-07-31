@@ -1,7 +1,6 @@
-package com.bftcom.mediastorage.model.request.user;
+package com.bftcom.mediastorage.model.request.post;
 
 import com.bftcom.mediastorage.model.entity.User;
-import com.bftcom.mediastorage.model.request.PostEntityRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

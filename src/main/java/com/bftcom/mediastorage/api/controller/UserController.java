@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.UserDto;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
-import com.bftcom.mediastorage.model.request.user.PostUserRequest;
+import com.bftcom.mediastorage.model.request.post.PostUserRequest;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.UserService;
 import lombok.RequiredArgsConstructor;

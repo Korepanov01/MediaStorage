@@ -1,6 +1,5 @@
-package com.bftcom.mediastorage.model.request.mediatag;
+package com.bftcom.mediastorage.model.request.delete;
 
-import com.bftcom.mediastorage.model.request.DeleteEntityRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
