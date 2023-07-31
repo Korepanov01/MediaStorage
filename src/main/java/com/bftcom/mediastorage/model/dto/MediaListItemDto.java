@@ -16,14 +16,12 @@ public class MediaListItemDto extends BaseDto {
     private final UserDto user;
     private final CategoryDto category;
     private final MediaTypeDto mediaType;
-    private final Long thumbnailId;
 
-    public MediaListItemDto(Media media, User user, Category category, MediaType mediaType, Long thumbnailId) {
+    public MediaListItemDto(Media media, User user, Category category, MediaType mediaType) {
         this.id = media.getId();
         this.name = media.getName();
         this.user = new UserDto(user);
         this.category = new CategoryDto(category);
         this.mediaType = new MediaTypeDto(mediaType);
-        this.thumbnailId = thumbnailId;
     }
 }

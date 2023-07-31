@@ -32,7 +32,7 @@ public class MediaController implements FullController<MediaListItemDto, Media, 
 
         MediaType mediaType = mediaTypeService.findById(media.getMediaTypeId()).orElseThrow();
 
-        return new MediaListItemDto(media, user, category, mediaType, null);
+        return new MediaListItemDto(media, user, category, mediaType);
     }
 
     @Override
