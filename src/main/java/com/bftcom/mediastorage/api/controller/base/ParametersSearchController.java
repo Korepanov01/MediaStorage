@@ -20,8 +20,8 @@ public abstract class ParametersSearchController<
     @GetMapping
     public List<ListItemDto> get(
             SearchParameters parameters) {
-        List<Entity> entities = getMainService().findByParameters(parameters);
-        return entities
+        return getMainService()
+                .findByParameters(parameters)
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
