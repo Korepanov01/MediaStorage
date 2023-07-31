@@ -27,7 +27,7 @@ public class JdbcFileTypeRepository extends JdbcCrudRepository<FileType> impleme
     protected FileType mapRowToModel(@NonNull ResultSet row, int rowNum) throws SQLException {
         return new FileType(
                 row.getLong("id"),
-                row.getString("type"));
+                row.getString("name"));
     }
 
     @Override
