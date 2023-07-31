@@ -4,6 +4,10 @@ import lombok.Data;
 
 @Data
 public class PagingParameters {
+
+    private static final int MIN_PAGE_SIZE = 10;
+    private static final int MAX_PAGE_SIZE = 100;
+
     private int pageIndex = 0;
     private int pageSize = 10;
 
@@ -12,6 +16,6 @@ public class PagingParameters {
     }
 
     public void setPageSize(int pageSize) {
-        this.pageSize = pageSize < 1 ? 1 : (pageSize > 100 ? 100 : pageSize);
+        this.pageSize = Math.min(Math.max(pageSize, MIN_PAGE_SIZE), MAX_PAGE_SIZE);
     }
 }
