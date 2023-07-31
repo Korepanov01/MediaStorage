@@ -172,6 +172,14 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             sqlBuilder.append(" WHERE 1=1");
         }
 
+        public ParametersSearcher addBefore(@NonNull String before, Object... params) {
+            sqlBuilder.insert(0, before).append(" ");
+            if (params != null) {
+                queryParams.addAll(0, Arrays.asList(params));
+            }
+            return this;
+        }
+
         private ParametersSearcher addStatement(@NonNull String statement, Object... params) {
             sqlBuilder.append(" ").append(statement);
             if (params != null) {
