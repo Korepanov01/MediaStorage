@@ -52,7 +52,7 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
     @Override
     public List<User> findByParameters(@NonNull SearchStringParameters parameters) {
         return this.new ParametersSearcher()
-                .addSearchStringCondition("name", parameters.getSearchString())
+                .tryAddSearchStringCondition("name", parameters.getSearchString())
                 .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
 

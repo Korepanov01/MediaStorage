@@ -48,8 +48,8 @@ public class JdbcMediaTagRepository extends JdbcCrudRepository<MediaTag> impleme
     @Override
     public Optional<MediaTag> findByMediaIdTagId(Long mediaId, Long tagId) {
         return this.new ParametersSearcher()
-                .addEqualsCondition("media_id", mediaId)
-                .addEqualsCondition("tag_id", tagId)
+                .tryAddEqualsCondition("media_id", mediaId)
+                .tryAddEqualsCondition("tag_id", tagId)
                 .findUniqueByParameters(this::mapRowToModel);
     }
 
