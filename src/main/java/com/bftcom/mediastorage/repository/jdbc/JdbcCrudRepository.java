@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.validation.Valid;
@@ -103,7 +104,8 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
     }
 
     @Override
-    public Entity save(@NonNull @Valid Entity entity) {
+    @Transactional
+    public void save(@NonNull @Valid Entity entity) {
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -118,17 +120,17 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         long id = (long) Objects.requireNonNull(generatedKeyHolder.getKeys()).get("id");
 
         entity.setId(id);
-
-        return entity;
     }
 
     @Override
+    @Transactional
     public List<Entity> saveAll(@NonNull List<Entity> entities) {
         entities.forEach(this::save);
         return entities;
     }
 
     @Override
+    @Transactional
     public void update(@NonNull Entity entity) {
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -139,6 +141,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
     }
 
     @Override
+    @Transactional
     public void delete(@NonNull Entity entity) {
         jdbcTemplate.update(
                 sqlDelete,
