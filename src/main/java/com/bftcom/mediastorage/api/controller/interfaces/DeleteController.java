@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public interface DeleteController<Entity extends BaseEntity> {
 
-    public CrudService<Entity> getMainService();
+    CrudService<Entity> getMainService();
 
     @DeleteMapping("/{id}")
-    public default ResponseEntity<?> delete(
+    default ResponseEntity<?> delete(
             @PathVariable
             Long id) {
         try {

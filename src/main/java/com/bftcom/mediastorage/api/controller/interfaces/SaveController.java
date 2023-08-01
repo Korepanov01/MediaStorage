@@ -16,10 +16,10 @@ public interface SaveController<
         Entity extends BaseEntity,
         PostRequest extends PostEntityRequest<Entity>> {
 
-    public CrudService<Entity> getMainService();
+    CrudService<Entity> getMainService();
 
     @PostMapping
-    public default ResponseEntity<?> post(
+    default ResponseEntity<?> post(
             @Valid
             @RequestBody
             PostRequest request) {

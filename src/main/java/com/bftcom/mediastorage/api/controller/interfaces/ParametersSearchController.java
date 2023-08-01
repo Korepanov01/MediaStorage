@@ -15,7 +15,7 @@ public interface ParametersSearchController <
         SearchParameters extends PagingParameters> {
 
     @GetMapping
-    public default List<ListItemDto> get(
+    default List<ListItemDto> get(
             SearchParameters parameters) {
         return getMainService()
                 .findByParameters(parameters)
