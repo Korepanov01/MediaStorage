@@ -236,8 +236,6 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         public List<Entity> findByParameters(@NotNull RowMapper<Entity> rowMapper) {
             String sql = sqlBuilder.toString();
 
-            log.debug("Сгенерирован запрос: " + sql);
-
             return jdbcTemplate.query(sql, rowMapper, queryParams.toArray());
         }
 
