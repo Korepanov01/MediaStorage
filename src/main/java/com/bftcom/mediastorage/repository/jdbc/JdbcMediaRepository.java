@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -91,7 +92,7 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
             "    FROM \"public.category\"\n" +
             "    WHERE id = ?\n" +
 
-            "    UNION ALL\n" +
+            "    UNION\n" +
 
             "    SELECT c.id\n" +
             "    FROM \"public.category\" c\n" +
@@ -99,16 +100,28 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
 
     @Override
     public List<Media> findByParameters(@NonNull MediaSearchParameters parameters) {
-        ParametersSearcher searcher = parameters.getCategoryId() != null
-                ? this.new ParametersSearcher("category_recursive cr ON \"public.media\".category_id = cr.id")
-                    .addBefore(CATEGORY_RECURSIVE, parameters.getCategoryId())
-                : this.new ParametersSearcher();
+        String join = "";
+        List<Object> beforeParams = new ArrayList<>();
+
+        if (parameters.getCategoryId() != null) {
+            join += " JOIN category_recursive cr ON \"public.media\".category_id = cr.id ";
+            beforeParams.add(parameters.getCategoryId());
+        }
 
         if (parameters.getTagIds() != null && !parameters.getTagIds().isEmpty()) {
-            searcher.addCondition("id IN (SELECT m.id FROM \"public.media\" m " +
-                            "INNER JOIN \"public.media_tag\" mt ON m.id = mt.media_id " +
-                            "WHERE mt.tag_id IN (" + String.join(", ", Collections.nCopies(parameters.getTagIds().size(), "?")) + "))",
-                    parameters.getTagIds().toArray());
+            join += " JOIN \"public.media_tag\" mt ON \"public.media\".id = mt.media_id";
+            beforeParams.addAll(parameters.getTagIds());
+        }
+        ParametersSearcher searcher = !join.equals("") ? this.new ParametersSearcher(join) : this.new ParametersSearcher();
+
+        if (parameters.getCategoryId() != null) {
+            searcher.addBefore(CATEGORY_RECURSIVE);
+        }
+
+        searcher.addStatement("", beforeParams.toArray());
+
+        if (parameters.getTagIds() != null && !parameters.getTagIds().isEmpty()) {
+            searcher.addCondition("mt.tag_id IN (" + String.join(", ", Collections.nCopies(parameters.getTagIds().size(), "?")) + ")");
         }
 
         return searcher

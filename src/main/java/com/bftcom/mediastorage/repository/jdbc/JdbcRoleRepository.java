@@ -51,7 +51,7 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
     @Override
     public List<Role> findByParameters(@NonNull RoleSearchParameters parameters) {
         return (parameters.getUserId() != null
-                ? this.new ParametersSearcher("\"public.user_role\" ON \"public.role\".id = \"public.user_role\".role_id")
+                ? this.new ParametersSearcher("JOIN \"public.user_role\" ON \"public.role\".id = \"public.user_role\".role_id")
                     .addEqualsCondition("\"public.user_role\".user_id", parameters.getUserId())
                 : this.new ParametersSearcher())
                     .tryAddSearchStringCondition("name", parameters.getSearchString())
@@ -60,7 +60,7 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
 
     @Override
     public List<Role> findByUserId(@NonNull Long userId) {
-        return this.new ParametersSearcher(String.format("\"public.user_role\" ur ON %s.id = ur.role_id", TABLE_NAME))
+        return this.new ParametersSearcher(String.format("JOIN \"public.user_role\" ur ON %s.id = ur.role_id", TABLE_NAME))
                 .addEqualsCondition("ur.\"user_id\"", userId)
                 .findByParameters(this::mapRowToModel);
     }

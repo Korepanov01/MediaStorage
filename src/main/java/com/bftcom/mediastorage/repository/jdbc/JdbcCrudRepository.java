@@ -170,7 +170,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         public ParametersSearcher(String join) {
             sqlBuilder = new StringBuilder(sqlSelectFrom);
             if (join != null) {
-                sqlBuilder.append(" JOIN ").append(join);
+                sqlBuilder.append(join);
             }
             sqlBuilder.append(" WHERE 1=1");
         }
@@ -183,7 +183,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             return this;
         }
 
-        private ParametersSearcher addStatement(@NonNull String statement, Object... params) {
+        public ParametersSearcher addStatement(@NonNull String statement, Object... params) {
             sqlBuilder.append(" ").append(statement);
             if (params != null) {
                 queryParams.addAll(Arrays.asList(params));
@@ -218,7 +218,9 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             return this;
         }
 
-        private ParametersSearcher addPagination(int pageIndex, int pageSize) {
+        private ParametersSearcher addOrderAndPagination(int pageIndex, int pageSize) {
+            sqlBuilder.append(" ORDER BY ").append(fields.get(0));
+
             int offset = pageIndex * pageSize;
             addStatement("OFFSET ? LIMIT ?", offset, pageSize);
             return this;
@@ -234,13 +236,11 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         public List<Entity> findByParameters(@NotNull RowMapper<Entity> rowMapper) {
             String sql = sqlBuilder.toString();
 
-            log.debug("Сгенерирован запрос: " + sql);
-
             return jdbcTemplate.query(sql, rowMapper, queryParams.toArray());
         }
 
         public List<Entity> findByParameters(int pageIndex, int pageSize, @NotNull RowMapper<Entity> rowMapper) {
-            return addPagination(pageIndex, pageSize)
+            return addOrderAndPagination(pageIndex, pageSize)
                     .findByParameters(rowMapper);
         }
     }

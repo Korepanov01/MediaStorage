@@ -47,7 +47,7 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
     public List<Tag> findByParameters(@NonNull TagSearchParameters parameters) {
         return (parameters.getMediaId() == null
                 ? this.new ParametersSearcher()
-                : this.new ParametersSearcher("\"public.media_tag\" ON \"public.tag\".id = \"public.media_tag\".tag_id"))
+                : this.new ParametersSearcher("JOIN \"public.media_tag\" ON \"public.tag\".id = \"public.media_tag\".tag_id"))
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
                 .tryAddEqualsCondition("\"public.media_tag\".media_id", parameters.getMediaId())
                 .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
