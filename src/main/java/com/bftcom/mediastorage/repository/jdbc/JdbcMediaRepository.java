@@ -90,7 +90,9 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
             "    SELECT id\n" +
             "    FROM \"public.category\"\n" +
             "    WHERE id = ?\n" +
+
             "    UNION ALL\n" +
+
             "    SELECT c.id\n" +
             "    FROM \"public.category\" c\n" +
             "    JOIN category_recursive cr ON c.parent_category_id = cr.id\n)";
