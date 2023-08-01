@@ -170,7 +170,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         public ParametersSearcher(String join) {
             sqlBuilder = new StringBuilder(sqlSelectFrom);
             if (join != null) {
-                sqlBuilder.append(" JOIN ").append(join);
+                sqlBuilder.append(join);
             }
             sqlBuilder.append(" WHERE 1=1");
         }
@@ -183,7 +183,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             return this;
         }
 
-        private ParametersSearcher addStatement(@NonNull String statement, Object... params) {
+        public ParametersSearcher addStatement(@NonNull String statement, Object... params) {
             sqlBuilder.append(" ").append(statement);
             if (params != null) {
                 queryParams.addAll(Arrays.asList(params));
