@@ -7,6 +7,7 @@ import com.bftcom.mediastorage.repository.MediaTagRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ public class MediaTagService extends CrudService<MediaTag> {
         return mediaTagRepository;
     }
 
+    @Transactional
     public void delete(@NonNull Long mediaId, @NonNull Long tagId) throws EntityNotFoundException {
         Optional<MediaTag> optionalEntity = mediaTagRepository.findByMediaIdTagId(mediaId, tagId);
 

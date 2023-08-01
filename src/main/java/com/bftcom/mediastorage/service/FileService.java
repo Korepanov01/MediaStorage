@@ -9,6 +9,7 @@ import com.bftcom.mediastorage.repository.MediaFileRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class FileService extends CrudService<File> {
     private final FileRepository fileRepository;
     private final MediaFileRepository mediaFileRepository;
 
+    @Transactional
     public void save(@NonNull File file, @NonNull Long mediaId, @NonNull Long fileTypeId)
             throws EntityAlreadyExistsException {
 

@@ -9,6 +9,7 @@ import com.bftcom.mediastorage.repository.TagRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ public class TagService extends ParameterSearchService<Tag, TagSearchParameters>
         return tagRepository.findByName(tag.getName()).isPresent();
     }
 
+    @Transactional
     public void update(Tag tag) throws EntityAlreadyExistsException, EntityNotFoundException {
         Optional<Tag> optionalTag = tagRepository.findById(tag.getId());
 

@@ -9,6 +9,7 @@ import com.bftcom.mediastorage.repository.UserRoleRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ public class UserRoleService {
     private final RoleRepository roleRepository;
     private final UserRoleRepository userRoleRepository;
 
+    @Transactional
     public void addRole(@NonNull Long userId, @NonNull Long roleId)
             throws EntityNotFoundException, EntityAlreadyExistsException {
         if (userRepository.isExists(userId))
@@ -35,6 +37,7 @@ public class UserRoleService {
         userRoleRepository.save(new UserRole(roleId, userId));
     }
 
+    @Transactional
     public void deleteRole(@NonNull Long userId, @NonNull Long roleId)
             throws EntityNotFoundException {
         if (userRepository.isExists(userId))
