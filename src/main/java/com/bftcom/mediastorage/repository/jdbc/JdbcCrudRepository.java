@@ -218,7 +218,9 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             return this;
         }
 
-        private ParametersSearcher addPagination(int pageIndex, int pageSize) {
+        private ParametersSearcher addOrderAndPagination(int pageIndex, int pageSize) {
+            sqlBuilder.append(" ORDER BY ").append(fields.get(0));
+
             int offset = pageIndex * pageSize;
             addStatement("OFFSET ? LIMIT ?", offset, pageSize);
             return this;
@@ -240,7 +242,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         }
 
         public List<Entity> findByParameters(int pageIndex, int pageSize, @NotNull RowMapper<Entity> rowMapper) {
-            return addPagination(pageIndex, pageSize)
+            return addOrderAndPagination(pageIndex, pageSize)
                     .findByParameters(rowMapper);
         }
     }
