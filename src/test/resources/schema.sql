@@ -162,7 +162,7 @@ CREATE TABLE "public.file_type"
     "name" VARCHAR(100) NOT NULL
 );
 
-CREATE UNIQUE INDEX uidx_file_type_type ON "public.file_type" (LOWER("name") varchar_pattern_ops);
+CREATE UNIQUE INDEX uidx_file_type_name ON "public.file_type" (LOWER("name") varchar_pattern_ops);
 
 
 -- Таблица связей файлов и медиа
