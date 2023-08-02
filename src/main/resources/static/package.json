@@ -18,6 +18,7 @@
     "webpack-dev-server": "^2.3.0"
   },
   "scripts": {
-    "build": "webpack -d"
+    "build": "webpack -d",
+    "dev": "webpack-dev-server --content-base app/"
   }
 }
