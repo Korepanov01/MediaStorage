@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Container from "react-bootstrap/Container";
 import {Button, Col, Form, Row} from "react-bootstrap";
 
 const PLACEHOLDER_TEXT = "Введите поисковый запрос"
