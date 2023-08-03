@@ -1,8 +1,6 @@
 target
-node
 package-lock.json
-npm-*.log
-generated/
+built
 
 # Created by https://www.toptal.com/developers/gitignore/api/java,react,intellij,visualstudiocode,webstorm
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,react,intellij,visualstudiocode,webstorm
