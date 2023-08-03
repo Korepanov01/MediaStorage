@@ -1,4 +1,4 @@
-import {AppNavbar} from "./navbar.js";
+import {AppNavbar} from "./Navbar.js";
 
 const React = require('react');
 
