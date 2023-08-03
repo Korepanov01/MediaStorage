@@ -4,22 +4,28 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
+const BRAND_NAME = "MediaStorage";
 const VIDEO_TAB_NAME = "Видео";
 const IMAGE_TAB_NAME = "Изображения";
 const MUSIC_TAB_NAME = "Музыка";
 
+const PLACEHOLDER_TEXT = "Введите поисковый запрос"
+const BUTTON_TEXT = "Поиск"
+
 export function AppNavbar() {
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
-            <Navbar.Brand href="/">MediaStorage</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                    <Nav.Link href="/video">{VIDEO_TAB_NAME}</Nav.Link>
-                    <Nav.Link href="/image">{IMAGE_TAB_NAME}</Nav.Link>
-                    <Nav.Link href="/music">{MUSIC_TAB_NAME}</Nav.Link>
-                </Nav>
-            </Navbar.Collapse>
+        <Navbar expand="lg">
+            <Container fluid>
+                <Navbar.Brand href="/">MediaStorage</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        <Nav.Link href="/video">{VIDEO_TAB_NAME}</Nav.Link>
+                        <Nav.Link href="/image">{IMAGE_TAB_NAME}</Nav.Link>
+                        <Nav.Link href="/music">{MUSIC_TAB_NAME}</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
         </Navbar>
     );
 }

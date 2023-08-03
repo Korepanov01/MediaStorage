@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import {Button, Col, Form, Row} from "react-bootstrap";
 
 const PLACEHOLDER_TEXT = "Введите поисковый запрос"
+const BUTTON_TEXT = "Поиск"
 
 export function SearchBar() {
     const [searchInput, setSearchInput] = useState("");
@@ -20,9 +21,7 @@ export function SearchBar() {
                 className="me-2"
                 aria-label="Search"
             />
-            <Button>
-                Search
-            </Button>
+            <Button>{BUTTON_TEXT}</Button>
         </Form>
     );
 }
