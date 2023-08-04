@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {SearchBar} from "./SearchBar";
-import {MediaList} from "./MediaList";
+import {MediaCards} from "./MediaCards";
 import {MediaAPI} from "../apis/MediaAPI";
-import {MediaSearchParameters} from "../models/MediaSearchParameters";
+import {MediaSearchParameters} from "../models/searchparameters/MediaSearchParameters";
 import {AppPagination} from "./AppPagination";
 
 const PAGE_SIZE = 8;
@@ -25,7 +25,7 @@ export function MediaPage() {
                     const updatedSearchParameters = {...searchParameters, searchString: searchString};
                     setSearchParameters(updatedSearchParameters)
                 } }/>
-            <MediaList medias={ medias }/>
+            <MediaCards medias={ medias }/>
             <AppPagination pageIndex={ searchParameters.pageIndex } onPageChange={ (newPageIndex) => {
                 const updatedSearchParameters = {...searchParameters, pageIndex: newPageIndex};
                 setSearchParameters(updatedSearchParameters)
