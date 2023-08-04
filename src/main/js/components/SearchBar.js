@@ -4,12 +4,17 @@ import {Button, Col, Form, Row} from "react-bootstrap";
 const PLACEHOLDER_TEXT = "Введите поисковый запрос"
 const BUTTON_TEXT = "Поиск"
 
-export function SearchBar() {
+export function SearchBar({ onSearch }) {
     const [searchInput, setSearchInput] = useState("");
 
     const handleChange = (e) => {
         e.preventDefault();
         setSearchInput(e.target.value);
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        onSearch(searchInput);
     };
 
     return (
@@ -19,8 +24,10 @@ export function SearchBar() {
                 placeholder={PLACEHOLDER_TEXT}
                 className="me-2"
                 aria-label="Search"
+                value={searchInput}
+                onChange={handleChange}
             />
-            <Button>{BUTTON_TEXT}</Button>
+            <Button onClick={handleSearch}>{BUTTON_TEXT}</Button>
         </Form>
     );
 }

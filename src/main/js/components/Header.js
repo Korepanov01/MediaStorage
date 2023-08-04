@@ -7,7 +7,6 @@ export function Header() {
     return (
         <>
             <AppNavbar/>
-            <SearchBar/>
         </>
     );
 }
