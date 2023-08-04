@@ -1,4 +1,4 @@
-import { Api } from "./configs/AxiosConfig"
+import { Api } from "./Api"
 
 export const MediaAPI = {
     get: function (searchParameters) {
