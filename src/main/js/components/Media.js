@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, Col} from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 export function Media({ media }) {
     return (

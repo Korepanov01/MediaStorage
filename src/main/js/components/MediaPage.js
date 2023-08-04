@@ -3,6 +3,7 @@ import {SearchBar} from "./SearchBar";
 import {MediaList} from "./MediaList";
 import {MediaAPI} from "../apis/MediaAPI";
 import {MediaSearchParameters} from "../models/MediaSearchParameters";
+import {AppPagination} from "./AppPagination";
 
 const PAGE_SIZE = 8;
 
@@ -12,7 +13,7 @@ export function MediaPage() {
 
     useEffect(() => {
         MediaAPI.get(searchParameters).then(response => {
-            setMedias(response.data)
+            setMedias(response.data);
         });
     }, [searchParameters]);
 
@@ -21,10 +22,17 @@ export function MediaPage() {
         setSearchParameters(updatedSearchParameters);
     };
 
+    const handlePagination = (pageIndex) => {
+        console.log("pageIndex: " + pageIndex)
+        const updatedSearchParameters = { ...searchParameters, pageIndex: pageIndex };
+        setSearchParameters(updatedSearchParameters);
+    };
+
     return (
         <>
             <SearchBar onSearch={ handleSearch }/>
             <MediaList medias={ medias }/>
+            <AppPagination onPagination={ handlePagination }/>
         </>
     );
 }

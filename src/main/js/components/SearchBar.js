@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Col, Form, Row} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 
 const PLACEHOLDER_TEXT = "Введите поисковый запрос"
 const BUTTON_TEXT = "Поиск"
