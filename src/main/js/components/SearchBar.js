@@ -1,21 +1,9 @@
-import React, {useState} from "react";
-import {Button, Form} from "react-bootstrap";
+import React from "react";
+import {Form} from "react-bootstrap";
 
 const PLACEHOLDER_TEXT = "Введите поисковый запрос"
-const BUTTON_TEXT = "Поиск"
 
-export function SearchBar({ onSearch }) {
-    const [searchInput, setSearchInput] = useState("");
-
-    const handleChange = (e) => {
-        e.preventDefault();
-        setSearchInput(e.target.value);
-    };
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        onSearch(searchInput);
-    };
+export function SearchBar({ searchString, onSearchStringChange }) {
 
     return (
         <Form className="d-flex">
@@ -24,10 +12,9 @@ export function SearchBar({ onSearch }) {
                 placeholder={PLACEHOLDER_TEXT}
                 className="me-2"
                 aria-label="Search"
-                value={searchInput}
-                onChange={handleChange}
+                value={searchString != null ? searchString : ""}
+                onChange={ (e) => { onSearchStringChange(e.target.value) }}
             />
-            <Button onClick={handleSearch}>{BUTTON_TEXT}</Button>
         </Form>
     );
 }

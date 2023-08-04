@@ -17,11 +17,6 @@ export function MediaPage() {
         });
     }, [searchParameters]);
 
-    const handleSearch = (searchInput) => {
-        const updatedSearchParameters = { ...searchParameters, searchString: searchInput };
-        setSearchParameters(updatedSearchParameters);
-    };
-
     const handlePagination = (pageIndex) => {
         console.log("pageIndex: " + pageIndex)
         const updatedSearchParameters = { ...searchParameters, pageIndex: pageIndex };
@@ -30,7 +25,12 @@ export function MediaPage() {
 
     return (
         <>
-            <SearchBar onSearch={ handleSearch }/>
+            <SearchBar
+                searchString={ searchParameters.searchString }
+                onSearchStringChange={ (searchString) => {
+                    const updatedSearchParameters = {...searchParameters, searchString: searchString};
+                    setSearchParameters(updatedSearchParameters)
+                } }/>
             <MediaList medias={ medias }/>
             <AppPagination onPagination={ handlePagination }/>
         </>

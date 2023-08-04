@@ -6,7 +6,7 @@ export function Media({ media }) {
         <Card>
             <Card.Body>
                 <Card.Title>{media.name}</Card.Title>
-                <Card.Subtitle>User: {media.user.name}</Card.Subtitle>
+                <Card.Subtitle>Пользователь: {media.user.name}</Card.Subtitle>
             </Card.Body>
         </Card>
     );
