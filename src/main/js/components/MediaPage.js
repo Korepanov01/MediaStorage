@@ -17,12 +17,6 @@ export function MediaPage() {
         });
     }, [searchParameters]);
 
-    const handlePagination = (pageIndex) => {
-        console.log("pageIndex: " + pageIndex)
-        const updatedSearchParameters = { ...searchParameters, pageIndex: pageIndex };
-        setSearchParameters(updatedSearchParameters);
-    };
-
     return (
         <>
             <SearchBar
@@ -32,7 +26,10 @@ export function MediaPage() {
                     setSearchParameters(updatedSearchParameters)
                 } }/>
             <MediaList medias={ medias }/>
-            <AppPagination onPagination={ handlePagination }/>
+            <AppPagination pageIndex={ searchParameters.pageIndex } onPageChange={ (newPageIndex) => {
+                const updatedSearchParameters = {...searchParameters, pageIndex: newPageIndex};
+                setSearchParameters(updatedSearchParameters)
+            }}/>
         </>
     );
 }

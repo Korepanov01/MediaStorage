@@ -4,13 +4,9 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
-const BRAND_NAME = "MediaStorage";
 const VIDEO_TAB_NAME = "Видео";
 const IMAGE_TAB_NAME = "Изображения";
 const MUSIC_TAB_NAME = "Музыка";
-
-const PLACEHOLDER_TEXT = "Введите поисковый запрос"
-const BUTTON_TEXT = "Поиск"
 
 export function AppNavbar() {
     return (
