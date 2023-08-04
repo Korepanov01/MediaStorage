@@ -2,13 +2,13 @@ import React from "react";
 import { MediaCard } from './MediaCard';
 import {CardGroup, Col, Row} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import {getChunks} from "../utils/GetChunks";
+import {utils} from "../Utils";
 
 export function MediaCards({medias: medias, cardsInRow: cardsInRow}) {
     return (
         <CardGroup>
             <Container fluid>
-                {getChunks(medias, cardsInRow).map((chunk, i) => (
+                {utils(medias, cardsInRow).map((chunk, i) => (
                     <Row key={ i } className={"justify-content-between"}>
                         {chunk.map((media) => (
                             <Col lg = {12 / cardsInRow} key={media.id}>

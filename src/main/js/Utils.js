@@ -1,4 +1,4 @@
-export const getChunks = (array, chunkSize) => {
+export const utils = (array, chunkSize) => {
     let chunks = [];
     for (let i = 0; i < array.length; i += chunkSize) {
         const chunk = array.slice(i, i + chunkSize);
