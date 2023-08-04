@@ -4,12 +4,14 @@ import {TagsCarousel} from "./TagsCarousel";
 
 export function MediaCard({ media }) {
     return (
-        <Card>
+        <Card className={"flex-fill"} style={ {margin: "5px"} }>
             <Card.Body>
                 <Card.Title>{media.name}</Card.Title>
                 <Card.Subtitle>Пользователь: {media.user.name}</Card.Subtitle>
-                <Card.Footer><TagsCarousel mediaId={ media.id }/></Card.Footer>
             </Card.Body>
+            <Card.Footer>
+                <TagsCarousel mediaId={ media.id }/>
+            </Card.Footer>
         </Card>
     );
 }
