@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.model.dto.FileInfoDto;
 import com.bftcom.mediastorage.model.entity.FileType;
 import com.bftcom.mediastorage.model.entity.MediaFile;
 import com.bftcom.mediastorage.model.searchparameters.MediaFilesSearchParameters;
+import com.bftcom.mediastorage.service.FileService;
 import com.bftcom.mediastorage.service.FileTypeService;
 import com.bftcom.mediastorage.service.MediaFileService;
 import com.bftcom.mediastorage.service.ParameterSearchService;
@@ -23,7 +24,8 @@ public class MediaFileController implements ParametersSearchController<FileInfoD
     @Override
     public FileInfoDto convertToListItemDto(MediaFile mediaFile) {
         FileType fileType = fileTypeService.findById(mediaFile.getFileTypeId()).orElseThrow();
-        return new FileInfoDto(mediaFile, fileType);
+        String url = FileService.getFileUrl(mediaFile.getFileId());
+        return new FileInfoDto(url, fileType.getName());
     }
 
     @Override
