@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class PagingParameters {
 
-    private static final int MIN_PAGE_SIZE = 10;
+    private static final int MIN_PAGE_SIZE = 1;
     private static final int MAX_PAGE_SIZE = 100;
 
     private int pageIndex = 0;

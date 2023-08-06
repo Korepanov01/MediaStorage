@@ -12,7 +12,6 @@ export function TagsCarousel({ mediaId: mediaId }) {
     useEffect(() => {
         TagAPI.get(searchParameters).then(response => {
             setTags(response.data);
-            console.log(JSON.stringify(response.data));
         });
     }, []);
 

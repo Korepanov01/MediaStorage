@@ -4,13 +4,18 @@ import {MediaCards} from "./MediaCards";
 import {MediaAPI} from "../apis/MediaAPI";
 import {MediaSearchParameters} from "../models/searchparameters/MediaSearchParameters";
 import {AppPagination} from "./AppPagination";
+import {Col, Row} from "react-bootstrap";
+import {MediaSearchMenu} from "./MediaSearchMenu";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;
 
 export function MediaPage() {
     const [medias, setMedias] = useState([])
+
     const [searchParameters, setSearchParameters] = useState(new MediaSearchParameters(PAGE_SIZE));
+    const [selectedTags, setSelectedTags] = useState(new Set());
+    const [searchString, setSearchString] = useState("")
 
     useEffect(() => {
         MediaAPI.get(searchParameters).then(response => {
@@ -18,19 +23,22 @@ export function MediaPage() {
         });
     }, [searchParameters]);
 
+    function onPageChange(newPageIndex) {
+        const updatedSearchParameters = {...searchParameters, pageIndex: newPageIndex};
+        setSearchParameters(updatedSearchParameters)
+    }
+
     return (
         <>
-            <SearchBar
-                searchString={ searchParameters.searchString }
-                onSearchStringChange={ (searchString) => {
-                    const updatedSearchParameters = {...searchParameters, searchString: searchString};
-                    setSearchParameters(updatedSearchParameters)
-                } }/>
-            <MediaCards medias={ medias } cardsInRow={CARDS_IN_ROW}/>
-            <AppPagination pageIndex={ searchParameters.pageIndex } onPageChange={ (newPageIndex) => {
-                const updatedSearchParameters = {...searchParameters, pageIndex: newPageIndex};
-                setSearchParameters(updatedSearchParameters)
-            }}/>
+            <Row>
+                <Col lg={4}>
+                    <MediaSearchMenu/>
+                </Col>
+                <Col lg={8}>
+                    <MediaCards medias={ medias } cardsInRow={CARDS_IN_ROW}/>
+                    <AppPagination pageIndex={ searchParameters.pageIndex } onPageChange={onPageChange}/>
+                </Col>
+            </Row>
         </>
     );
 }
