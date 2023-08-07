@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {SearchBar} from "./SearchBar";
 import {MediaCards} from "./MediaCards";
 import {MediaAPI} from "../apis/MediaAPI";
 import {MediaSearchParameters} from "../models/searchparameters/MediaSearchParameters";
@@ -14,8 +13,6 @@ export function MediaPage() {
     const [medias, setMedias] = useState([])
 
     const [searchParameters, setSearchParameters] = useState(new MediaSearchParameters(PAGE_SIZE));
-    const [selectedTags, setSelectedTags] = useState(new Set());
-    const [searchString, setSearchString] = useState("")
 
     useEffect(() => {
         MediaAPI.get(searchParameters).then(response => {
@@ -32,7 +29,7 @@ export function MediaPage() {
         <>
             <Row>
                 <Col lg={4}>
-                    <MediaSearchMenu/>
+                    <MediaSearchMenu onSearch={setSearchParameters}/>
                 </Col>
                 <Col lg={8}>
                     <MediaCards medias={ medias } cardsInRow={CARDS_IN_ROW}/>

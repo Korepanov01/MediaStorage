@@ -5,15 +5,19 @@ import {Button} from "react-bootstrap";
 
 const SEARCH_BUTTON_TITLE = "Найти"
 
-export function MediaSearchMenu() {
+export function MediaSearchMenu({onSearch: onSearch, searchParameters: searchParameters}) {
     const [selectedTagsIds, setSelectedTagsIds] = useState(new Set());
     const [searchString, setSearchString] = useState("")
 
+    function handleClickSearchButton() {
+        onSearch({...searchParameters, searchString: searchString, tagIds: [...selectedTagsIds], pageIndex: 0})
+    }
+
     return (
         <>
-            <SearchBar/>
+            <SearchBar onSearchStringChange={setSearchString}/>
             <TagsSelector onSelect={setSelectedTagsIds} selectedTags={selectedTagsIds}/>
-            <Button title={SEARCH_BUTTON_TITLE}/>
+            <Button onClick={handleClickSearchButton}>{SEARCH_BUTTON_TITLE}</Button>
         </>
     );
 }

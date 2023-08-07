@@ -1,7 +1,7 @@
 import React from "react";
 import {Form} from "react-bootstrap";
 
-const PLACEHOLDER_TEXT = "Введите поисковый запрос"
+const PLACEHOLDER_TEXT = "Поиск"
 
 export function SearchBar({ onSearchStringChange }) {
 

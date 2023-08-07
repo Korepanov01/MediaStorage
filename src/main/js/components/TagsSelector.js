@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useState} from "react";
 import {SearchBar} from "./SearchBar";
 import {SearchStringParameters} from "../models/searchparameters/SearchStringParameters";
-import {Form} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import {TagAPI} from "../apis/TagAPI";
 import Container from "react-bootstrap/Container";
 import {AppPagination} from "./AppPagination";
@@ -10,12 +10,24 @@ import {AppPagination} from "./AppPagination";
 export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}) {
     const [tags, setTags] = useState([]);
     const [tagSearchParameters, setTagSearchParameters] = useState(new SearchStringParameters(5));
+    const [selectedTags, setSelectedTags] = useState([]);
 
     useEffect(() => {
         TagAPI.get(tagSearchParameters).then(response => {
             setTags(response.data);
         });
     }, [tagSearchParameters]);
+
+    useEffect(() => {
+        let newSelectedTags = [];
+        const tagPromises = [...selectedTagsIds].map(selectedTagId => TagAPI.getById(selectedTagId).then(response => response.data));
+
+        Promise.all(tagPromises)
+            .then(tags => {
+                newSelectedTags = tags;
+                setSelectedTags(newSelectedTags);
+            });
+    }, [selectedTagsIds]);
 
     function handleSearchStringChange(searchString) {
         setTagSearchParameters({...tagSearchParameters, pageIndex: 0, searchString: searchString});
@@ -36,11 +48,22 @@ export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}
         onSelect(newSelectedTagsIds);
     }
 
+    function handleTagButtonClick(tagId) {
+        let newSelectedTagsIds = new Set(selectedTagsIds);
+        newSelectedTagsIds.delete(tagId);
+        onSelect(newSelectedTagsIds);
+    }
+
     return (
         <Container>
             <SearchBar onSearchStringChange={handleSearchStringChange}/>
-            {[...selectedTagsIds].map((selectedTagId) => (
-                <span key={selectedTagId}>{selectedTagId}</span>
+            {selectedTags.map((selectedTag) => (
+                <Button
+                    onClick={() => handleTagButtonClick(selectedTag.id)}
+                    size={"sm"}
+                    key={selectedTag.id}>
+                    {selectedTag.name}
+                </Button>
             ))}
             <Form>
                 <Form.Group>
