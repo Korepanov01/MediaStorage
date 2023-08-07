@@ -56,6 +56,7 @@ export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}
 
     return (
         <Container>
+            <h5>Тэги:</h5>
             <SearchBar onSearchStringChange={handleSearchStringChange}/>
             {selectedTags.map((selectedTag) => (
                 <Button

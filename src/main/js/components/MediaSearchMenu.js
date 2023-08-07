@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {SearchBar} from "./SearchBar";
 import {TagsSelector} from "./TagsSelector";
 import {Button} from "react-bootstrap";
-import {TypeSelector} from "./TypeSelector";
+import {MediaTypeSelector} from "./MediaTypeSelector";
 
 const SEARCH_BUTTON_TITLE = "Найти"
 
@@ -22,7 +22,7 @@ export function MediaSearchMenu({onSearch: onSearch, searchParameters: searchPar
     return (
         <>
             <SearchBar onSearchStringChange={setSearchString}/>
-            <TypeSelector selectedTypesIds={selectedTypesIds} onSelect={setSelectedTypesIds}/>
+            <MediaTypeSelector selectedTypesIds={selectedTypesIds} onSelect={setSelectedTypesIds}/>
             <TagsSelector onSelect={setSelectedTagsIds} selectedTags={selectedTagsIds}/>
             <Button onClick={handleClickSearchButton}>{SEARCH_BUTTON_TITLE}</Button>
         </>

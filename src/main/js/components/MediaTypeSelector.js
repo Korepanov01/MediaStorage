@@ -6,7 +6,7 @@ import {MediaTypeAPI} from "../apis/MediaTypeAPI";
 
 const TITLE = "Типы медиа:";
 
-export function TypeSelector({onSelect: onSelect, selectedTypesIds: selectedTypesIds}) {
+export function MediaTypeSelector({onSelect: onSelect, selectedTypesIds: selectedTypesIds}) {
     const [types, setTypes] = useState([]);
 
     useEffect(() => {
@@ -28,7 +28,7 @@ export function TypeSelector({onSelect: onSelect, selectedTypesIds: selectedType
     return (
         <Container>
             <Form>
-                <Form.Text>{TITLE}</Form.Text>
+                <h5>Тип:</h5>
                 <Form.Group>
                     {types.map((type) => (
                         <Form.Check
