@@ -26,16 +26,14 @@ export function SearchMediaPage() {
     }
 
     return (
-        <>
-            <Row>
-                <Col lg={4}>
-                    <MediaSearchMenu onSearch={setSearchParameters}/>
-                </Col>
-                <Col lg={8}>
-                    <MediaCards medias={ medias } cardsInRow={CARDS_IN_ROW}/>
-                    <AppPagination pageIndex={ searchParameters.pageIndex } onPageChange={onPageChange}/>
-                </Col>
-            </Row>
-        </>
+        <Row>
+            <Col lg={4}>
+                <MediaSearchMenu onSearch={setSearchParameters}/>
+            </Col>
+            <Col lg={8}>
+                <MediaCards medias={ medias } cardsInRow={CARDS_IN_ROW}/>
+                <AppPagination pageIndex={ searchParameters.pageIndex } onPageChange={onPageChange}/>
+            </Col>
+        </Row>
     );
 }

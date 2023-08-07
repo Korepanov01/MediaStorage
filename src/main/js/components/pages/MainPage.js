@@ -14,8 +14,6 @@ export function MainPage() {
     }, []);
 
     return (
-        <>
-            <MediaCards medias={medias} cardsInRow={CARDS_IN_ROW}/>
-        </>
+        <MediaCards medias={medias} cardsInRow={CARDS_IN_ROW}/>
     );
 }

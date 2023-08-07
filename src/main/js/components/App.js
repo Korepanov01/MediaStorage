@@ -7,6 +7,7 @@ import {SearchMediaPage} from "./pages/SearchMediaPage";
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {MainPage} from "./pages/MainPage";
+import {ProfilePage} from "./pages/ProfilePage";
 
 export function App() {
     return (
@@ -16,7 +17,7 @@ export function App() {
                     <Routes>
                         <Route path="/" element={<MainPage/>}/>
                         <Route path="search" element={<SearchMediaPage/>}/>
-                        <Route path="profile" element={<h1>Profile</h1>}/>
+                        <Route path="profile" element={<ProfilePage/>}/>
                     </Routes>
             </Container>
         </BrowserRouter>
