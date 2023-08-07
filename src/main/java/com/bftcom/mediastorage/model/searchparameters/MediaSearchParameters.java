@@ -10,4 +10,5 @@ import java.util.List;
 public class MediaSearchParameters extends SearchStringParameters {
     private List<Long> tagIds;
     private Long categoryId;
+    private List<Long> typeIds;
 }

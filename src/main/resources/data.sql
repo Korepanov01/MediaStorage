@@ -13,9 +13,9 @@ VALUES
 -- Исходные данные "public.media_type"
 INSERT INTO "public.media_type" ("name")
 VALUES
-    ('IMAGE'),
-    ('VIDEO'),
-    ('AUDIO');
+    ('Изображение'),
+    ('Видео'),
+    ('Аудио');
 
 -- Тестовые данные "public.tag"
 INSERT INTO "public.tag" ("name")

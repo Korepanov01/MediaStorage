@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.repository.MediaRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.thymeleaf.util.ListUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -123,6 +124,9 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
         if (parameters.getTagIds() != null && !parameters.getTagIds().isEmpty()) {
             searcher.addCondition("mt.tag_id IN (" + String.join(", ", Collections.nCopies(parameters.getTagIds().size(), "?")) + ")");
         }
+
+        if (!ListUtils.isEmpty(parameters.getTypeIds()))
+            searcher.addCondition("media_type_id IN (" + String.join(", ", Collections.nCopies(parameters.getTypeIds().size(), "?")) + ")", parameters.getTypeIds().toArray());
 
         return searcher
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
