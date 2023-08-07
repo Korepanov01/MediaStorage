@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useState} from "react";
 import {SearchBar} from "./SearchBar";
 import {SearchStringParameters} from "../models/searchparameters/SearchStringParameters";
-import {Button, Form} from "react-bootstrap";
+import {Badge, Form} from "react-bootstrap";
 import {TagAPI} from "../apis/TagAPI";
 import Container from "react-bootstrap/Container";
 import {AppPagination} from "./AppPagination";
@@ -48,7 +48,7 @@ export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}
         onSelect(newSelectedTagsIds);
     }
 
-    function handleTagButtonClick(tagId) {
+    function handleSelectedTagClick(tagId) {
         let newSelectedTagsIds = new Set(selectedTagsIds);
         newSelectedTagsIds.delete(tagId);
         onSelect(newSelectedTagsIds);
@@ -59,12 +59,12 @@ export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}
             <h5>Тэги:</h5>
             <SearchBar onSearchStringChange={handleSearchStringChange}/>
             {selectedTags.map((selectedTag) => (
-                <Button
-                    onClick={() => handleTagButtonClick(selectedTag.id)}
+                <Badge
+                    onClick={() => handleSelectedTagClick(selectedTag.id)}
                     size={"sm"}
                     key={selectedTag.id}>
                     {selectedTag.name}
-                </Button>
+                </Badge>
             ))}
             <Form>
                 <Form.Group>
