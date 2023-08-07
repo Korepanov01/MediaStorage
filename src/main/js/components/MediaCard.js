@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {Card, Image} from "react-bootstrap";
+import {Card} from "react-bootstrap";
 import {TagsCarousel} from "./TagsCarousel";
-import {MediaAPI} from "../apis/MediaAPI";
 import {FileRepository} from "../repository/FileRepository";
 
 export function MediaCard({ media }) {
@@ -19,9 +18,12 @@ export function MediaCard({ media }) {
             <Card.Img src={thumnail}/>
             <Card.Body>
                 <Card.Title>{media.name}</Card.Title>
+                <Card.Subtitle>Тип: {media.mediaType.name}</Card.Subtitle>
+                <Card.Subtitle>Категория: {media.category.name}</Card.Subtitle>
                 <Card.Subtitle>Пользователь: {media.user.name}</Card.Subtitle>
             </Card.Body>
             <Card.Footer>
+                <Card.Subtitle>Теги:</Card.Subtitle>
                 <TagsCarousel mediaId={ media.id }/>
             </Card.Footer>
         </Card>
