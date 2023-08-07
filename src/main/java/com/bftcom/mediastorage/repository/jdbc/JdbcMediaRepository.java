@@ -80,14 +80,6 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
         preparedStatement.setLong(7, media.getId());
     }
 
-    @Override
-    public List<Media> findRandom(int limit) {
-        return jdbcTemplate.query(
-                this.getSqlSelectFrom() + " ORDER BY RANDOM() LIMIT ?",
-                this::mapRowToModel,
-                limit);
-    }
-
     private final static String CATEGORY_RECURSIVE = "WITH RECURSIVE category_recursive AS (\n" +
             "    SELECT id\n" +
             "    FROM \"public.category\"\n" +
@@ -130,6 +122,6 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
 
         return searcher
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
-                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel, parameters.getRandomOrder());
     }
 }

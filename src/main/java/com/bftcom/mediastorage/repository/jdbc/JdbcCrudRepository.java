@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -218,8 +219,11 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             return this;
         }
 
-        private ParametersSearcher addOrderAndPagination(int pageIndex, int pageSize) {
-            sqlBuilder.append(" ORDER BY ").append(fields.get(0));
+        private ParametersSearcher addOrderAndPagination(int pageIndex, int pageSize, Boolean isRandomOrder) {
+            if (BooleanUtils.isTrue(isRandomOrder))
+                sqlBuilder.append(" ORDER BY RANDOM() ");
+            else
+                sqlBuilder.append(" ORDER BY ").append(fields.get(0));
 
             int offset = pageIndex * pageSize;
             addStatement("OFFSET ? LIMIT ?", offset, pageSize);
@@ -240,7 +244,12 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         }
 
         public List<Entity> findByParameters(int pageIndex, int pageSize, @NotNull RowMapper<Entity> rowMapper) {
-            return addOrderAndPagination(pageIndex, pageSize)
+            return addOrderAndPagination(pageIndex, pageSize, false)
+                    .findByParameters(rowMapper);
+        }
+
+        public List<Entity> findByParameters(int pageIndex, int pageSize, @NotNull RowMapper<Entity> rowMapper, Boolean isRandomOrder) {
+            return addOrderAndPagination(pageIndex, pageSize, isRandomOrder)
                     .findByParameters(rowMapper);
         }
     }

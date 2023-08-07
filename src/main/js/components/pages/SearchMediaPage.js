@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {MediaCards} from "./MediaCards";
-import {MediaAPI} from "../apis/MediaAPI";
-import {MediaSearchParameters} from "../models/searchparameters/MediaSearchParameters";
-import {AppPagination} from "./AppPagination";
+import {MediaCards} from "../MediaCards";
+import {MediaAPI} from "../../apis/MediaAPI";
+import {MediaSearchParameters} from "../../models/searchparameters/MediaSearchParameters";
+import {AppPagination} from "../AppPagination";
 import {Col, Row} from "react-bootstrap";
-import {MediaSearchMenu} from "./MediaSearchMenu";
+import {MediaSearchMenu} from "../MediaSearchMenu";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;
 
-export function MediaPage() {
+export function SearchMediaPage() {
     const [medias, setMedias] = useState([])
 
     const [searchParameters, setSearchParameters] = useState(new MediaSearchParameters(PAGE_SIZE));
