@@ -8,7 +8,7 @@ import {SearchMediaPage} from "./pages/SearchMediaPage";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {MainPage} from "./pages/MainPage";
 
-export function App(props) {
+export function App() {
     return (
         <BrowserRouter>
             <Container>
