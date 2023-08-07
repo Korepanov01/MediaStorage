@@ -1,3 +1,5 @@
+import {Link} from "react-router-dom";
+
 const React = require('react');
 
 import Container from 'react-bootstrap/Container';
@@ -15,8 +17,8 @@ export function AppNavbar() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/search">{SEARCH_TAB_NAME}</Nav.Link>
-                        <Nav.Link href="/profile">{PROFILE_TAB_NAME}</Nav.Link>
+                        <Nav.Link as={Link} to="search">{SEARCH_TAB_NAME}</Nav.Link>
+                        <Nav.Link as={Link} to="profile">{PROFILE_TAB_NAME}</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
