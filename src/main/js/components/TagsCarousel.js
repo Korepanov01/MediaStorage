@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Carousel} from "react-bootstrap";
+import {Badge, Carousel} from "react-bootstrap";
 import {TagAPI} from "../apis/TagAPI";
 import {TagSearchParameters} from "../models/searchparameters/TagSearchParameters";
 
@@ -17,9 +17,9 @@ export function TagsCarousel({ mediaId: mediaId }) {
 
     return (
         <Carousel interval={CAROUSEL_INTERVAL_MS} controls = {false}>
-            { tags.map((tag) => (
-                <Carousel.Item key={ tag.id }>
-                    <span>{ tag.name }</span>
+            {tags.map((tag) => (
+                <Carousel.Item key={tag.id}>
+                    <Badge>{tag.name}</Badge>
                 </Carousel.Item>
             ))}
         </Carousel>
