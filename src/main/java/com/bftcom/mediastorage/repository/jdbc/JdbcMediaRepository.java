@@ -120,6 +120,8 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
         if (!ListUtils.isEmpty(parameters.getTypeIds()))
             searcher.addCondition("media_type_id IN (" + String.join(", ", Collections.nCopies(parameters.getTypeIds().size(), "?")) + ")", parameters.getTypeIds().toArray());
 
+        searcher.tryAddEqualsCondition("user_id", parameters.getUserId());
+
         return searcher
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
                 .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel, parameters.getRandomOrder());

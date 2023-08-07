@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.UserDto;
+import com.bftcom.mediastorage.model.dto.UserHeaderDto;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.model.api.request.post.PostUserRequest;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController implements FullController<
         UserDto,
-        UserDto,
+        UserHeaderDto,
         User,
         PostUserRequest,
         SearchStringParameters> {
@@ -24,8 +25,8 @@ public class UserController implements FullController<
     private final UserService userService;
 
     @Override
-    public UserDto convertToListItemDto(User user) {
-        return new UserDto(user);
+    public UserHeaderDto convertToListItemDto(User user) {
+        return new UserHeaderDto(user);
     }
 
     @Override

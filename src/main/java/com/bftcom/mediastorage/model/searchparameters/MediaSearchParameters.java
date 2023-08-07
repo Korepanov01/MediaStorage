@@ -10,6 +10,7 @@ import java.util.List;
 public class MediaSearchParameters extends SearchStringParameters {
     private List<Long> tagIds;
     private Long categoryId;
+    private Long userId;
     private List<Long> typeIds;
     private Boolean randomOrder;
 }
