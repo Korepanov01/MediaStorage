@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.RoleDto;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.searchparameters.RoleSearchParameters;
-import com.bftcom.mediastorage.model.api.request.post.PostRoleRequest;
+import com.bftcom.mediastorage.model.api.request.PostPutRoleRequest;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class RoleController implements FullController<
         RoleDto,
         RoleDto,
         Role,
-        PostRoleRequest,
+        PostPutRoleRequest,
         RoleSearchParameters> {
 
     private final RoleService roleService;

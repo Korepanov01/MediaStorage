@@ -8,7 +8,7 @@ import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.model.entity.MediaType;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
-import com.bftcom.mediastorage.model.api.request.post.PostMediaRequest;
+import com.bftcom.mediastorage.model.api.request.PostPutMediaRequest;
 import com.bftcom.mediastorage.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/media")
 @RequiredArgsConstructor
 
-public class MediaController implements FullController<MediaDto, MediaListItemDto, Media, PostMediaRequest, MediaSearchParameters> {
+public class MediaController implements FullController<MediaDto, MediaListItemDto, Media, PostPutMediaRequest, MediaSearchParameters> {
 
     private final MediaService mediaService;
     private final UserService userService;

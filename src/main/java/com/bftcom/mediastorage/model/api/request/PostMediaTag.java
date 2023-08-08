@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.api.request.post;
+package com.bftcom.mediastorage.model.api.request;
 
 import com.bftcom.mediastorage.model.entity.MediaTag;
 import lombok.Data;
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostMediaTag extends PostEntityRequest<MediaTag> {
+public class PostMediaTag extends PostPutEntityRequest<MediaTag> {
 
     @NotNull(message = "Должен быть указан id медиа (mediaId)")
     private Long mediaId;

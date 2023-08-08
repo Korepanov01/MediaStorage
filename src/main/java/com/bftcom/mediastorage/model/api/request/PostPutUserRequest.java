@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.api.request.post;
+package com.bftcom.mediastorage.model.api.request;
 
 import com.bftcom.mediastorage.model.entity.User;
 import lombok.Data;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostUserRequest extends PostEntityRequest<User> {
+public class PostPutUserRequest extends PostPutEntityRequest<User> {
 
     @NotBlank(message = "Имя не должно быть пустым")
     @Size(max = 200, message = "Имя должно быть не больше 200 символов")

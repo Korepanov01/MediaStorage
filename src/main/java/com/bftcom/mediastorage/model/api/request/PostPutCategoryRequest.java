@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.api.request.post;
+package com.bftcom.mediastorage.model.api.request;
 
 import com.bftcom.mediastorage.model.entity.Category;
 import lombok.Data;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostCategoryRequest extends PostEntityRequest<Category> {
+public class PostPutCategoryRequest extends PostPutEntityRequest<Category> {
 
     @NotBlank(message = "Имя категории не может быть пустым")
     @Size(max = 200, message = "Имя категории не может быть длиннее 200 символов")

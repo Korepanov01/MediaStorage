@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.CategoryDto;
 import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.model.searchparameters.CategorySearchParameters;
-import com.bftcom.mediastorage.model.api.request.post.PostCategoryRequest;
+import com.bftcom.mediastorage.model.api.request.PostPutCategoryRequest;
 import com.bftcom.mediastorage.service.CategoryService;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class CategoryController implements FullController<
         CategoryDto,
         CategoryDto,
         Category,
-        PostCategoryRequest,
+        PostPutCategoryRequest,
         CategorySearchParameters> {
 
     private final CategoryService categoryService;

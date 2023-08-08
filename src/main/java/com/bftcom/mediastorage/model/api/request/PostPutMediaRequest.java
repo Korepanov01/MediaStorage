@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.api.request.post;
+package com.bftcom.mediastorage.model.api.request;
 
 import com.bftcom.mediastorage.model.entity.Media;
 import lombok.Data;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostMediaRequest extends PostEntityRequest<Media> {
+public class PostPutMediaRequest extends PostPutEntityRequest<Media> {
 
     @NotNull(message = "Должен быть указан id пользователя (userId)")
     private Long userId;

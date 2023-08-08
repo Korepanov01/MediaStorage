@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.TagDto;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.searchparameters.TagSearchParameters;
-import com.bftcom.mediastorage.model.api.request.post.PostTagRequest;
+import com.bftcom.mediastorage.model.api.request.PostPutTagRequest;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class TagController implements FullController<
         TagDto,
         TagDto,
         Tag,
-        PostTagRequest,
+        PostPutTagRequest,
         TagSearchParameters> {
 
     private final TagService tagService;

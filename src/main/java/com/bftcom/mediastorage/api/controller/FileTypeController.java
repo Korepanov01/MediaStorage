@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.model.dto.FileTypeDto;
 import com.bftcom.mediastorage.model.entity.FileType;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
-import com.bftcom.mediastorage.model.api.request.post.PostFileTypeRequest;
+import com.bftcom.mediastorage.model.api.request.PostPutFileTypeRequest;
 import com.bftcom.mediastorage.service.FileTypeService;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class FileTypeController implements FullController<
         FileTypeDto,
         FileTypeDto,
         FileType,
-        PostFileTypeRequest,
+        PostPutFileTypeRequest,
         SearchStringParameters> {
 
     private final FileTypeService fileTypeService;

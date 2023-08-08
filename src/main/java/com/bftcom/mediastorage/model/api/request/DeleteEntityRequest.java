@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.api.request.delete;
+package com.bftcom.mediastorage.model.api.request;
 
 import com.bftcom.mediastorage.model.api.request.Request;
 

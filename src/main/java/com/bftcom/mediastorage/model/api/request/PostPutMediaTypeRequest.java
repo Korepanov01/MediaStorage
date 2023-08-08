@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.api.request.post;
+package com.bftcom.mediastorage.model.api.request;
 
 import com.bftcom.mediastorage.model.entity.MediaType;
 import lombok.Data;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostMediaTypeRequest extends PostEntityRequest<MediaType> {
+public class PostPutMediaTypeRequest extends PostPutEntityRequest<MediaType> {
     @NotBlank(message = "Имя медиа не может быть пустым")
     @Size(max = 100, message = "Имя медиа не может быть длиннее 100 символов")
     private String name;

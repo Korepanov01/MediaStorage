@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.api.request.post;
+package com.bftcom.mediastorage.model.api.request;
 
 import com.bftcom.mediastorage.model.entity.Role;
 import lombok.Data;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostRoleRequest extends PostEntityRequest<Role> {
+public class PostPutRoleRequest extends PostPutEntityRequest<Role> {
     @NotBlank(message = "Имя роли не может быть пустым")
     @Size(max = 100, message = "Имя роли не может быть длиннее 100 символов")
     private String name;

@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
-import com.bftcom.mediastorage.model.api.request.post.PostMediaTypeRequest;
+import com.bftcom.mediastorage.model.api.request.PostPutMediaTypeRequest;
 import com.bftcom.mediastorage.model.dto.MediaTypeDto;
 import com.bftcom.mediastorage.model.entity.MediaType;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
@@ -18,7 +18,7 @@ public class MediaTypeController implements FullController<
         MediaTypeDto,
         MediaTypeDto,
         MediaType,
-        PostMediaTypeRequest,
+        PostPutMediaTypeRequest,
         SearchStringParameters> {
 
     private final MediaTypeService mediaTypeService;

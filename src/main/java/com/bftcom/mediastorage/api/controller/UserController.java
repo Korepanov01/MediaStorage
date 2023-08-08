@@ -5,7 +5,7 @@ import com.bftcom.mediastorage.model.dto.UserDto;
 import com.bftcom.mediastorage.model.dto.UserHeaderDto;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
-import com.bftcom.mediastorage.model.api.request.post.PostUserRequest;
+import com.bftcom.mediastorage.model.api.request.PostPutUserRequest;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class UserController implements FullController<
         UserDto,
         UserHeaderDto,
         User,
-        PostUserRequest,
+        PostPutUserRequest,
         SearchStringParameters> {
 
     private final UserService userService;
