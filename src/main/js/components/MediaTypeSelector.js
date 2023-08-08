@@ -4,8 +4,6 @@ import {Form} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import {MediaTypeAPI} from "../apis/MediaTypeAPI";
 
-const TITLE = "Типы медиа:";
-
 export function MediaTypeSelector({onSelect: onSelect, selectedTypesIds: selectedTypesIds}) {
     const [types, setTypes] = useState([]);
 
@@ -18,11 +16,11 @@ export function MediaTypeSelector({onSelect: onSelect, selectedTypesIds: selecte
     function handleCheckBoxOnChange(e) {
         let newSelectedTypesIds = new Set(selectedTypesIds);
         if (e.target.checked) {
-            selectedTypesIds.add(e.target.value);
+            newSelectedTypesIds.add(e.target.value);
         } else {
-            selectedTypesIds.delete(e.target.value);
+            newSelectedTypesIds.delete(e.target.value);
         }
-        onSelect(selectedTypesIds);
+        onSelect(newSelectedTypesIds);
     }
 
     return (
