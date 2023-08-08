@@ -13,6 +13,7 @@ export function MediaPage() {
     const [media, setMedia] = useState(null);
     const [filesUrls, setFilesUrlsUrls] = useState([]);
     const [showMediaForm, setShowMediaForm] = useState(false);
+    const [updated, setUpdated] = useState(false);
 
     const navigate = useNavigate();
 
@@ -31,8 +32,8 @@ export function MediaPage() {
 
     const handleFormSubmit = (newMedia) => {
         console.log(JSON.stringify(newMedia))
-        MediaAPI.post(newMedia)
-            .then((response) => {
+        MediaAPI.put(id, newMedia)
+            .then(() => {
                 let newMediaId = response.data.id;
                 navigate(`/media/${newMediaId}`);
             });
