@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {MediaAPI} from "../apis/MediaAPI";
-import {MediaTypeSelector} from "./MediaTypeSelector";
 import {MediaTypeAPI} from "../apis/MediaTypeAPI";
 import {CategorySelector} from "./CategorySelector";
 
-export function AddMedia({onPost: handlePost, userId: userId, show: show, onChangeShow: handleChangeShow}) {
+export function AddMedia({onPost: handlePost, show: show, onChangeShow: handleChangeShow}) {
     const [types, setTypes] = useState([]);
     const [newMedia, setNewMedia] = useState({
         userId: 1,
