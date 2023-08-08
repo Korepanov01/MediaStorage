@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {MediaCards} from "../MediaCards";
 import {MediaAPI} from "../../apis/MediaAPI";
 import {AppPagination} from "../AppPagination";
-import {Button, Col, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import {UserMenu} from "../UserMenu";
 import {UserAPI} from "../../apis/UserAPI";
 import {MediaFormPopup} from "../MediaFormPopup";
