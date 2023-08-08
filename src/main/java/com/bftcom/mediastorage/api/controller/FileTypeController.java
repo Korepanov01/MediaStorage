@@ -19,6 +19,7 @@ public class FileTypeController implements FullController<
         FileTypeDto,
         FileType,
         PostPutFileTypeRequest,
+        PostPutFileTypeRequest,
         SearchStringParameters> {
 
     private final FileTypeService fileTypeService;

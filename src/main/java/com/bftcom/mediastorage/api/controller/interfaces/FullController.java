@@ -10,8 +10,11 @@ public interface FullController <
         ListItemDto extends BaseDto,
         Entity extends BaseEntity,
         PostRequest extends PostPutEntityRequest<Entity>,
+        PutRequest extends PostPutEntityRequest<Entity>,
         SearchParameters extends PagingParameters>
-        extends ParametersSearchController<ListItemDto, Entity, SearchParameters>,
+        extends
+        ParametersSearchController<ListItemDto, Entity, SearchParameters>,
+        PutController<Entity, PutRequest>,
         SaveDeleteController<Entity, PostRequest>,
         GetByIdController<Dto, Entity> {
 }

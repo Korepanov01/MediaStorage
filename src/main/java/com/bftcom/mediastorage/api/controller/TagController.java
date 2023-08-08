@@ -19,6 +19,7 @@ public class TagController implements FullController<
         TagDto,
         Tag,
         PostPutTagRequest,
+        PostPutTagRequest,
         TagSearchParameters> {
 
     private final TagService tagService;

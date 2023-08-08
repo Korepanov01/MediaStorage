@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/media_file")
 @RequiredArgsConstructor
-public class MediaFileController implements ParametersSearchController<FileInfoDto, MediaFile, MediaFilesSearchParameters> {
+public class MediaFileController implements ParametersSearchController<
+        FileInfoDto,
+        MediaFile,
+        MediaFilesSearchParameters> {
 
     private final FileTypeService fileTypeService;
     private final MediaFileService mediaFileService;

@@ -19,6 +19,7 @@ public class RoleController implements FullController<
         RoleDto,
         Role,
         PostPutRoleRequest,
+        PostPutRoleRequest,
         RoleSearchParameters> {
 
     private final RoleService roleService;

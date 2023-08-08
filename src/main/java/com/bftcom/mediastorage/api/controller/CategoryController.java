@@ -19,6 +19,7 @@ public class CategoryController implements FullController<
         CategoryDto,
         Category,
         PostPutCategoryRequest,
+        PostPutCategoryRequest,
         CategorySearchParameters> {
 
     private final CategoryService categoryService;

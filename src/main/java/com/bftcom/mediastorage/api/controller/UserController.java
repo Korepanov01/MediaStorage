@@ -20,6 +20,7 @@ public class UserController implements FullController<
         UserHeaderDto,
         User,
         PostPutUserRequest,
+        PostPutUserRequest,
         SearchStringParameters> {
 
     private final UserService userService;

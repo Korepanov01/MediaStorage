@@ -18,7 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/media")
 @RequiredArgsConstructor
 
-public class MediaController implements FullController<MediaDto, MediaListItemDto, Media, PostPutMediaRequest, MediaSearchParameters> {
+public class MediaController implements FullController<
+        MediaDto,
+        MediaListItemDto,
+        Media,
+        PostPutMediaRequest,
+        PostPutMediaRequest,
+        MediaSearchParameters> {
 
     private final MediaService mediaService;
     private final UserService userService;

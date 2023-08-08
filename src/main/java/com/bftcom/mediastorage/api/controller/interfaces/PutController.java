@@ -2,7 +2,7 @@ package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
-import com.bftcom.mediastorage.model.api.request.ToEntityConvertable;
+import com.bftcom.mediastorage.model.api.request.PostPutEntityRequest;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.service.CrudService;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import javax.validation.Valid;
 
 public interface PutController <
         Entity extends BaseEntity,
-        PutRequest extends ToEntityConvertable<Entity>> {
+        PutRequest extends PostPutEntityRequest<Entity>> {
 
     CrudService<Entity> getMainService();
 

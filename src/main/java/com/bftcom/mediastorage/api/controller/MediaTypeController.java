@@ -19,6 +19,7 @@ public class MediaTypeController implements FullController<
         MediaTypeDto,
         MediaType,
         PostPutMediaTypeRequest,
+        PostPutMediaTypeRequest,
         SearchStringParameters> {
 
     private final MediaTypeService mediaTypeService;
