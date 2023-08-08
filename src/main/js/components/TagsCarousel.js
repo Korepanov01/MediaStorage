@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Badge, Carousel} from "react-bootstrap";
 import {TagAPI} from "../apis/TagAPI";
-import {TagSearchParameters} from "../models/searchparameters/TagSearchParameters";
 
 const CAROUSEL_INTERVAL_MS = 2000;
 
 export function TagsCarousel({ mediaId: mediaId }) {
-    const searchParameters = {...new TagSearchParameters(100), mediaId: mediaId};
+    const searchParameters = {PageSize: 100, mediaId: mediaId};
     const [tags, setTags] = useState([])
 
     useEffect(() => {

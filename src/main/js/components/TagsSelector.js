@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import {useState} from "react";
 import {SearchBar} from "./SearchBar";
-import {SearchStringParameters} from "../models/searchparameters/SearchStringParameters";
 import {Badge, Form} from "react-bootstrap";
 import {TagAPI} from "../apis/TagAPI";
 import Container from "react-bootstrap/Container";
@@ -9,7 +8,7 @@ import {AppPagination} from "./AppPagination";
 
 export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}) {
     const [tags, setTags] = useState([]);
-    const [tagSearchParameters, setTagSearchParameters] = useState(new SearchStringParameters(5));
+    const [tagSearchParameters, setTagSearchParameters] = useState({pageSize: 5});
     const [selectedTags, setSelectedTags] = useState([]);
 
     useEffect(() => {

@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import {useState} from "react";
 import DropdownTreeSelect from "react-dropdown-tree-select";
 import {CategoryAPI} from "../apis/CategoryAPI";
-import Container from "react-bootstrap/Container";
 
 export function CategorySelector({onSelect: onSelect}) {
     const [categories, setCategories] = useState([]);
@@ -44,15 +43,12 @@ export function CategorySelector({onSelect: onSelect}) {
 
 
     return (
-        <Container fluid>
-            <h5>Категория:</h5>
-            <DropdownTreeSelect
-                onChange={handleChange}
-                data={categories}
-                texts={{ placeholder: "Поиск" }}
-                mode="radioSelect"
-                inlineSearchInput="true"
-            />
-        </Container>
+        <DropdownTreeSelect
+            onChange={handleChange}
+            data={categories}
+            texts={{ placeholder: "Поиск" }}
+            mode="radioSelect"
+            inlineSearchInput="true"
+        />
     );
 }

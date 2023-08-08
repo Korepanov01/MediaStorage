@@ -3,8 +3,10 @@ import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {MediaAPI} from "../apis/MediaAPI";
 import {MediaTypeAPI} from "../apis/MediaTypeAPI";
 import {CategorySelector} from "./CategorySelector";
+import {useNavigate} from "react-router-dom";
 
 export function AddMedia({onPost: handlePost, show: show, onChangeShow: handleChangeShow}) {
+    const navigate = useNavigate();
     const [types, setTypes] = useState([]);
     const [newMedia, setNewMedia] = useState({
         userId: 1,
@@ -31,9 +33,12 @@ export function AddMedia({onPost: handlePost, show: show, onChangeShow: handleCh
     const handleFormSubmit = () => {
         console.log(JSON.stringify(newMedia))
         MediaAPI.post(newMedia)
-            .then(() => {
+            .then((response) => {
                 handleChangeShow(false);
                 handlePost(true);
+
+                let newMediaId = response.data.id;
+                navigate(`/media/${newMediaId}`);
             });
     };
 
@@ -73,7 +78,10 @@ export function AddMedia({onPost: handlePost, show: show, onChangeShow: handleCh
                             ))};
                         </Form.Select>
                     </FormGroup>
-                    <CategorySelector onSelect={(categoryId) => handleInputChange({target: {name: "categoryId", value: categoryId}})}/>
+                    <FormGroup>
+                        <Form.Label>Категория</Form.Label>
+                        <CategorySelector onSelect={(categoryId) => handleInputChange({target: {name: "categoryId", value: categoryId}})}/>
+                    </FormGroup>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
