@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {Accordion, Badge, Col, ListGroup, ListGroupItem, Row} from "react-bootstrap";
+import {Accordion, Badge, Col, Row} from "react-bootstrap";
 import {FileRepository} from "../../repository/FileRepository";
 import {MediaAPI} from "../../apis/MediaAPI";
 import {FilesCarousel} from "../FileCarousel";
 import Container from "react-bootstrap/Container";
-import {Header} from "../Header";
 import {TagAPI} from "../../apis/TagAPI";
 
 export function MediaPage() {
