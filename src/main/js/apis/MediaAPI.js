@@ -14,5 +14,9 @@ export const MediaAPI = {
 
     getById: function (id) {
         return  Api.get(`/media/${id}`);
+    },
+
+    post: function (newMedia) {
+        return  Api.post("/media", newMedia);
     }
 }
