@@ -24,6 +24,14 @@ public abstract class CrudService<Entity extends BaseEntity> {
     }
 
     @Transactional
+    public void update(@NonNull Entity entity) throws EntityAlreadyExistsException {
+        if (isSameEntityExists(entity)) {
+            throw new EntityAlreadyExistsException();
+        }
+        getMainRepository().update(entity);
+    }
+
+    @Transactional
     public void delete(@NonNull Long id) throws EntityNotFoundException {
         Optional<Entity> optionalEntity = getMainRepository().findById(id);
 
