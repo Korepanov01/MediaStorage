@@ -1,17 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
-import {Accordion, Badge, Col, Row} from "react-bootstrap";
+import {useNavigate, useParams} from "react-router-dom";
+import {Button, Col, Row} from "react-bootstrap";
 import {FileRepository} from "../../repository/FileRepository";
 import {MediaAPI} from "../../apis/MediaAPI";
 import {FilesCarousel} from "../FileCarousel";
-import Container from "react-bootstrap/Container";
-import {TagAPI} from "../../apis/TagAPI";
+import {MediaFormPopup} from "../MediaFormPopup";
+import {MediaInfo} from "../MediaInfo";
+import {USER_ID} from "../../index";
 
 export function MediaPage() {
     const {id} = useParams();
     const [media, setMedia] = useState(null);
     const [filesUrls, setFilesUrlsUrls] = useState([]);
-    const [tags, setTags] = useState([])
+    const [showMediaForm, setShowMediaForm] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         MediaAPI.getById(id).then(response => {
@@ -26,44 +29,29 @@ export function MediaPage() {
         });
     }, []);
 
-    useEffect(() => {
-        TagAPI.get({pageIndex: 0, pageSize: 100, mediaId: id}).then(response => {
-            setTags(response.data);
-        });
-    }, []);
+    const handleFormSubmit = (newMedia) => {
+        console.log(JSON.stringify(newMedia))
+        MediaAPI.post(newMedia)
+            .then((response) => {
+                let newMediaId = response.data.id;
+                navigate(`/media/${newMediaId}`);
+            });
+    };
 
     return (
-        <Container fluid={true}>
+        <>
+            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} userId={USER_ID} onSubmit={handleFormSubmit}/>
             <Row>
                 <Col lg={4}>
                     {media !== null &&
-                        <>
-                            <h1>{media.name}</h1>
-                            <h2>{media.mediaType.name}</h2>
-                            <h3>{media.category.name}</h3>
-                            <Accordion>
-                                {media.description &&
-                                    <Accordion.Item eventKey="1">
-                                        <Accordion.Header>Описание</Accordion.Header>
-                                        <Accordion.Body>{media.description}</Accordion.Body>
-                                    </Accordion.Item>
-                                }
-                                {tags.length !== 0 &&
-                                    <Accordion.Item eventKey="2">
-                                        <Accordion.Header>Теги</Accordion.Header>
-                                        <Accordion.Body>
-                                            {tags.map(tag => (<Badge key={tag.id}>{tag.name}</Badge>))}
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                }
-                            </Accordion>
-                        </>
+                        <MediaInfo media={media}/>
                     }
+                    <Button onClick={() => setShowMediaForm(true)}>Изменить</Button>
                 </Col>
                 <Col lg={8}>
                     <FilesCarousel filesUrls={filesUrls}/>
                 </Col>
             </Row>
-        </Container>
+        </>
     );
 }

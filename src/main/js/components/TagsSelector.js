@@ -8,7 +8,7 @@ import {AppPagination} from "./AppPagination";
 
 export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}) {
     const [tags, setTags] = useState([]);
-    const [tagSearchParameters, setTagSearchParameters] = useState({pageSize: 5});
+    const [tagSearchParameters, setTagSearchParameters] = useState({pageSize: 5, pageIndex: 0});
     const [selectedTags, setSelectedTags] = useState([]);
 
     useEffect(() => {

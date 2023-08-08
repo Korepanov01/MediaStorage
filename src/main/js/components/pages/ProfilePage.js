@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {MediaCards} from "../MediaCards";
 import {MediaAPI} from "../../apis/MediaAPI";
 import {AppPagination} from "../AppPagination";
-import {Col, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import {UserMenu} from "../UserMenu";
 import {UserAPI} from "../../apis/UserAPI";
-import {AddMedia} from "../AddMedia";
+import {MediaFormPopup} from "../MediaFormPopup";
+import {useNavigate} from "react-router-dom";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;
@@ -16,14 +17,15 @@ export function ProfilePage() {
     const [medias, setMedias] = useState([])
     const [searchParameters, setSearchParameters] = useState({pageIndex: 0, pageSize: PAGE_SIZE, userId: USER_ID});
     const [user, setUser] = useState({})
-    const [showAddMedia, setShowAddMedia] = useState(false);
-    const [newMedia, setNewMedia] = useState(false);
+    const [showMediaForm, setShowMediaForm] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         MediaAPI.get(searchParameters).then(response => {
             setMedias(response.data);
         });
-    }, [searchParameters, newMedia]);
+    }, [searchParameters]);
 
     useEffect(() => {
         UserAPI.getById(USER_ID).then(response => {
@@ -35,12 +37,21 @@ export function ProfilePage() {
         setSearchParameters({...searchParameters, pageIndex: newPageIndex})
     }
 
+    const handleFormSubmit = (newMedia) => {
+        console.log(JSON.stringify(newMedia))
+        MediaAPI.post(newMedia)
+            .then((response) => {
+                let newMediaId = response.data.id;
+                navigate(`/media/${newMediaId}`);
+            });
+    };
+
     return (
         <>
-            <AddMedia onPost={setNewMedia} show={showAddMedia} onChangeShow={setShowAddMedia} userId={USER_ID}/>
+            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} userId={USER_ID} onSubmit={handleFormSubmit}/>
             <Row>
                 <Col lg={4}>
-                    <UserMenu user={user} onAddMediaClick={() => setShowAddMedia(true)}/>
+                    <UserMenu user={user} onAddMediaClick={() => setShowMediaForm(true)}/>
                 </Col>
                 <Col lg={8}>
                     <MediaCards medias={medias} cardsInRow={CARDS_IN_ROW}/>

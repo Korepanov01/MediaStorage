@@ -1,12 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
-import {MediaAPI} from "../apis/MediaAPI";
 import {MediaTypeAPI} from "../apis/MediaTypeAPI";
 import {CategorySelector} from "./CategorySelector";
-import {useNavigate} from "react-router-dom";
 
-export function AddMedia({onPost: handlePost, show: show, onChangeShow: handleChangeShow}) {
-    const navigate = useNavigate();
+export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSubmit: handleSubmit}) {
     const [types, setTypes] = useState([]);
     const [newMedia, setNewMedia] = useState({
         userId: 1,
@@ -28,18 +25,6 @@ export function AddMedia({onPost: handlePost, show: show, onChangeShow: handleCh
             ...prevMedia,
             [name]: value
         }));
-    };
-
-    const handleFormSubmit = () => {
-        console.log(JSON.stringify(newMedia))
-        MediaAPI.post(newMedia)
-            .then((response) => {
-                handleChangeShow(false);
-                handlePost(true);
-
-                let newMediaId = response.data.id;
-                navigate(`/media/${newMediaId}`);
-            });
     };
 
     return (
@@ -88,7 +73,7 @@ export function AddMedia({onPost: handlePost, show: show, onChangeShow: handleCh
                 <Button variant="secondary" onClick={() => handleChangeShow(false)}>
                     Отмена
                 </Button>
-                <Button variant="primary" onClick={handleFormSubmit}>
+                <Button variant="primary" onClick={handleSubmit}>
                     Сохранить
                 </Button>
             </Modal.Footer>
