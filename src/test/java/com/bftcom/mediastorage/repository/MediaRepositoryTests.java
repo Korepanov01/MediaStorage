@@ -107,7 +107,7 @@ public class MediaRepositoryTests {
                 1L,
                 1L,
                 "Новая запись",
-                null,
+                "Описание",
                 1L,
                 LocalDateTime.now(),
                 LocalDateTime.now());

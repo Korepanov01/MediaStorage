@@ -10,5 +10,9 @@ export const MediaAPI = {
                 return qs.stringify(params);
             }
         });
+    },
+
+    getById: function (id) {
+        return  Api.get(`/media/${id}`);
     }
 }

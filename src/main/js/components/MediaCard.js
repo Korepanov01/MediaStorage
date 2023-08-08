@@ -7,7 +7,6 @@ import {Link} from "react-router-dom";
 export function MediaCard({ media }) {
     const [thumbnail, setThumbnail] = useState(null)
 
-
     useEffect(() => {
         FileRepository.getThumbnailUrl(media.id).then(url => {
             setThumbnail(url);
@@ -15,7 +14,7 @@ export function MediaCard({ media }) {
     });
 
     return (
-        <Link to={`media/${media.id}`} style={{ textDecoration: 'none' }}>
+        <Link to={`/media/${media.id}`} style={{ textDecoration: 'none' }}>
             <Card className={"flex-fill"} style={{margin: "5px"}}>
                 <Card.Img src={thumbnail}/>
                 <Card.Body>

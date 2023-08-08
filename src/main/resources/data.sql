@@ -1,8 +1,8 @@
 -- Исходные данные "public.file_type"
 INSERT INTO "public.file_type" ("name")
 VALUES
-    ('THUMBNAIL'),
-    ('MAIN');
+    ('Превью'),
+    ('Основной');
 
 -- Исходные данные "public.role"
 INSERT INTO "public.role" ("name")
