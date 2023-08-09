@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {Button, Col, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import {MediaAPI} from "../../apis/MediaAPI";
 import {FilesCarousel} from "../FileCarousel";
 import {MediaInfo} from "../MediaInfo";
