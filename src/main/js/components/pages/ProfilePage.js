@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {MediaCards} from "../MediaCards";
 import {MediaAPI} from "../../apis/MediaAPI";
-import {AppPagination} from "../AppPagination";
+import {PageSelector} from "../selectors/PageSelector";
 import {Col, Row} from "react-bootstrap";
 import {UserMenu} from "../UserMenu";
 import {UserAPI} from "../../apis/UserAPI";
-import {MediaFormPopup} from "../MediaFormPopup";
+import {MediaFormPopup} from "../popups/MediaFormPopup";
 import {useNavigate} from "react-router-dom";
 import {USER_ID} from "../../index";
 import {PostPutMediaRequestBuilder} from "../../models/PostPutMediaRequest";
@@ -55,7 +55,7 @@ export function ProfilePage() {
                 </Col>
                 <Col lg={8}>
                     <MediaCards medias={medias} cardsInRow={CARDS_IN_ROW}/>
-                    <AppPagination pageIndex={searchParameters.pageIndex} onPageChange={onPageChange}/>
+                    <PageSelector pageIndex={searchParameters.pageIndex} onPageChange={onPageChange}/>
                 </Col>
             </Row>
         </>

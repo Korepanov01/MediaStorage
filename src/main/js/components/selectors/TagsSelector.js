@@ -2,9 +2,9 @@ import React, {useEffect} from "react";
 import {useState} from "react";
 import {SearchBar} from "./SearchBar";
 import {Badge, Form} from "react-bootstrap";
-import {TagAPI} from "../apis/TagAPI";
+import {TagAPI} from "../../apis/TagAPI";
 import Container from "react-bootstrap/Container";
-import {AppPagination} from "./AppPagination";
+import {PageSelector} from "./PageSelector";
 
 export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}) {
     const [tags, setTags] = useState([]);
@@ -78,7 +78,7 @@ export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}
                     ))}
                 </Form.Group>
             </Form>
-            <AppPagination pageIndex={ tagSearchParameters.pageIndex } onPageChange={handlePageChange}/>
+            <PageSelector pageIndex={ tagSearchParameters.pageIndex } onPageChange={handlePageChange}/>
         </Container>
     );
 }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import {SearchBar} from "./SearchBar";
-import {TagsSelector} from "./TagsSelector";
+import {SearchBar} from "./selectors/SearchBar";
+import {TagsSelector} from "./selectors/TagsSelector";
 import {Button} from "react-bootstrap";
-import {MediaTypeSelector} from "./MediaTypeSelector";
-import {CategorySelector} from "./CategorySelector";
+import {MediaTypeSelector} from "./selectors/MediaTypeSelector";
+import {CategorySelector} from "./selectors/CategorySelector";
 
 const SEARCH_BUTTON_TITLE = "Найти"
 

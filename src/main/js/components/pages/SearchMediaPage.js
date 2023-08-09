@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {MediaCards} from "../MediaCards";
 import {MediaAPI} from "../../apis/MediaAPI";
-import {AppPagination} from "../AppPagination";
+import {PageSelector} from "../selectors/PageSelector";
 import {Col, Row} from "react-bootstrap";
 import {MediaSearchMenu} from "../MediaSearchMenu";
 
@@ -31,7 +31,7 @@ export function SearchMediaPage() {
             </Col>
             <Col lg={8}>
                 <MediaCards medias={ medias } cardsInRow={CARDS_IN_ROW}/>
-                <AppPagination pageIndex={ searchParameters.pageIndex } onPageChange={onPageChange}/>
+                <PageSelector pageIndex={ searchParameters.pageIndex } onPageChange={onPageChange}/>
             </Col>
         </Row>
     );

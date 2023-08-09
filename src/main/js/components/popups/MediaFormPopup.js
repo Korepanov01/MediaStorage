@@ -1,7 +1,7 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
-import {MediaTypeAPI} from "../apis/MediaTypeAPI";
-import {CategorySelector} from "./CategorySelector";
+import {MediaTypeAPI} from "../../apis/MediaTypeAPI";
+import {CategorySelector} from "../selectors/CategorySelector";
 
 export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSubmit: handleSubmit, initialData: initialData}) {
     console.log(JSON.stringify(initialData))

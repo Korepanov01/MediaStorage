@@ -5,7 +5,7 @@ import React from "react";
 const NEXT_BUTTON_TEXT = "Далее";
 const PREVIOUS_BUTTON_TEXT = "Назад";
 
-export function AppPagination({ onPageChange: onPageChange, pageIndex: pageIndex}) {
+export function PageSelector({ onPageChange: onPageChange, pageIndex: pageIndex}) {
 
     return (
         <Pagination className="justify-content-between">

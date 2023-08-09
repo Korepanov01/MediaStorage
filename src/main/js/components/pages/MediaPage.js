@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {Button, Col, Row} from "react-bootstrap";
 import {MediaAPI} from "../../apis/MediaAPI";
 import {FilesCarousel} from "../FileCarousel";
-import {MediaFormPopup} from "../MediaFormPopup";
+import {MediaFormPopup} from "../popups/MediaFormPopup";
 import {MediaInfo} from "../MediaInfo";
 import {USER_ID} from "../../index";
 import {MediaBuilder} from "../../models/Media";
@@ -15,6 +15,7 @@ export function MediaPage() {
     const [media, setMedia] = useState(MediaBuilder.getDefault());
     const [filesUrls, setFilesUrlsUrls] = useState([]);
     const [showMediaForm, setShowMediaForm] = useState(false);
+    const [showFilesForm, setShowFilesForm] = useState(false);
 
     const [putMediaRequest, setPutMediaRequest] = useState(PostPutMediaRequestBuilder.getDefault());
     const [updated, setUpdated] = useState(false);
@@ -47,6 +48,7 @@ export function MediaPage() {
             <Row>
                 <Col lg={4}>
                     <MediaInfo media={media}/>
+                    <Button className={"w-100"} onClick={() => setShowFilesForm(true)}>Файлы</Button>
                     <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Изменить</Button>
                 </Col>
                 <Col lg={8}>
