@@ -28,7 +28,6 @@ export function CategorySelector({onSelect: onSelect}) {
     useEffect(() => {
         const fetchCategories = async () => {
             const categoryTree = await fetchCategoryTree();
-            console.log(JSON.stringify(categoryTree))
             setCategories(categoryTree);
         };
 
@@ -40,7 +39,6 @@ export function CategorySelector({onSelect: onSelect}) {
             ? selectedNodes[0].value
             : null);
     }
-
 
     return (
         <DropdownTreeSelect

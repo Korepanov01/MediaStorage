@@ -1,4 +1,5 @@
 import { Api } from "./Api"
+import {MediaBuilder} from "../models/Media";
 const qs = require('qs');
 
 export const MediaAPI = {
@@ -12,8 +13,10 @@ export const MediaAPI = {
         });
     },
 
-    getById: function (id) {
-        return  Api.get(`/media/${id}`);
+    getById: async function (id) {
+        return Api.get(`/media/${id}`)
+            .then(response => response.data)
+            .then(data => MediaBuilder.buildByData(data));
     },
 
     post: function (newMedia) {

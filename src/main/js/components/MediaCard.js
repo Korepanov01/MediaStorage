@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {Card} from "react-bootstrap";
 import {TagsCarousel} from "./TagsCarousel";
-import {FileRepository} from "../repository/FileRepository";
 import {Link} from "react-router-dom";
+import {FileAPI} from "../apis/FileAPI";
 
 export function MediaCard({ media }) {
     const [thumbnail, setThumbnail] = useState(null)
 
     useEffect(() => {
-        FileRepository.getThumbnailUrl(media.id).then(url => {
+        FileAPI.getThumbnailUrl(media.id).then(url => {
             setThumbnail(url);
         });
     });

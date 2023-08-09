@@ -76,8 +76,9 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
             preparedStatement.setNull(4, Types.VARCHAR);
         }
         preparedStatement.setLong(5, media.getMediaTypeId());
-        preparedStatement.setObject(6, media.getEditedAt());
-        preparedStatement.setLong(7, media.getId());
+        preparedStatement.setObject(6, media.getCreatedAt());
+        preparedStatement.setObject(7, media.getEditedAt());
+        preparedStatement.setLong(8, media.getId());
     }
 
     private final static String CATEGORY_RECURSIVE = "WITH RECURSIVE category_recursive AS (\n" +

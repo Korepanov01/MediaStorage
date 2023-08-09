@@ -1,19 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {MediaTypeAPI} from "../apis/MediaTypeAPI";
 import {CategorySelector} from "./CategorySelector";
 
-export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSubmit: handleSubmit}) {
+export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSubmit: handleSubmit, initialData: initialData}) {
+    console.log(JSON.stringify(initialData))
     const [types, setTypes] = useState([]);
-    const [newMedia, setNewMedia] = useState({
-        userId: 1,
-        categoryId: null,
-        name: "",
-        description: "",
-        mediaTypeId: null
-    });
+    const [postPutMediaRequest, setPostPutMediaRequest] = useState(initialData || postPutMediaRequest.getDefault());
 
     useEffect(() => {
+        setPostPutMediaRequest(initialData);
+    }, [initialData]);
+
+    useLayoutEffect(() => {
         MediaTypeAPI.get().then(response => {
             setTypes(response.data);
         });
@@ -21,17 +20,14 @@ export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSu
 
     const handleInputChange = (event) => {
         const {name, value} = event.target;
-        setNewMedia((prevMedia) => ({
-            ...prevMedia,
+        setPostPutMediaRequest((prevRequest) => ({
+            ...prevRequest,
             [name]: value
         }));
     };
 
     return (
         <Modal show={show} onHide={() => handleChangeShow(false)}>
-            <Modal.Header closeButton>
-                <Modal.Title>Новое медиа</Modal.Title>
-            </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Group>
@@ -39,7 +35,7 @@ export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSu
                         <Form.Control
                             type="text"
                             name="name"
-                            value={newMedia.name}
+                            value={postPutMediaRequest.name}
                             onChange={handleInputChange}
                         />
                     </Form.Group>
@@ -48,13 +44,14 @@ export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSu
                         <Form.Control
                             as="textarea"
                             name="description"
-                            value={newMedia.description}
+                            value={postPutMediaRequest.description || ""}
                             onChange={handleInputChange}
                         />
                     </Form.Group>
                     <FormGroup>
                         <Form.Label>Тип</Form.Label>
                         <Form.Select
+                            defaultValue={postPutMediaRequest.mediaTypeId}
                             name="mediaTypeId"
                             onChange={handleInputChange}
                             aria-label="Тип">
@@ -73,7 +70,7 @@ export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSu
                 <Button variant="secondary" onClick={() => handleChangeShow(false)}>
                     Отмена
                 </Button>
-                <Button variant="primary" onClick={handleSubmit}>
+                <Button variant="primary" onClick={() => handleSubmit(postPutMediaRequest)}>
                     Сохранить
                 </Button>
             </Modal.Footer>

@@ -1,52 +1,52 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {Button, Col, Row} from "react-bootstrap";
-import {FileRepository} from "../../repository/FileRepository";
 import {MediaAPI} from "../../apis/MediaAPI";
 import {FilesCarousel} from "../FileCarousel";
 import {MediaFormPopup} from "../MediaFormPopup";
 import {MediaInfo} from "../MediaInfo";
 import {USER_ID} from "../../index";
+import {MediaBuilder} from "../../models/Media";
+import {PostPutMediaRequestBuilder} from "../../models/PostPutMediaRequest";
+import {FileAPI} from "../../apis/FileAPI";
 
 export function MediaPage() {
     const {id} = useParams();
-    const [media, setMedia] = useState(null);
+    const [media, setMedia] = useState(MediaBuilder.getDefault());
     const [filesUrls, setFilesUrlsUrls] = useState([]);
     const [showMediaForm, setShowMediaForm] = useState(false);
+
+    const [putMediaRequest, setPutMediaRequest] = useState(PostPutMediaRequestBuilder.getDefault());
     const [updated, setUpdated] = useState(false);
 
-    const navigate = useNavigate();
-
     useEffect(() => {
-        MediaAPI.getById(id).then(response => {
-            console.log(JSON.stringify(response.data))
-            setMedia(response.data);
+        MediaAPI.getById(id).then(media => {
+            setMedia(media);
+            setPutMediaRequest(PostPutMediaRequestBuilder.buildByMedia(media))
         });
-    }, []);
+    }, [updated]);
 
     useEffect(() => {
-        FileRepository.getMainUrls(id).then(urls => {
+        FileAPI.getMainUrls(id).then(urls => {
             setFilesUrlsUrls(urls);
         });
     }, []);
 
-    const handleFormSubmit = (newMedia) => {
-        console.log(JSON.stringify(newMedia))
-        MediaAPI.put(id, newMedia)
+    const handleFormSubmit = (putRequest) => {
+        console.log(JSON.stringify(putRequest))
+        MediaAPI.put(id, putRequest)
             .then(() => {
-                let newMediaId = response.data.id;
-                navigate(`/media/${newMediaId}`);
+                setUpdated(true);
+                setShowMediaForm(false);
             });
     };
 
     return (
         <>
-            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} userId={USER_ID} onSubmit={handleFormSubmit}/>
+            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} userId={USER_ID} onSubmit={handleFormSubmit} initialData={putMediaRequest}/>
             <Row>
                 <Col lg={4}>
-                    {media !== null &&
-                        <MediaInfo media={media}/>
-                    }
+                    <MediaInfo media={media}/>
                     <Button onClick={() => setShowMediaForm(true)}>Изменить</Button>
                 </Col>
                 <Col lg={8}>
