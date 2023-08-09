@@ -21,7 +21,7 @@ export function MediaInfo({media: media}) {
             <h1>{media?.name ?? ""}</h1>
             <h2>{media?.mediaType?.name ?? ""}</h2>
             <h3>{media?.category?.name ?? ""}</h3>
-            <Accordion>
+            <Accordion alwaysOpen>
                 {media?.description &&
                     <Accordion.Item eventKey="1">
                         <Accordion.Header>Описание</Accordion.Header>
