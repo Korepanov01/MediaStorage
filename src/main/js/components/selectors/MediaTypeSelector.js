@@ -26,8 +26,8 @@ export function MediaTypeSelector({onSelect: onSelect, selectedTypesIds: selecte
     return (
         <Container>
             <Form>
-                <h5>Тип:</h5>
                 <Form.Group>
+                    <Form.Label>Тип</Form.Label>
                     {types.map((type) => (
                         <Form.Check
                             onChange={handleCheckBoxOnChange}

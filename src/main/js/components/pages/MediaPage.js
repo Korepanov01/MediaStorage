@@ -13,6 +13,7 @@ import {MediaFileAPI} from "../../apis/MediaFileAPI";
 
 export function MediaPage() {
     const {id} = useParams();
+
     const [media, setMedia] = useState(MediaBuilder.getDefault());
     const [mediaFiles, setMediaFiles] = useState([]);
     const [showMediaForm, setShowMediaForm] = useState(false);
@@ -43,7 +44,7 @@ export function MediaPage() {
 
     return (
         <>
-            <FilesFormPopup show={showFilesForm} onChangeShow={setShowFilesForm} onSubmit={() => setFilesUpdated(true)} mediaFiles={mediaFiles}/>
+            <FilesFormPopup show={showFilesForm} onChangeShow={setShowFilesForm} onSubmit={() => setFilesUpdated(true)} mediaFiles={mediaFiles} mediaId={id}/>
             <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} onSubmit={handleFormSubmit} initialData={putMediaRequest}/>
             <Row>
                 <Col lg={4}>

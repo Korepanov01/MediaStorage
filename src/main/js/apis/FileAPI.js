@@ -8,6 +8,19 @@ export const FileAPI = {
         return Api.get(`/files/${id}`);
     },
 
+    post: function (file, params) {
+        const formData = new FormData();
+        formData.append('file', file);
+        Api.post('/files', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            params: params
+        })
+
+        return Api.postForm(`/files`, file, {params: params});
+    },
+
     delete: function (id) {
         return Api.delete(`/files/${id}`);
     },
