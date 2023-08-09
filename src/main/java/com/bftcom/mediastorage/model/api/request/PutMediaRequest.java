@@ -11,11 +11,9 @@ import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostPutMediaRequest extends PostPutEntityRequest<Media> {
+public class PutMediaRequest extends PostPutEntityRequest<Media> {
 
-    @NotNull(message = "Должен быть указан id пользователя (userId)")
-    private Long userId;
-
+    @NotNull(message = "Должен быть указан id категории (categoryId)")
     private Long categoryId;
 
     @NotBlank(message = "Должно быть указано название (name)")
@@ -30,6 +28,6 @@ public class PostPutMediaRequest extends PostPutEntityRequest<Media> {
     @Override
     public Media covertToEntity() {
         LocalDateTime now = LocalDateTime.now();
-        return new Media(userId, categoryId, name, description, mediaTypeId, now, now);
+        return new Media(null, categoryId, name, description, mediaTypeId, now, now);
     }
 }

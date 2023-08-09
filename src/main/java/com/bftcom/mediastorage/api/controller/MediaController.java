@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
+import com.bftcom.mediastorage.model.api.request.PutMediaRequest;
 import com.bftcom.mediastorage.model.dto.MediaDto;
 import com.bftcom.mediastorage.model.dto.MediaListItemDto;
 import com.bftcom.mediastorage.model.entity.Category;
@@ -8,7 +9,7 @@ import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.model.entity.MediaType;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
-import com.bftcom.mediastorage.model.api.request.PostPutMediaRequest;
+import com.bftcom.mediastorage.model.api.request.PostMediaRequest;
 import com.bftcom.mediastorage.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +23,8 @@ public class MediaController implements FullController<
         MediaDto,
         MediaListItemDto,
         Media,
-        PostPutMediaRequest,
-        PostPutMediaRequest,
+        PostMediaRequest,
+        PutMediaRequest,
         MediaSearchParameters> {
 
     private final MediaService mediaService;

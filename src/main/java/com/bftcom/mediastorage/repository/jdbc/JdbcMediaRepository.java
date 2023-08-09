@@ -13,8 +13,10 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements MediaRepository {
@@ -33,6 +35,11 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
 
     public JdbcMediaRepository() {
         super(TABLE_NAME, ID_FIELD, List.of(OTHER_FIELDS));
+        this.setSqlUpdate(String.format(
+                "UPDATE %s SET %s WHERE %s = ?",
+                TABLE_NAME,
+                Arrays.stream(OTHER_FIELDS).skip(1).map(field -> field + " = ?").collect(Collectors.joining(", ")),
+                ID_FIELD));
     }
 
     @Override
@@ -67,18 +74,17 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
     @Override
     protected void setPreparedUpdateStatementValues(@NonNull PreparedStatement preparedStatement, @NonNull Media media)
             throws SQLException {
-        preparedStatement.setLong(1, media.getUserId());
-        preparedStatement.setLong(2, media.getCategoryId());
-        preparedStatement.setString(3, media.getName());
+        preparedStatement.setLong(1, media.getCategoryId());
+        preparedStatement.setString(2, media.getName());
         if (media.getDescription() != null) {
-            preparedStatement.setString(4, media.getDescription());
+            preparedStatement.setString(3, media.getDescription());
         } else {
-            preparedStatement.setNull(4, Types.VARCHAR);
+            preparedStatement.setNull(3, Types.VARCHAR);
         }
-        preparedStatement.setLong(5, media.getMediaTypeId());
-        preparedStatement.setObject(6, media.getCreatedAt());
-        preparedStatement.setObject(7, media.getEditedAt());
-        preparedStatement.setLong(8, media.getId());
+        preparedStatement.setLong(4, media.getMediaTypeId());
+        preparedStatement.setObject(5, media.getCreatedAt());
+        preparedStatement.setObject(6, media.getEditedAt());
+        preparedStatement.setLong(7, media.getId());
     }
 
     private final static String CATEGORY_RECURSIVE = "WITH RECURSIVE category_recursive AS (\n" +

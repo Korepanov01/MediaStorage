@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.repository.CrudRepository;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
     private String sqlSelectFrom;
 
     private String sqlSave;
+
+    @Setter(AccessLevel.PROTECTED)
     private String sqlUpdate;
     private String sqlDelete;
 
