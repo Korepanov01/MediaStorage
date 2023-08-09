@@ -44,7 +44,13 @@ public class MediaController implements FullController<
 
     @Override
     public MediaDto convertToDto(Media media) {
-        return new MediaDto(convertToListItemDto(media), media.getDescription(), media.getCreatedAt(), media.getEditedAt());
+        User user = userService.findById(media.getUserId()).orElseThrow();
+
+        Category category = categoryService.findById(media.getCategoryId()).orElseThrow();
+
+        MediaType mediaType = mediaTypeService.findById(media.getMediaTypeId()).orElseThrow();
+
+        return new MediaDto(media, user, category, mediaType);
     }
 
     @Override

@@ -1,14 +1,23 @@
 package com.bftcom.mediastorage.model.dto;
 
-import lombok.AccessLevel;
+import com.bftcom.mediastorage.model.entity.Category;
+import com.bftcom.mediastorage.model.entity.Media;
+import com.bftcom.mediastorage.model.entity.MediaType;
+import com.bftcom.mediastorage.model.entity.User;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Setter(AccessLevel.PROTECTED)
-@EqualsAndHashCode(callSuper = true)
-public class MediaDto extends MediaListItemDto {
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class MediaDto extends BaseDto{
+    private final Long id;
+    private final String name;
+
+    private final UserHeaderDto user;
+    private final CategoryDto category;
+    private final MediaTypeDto mediaType;
 
     private final String description;
 
@@ -16,10 +25,14 @@ public class MediaDto extends MediaListItemDto {
 
     private final LocalDateTime editedAt;
 
-    public MediaDto(MediaListItemDto mediaListItemDto, String description, LocalDateTime createdAt, LocalDateTime editedAt) {
-        super(mediaListItemDto.getId(), mediaListItemDto.getName(), mediaListItemDto.getUser(), mediaListItemDto.getCategory(), mediaListItemDto.getMediaType());
-        this.description = description;
-        this.createdAt = createdAt;
-        this.editedAt = editedAt;
+    public MediaDto(Media media, User user, Category category, MediaType mediaType) {
+        this.id = media.getId();
+        this.name = media.getName();
+        this.user = new UserHeaderDto(user);
+        this.category = new CategoryDto(category);
+        this.mediaType = new MediaTypeDto(mediaType);
+        this.description = media.getDescription();
+        this.createdAt = media.getCreatedAt();
+        this.editedAt = media.getEditedAt();
     }
 }
