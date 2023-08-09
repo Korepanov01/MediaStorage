@@ -4,7 +4,6 @@ import {MediaTypeAPI} from "../../apis/MediaTypeAPI";
 import {CategorySelector} from "../selectors/CategorySelector";
 
 export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSubmit: handleSubmit, initialData: initialData}) {
-    console.log(JSON.stringify(initialData))
     const [types, setTypes] = useState([]);
     const [postPutMediaRequest, setPostPutMediaRequest] = useState(initialData);
 
