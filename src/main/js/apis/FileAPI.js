@@ -1,7 +1,6 @@
 import { Api } from "./Api"
 import {MediaFileAPI} from "./MediaFileAPI";
 import {FileTypes} from "../enums/FileTypes";
-import {defaults} from "axios";
 import {Defaults} from "../enums/Defaults";
 
 export const FileAPI = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Modal} from "react-bootstrap";
+import {Button, Card, CardGroup, Modal} from "react-bootstrap";
 
 export function FilesFormPopup({show: show, onChangeShow: handleChangeShow, mediaFiles: mediaFiles, onSubmit: handleSubmit}) {
 
@@ -17,14 +17,14 @@ export function FilesFormPopup({show: show, onChangeShow: handleChangeShow, medi
                 {Object.keys(filesByType).map(fileType => (
                     <div key={fileType}>
                         <h3>{fileType}</h3>
-                        {filesByType[fileType].map(file => (
-                            <Card key={file.fileId}>
-                                <Card.Body>
-                                    <Card.Title>{file.fileId}</Card.Title>
-                                    <Card.Text>{file.url}</Card.Text>
-                                </Card.Body>
-                            </Card>
-                        ))}
+                            {filesByType[fileType].map(file => (
+                                <Card key={file.fileId}>
+                                    <Card.Img src={file.url}/>
+                                    <Card.Footer>
+                                        <Button className={"w-100"} variant={"danger"}>Удалить</Button>
+                                    </Card.Footer>
+                                </Card>
+                            ))}
                     </div>
                 ))}
             </Modal.Body>
