@@ -47,7 +47,7 @@ export function MediaPage() {
             <Row>
                 <Col lg={4}>
                     <MediaInfo media={media}/>
-                    <Button onClick={() => setShowMediaForm(true)}>Изменить</Button>
+                    <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Изменить</Button>
                 </Col>
                 <Col lg={8}>
                     <FilesCarousel filesUrls={filesUrls}/>
