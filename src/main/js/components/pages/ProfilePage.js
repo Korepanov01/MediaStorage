@@ -7,11 +7,11 @@ import {UserMenu} from "../UserMenu";
 import {UserAPI} from "../../apis/UserAPI";
 import {MediaFormPopup} from "../MediaFormPopup";
 import {useNavigate} from "react-router-dom";
+import {USER_ID} from "../../index";
+import {PostPutMediaRequestBuilder} from "../../models/PostPutMediaRequest";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;
-
-const USER_ID = 1;
 
 export function ProfilePage() {
     const [medias, setMedias] = useState([])
@@ -37,9 +37,9 @@ export function ProfilePage() {
         setSearchParameters({...searchParameters, pageIndex: newPageIndex})
     }
 
-    const handleFormSubmit = (newMedia) => {
-        console.log(JSON.stringify(newMedia))
-        MediaAPI.post(newMedia)
+    const handleFormSubmit = (postRequest) => {
+        postRequest.userId = USER_ID;
+        MediaAPI.post(postRequest)
             .then((response) => {
                 let newMediaId = response.data.id;
                 navigate(`/media/${newMediaId}`);
@@ -48,7 +48,7 @@ export function ProfilePage() {
 
     return (
         <>
-            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} userId={USER_ID} onSubmit={handleFormSubmit}/>
+            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} onSubmit={handleFormSubmit} initialData={PostPutMediaRequestBuilder.getDefault()}/>
             <Row>
                 <Col lg={4}>
                     <UserMenu user={user} onAddMediaClick={() => setShowMediaForm(true)}/>

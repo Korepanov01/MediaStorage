@@ -6,7 +6,7 @@ import {CategorySelector} from "./CategorySelector";
 export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSubmit: handleSubmit, initialData: initialData}) {
     console.log(JSON.stringify(initialData))
     const [types, setTypes] = useState([]);
-    const [postPutMediaRequest, setPostPutMediaRequest] = useState(initialData || postPutMediaRequest.getDefault());
+    const [postPutMediaRequest, setPostPutMediaRequest] = useState(initialData);
 
     useEffect(() => {
         setPostPutMediaRequest(initialData);
