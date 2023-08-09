@@ -8,6 +8,10 @@ export const FileAPI = {
         return Api.get(`/files/${id}`);
     },
 
+    delete: function (id) {
+        return Api.delete(`/files/${id}`);
+    },
+
     getThumbnailUrl: async function (mediaId) {
         let searchParameters = {pageIndex: 0, pageSize: 1, mediaId: mediaId, type: FileTypes.thumbnail};
         let mediaFiles = await MediaFileAPI.get(searchParameters);
