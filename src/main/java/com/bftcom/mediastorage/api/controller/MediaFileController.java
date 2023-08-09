@@ -28,7 +28,7 @@ public class MediaFileController implements ParametersSearchController<
     public FileInfoDto convertToListItemDto(MediaFile mediaFile) {
         FileType fileType = fileTypeService.findById(mediaFile.getFileTypeId()).orElseThrow();
         String url = FileService.getFileUrl(mediaFile.getFileId());
-        return new FileInfoDto(url, fileType.getName());
+        return new FileInfoDto(mediaFile.getFileId(), url, fileType.getName());
     }
 
     @Override

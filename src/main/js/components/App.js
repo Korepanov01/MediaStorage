@@ -7,13 +7,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {MainPage} from "./pages/MainPage";
 import {ProfilePage} from "./pages/ProfilePage";
 import {MediaPage} from "./pages/MediaPage";
-import Navbar from "react-bootstrap/Navbar";
+import {AppNavbar} from "./AppNavbar";
 
 export function App() {
     return (
         <BrowserRouter>
             <Container>
-                <Navbar/>
+                <AppNavbar/>
                     <Routes>
                         <Route path="/" element={<MainPage/>}/>
                         <Route path="search" element={<SearchMediaPage/>}/>

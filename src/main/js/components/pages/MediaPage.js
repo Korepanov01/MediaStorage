@@ -5,20 +5,22 @@ import {MediaAPI} from "../../apis/MediaAPI";
 import {FilesCarousel} from "../FileCarousel";
 import {MediaFormPopup} from "../popups/MediaFormPopup";
 import {MediaInfo} from "../MediaInfo";
-import {USER_ID} from "../../index";
 import {MediaBuilder} from "../../models/Media";
 import {PostPutMediaRequestBuilder} from "../../models/PostPutMediaRequest";
-import {FileAPI} from "../../apis/FileAPI";
+import {FileTypes} from "../../enums/FileTypes";
+import {FilesFormPopup} from "../popups/FilesFormPopup";
+import {MediaFileAPI} from "../../apis/MediaFileAPI";
 
 export function MediaPage() {
     const {id} = useParams();
     const [media, setMedia] = useState(MediaBuilder.getDefault());
-    const [filesUrls, setFilesUrlsUrls] = useState([]);
+    const [mediaFiles, setMediaFiles] = useState([]);
     const [showMediaForm, setShowMediaForm] = useState(false);
     const [showFilesForm, setShowFilesForm] = useState(false);
 
     const [putMediaRequest, setPutMediaRequest] = useState(PostPutMediaRequestBuilder.getDefault());
     const [updated, setUpdated] = useState(false);
+    const [filesUpdated, setFilesUpdated] = useState(false);
 
     useEffect(() => {
         MediaAPI.getById(id).then(media => {
@@ -28,13 +30,10 @@ export function MediaPage() {
     }, [updated]);
 
     useEffect(() => {
-        FileAPI.getMainUrls(id).then(urls => {
-            setFilesUrlsUrls(urls);
-        });
-    }, []);
+        MediaFileAPI.getByMediaId(id).then(mediaFiles => setMediaFiles(mediaFiles));
+    }, [filesUpdated]);
 
     const handleFormSubmit = (putRequest) => {
-        console.log(JSON.stringify(putRequest))
         MediaAPI.put(id, putRequest)
             .then(() => {
                 setUpdated(true);
@@ -44,7 +43,8 @@ export function MediaPage() {
 
     return (
         <>
-            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} userId={USER_ID} onSubmit={handleFormSubmit} initialData={putMediaRequest}/>
+            <FilesFormPopup show={showFilesForm} onChangeShow={setShowFilesForm} onSubmit={() => setFilesUpdated(true)} mediaFiles={mediaFiles}/>
+            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} onSubmit={handleFormSubmit} initialData={putMediaRequest}/>
             <Row>
                 <Col lg={4}>
                     <MediaInfo media={media}/>
@@ -52,7 +52,7 @@ export function MediaPage() {
                     <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Изменить</Button>
                 </Col>
                 <Col lg={8}>
-                    <FilesCarousel filesUrls={filesUrls}/>
+                    <FilesCarousel filesUrls={mediaFiles.filter(mediaFile => mediaFile.fileType === FileTypes.main).map(mediaFile => mediaFile.url)}/>
                 </Col>
             </Row>
         </>
