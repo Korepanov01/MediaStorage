@@ -25,5 +25,9 @@ export const MediaAPI = {
 
     put: function (id, media) {
         return  Api.put(`/media/${id}`, media);
+    },
+
+    delete: function (id) {
+        return  Api.delete(`/media/${id}`);
     }
 }
