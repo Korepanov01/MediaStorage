@@ -31,7 +31,7 @@ export function AppNavbar() {
                     </Navbar.Collapse>
                 </Navbar>
             </Col>
-            <Col lg={"2"}>
+            <Col lg={"2"} className={"d-flex align-items-center"}>
                 <AuthPopup onChangeShow={setShowLoginForm} show={showLoginForm}/>
                 <Button className={"w-100"} onClick={() => setShowLoginForm(true)}>Войти</Button>
             </Col>
