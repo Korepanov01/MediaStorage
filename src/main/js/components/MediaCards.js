@@ -8,10 +8,10 @@ export function MediaCards({medias: medias, cardsInRow: cardsInRow}) {
     return (
         <CardGroup>
             <Container fluid>
-                {utils(medias, cardsInRow).map((chunk, i) => (
-                    <Row key={ i } className={"justify-content-between"}>
+                {utils(medias, cardsInRow).map((chunk, chunkIndex) => (
+                    <Row key={`row-${chunkIndex}`} className={"justify-content-between"}>
                         {chunk.map((media) => (
-                            <Col lg = {12 / cardsInRow} key={media.id}>
+                            <Col lg = {12 / cardsInRow} key={`col-${media.id}`}>
                                 <MediaCard  media={media} />
                             </Col>
                         ))}

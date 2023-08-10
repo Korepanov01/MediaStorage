@@ -5,27 +5,15 @@ import {Badge, Form, FormGroup} from "react-bootstrap";
 import {TagAPI} from "../../apis/TagAPI";
 import {PageSelector} from "./PageSelector";
 
-export function TagsSelector({onSelect: onSelect, selectedTagsIds: selectedTagsIds}) {
+export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect, selectedTags: selectedTags}) {
     const [tags, setTags] = useState([]);
     const [tagSearchParameters, setTagSearchParameters] = useState({pageSize: 5, pageIndex: 0});
-    const [selectedTags, setSelectedTags] = useState([]);
 
     useEffect(() => {
         TagAPI.get(tagSearchParameters).then(tags => {
             setTags(tags);
         });
     }, [tagSearchParameters]);
-
-    useEffect(() => {
-        let newSelectedTags = [];
-        const tagPromises = [...selectedTagsIds].map(async selectedTagId => await TagAPI.getById(selectedTagId));
-
-        Promise.all(tagPromises)
-            .then(tags => {
-                newSelectedTags = tags;
-                setSelectedTags(newSelectedTags);
-            });
-    }, [selectedTagsIds]);
 
     function handleSearchStringChange(searchString) {
         setTagSearchParameters({...tagSearchParameters, pageIndex: 0, searchString: searchString});
@@ -37,19 +25,11 @@ export function TagsSelector({onSelect: onSelect, selectedTagsIds: selectedTagsI
     }
 
     function handleCheckBoxOnChange(e) {
-        let newSelectedTagsIds = new Set(selectedTagsIds);
         if (e.target.checked) {
-            newSelectedTagsIds.add(e.target.value);
+            handleSelect(e.target.value);
         } else {
-            newSelectedTagsIds.delete(e.target.value);
+            handleUnselect(e.target.value);
         }
-        onSelect(newSelectedTagsIds);
-    }
-
-    function handleSelectedTagClick(tagId) {
-        let newSelectedTagsIds = new Set(selectedTagsIds);
-        newSelectedTagsIds.delete(tagId);
-        onSelect(newSelectedTagsIds);
     }
 
     return (
@@ -58,7 +38,7 @@ export function TagsSelector({onSelect: onSelect, selectedTagsIds: selectedTagsI
             <SearchBar onSearchStringChange={handleSearchStringChange}/>
             {selectedTags.map((selectedTag) => (
                 <Badge
-                    onClick={() => handleSelectedTagClick(selectedTag.id)}
+                    onClick={() => handleUnselect(selectedTag.id)}
                     size={"sm"}
                     key={selectedTag.id}>
                     {selectedTag.name}
@@ -66,6 +46,7 @@ export function TagsSelector({onSelect: onSelect, selectedTagsIds: selectedTagsI
             ))}
             {tags.map((tag) => (
                 <Form.Check
+                    checked={selectedTags.some(t => t.id === tag.id)}
                     onChange={handleCheckBoxOnChange}
                     type={"checkbox"}
                     label={tag.name}
@@ -73,7 +54,7 @@ export function TagsSelector({onSelect: onSelect, selectedTagsIds: selectedTagsI
                     value={tag.id}
                 />
             ))}
-            <PageSelector pageIndex={ tagSearchParameters.pageIndex } onPageChange={handlePageChange}/>
+            <PageSelector pageIndex={tagSearchParameters.pageIndex} onPageChange={handlePageChange}/>
         </FormGroup>
     );
 }
