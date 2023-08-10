@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/main/js',
@@ -7,6 +8,15 @@ module.exports = {
     output: {
         path: path.resolve(__dirname),
         filename: './src/main/resources/static/built/bundle.js'
+    },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, './src/main/resources/static/built')
+        },
+        hot: true
+    },
+    resolve: {
+        extensions: ['.ts', ".js"],
     },
     module: {
         rules: [
@@ -26,5 +36,19 @@ module.exports = {
             }
         ]
     },
-    watch: true
+    plugins: [
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: './src/main/resources/templates',
+                    to: './src/main/resources/static/built'
+                }
+            ]
+        })
+    ],
+    watch: true,
+    watchOptions:  {
+        poll: true,
+        ignored: /node_modules/
+    }
 };
