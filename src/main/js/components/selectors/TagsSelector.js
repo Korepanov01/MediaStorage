@@ -1,25 +1,24 @@
 import React, {useEffect} from "react";
 import {useState} from "react";
 import {SearchBar} from "./SearchBar";
-import {Badge, Form} from "react-bootstrap";
+import {Badge, Form, FormGroup} from "react-bootstrap";
 import {TagAPI} from "../../apis/TagAPI";
-import Container from "react-bootstrap/Container";
 import {PageSelector} from "./PageSelector";
 
-export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}) {
+export function TagsSelector({onSelect: onSelect, selectedTagsIds: selectedTagsIds}) {
     const [tags, setTags] = useState([]);
     const [tagSearchParameters, setTagSearchParameters] = useState({pageSize: 5, pageIndex: 0});
     const [selectedTags, setSelectedTags] = useState([]);
 
     useEffect(() => {
-        TagAPI.get(tagSearchParameters).then(response => {
-            setTags(response.data);
+        TagAPI.get(tagSearchParameters).then(tags => {
+            setTags(tags);
         });
     }, [tagSearchParameters]);
 
     useEffect(() => {
         let newSelectedTags = [];
-        const tagPromises = [...selectedTagsIds].map(selectedTagId => TagAPI.getById(selectedTagId).then(response => response.data));
+        const tagPromises = [...selectedTagsIds].map(async selectedTagId => await TagAPI.getById(selectedTagId));
 
         Promise.all(tagPromises)
             .then(tags => {
@@ -54,8 +53,8 @@ export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}
     }
 
     return (
-        <Container>
-            <h5>Тэги:</h5>
+        <FormGroup>
+            <Form.Label>Тэги</Form.Label>
             <SearchBar onSearchStringChange={handleSearchStringChange}/>
             {selectedTags.map((selectedTag) => (
                 <Badge
@@ -65,20 +64,16 @@ export function TagsSelector({onSelect: onSelect, selectedTags: selectedTagsIds}
                     {selectedTag.name}
                 </Badge>
             ))}
-            <Form>
-                <Form.Group>
-                    {tags.map((tag) => (
-                        <Form.Check
-                            onChange={handleCheckBoxOnChange}
-                            type={"checkbox"}
-                            label={tag.name}
-                            key={tag.id}
-                            value={tag.id}
-                        />
-                    ))}
-                </Form.Group>
-            </Form>
+            {tags.map((tag) => (
+                <Form.Check
+                    onChange={handleCheckBoxOnChange}
+                    type={"checkbox"}
+                    label={tag.name}
+                    key={tag.id}
+                    value={tag.id}
+                />
+            ))}
             <PageSelector pageIndex={ tagSearchParameters.pageIndex } onPageChange={handlePageChange}/>
-        </Container>
+        </FormGroup>
     );
 }

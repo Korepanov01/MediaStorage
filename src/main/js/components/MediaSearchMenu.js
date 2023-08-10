@@ -26,7 +26,7 @@ export function MediaSearchMenu({onSearch: onSearch, searchParameters: searchPar
         <>
             <SearchBar onSearchStringChange={setSearchString}/>
             <MediaTypeSelector selectedTypesIds={selectedTypesIds} onSelect={setSelectedTypesIds}/>
-            <TagsSelector onSelect={setSelectedTagsIds} selectedTags={selectedTagsIds}/>
+            <TagsSelector onSelect={setSelectedTagsIds} selectedTagsIds={selectedTagsIds}/>
             <CategorySelector onSelect={setCategoryId}/>
             <Button onClick={handleClickSearchButton}>{SEARCH_BUTTON_TITLE}</Button>
         </>

@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {TagAPI} from "../apis/TagAPI";
+import React from 'react';
 import {Accordion, Badge} from "react-bootstrap";
 import {MediaBuilder} from "../models/Media";
 
@@ -7,22 +6,14 @@ MediaInfo.defaultProps = {
     media: MediaBuilder.getDefault()
 }
 
-export function MediaInfo({media: media}) {
-    const [tags, setTags] = useState([])
-
-    useEffect(() => {
-        TagAPI.get({pageIndex: 0, pageSize: 100, mediaId: media?.id ?? 1}).then(response => {
-            setTags(response.data);
-        });
-    }, []);
-
+export function MediaInfo({media: media, tags: tags}) {
     return (
         <>
-            <h1>{media?.name ?? ""}</h1>
-            <h2>{media?.mediaType?.name ?? ""}</h2>
-            <h3>{media?.category?.name ?? ""}</h3>
+            <h1>{media.name}</h1>
+            <h2>{media.mediaType.name}</h2>
+            <h3>{media.category.name}</h3>
             <Accordion alwaysOpen>
-                {media?.description &&
+                {media.description &&
                     <Accordion.Item eventKey="1">
                         <Accordion.Header>Описание</Accordion.Header>
                         <Accordion.Body>{media.description}</Accordion.Body>

@@ -30,7 +30,7 @@ public class MediaTagController implements SaveController<MediaTag, PostMediaTag
             @Valid
             DeleteMediaTagRequest request) {
         try {
-            mediaTagService.delete(request.getMediaId(), request.getMediaId());
+            mediaTagService.delete(request.getMediaId(), request.getTagId());
         } catch (EntityNotFoundException exception) {
             return Response.getEntityNotFound(exception.getMessage());
         }
