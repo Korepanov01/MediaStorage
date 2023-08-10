@@ -1,11 +1,19 @@
 import React, {useEffect, useState} from "react";
-import {Card} from "react-bootstrap";
+import {Badge, Card, Carousel, ListGroup, ListGroupItem} from "react-bootstrap";
 import {TagsCarousel} from "./TagsCarousel";
 import {Link} from "react-router-dom";
 import {FileAPI} from "../apis/FileAPI";
+import {TagAPI} from "../apis/TagAPI";
 
 export function MediaCard({ media }) {
     const [thumbnail, setThumbnail] = useState(null)
+    const [tags, setTags] = useState([])
+
+    useEffect(() => {
+        TagAPI.getAllByMedia(media.id).then(tags => {
+            setTags(tags);
+        });
+    }, []);
 
     useEffect(() => {
         FileAPI.getThumbnailUrl(media.id).then(url => {
@@ -18,15 +26,21 @@ export function MediaCard({ media }) {
             <Card className={"flex-fill"} style={{margin: "5px"}}>
                 <Card.Img src={thumbnail}/>
                 <Card.Body>
-                    <Card.Title>{media.name}</Card.Title>
-                    <Card.Subtitle>Тип: {media.mediaType.name}</Card.Subtitle>
-                    <Card.Subtitle>Категория: {media.category.name}</Card.Subtitle>
-                    <Card.Subtitle>Пользователь: {media.user.name}</Card.Subtitle>
+                    <Card.Title className={"text-center"}>{media.name}</Card.Title>
+                    <ListGroup>
+                        <ListGroup.Item className={"text-center"}>
+                            {media.mediaType.name}
+                        </ListGroup.Item>
+                        <ListGroup.Item className={"text-center"}>
+                            {media.category.name}
+                        </ListGroup.Item>
+                    </ListGroup>
                 </Card.Body>
-                <Card.Footer>
-                    <Card.Subtitle>Теги:</Card.Subtitle>
-                    <TagsCarousel mediaId={media.id}/>
-                </Card.Footer>
+                {tags.length !== 0 &&
+                    <Card.Footer>
+                        <TagsCarousel tags={tags}/>
+                    </Card.Footer>
+                }
             </Card>
         </Link>
     );

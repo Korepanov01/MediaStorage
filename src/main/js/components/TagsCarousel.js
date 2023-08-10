@@ -4,20 +4,14 @@ import {TagAPI} from "../apis/TagAPI";
 
 const CAROUSEL_INTERVAL_MS = 2000;
 
-export function TagsCarousel({ mediaId: mediaId }) {
-    const [tags, setTags] = useState([])
-
-    useEffect(() => {
-        TagAPI.getAllByMedia(mediaId).then(tags => {
-            setTags(tags);
-        });
-    }, []);
-
+export function TagsCarousel({ tags: tags }) {
     return (
         <Carousel interval={CAROUSEL_INTERVAL_MS} controls = {false}>
             {tags.map((tag) => (
                 <Carousel.Item key={tag.id}>
-                    <Badge>{tag.name}</Badge>
+                    <div className={'d-flex justify-content-center'}>
+                        <Badge>{tag.name}</Badge>
+                    </div>
                 </Carousel.Item>
             ))}
         </Carousel>
