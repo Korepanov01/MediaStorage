@@ -11,6 +11,7 @@ import {AuthPopup} from "./popups/AuthPopup";
 
 const PROFILE_TAB_NAME = "Личный кабинет";
 const SEARCH_TAB_NAME = "Поиск";
+const ADMIN_TAB_NAME = "Админ-панель";
 
 export function AppNavbar() {
     const [showLoginForm, setShowLoginForm] = useState(false);
@@ -25,6 +26,7 @@ export function AppNavbar() {
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="search">{SEARCH_TAB_NAME}</Nav.Link>
                             <Nav.Link as={Link} to="profile">{PROFILE_TAB_NAME}</Nav.Link>
+                            <Nav.Link as={Link} to="admin">{ADMIN_TAB_NAME}</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>

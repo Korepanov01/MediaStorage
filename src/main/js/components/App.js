@@ -8,6 +8,7 @@ import {MainPage} from "./pages/MainPage";
 import {ProfilePage} from "./pages/ProfilePage";
 import {MediaPage} from "./pages/MediaPage";
 import {AppNavbar} from "./AppNavbar";
+import {AdminPage} from "./pages/AdminPage";
 
 export function App() {
     return (
@@ -18,6 +19,7 @@ export function App() {
                         <Route path="/" element={<MainPage/>}/>
                         <Route path="search" element={<SearchMediaPage/>}/>
                         <Route path="profile" element={<ProfilePage/>}/>
+                        <Route path="admin" element={<AdminPage/>}/>
                         <Route path="media/:id" element={<MediaPage/>}/>
                     </Routes>
             </Container>
