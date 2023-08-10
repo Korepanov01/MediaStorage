@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Badge, Card, Carousel, ListGroup, ListGroupItem} from "react-bootstrap";
+import {Card, ListGroup} from "react-bootstrap";
 import {TagsCarousel} from "./TagsCarousel";
 import {Link} from "react-router-dom";
 import {FileAPI} from "../apis/FileAPI";

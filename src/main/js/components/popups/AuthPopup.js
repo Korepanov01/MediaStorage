@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Card, Form, FormGroup, Modal} from "react-bootstrap";
+import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 
 export function AuthPopup({show: show, onChangeShow: handleChangeShow}) {
     const [email, setEmail] = useState("");

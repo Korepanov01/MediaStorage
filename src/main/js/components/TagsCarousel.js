@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Badge, Carousel} from "react-bootstrap";
-import {TagAPI} from "../apis/TagAPI";
 
 const CAROUSEL_INTERVAL_MS = 2000;
 
