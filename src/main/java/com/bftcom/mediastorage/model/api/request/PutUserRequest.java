@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PostPutUserRequest extends PostPutEntityRequest<User> {
+public class PutUserRequest extends PostPutEntityRequest<User> {
 
     @NotBlank(message = "Имя не должно быть пустым")
     @Size(max = 200, message = "Имя должно быть не больше 200 символов")
