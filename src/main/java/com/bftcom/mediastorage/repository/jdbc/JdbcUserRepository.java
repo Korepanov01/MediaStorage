@@ -62,6 +62,16 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
     }
 
     @Override
+    public boolean existsByName(@NonNull String name) {
+        return existsByField("name", name);
+    }
+
+    @Override
+    public boolean existsByEmail(@NonNull String email) {
+        return existsByField("email", email);
+    }
+
+    @Override
     public Optional<User> findByName(@NonNull String name) {
         return findByUniqueField("name", name);
     }

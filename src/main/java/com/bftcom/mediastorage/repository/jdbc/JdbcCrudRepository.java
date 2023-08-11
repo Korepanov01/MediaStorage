@@ -97,13 +97,17 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
                 Optional.of(results.get(0));
     }
 
+    public boolean existsByField(@NonNull String field, @NonNull Object value) {
+        return findByUniqueField(field, value).isPresent();
+    }
+
     @Override
     public Optional<Entity> findById(@NonNull Long id) {
         return findByUniqueField(fields.get(0), id);
     }
 
     @Override
-    public boolean isExists(@NonNull Long id) {
+    public boolean existsById(@NonNull Long id) {
         return findById(id).isEmpty();
     }
 

@@ -24,10 +24,10 @@ public class UserRoleService {
     @Transactional
     public void addRole(@NonNull Long userId, @NonNull Long roleId)
             throws EntityNotFoundException, EntityAlreadyExistsException {
-        if (userRepository.isExists(userId))
+        if (userRepository.existsById(userId))
             throw new EntityNotFoundException("Пользователь (id: " + userId + ") не найден");
 
-        if (roleRepository.isExists(roleId))
+        if (roleRepository.existsById(roleId))
             throw new EntityNotFoundException("Роль (id: " + roleId + ") не найдена");
 
         if (userRoleRepository.isExists(userId, roleId))
@@ -40,10 +40,10 @@ public class UserRoleService {
     @Transactional
     public void deleteRole(@NonNull Long userId, @NonNull Long roleId)
             throws EntityNotFoundException {
-        if (userRepository.isExists(userId))
+        if (userRepository.existsById(userId))
             throw new EntityNotFoundException("Пользователь (id: " + userId + ") не найден");
 
-        if (roleRepository.isExists(roleId))
+        if (roleRepository.existsById(roleId))
             throw new EntityNotFoundException("Роль (id: " + roleId + ") не найдена");
 
         Optional<UserRole> optionalUserRole = userRoleRepository.findByUserAndRole(userId, roleId);

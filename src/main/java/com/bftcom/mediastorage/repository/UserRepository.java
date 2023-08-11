@@ -11,4 +11,6 @@ public interface UserRepository
         NameSearchRepository<User> {
 
     Optional<User> findByEmail(@NonNull String email);
+    boolean existsByName(@NonNull String name);
+    boolean existsByEmail(@NonNull String email);
 }

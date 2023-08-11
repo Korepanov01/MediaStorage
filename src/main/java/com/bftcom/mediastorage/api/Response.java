@@ -38,26 +38,6 @@ public class Response {
         return getResponse(message, HttpStatus.NOT_FOUND);
     }
 
-    public static ResponseEntity<BadResponseBody> getEntityAlreadyExists() {
-        return getEntityNotFound("Такая запись уже существует!");
-    }
-
-    public static ResponseEntity<BadResponseBody> getEntityAlreadyExists(String message) {
-        if (message == null) {
-            return getEntityAlreadyExists();
-        }
-
-        return getResponse(message, HttpStatus.BAD_REQUEST);
-    }
-
-    public static ResponseEntity<BadResponseBody> getFileTooBig(String message) {
-        return getResponse(message, HttpStatus.BAD_REQUEST);
-    }
-
-    public static ResponseEntity<BadResponseBody> getBadFileReading() {
-        return getResponse("Произошла ошибка при чтении файла", HttpStatus.BAD_REQUEST);
-    }
-
     public static ResponseEntity<BadResponseBody> getResponse(String message, HttpStatus httpStatus) {
         List<String> errors = new ArrayList<>();
         if (StringUtils.hasText(message)) {
@@ -67,5 +47,37 @@ public class Response {
         return new ResponseEntity<>(
                 new BadResponseBody(errors),
                 httpStatus);
+    }
+
+    public static ResponseEntity<BadResponseBody> getBadRequest(String message) {
+        return getResponse(message, HttpStatus.BAD_REQUEST);
+    }
+
+    public static ResponseEntity<BadResponseBody> getEntityAlreadyExists() {
+        return getBadRequest("Такая запись уже существует!");
+    }
+
+    public static ResponseEntity<BadResponseBody> getEntityAlreadyExists(String message) {
+        if (!StringUtils.hasText(message)) {
+            return getEntityAlreadyExists();
+        }
+
+        return getBadRequest(message);
+    }
+
+    public static ResponseEntity<BadResponseBody> getFileTooBig(String message) {
+        return getBadRequest(message);
+    }
+
+    public static ResponseEntity<BadResponseBody> getBadFileReading() {
+        return getBadRequest("Произошла ошибка при чтении файла");
+    }
+
+    public static ResponseEntity<BadResponseBody> getEmailAlreadyExists() {
+        return getBadRequest("Почта уже занята");
+    }
+
+    public static ResponseEntity<BadResponseBody> getUserNameAlreadyExists() {
+        return getBadRequest("Имя уже занято");
     }
 }

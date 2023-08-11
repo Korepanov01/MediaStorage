@@ -20,4 +20,9 @@ public class Role extends BaseEntity {
         super(id);
         this.name = name;
     }
+
+    public enum Names {
+        ADMIN,
+        USER
+    }
 }

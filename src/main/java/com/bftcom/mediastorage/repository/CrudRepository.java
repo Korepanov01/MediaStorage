@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CrudRepository<Entity extends BaseEntity> {
-    boolean isExists(@NonNull Long id);
+    boolean existsById(@NonNull Long id);
     Optional<Entity> findById(@NonNull Long id);
     @Transactional
     void save(@NonNull Entity entity);
