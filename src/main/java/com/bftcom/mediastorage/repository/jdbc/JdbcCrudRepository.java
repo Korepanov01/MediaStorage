@@ -132,13 +132,6 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
 
     @Override
     @Transactional
-    public List<Entity> saveAll(@NonNull List<Entity> entities) {
-        entities.forEach(this::save);
-        return entities;
-    }
-
-    @Override
-    @Transactional
     public void update(@NonNull Entity entity) {
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(

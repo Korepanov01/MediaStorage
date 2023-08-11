@@ -25,7 +25,7 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     private final UserRoleRepository userRoleRepository;
 
     @Transactional
-    public User register(@NonNull User user) throws EntityAlreadyExistsException, NameAlreadyUsedException, EmailAlreadyUsedException {
+    public void register(@NonNull User user) throws EntityAlreadyExistsException, NameAlreadyUsedException, EmailAlreadyUsedException {
         if (userRepository.existsByName(user.getName())) {
             throw new NameAlreadyUsedException();
         }
@@ -38,8 +38,6 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
 
         UserRole userRole = new UserRole(role.getId(), user.getId());
         userRoleRepository.save(userRole);
-
-        return user;
     }
 
     @Override
