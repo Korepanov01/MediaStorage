@@ -12,17 +12,15 @@ import {AdminPage} from "./pages/AdminPage";
 
 export function App() {
     return (
-        <Browser>
-            <Container>
-                <AppNavbar/>
-                    <Routes>
-                        <Route path="/" element={<MainPage/>}/>
-                        <Route path="search" element={<SearchMediaPage/>}/>
-                        <Route path="profile" element={<ProfilePage/>}/>
-                        <Route path="admin" element={<AdminPage/>}/>
-                        <Route path="media/:id" element={<MediaPage/>}/>
-                    </Routes>
-            </Container>
-        </Browser>
+        <Container>
+            <AppNavbar/>
+            <Routes>
+                <Route path="/" element={<MainPage/>}/>
+                <Route path="search" element={<SearchMediaPage/>}/>
+                <Route path="profile" element={<ProfilePage/>}/>
+                <Route path="admin" element={<AdminPage/>}/>
+                <Route path="media/:id" element={<MediaPage/>}/>
+            </Routes>
+        </Container>
     );
 }
