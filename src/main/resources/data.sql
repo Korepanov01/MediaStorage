@@ -48,11 +48,11 @@ VALUES
 -- Тестовые данные "public.user"
 INSERT INTO "public.user" ("name", "password_hash", "email")
 VALUES
-    ('Иван', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'user1@example.com'),
-    ('Сергей', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'user2@example.com'),
-    ('Александр', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'user3@example.com'),
-    ('Анатолий', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'user4@example.com'),
-    ('Игорь', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'user5@example.com');
+    ('Иван', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'string'),
+    ('Сергей', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'string1'),
+    ('Александр', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'string2'),
+    ('Анатолий', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'string3'),
+    ('Игорь', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'string4');
 
 -- Тестовые данные "public.media"
 INSERT INTO "public.media" ("user_id", "category_id", "name", "description", "media_type_id", "created_at", "edited_at")
@@ -74,6 +74,7 @@ VALUES
 INSERT INTO "public.user_role" ("role_id", "user_id")
 VALUES
     (1, 1),
+    (2, 1),
     (2, 2),
     (2, 3),
     (2, 4),
