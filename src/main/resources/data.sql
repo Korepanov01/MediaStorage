@@ -48,11 +48,11 @@ VALUES
 -- Тестовые данные "public.user"
 INSERT INTO "public.user" ("name", "password_hash", "email")
 VALUES
-    ('Иван', 'hashed_password_1', 'user1@example.com'),
-    ('Сергей', 'hashed_password_2', 'user2@example.com'),
-    ('Александр', 'hashed_password_3', 'user3@example.com'),
-    ('Анатолий', 'hashed_password_4', 'user4@example.com'),
-    ('Игорь', 'hashed_password_5', 'user5@example.com');
+    ('Иван', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'user1@example.com'),
+    ('Сергей', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'user2@example.com'),
+    ('Александр', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'user3@example.com'),
+    ('Анатолий', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'user4@example.com'),
+    ('Игорь', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'user5@example.com');
 
 -- Тестовые данные "public.media"
 INSERT INTO "public.media" ("user_id", "category_id", "name", "description", "media_type_id", "created_at", "edited_at")

@@ -20,6 +20,8 @@ public class AppUserDetails implements UserDetails {
 
     private Long id;
 
+    private String name;
+
     private String password;
 
     private String email;
@@ -68,6 +70,7 @@ public class AppUserDetails implements UserDetails {
 
         return new AppUserDetails(
                 user.getId(),
+                user.getName(),
                 user.getPasswordHash(),
                 user.getEmail(),
                 authorities);
