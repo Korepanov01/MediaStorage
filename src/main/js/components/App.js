@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 const React = require('react');
 
 import {SearchMediaPage} from "./pages/SearchMediaPage";
-import {HashRouter as Browser, Routes, Route } from 'react-router-dom';
+import {Routes, Route } from 'react-router-dom';
 import {MainPage} from "./pages/MainPage";
 import {ProfilePage} from "./pages/ProfilePage";
 import {MediaPage} from "./pages/MediaPage";
