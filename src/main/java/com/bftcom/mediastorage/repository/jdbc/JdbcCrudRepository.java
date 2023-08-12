@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,6 +32,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
 
     protected JdbcTemplate jdbcTemplate;
 
+    private String tableName;
     private List<String> fields;
 
     @Getter(AccessLevel.PROTECTED)
@@ -48,6 +50,8 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             @NonNull String tableName,
             @NonNull String idFiled,
             @NonNull List<String> otherFields) {
+        this.tableName = tableName;
+
         this.fields = new ArrayList<>();
         this.fields.add(tableName + ".id");
         this.fields.addAll(
@@ -83,13 +87,15 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    protected List<Entity> findByField(@NonNull String fieldName, @NonNull Object field) {
+    @Transactional
+    public List<Entity> findByField(@NonNull String fieldName, @NonNull Object field) {
         return this.new ParametersSearcher()
                 .addEqualsCondition(fieldName, field)
                 .findByParameters(this::mapRowToModel);
     }
 
-    protected Optional<Entity> findByUniqueField(@NonNull String fieldName, @NonNull Object field) {
+    @Transactional
+    public Optional<Entity> findByUniqueField(@NonNull String fieldName, @NonNull Object field) {
         List<Entity> results = findByField(fieldName, field);
 
         return results.isEmpty() ?
@@ -97,18 +103,34 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
                 Optional.of(results.get(0));
     }
 
+    @Transactional
     public boolean existsByField(@NonNull String field, @NonNull Object value) {
         return findByUniqueField(field, value).isPresent();
     }
 
     @Override
+    @Transactional
     public Optional<Entity> findById(@NonNull Long id) {
         return findByUniqueField(fields.get(0), id);
     }
 
     @Override
+    @Transactional
     public boolean existsById(@NonNull Long id) {
         return findById(id).isEmpty();
+    }
+
+    @Transactional
+    public void updateField(@NonNull String field, @NonNull Consumer<PreparedStatement> addParam) {
+        String sql = String.format(
+                "INSERT INTO %s (%s) VALUES(?)",
+                this.tableName,
+                field);
+        jdbcTemplate.update(connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            addParam.accept(preparedStatement);
+            return preparedStatement;
+        });
     }
 
     @Override
@@ -234,17 +256,20 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
                     Optional.of(results.get(0));
         }
 
+        @Transactional
         public List<Entity> findByParameters(@NotNull RowMapper<Entity> rowMapper) {
             String sql = sqlBuilder.toString();
 
             return jdbcTemplate.query(sql, rowMapper, queryParams.toArray());
         }
 
+        @Transactional
         public List<Entity> findByParameters(int pageIndex, int pageSize, @NotNull RowMapper<Entity> rowMapper) {
             return addOrderAndPagination(pageIndex, pageSize, false)
                     .findByParameters(rowMapper);
         }
 
+        @Transactional
         public List<Entity> findByParameters(int pageIndex, int pageSize, @NotNull RowMapper<Entity> rowMapper, Boolean isRandomOrder) {
             return addOrderAndPagination(pageIndex, pageSize, isRandomOrder)
                     .findByParameters(rowMapper);

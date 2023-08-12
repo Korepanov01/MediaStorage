@@ -1,12 +1,10 @@
 package com.bftcom.mediastorage.config;
 
-import com.bftcom.mediastorage.api.enums.Role;
 import com.bftcom.mediastorage.security.AppUserDetailsService;
 import com.bftcom.mediastorage.security.AuthEntryPointJwt;
 import com.bftcom.mediastorage.security.AuthTokenFilter;
 import com.bftcom.mediastorage.security.JwtUtils;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -61,11 +59,11 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        http.authorizeRequests()
-                .antMatchers(HttpMethod.PUT, "/api/users/{id}").access("@securityUtils.checkUserId(authentication, #id)")
-
-                .antMatchers(HttpMethod.GET, "/api/tags/**").permitAll()
-                .antMatchers("/api/tags/**").hasRole(Role.ADMIN.name());
+//        http.authorizeRequests()
+//                .antMatchers(HttpMethod.PUT, "/api/users/{id}").access("@securityUtils.checkUserId(authentication, #id)")
+//
+//                .antMatchers(HttpMethod.GET, "/api/tags/**").permitAll()
+//                .antMatchers("/api/tags/**").hasRole(Role.ADMIN.name());
 
         http.authenticationProvider(authenticationProvider);
 

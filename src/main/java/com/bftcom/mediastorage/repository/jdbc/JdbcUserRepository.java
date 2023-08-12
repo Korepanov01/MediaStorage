@@ -72,6 +72,28 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
     }
 
     @Override
+    public void updateEmail(@NonNull String email) {
+        updateField("email", preparedStatement -> {
+            try {
+                preparedStatement.setString(1, email);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    @Override
+    public void updateName(@NonNull String name) {
+        updateField("name", preparedStatement -> {
+            try {
+                preparedStatement.setString(1, name);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    @Override
     public Optional<User> findByName(@NonNull String name) {
         return findByUniqueField("name", name);
     }
