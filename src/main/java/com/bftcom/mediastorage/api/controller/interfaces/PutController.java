@@ -19,7 +19,7 @@ public interface PutController <
     CrudService<Entity> getMainService();
 
     @PutMapping("/{id}")
-    default ResponseEntity<?> delete(
+    default ResponseEntity<?> put(
             @PathVariable
             Long id,
             @Valid
