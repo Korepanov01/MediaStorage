@@ -40,6 +40,16 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
         userRoleRepository.save(userRole);
     }
 
+    @Transactional
+    public void updateName(@NonNull String name) {
+        userRepository.updateName(name);
+    }
+
+    @Transactional
+    public void updateEmail(@NonNull String email) {
+        userRepository.updateEmail(email);
+    }
+
     @Override
     protected ParametersSearchRepository<User, SearchStringParameters> getMainRepository() {
         return userRepository;
