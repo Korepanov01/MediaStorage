@@ -7,8 +7,8 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class PostMediaTag extends PostPutEntityRequest<MediaTag> {
+@EqualsAndHashCode
+public class PostMediaTag implements ToEntityConvertable<MediaTag> {
 
     @NotNull(message = "Должен быть указан id медиа (mediaId)")
     private Long mediaId;

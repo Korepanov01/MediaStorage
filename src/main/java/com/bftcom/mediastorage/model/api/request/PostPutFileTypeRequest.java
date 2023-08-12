@@ -8,8 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class PostPutFileTypeRequest extends PostPutEntityRequest<FileType> {
+@EqualsAndHashCode
+public class PostPutFileTypeRequest implements ToEntityConvertable<FileType> {
 
     @NotBlank(message = "Имя типа не может быть пустым")
     @Size(max = 100, message = "Имя типа не может быть длиннее 100 символов")

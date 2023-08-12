@@ -10,8 +10,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class PutMediaRequest extends PostPutEntityRequest<Media> {
+@EqualsAndHashCode
+public class PutMediaRequest implements ToEntityConvertable<Media> {
 
     @NotNull(message = "Должен быть указан id категории (categoryId)")
     private Long categoryId;

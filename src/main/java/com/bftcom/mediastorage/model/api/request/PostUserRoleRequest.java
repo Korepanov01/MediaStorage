@@ -7,8 +7,8 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class PostUserRoleRequest extends PostPutEntityRequest<UserRole> {
+@EqualsAndHashCode
+public class PostUserRoleRequest implements ToEntityConvertable<UserRole> {
 
     @NotNull(message = "Должен быть указан id роли (roleId)")
     private Long roleId;

@@ -8,8 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class PostPutRoleRequest extends PostPutEntityRequest<Role> {
+@EqualsAndHashCode
+public class PostPutRoleRequest implements ToEntityConvertable<Role> {
     @NotBlank(message = "Имя роли не может быть пустым")
     @Size(max = 100, message = "Имя роли не может быть длиннее 100 символов")
     private String name;

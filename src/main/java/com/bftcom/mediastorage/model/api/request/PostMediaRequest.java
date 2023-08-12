@@ -10,8 +10,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class PostMediaRequest extends PostPutEntityRequest<Media> {
+@EqualsAndHashCode
+public class PostMediaRequest implements ToEntityConvertable<Media> {
 
     @NotNull(message = "Должен быть указан id пользователя (userId)")
     private Long userId;

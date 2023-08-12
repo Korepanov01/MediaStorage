@@ -2,9 +2,9 @@ package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
-import com.bftcom.mediastorage.model.entity.BaseEntity;
-import com.bftcom.mediastorage.model.api.request.PostPutEntityRequest;
+import com.bftcom.mediastorage.model.api.request.ToEntityConvertable;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
+import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.service.CrudService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +14,7 @@ import javax.validation.Valid;
 
 public interface SaveController<
         Entity extends BaseEntity,
-        PostRequest extends PostPutEntityRequest<Entity>> {
+        PostRequest extends ToEntityConvertable<Entity>> {
 
     CrudService<Entity> getMainService();
 

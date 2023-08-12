@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class DeleteUserRoleRequest extends DeleteEntityRequest {
+@EqualsAndHashCode
+public class DeleteUserRoleRequest {
 
     @NotNull(message = "Должен быть указан id роли (roleId)")
     private Long roleId;

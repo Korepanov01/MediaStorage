@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotNull;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class DeleteMediaTagRequest extends DeleteEntityRequest {
+@EqualsAndHashCode
+public class DeleteMediaTagRequest {
 
     @NotNull(message = "Должен быть указан id тега (tagId)")
     private Long tagId;
