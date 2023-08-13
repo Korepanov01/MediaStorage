@@ -8,7 +8,7 @@ VALUES
 INSERT INTO "public.role" ("name")
 VALUES
     ('ADMIN'),
-    ('USER');
+    ('SUPER_ADMIN');
 
 -- Исходные данные "public.media_type"
 INSERT INTO "public.media_type" ("name")
@@ -75,10 +75,7 @@ INSERT INTO "public.user_role" ("role_id", "user_id")
 VALUES
     (1, 1),
     (2, 1),
-    (2, 2),
-    (2, 3),
-    (2, 4),
-    (2, 5);
+    (2, 2);
 
 -- Тестовые данные "public.media_tag"
 INSERT INTO "public.media_tag" ("media_id", "tag_id")
