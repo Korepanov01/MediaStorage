@@ -56,3 +56,5 @@ export const usePost = (url, payload) =>  useAxios(url, "POST", payload);
 export const usePut = (url, payload) =>  useAxios(url, "PUT", payload);
 
 export const usePatch = (url, payload) =>  useAxios(url, "PATCH", payload);
+
+export const useDelete = (url, payload) =>  useAxios(url, "DELETE", payload);
