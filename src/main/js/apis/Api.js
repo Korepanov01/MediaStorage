@@ -1,6 +1,6 @@
 import axios from "axios"
-import {authHeader} from "../GetChunks";
-import {useEffect, useRef, useState} from "react";
+import {authHeader} from "../Utils";
+import {useEffect, useState} from "react";
 
 export const BASE_URL = "http://localhost:8080/api/";
 
@@ -17,7 +17,7 @@ export const useAxios = (url, method, payload) => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.request({
+                const response = await Api.request({
                     data: payload,
                     method,
                     url,
