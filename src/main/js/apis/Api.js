@@ -34,10 +34,10 @@ export const useAxios = (url, method, payload) => {
     return { data, error, loaded };
 };
 
-const useGet = (url, payload) =>  useAxios(url, "GET", payload);
+export const useGet = (url, payload) =>  useAxios(url, "GET", payload);
 
-const usePost = (url, payload) =>  useAxios(url, "POST", payload);
+export const usePost = (url, payload) =>  useAxios(url, "POST", payload);
 
-const usePut = (url, payload) =>  useAxios(url, "PUT", payload);
+export const usePut = (url, payload) =>  useAxios(url, "PUT", payload);
 
-const usePatch = (url, payload) =>  useAxios(url, "PATCH", payload);
+export const usePatch = (url, payload) =>  useAxios(url, "PATCH", payload);
