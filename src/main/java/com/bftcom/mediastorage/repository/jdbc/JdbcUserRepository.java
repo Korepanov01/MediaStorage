@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.UserRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,43 +58,49 @@ public class JdbcUserRepository extends JdbcCrudRepository<User> implements User
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(@NonNull String email) {
         return findByUniqueField("email", email);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsByName(@NonNull String name) {
         return existsByField("name", name);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsByEmail(@NonNull String email) {
         return existsByField("email", email);
     }
 
     @Override
-    public void updateEmail(@NonNull String email) {
+    @Transactional
+    public void updateEmail(@NonNull String email, @NonNull Long id) {
         updateField("email", preparedStatement -> {
             try {
                 preparedStatement.setString(1, email);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }, id);
     }
 
     @Override
-    public void updateName(@NonNull String name) {
+    @Transactional
+    public void updateName(@NonNull String name, @NonNull Long id) {
         updateField("name", preparedStatement -> {
             try {
                 preparedStatement.setString(1, name);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }, id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByName(@NonNull String name) {
         return findByUniqueField("name", name);
     }

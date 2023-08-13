@@ -41,13 +41,21 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     }
 
     @Transactional
-    public void updateName(@NonNull String name) {
-        userRepository.updateName(name);
+    public void updateName(@NonNull String name, @NonNull Long id) throws EntityAlreadyExistsException {
+        if (userRepository.existsByName(name)) {
+            throw new EntityAlreadyExistsException("Имя пользователя уже занято!");
+        }
+
+        userRepository.updateName(name, id);
     }
 
     @Transactional
-    public void updateEmail(@NonNull String email) {
-        userRepository.updateEmail(email);
+    public void updateEmail(@NonNull String email, @NonNull Long id) throws EntityAlreadyExistsException {
+        if (userRepository.existsByEmail(email)) {
+            throw new EntityAlreadyExistsException("Почта уже используется!");
+        }
+
+        userRepository.updateEmail(email, id);
     }
 
     @Override

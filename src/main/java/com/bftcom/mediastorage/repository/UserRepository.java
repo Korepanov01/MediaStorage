@@ -14,7 +14,7 @@ public interface UserRepository
     boolean existsByName(@NonNull String name);
     boolean existsByEmail(@NonNull String email);
 
-    void updateEmail(@NonNull String email);
+    void updateEmail(@NonNull String email, @NonNull Long id);
 
-    void updateName(@NonNull String name);
+    void updateName(@NonNull String name, @NonNull Long id);
 }

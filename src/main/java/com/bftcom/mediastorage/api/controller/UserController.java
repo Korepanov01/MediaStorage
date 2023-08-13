@@ -7,21 +7,22 @@ import com.bftcom.mediastorage.exception.EmailAlreadyUsedException;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.NameAlreadyUsedException;
 import com.bftcom.mediastorage.model.api.request.RegisterRequest;
+import com.bftcom.mediastorage.model.api.request.UpdateUserNameRequest;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
 import com.bftcom.mediastorage.model.dto.UserHeaderDto;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
+import com.bftcom.mediastorage.security.AuthParser;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -51,6 +52,26 @@ public class UserController implements
         }
 
         return ResponseEntity.ok(new PostEntityResponse(user.getId()));
+    }
+
+    @PatchMapping("/update_name")
+    public ResponseEntity<?> updateName(
+            @Valid
+            @RequestBody
+            UpdateUserNameRequest request,
+            Authentication authentication) {
+        Optional<Long> optionalUserId = AuthParser.getUserId(authentication);
+        if (optionalUserId.isEmpty()) {
+            return Response.getUnauthorized();
+        }
+
+        try {
+            userService.updateName(request.getName(), optionalUserId.get());
+        } catch (EntityAlreadyExistsException e) {
+            return Response.getEntityAlreadyExists(e.getMessage());
+        }
+
+        return Response.getOk();
     }
 
     @Override

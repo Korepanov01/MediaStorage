@@ -121,14 +121,16 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
     }
 
     @Transactional
-    public void updateField(@NonNull String field, @NonNull Consumer<PreparedStatement> addParam) {
+    public void updateField(@NonNull String field, @NonNull Consumer<PreparedStatement> addParam, @NonNull Long id) {
         String sql = String.format(
-                "INSERT INTO %s (%s) VALUES(?)",
+                "UPDATE %s SET %s = ? WHERE %s = ?",
                 this.tableName,
-                field);
+                field,
+                fields.get(0));
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             addParam.accept(preparedStatement);
+            preparedStatement.setLong(2, id);
             return preparedStatement;
         });
     }

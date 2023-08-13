@@ -22,6 +22,20 @@ public class Response {
     private static final ResponseEntity<BadResponseBody> OK = new ResponseEntity<>(
             HttpStatus.OK);
 
+    private static final ResponseEntity<?> UNAUTHORIZED = new ResponseEntity<>(
+            HttpStatus.UNAUTHORIZED);
+
+    private static final ResponseEntity<?> FORBIDDEN = new ResponseEntity<>(
+            HttpStatus.FORBIDDEN);
+
+    public static ResponseEntity<?> getUnauthorized() {
+        return UNAUTHORIZED;
+    }
+
+    public static ResponseEntity<?> getForbidden() {
+        return FORBIDDEN;
+    }
+
     public static ResponseEntity<BadResponseBody> getOk() {
         return OK;
     }
