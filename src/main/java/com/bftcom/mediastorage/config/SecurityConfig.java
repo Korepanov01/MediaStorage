@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.config;
 
-import com.bftcom.mediastorage.enums.Role;
+import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.security.AppUserDetailsService;
 import com.bftcom.mediastorage.security.AuthEntryPointJwt;
 import com.bftcom.mediastorage.security.AuthTokenFilter;
@@ -61,25 +61,48 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
+        http.cors(AbstractHttpConfigurer::disable);
+
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/users/**").hasRole(Role.ADMIN)
+                .antMatchers(HttpMethod.GET,
+                        "/api/tags/**",
+                        "/api/media/**",
+                        "/api/category/**",
+                        "/api/files/**",
+                        "/api/media_type/**",
+                        "/api/media_file/**",
+                        "/api/file_types/**").permitAll()
+                .antMatchers(HttpMethod.GET,
+                        "/api/users/**",
+                        "/api/roles/**").hasRole(Role.ADMIN)
 
-                .antMatchers(HttpMethod.GET).permitAll()
+                .antMatchers(HttpMethod.POST,
+                        "/api/auth/**").permitAll()
+                .antMatchers(HttpMethod.POST,
+                        "/api/media/**",
+                        "/api/media_tag/**",
+                        "/api/files/**").authenticated()
+                .antMatchers(HttpMethod.POST,
+                        "/api/tags/**",
+                        "/api/category/**").hasRole(Role.ADMIN)
+                .antMatchers(HttpMethod.POST,
+                        "/api/user_role/**").hasRole(Role.SUPER_ADMIN)
 
-                .antMatchers(HttpMethod.POST, "/api/users/**").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/api/users/**}").authenticated()
-                .antMatchers(HttpMethod.DELETE, "/api/users/{id}").access("(@securityUtils.checkUserId(authentication, #id)) || hasRole(\"ADMIN\")")
+                .antMatchers(HttpMethod.PUT,
+                        "/api/media/{id}").access("(@securityUtils.checkUserOwning(authentication, #id)) || hasRole(\"ADMIN\")")
+                .antMatchers(HttpMethod.PUT,
+                        "/api/tags/**",
+                        "/api/category/**").hasRole(Role.ADMIN)
 
-                .antMatchers( "/api/media/{id}").access(String.format("(@securityUtils.checkUserId(authentication, #id)) || hasRole(%s)", Role.ADMIN))
-                .antMatchers(HttpMethod.POST, "/api/media/").authenticated()
-
-                .antMatchers("/api/media_tag").authenticated()
-                .antMatchers("/api/files/**").authenticated()
-                .antMatchers("/api/auth/login").permitAll()
-
-                .antMatchers("/api/user_role/**").hasRole(Role.SUPER_ADMIN)
-
-                .antMatchers("/**").hasRole(Role.ADMIN);
+                .antMatchers(HttpMethod.DELETE,
+                        "/api/media_tag/**",
+                        "/api/files/**").authenticated()
+                .antMatchers(HttpMethod.DELETE,
+                        "/api/media/{id}").access("(@securityUtils.checkUserOwning(authentication, #id)) || hasRole(\"ADMIN\")")
+                .antMatchers(HttpMethod.DELETE,
+                        "/api/tags/**",
+                        "/api/category/**",
+                        "/api/users/**").hasRole(Role.ADMIN);
 
         http.authenticationProvider(authenticationProvider);
 

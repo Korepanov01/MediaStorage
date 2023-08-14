@@ -12,6 +12,9 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 public class Role extends BaseEntity {
 
+    public static final String ADMIN = "ADMIN";
+    public static final String SUPER_ADMIN = "SUPER_ADMIN";
+
     @NotBlank
     @Size(max = 100)
     private String name;
