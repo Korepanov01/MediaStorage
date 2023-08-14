@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { App } from "./components/App"
 import {HashRouter as Browser} from 'react-router-dom';
-import {store} from './redux/Store'
+import {store} from './redux/store'
 import {Provider} from 'react-redux'
 
 export const USER_ID = 1;
