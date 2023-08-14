@@ -17,7 +17,17 @@ export const AuthService = {
         return AuthAPI.register(name, email, password);
     },
 
-    getCurrentUser() {
+    getCurrentUser: () => {
         return JSON.parse(localStorage.getItem('user'));
+    },
+
+    getAuthHeader: () => {
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user && user.jwt) {
+            return {Authorization: 'Bearer ' + user.jwt};
+        } else {
+            return {};
+        }
     }
 }

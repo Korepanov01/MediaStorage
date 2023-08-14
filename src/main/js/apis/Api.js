@@ -1,12 +1,12 @@
 import axios from "axios"
-import {authHeader} from "../Utils";
 import {useEffect, useState} from "react";
+import {AuthService} from "../services/AuthService";
 
 export const BASE_URL = "http://localhost:8080/api/";
 
 export const Api = axios.create({
     baseURL: BASE_URL,
-    headers: authHeader()
+    headers: AuthService.getAuthHeader()
 });
 
 export const useAxios = (url, method, payload, params) => {
