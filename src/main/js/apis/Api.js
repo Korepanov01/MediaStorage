@@ -45,7 +45,7 @@ export const useAxios = (url, method, payload, params) => {
                 setLoaded(true);
             }
         })();
-    }, []);
+    }, [params]);
 
     return { data, error, loaded };
 };
