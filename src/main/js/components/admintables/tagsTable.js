@@ -1,16 +1,20 @@
 import React, { useState } from "react";
-import {Table, Button, Form, Modal, ListGroup} from "react-bootstrap";
+import {Table, Button, Form, Modal, ListGroup, Row, Col} from "react-bootstrap";
 import {
     useGetTags,
     usePostTag,
     usePutTag,
-    useDeleteTag,
+    useDeleteTag, TagAPI,
 } from "../../apis/TagAPI";
 import {PageSelector} from "../selectors/PageSelector";
 
 function TagsTable() {
     const [searchParameters, setSearchParameters] = useState({pageIndex: 0, pageSize: 5})
     const {data: tags, error, loaded} = useGetTags(searchParameters);
+
+    function handleDeleteClick(tagId) {
+        TagAPI.delete(tagId).then(() => setSearchParameters({...searchParameters, pageIndex: 0}));
+    }
 
     return (
         <>
@@ -22,7 +26,14 @@ function TagsTable() {
                             <ListGroup>
                                 {tags.map(tag => (
                                     <ListGroup.Item key={tag.id}>
-                                        {tag.name}
+                                        <Row>
+                                            <Col>
+                                                {tag.name}
+                                            </Col>
+                                            <Col className={"d-flex justify-content-end align-content-center"}>
+                                                <Button variant={"danger"} onClick={() => handleDeleteClick(tag.id)}>Удалить</Button>
+                                            </Col>
+                                        </Row>
                                     </ListGroup.Item>
                                 ))}
                             </ListGroup>
