@@ -20,14 +20,14 @@ export const authSlice = createSlice({
             state.user = null;
         },
 
-        loginOut: (state) => {
+        logout: (state) => {
             state.isLoggedIn = false;
             state.user = null;
         },
     },
 });
 
-export const { login, loginFail, loginOut } = authSlice.actions
+export const { login, loginFail, logout } = authSlice.actions
 
 export default authSlice.reducer
 
