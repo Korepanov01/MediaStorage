@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import Nav from "react-bootstrap/Nav";
 import {Link, Navigate, Route, Routes, useNavigate} from "react-router-dom";
 import * as PropTypes from "prop-types";
+import TagsTable from "../admintables/tagsTable";
 
 function Redirect(props) {
     return null;
@@ -25,7 +26,7 @@ export function AdminPage() {
             </Nav>
             <Routes>
                 <Route path="users" element={<h1>users</h1>}/>
-                <Route path="tags" element={<h1>tags</h1>}/>
+                <Route path="tags" element={<TagsTable/>}/>
                 <Route path="categories" element={<h1>categories</h1>}/>
             </Routes>
         </>

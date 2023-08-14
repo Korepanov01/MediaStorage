@@ -7,7 +7,7 @@ export const useGetAllTagsByMedia = (mediaId) => {
 };
 
 export const useGetTags = (searchParameters) => {
-    return useGet("/tags", { params: searchParameters });
+    return useGet("/tags", searchParameters);
 };
 
 export const useGetTagById = (id) => {
