@@ -3,13 +3,17 @@ package com.bftcom.mediastorage.api.controller;
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
-import com.bftcom.mediastorage.model.api.request.DeleteUserRoleRequest;
-import com.bftcom.mediastorage.model.api.request.PostUserRoleRequest;
+import com.bftcom.mediastorage.model.api.request.GiveRemoveAdminRequest;
+import com.bftcom.mediastorage.model.entity.Role;
+import com.bftcom.mediastorage.service.RoleService;
 import com.bftcom.mediastorage.service.UserRoleService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -19,31 +23,33 @@ import javax.validation.Valid;
 public class UserRoleController {
 
     private final UserRoleService userRoleService;
+    private final RoleService roleService;
 
-    @DeleteMapping
-    public ResponseEntity<?> delete(
+    @PostMapping("give_admin")
+    public ResponseEntity<?> makeAdmin(
             @RequestBody
             @Valid
-            DeleteUserRoleRequest request) {
+            GiveRemoveAdminRequest request) {
 
-        return addDeleteRole(request.getUserId(), request.getRoleId(), true);
+        return addDeleteRole(request.getUserId(), false);
     }
 
-    @PostMapping
-    public ResponseEntity<?> post(
+    @PostMapping("remove_admin")
+    public ResponseEntity<?> removeAdmin(
             @RequestBody
             @Valid
-            PostUserRoleRequest request) {
+            GiveRemoveAdminRequest request) {
 
-        return addDeleteRole(request.getUserId(), request.getRoleId(), false);
+        return addDeleteRole(request.getUserId(), true);
     }
 
-    private ResponseEntity<?> addDeleteRole(@NonNull Long userId, @NonNull Long roleId, boolean isDelete) {
+    private ResponseEntity<?> addDeleteRole(@NonNull Long userId, boolean isRemove) {
+        Role adminRole = roleService.findByName(Role.ADMIN).orElseThrow();
         try {
-            if (isDelete) {
-                userRoleService.deleteRole(userId, roleId);
+            if (isRemove) {
+                userRoleService.deleteRole(userId, adminRole.getId());
             } else {
-                userRoleService.addRole(userId, roleId);
+                userRoleService.addRole(userId, adminRole.getId());
             }
         } catch (EntityNotFoundException exception) {
             return Response.getEntityNotFound(exception.getMessage());

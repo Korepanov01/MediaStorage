@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,10 @@ public class RoleService extends ParameterSearchService<Role, RoleSearchParamete
 
     public List<Role> getUserRoles(@NonNull Long userId) {
         return roleRepository.findByUserId(userId);
+    }
+
+    public Optional<Role> findByName(@NonNull String name) {
+        return roleRepository.findByName(name);
     }
 
     @Override
