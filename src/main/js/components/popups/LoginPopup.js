@@ -4,8 +4,7 @@ import {Formik} from "formik";
 import {object, string} from "yup"
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {login, loginFail} from "../../redux/authSlice";
-import {AuthAPI} from "../../apis/AuthAPI";
+import {login} from "../../redux/authSlice";
 import {AuthService} from "../../services/AuthService";
 
 export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
