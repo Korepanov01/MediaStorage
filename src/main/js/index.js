@@ -6,11 +6,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { App } from "./components/App"
 import {HashRouter as Browser} from 'react-router-dom';
+import {store} from './redux/Store'
+import {Provider} from 'react-redux'
 
 export const USER_ID = 1;
 
 createRoot(document.getElementById('react')).render(
-    <Browser>
-        <App/>
-    </Browser>
+    <Provider store={store}>
+        <Browser>
+            <App/>
+        </Browser>
+    </Provider>
 );

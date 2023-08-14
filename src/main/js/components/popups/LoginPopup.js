@@ -2,11 +2,28 @@ import React from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {Formik} from "formik";
 import {object, string} from "yup"
+import {useNavigate} from "react-router-dom";
 
 export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
 
+    const navigate = useNavigate();
+    const dispatch = useDisa
+
     function handleLoginClick(values) {
-        console.log(JSON.stringify(values))
+        this.setState({
+            loading: true,
+        });
+
+        dispatch(login(this.state.username, this.state.password))
+            .then(() => {
+                history.push("/profile");
+                window.location.reload();
+            })
+            .catch(() => {
+                this.setState({
+                    loading: false
+                });
+            });
     }
 
     const validationSchema = object({
