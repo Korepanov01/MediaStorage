@@ -1,8 +1,33 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import Nav from "react-bootstrap/Nav";
+import {Link, Navigate, Route, Routes, useNavigate} from "react-router-dom";
+import * as PropTypes from "prop-types";
+
+function Redirect(props) {
+    return null;
+}
+
+Redirect.propTypes = {to: PropTypes.string};
 
 export function AdminPage() {
-
     return (
-        <h1>Админ</h1>
+        <>
+            <Nav variant="tabs" defaultActiveKey="users">
+                <Nav.Item>
+                    <Nav.Link as={Link} to={"users"} eventKey={"users"}>Пользователи</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link as={Link} to={"tags"} eventKey={"users"}>Теги</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link as={Link} to={"categories"} eventKey={"users"}>Категории</Nav.Link>
+                </Nav.Item>
+            </Nav>
+            <Routes>
+                <Route path="users" element={<h1>users</h1>}/>
+                <Route path="tags" element={<h1>tags</h1>}/>
+                <Route path="categories" element={<h1>categories</h1>}/>
+            </Routes>
+        </>
     );
 }

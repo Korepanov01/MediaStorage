@@ -18,7 +18,7 @@ export function App() {
                 <Route path="/" element={<MainPage/>}/>
                 <Route path="search" element={<SearchMediaPage/>}/>
                 <Route path="profile" element={<ProfilePage/>}/>
-                <Route path="admin" element={<AdminPage/>}/>
+                <Route path="admin/*" element={<AdminPage/>}/>
                 <Route path="media/:id" element={<MediaPage/>}/>
             </Routes>
         </Container>
