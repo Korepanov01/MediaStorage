@@ -3,28 +3,27 @@ import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {Formik} from "formik";
 import {object, string} from "yup"
 import {useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {login, loginFail} from "../../redux/authSlice";
+import {AuthAPI} from "../../apis/AuthAPI";
+import {AuthService} from "../../services/AuthService";
 
 export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
 
     const navigate = useNavigate();
-    const dispatch = useDisa
+    const dispatch = useDispatch();
 
     function handleLoginClick(values) {
-        this.setState({
-            loading: true,
-        });
-
-        dispatch(login(this.state.username, this.state.password))
-            .then(() => {
-                history.push("/profile");
-                window.location.reload();
+        AuthService.login(values.email, values.password)
+            .then((user) => {
+                dispatch(login(user));
+                navigate("/profile");
+                handleChangeShow(false);
             })
-            .catch(() => {
-                this.setState({
-                    loading: false
-                });
+            .catch((error) => {
+                dispatch(loginFail());
             });
-    }
+    };
 
     const validationSchema = object({
         email: string().required("Введите почту"),
