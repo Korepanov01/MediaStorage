@@ -7,13 +7,17 @@ import {
     useDeleteTag, TagAPI,
 } from "../../apis/TagAPI";
 import {PageSelector} from "../selectors/PageSelector";
+import {toast} from "react-toastify";
 
 function TagsTable() {
     const [searchParameters, setSearchParameters] = useState({pageIndex: 0, pageSize: 5})
     const {data: tags, error, loaded} = useGetTags(searchParameters);
 
     function handleDeleteClick(tagId) {
-        TagAPI.delete(tagId).then(() => setSearchParameters({...searchParameters, pageIndex: 0}));
+        TagAPI.delete(tagId).then(() => {
+            setSearchParameters({...searchParameters, pageIndex: 0})
+            toast.success('Тег удален');
+        });
     }
 
     return (
