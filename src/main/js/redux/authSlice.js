@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import {AuthService} from "../services/AuthService";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -21,6 +22,7 @@ export const authSlice = createSlice({
         },
 
         logout: (state) => {
+            AuthService.logout();
             state.isLoggedIn = false;
             state.user = null;
         },

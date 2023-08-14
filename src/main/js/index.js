@@ -9,8 +9,6 @@ import {HashRouter as Browser} from 'react-router-dom';
 import {store} from './redux/store'
 import {Provider} from 'react-redux'
 
-export const USER_ID = 1;
-
 createRoot(document.getElementById('react')).render(
     <Provider store={store}>
         <Browser>
