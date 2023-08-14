@@ -1,4 +1,6 @@
-import { Api } from "./Api"
+import {Api, useGet} from "./Api"
+
+export const useGetCategories = (searchParameters) => useGet("/category", searchParameters);
 
 export const CategoryAPI = {
     get: function (searchParameters) {

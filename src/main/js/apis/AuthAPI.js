@@ -1,5 +1,4 @@
-import {Api, usePost} from "./Api"
-import {AuthInfoBuilder} from "../models/AuthInfo";
+import {usePost} from "./Api"
 
 export const useRegister = (name, email, password) => usePost("/auth/register", {
     name,

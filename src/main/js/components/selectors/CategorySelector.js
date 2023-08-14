@@ -1,9 +1,10 @@
 import React, {useEffect} from "react";
 import {useState} from "react";
 import DropdownTreeSelect from "react-dropdown-tree-select";
-import {CategoryAPI} from "../../apis/CategoryAPI";
+import {useGetCategories} from "../../apis/CategoryAPI";
 
 export function CategorySelector({onSelect: onSelect}) {
+    const [data, error, loaded] = useGetCategories()
     const [categories, setCategories] = useState([]);
 
     const convertToNode = category => ({

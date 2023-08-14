@@ -9,7 +9,7 @@ export const Api = axios.create({
     headers: authHeader()
 });
 
-export const useAxios = (url, method, payload) => {
+export const useAxios = (url, method, payload, params) => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loaded, setLoaded] = useState(false);
@@ -21,6 +21,7 @@ export const useAxios = (url, method, payload) => {
                     data: payload,
                     method,
                     url,
+                    params
                 });
                 setData(response.data);
             } catch (error) {
@@ -49,7 +50,7 @@ export const useAxios = (url, method, payload) => {
     return { data, error, loaded };
 };
 
-export const useGet = (url, payload) =>  useAxios(url, "GET", payload);
+export const useGet = (url, params) =>  useAxios(url, "GET", null, params);
 
 export const usePost = (url, payload) =>  useAxios(url, "POST", payload);
 
