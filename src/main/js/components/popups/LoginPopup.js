@@ -19,9 +19,6 @@ export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
                 dispatch(login(user));
                 navigate("/profile");
                 handleChangeShow(false);
-            })
-            .catch((error) => {
-                dispatch(loginFail());
             });
     }
 
