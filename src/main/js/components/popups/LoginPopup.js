@@ -23,7 +23,7 @@ export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
             .catch((error) => {
                 dispatch(loginFail());
             });
-    };
+    }
 
     const validationSchema = object({
         email: string().required("Введите почту"),
