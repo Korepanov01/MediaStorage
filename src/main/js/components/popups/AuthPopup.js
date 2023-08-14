@@ -6,7 +6,6 @@ export function AuthPopup({show: show, onChangeShow: handleChangeShow}) {
     const [password, setPassword] = useState("");
 
     function handleLoginClick() {
-        handleChangeShow(false);
     }
 
     return (
