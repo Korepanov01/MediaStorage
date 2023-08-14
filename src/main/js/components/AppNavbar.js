@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {Button, Col, Row} from "react-bootstrap";
 import {useState} from "react";
-import {AuthPopup} from "./popups/AuthPopup";
+import {LoginPopup} from "./popups/LoginPopup";
 
 const PROFILE_TAB_NAME = "Личный кабинет";
 const SEARCH_TAB_NAME = "Поиск";
@@ -31,7 +31,7 @@ export function AppNavbar() {
                 </Navbar>
             </Col>
             <Col lg={"2"} className={"d-flex align-items-center"}>
-                <AuthPopup onChangeShow={setShowLoginForm} show={showLoginForm}/>
+                <LoginPopup onChangeShow={setShowLoginForm} show={showLoginForm}/>
                 <Button className={"w-100"} onClick={() => setShowLoginForm(true)}>Войти</Button>
             </Col>
         </Row>

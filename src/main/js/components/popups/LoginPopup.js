@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 
-export function AuthPopup({show: show, onChangeShow: handleChangeShow}) {
+export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
