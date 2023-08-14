@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Table, Button, Form, Modal, ListGroup, Row, Col} from "react-bootstrap";
+import {Table, Button, Form, Modal, ListGroup, Row, Col, Spinner} from "react-bootstrap";
 import {
     useGetTags,
     usePostTag,
@@ -19,7 +19,7 @@ function TagsTable() {
     return (
         <>
             {!loaded ? (
-                    <h2>Загрузка...</h2>
+                <Spinner animation="border"/>
                 ) : (
                     error ? (error.messages.map(message =><div>{message}</div>)) : (
                         <>
