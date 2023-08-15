@@ -1,4 +1,4 @@
-import {Api, useDelete, useGet, usePost, usePut} from "./Api"
+import {Api, useGet} from "./Api"
 import {TagBuilder} from "../models/Tag";
 
 export const useGetAllTagsByMedia = (mediaId) => {
@@ -12,19 +12,7 @@ export const useGetTags = (searchParameters) => {
 
 export const useGetTagById = (id) => {
     return useGet(`/tags/${id}`);
-};
-
-export const usePostTag = (payload) => {
-    return usePost(`/tags`, payload);
-};
-
-export const usePutTag = (payload) => {
-    return usePut(`/tags`, payload);
-};
-
-export const useDeleteTag = (id) => {
-    return useDelete(`/tags/${id}`);
-};
+}
 
 export const TagAPI = {
     getAllByMedia: async function (mediaId) {
