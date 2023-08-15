@@ -1,6 +1,6 @@
 import { Api } from "./api"
 import {FileTypes} from "../enums/fileTypes";
-import {Defaults} from "../enums/defaults";
+import {defaults} from "../enums/defaults";
 import {getMediaFiles} from "./mediaFileAPI";
 
 export const FileAPI = {
@@ -30,7 +30,7 @@ export const FileAPI = {
         let searchParameters = {pageIndex: 0, pageSize: 1, mediaId: mediaId, type: FileTypes.thumbnail};
         let {data: mediaFiles, error} = await getMediaFiles(searchParameters);
         if (mediaFiles.length === 0)
-            return Defaults.defaultImageUrl;
+            return defaults.defaultImageUrl;
 
         return mediaFiles[0].url;
     },
@@ -39,7 +39,7 @@ export const FileAPI = {
         let searchParameters = {pageIndex: 0, pageSize: 100, mediaId: mediaId, type: FileTypes.main};
         let {data: mediaFiles, error} = await getMediaFiles(searchParameters);
         if (mediaFiles.length === 0)
-            return  [Defaults.defaultImageUrl];
+            return  [defaults.defaultImageUrl];
 
         return mediaFiles.map(mediaFile => mediaFile.url);
     }

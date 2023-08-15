@@ -1,13 +1,13 @@
 import React from "react";
 import {Carousel, Image} from "react-bootstrap";
-import {Defaults} from "../enums/defaults";
+import {defaults} from "../enums/defaults";
 
 export function FilesCarousel({filesUrls: filesUrls}) {
     return (
         <Carousel>
             {filesUrls.length === 0 &&
                 <Carousel.Item>
-                    <Image src={Defaults.defaultImageUrl}/>
+                    <Image src={defaults.defaultImageUrl}/>
                 </Carousel.Item>
             }
             {filesUrls.map((url, i) => (
