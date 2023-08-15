@@ -1,38 +1,35 @@
 import React from 'react';
-import {Button, Form, Modal} from "react-bootstrap";
+import {Form, Modal} from "react-bootstrap";
 import {TagsSelector} from "../selectors/tagsSelector";
 import {deleteMediaTag, postMediaTag} from "../../apis/mediaTagsAPI";
 
 export function TagsFormPopup({show: show, onChangeShow: handleChangeShow, onTagsChange: handleTagsChange, tags: tags, mediaId: mediaId}) {
 
-    function handleSelect(tagId) {
-        postMediaTag(mediaId, tagId).then(({data, error}) => {
-            if (!error) handleTagsChange(tags.concat([tagId]));
+    function handleSelect(tag) {
+        postMediaTag(mediaId, tag.id).then(({error}) => {
+            if (!error) handleTagsChange(tags.concat([tag]));
         });
     }
 
-    function handleUnselect(tagId) {
-        deleteMediaTag(mediaId, tagId).then(({data, error}) => {
-            if (!error) handleTagsChange(tags.filter((tag) => tag.id !== tagId));
+    function handleUnselect(deletedTag) {
+        deleteMediaTag(mediaId, deletedTag.id).then(({error}) => {
+            if (!error) handleTagsChange(tags.filter((tag) => tag.id !== deletedTag.id));
         });
     }
 
     return (
         <Modal show={show} onHide={() => handleChangeShow(false)}>
+            <Modal.Header>
+                <h1 className={"text-center w-100"}>Изменить теги</h1>
+            </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Text>Добавить теги</Form.Text>
                     <TagsSelector
                         selectedTags={tags}
                         onSelect={handleSelect}
                         onUnselect={handleUnselect}/>
                 </Form>
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={() => handleChangeShow(false)}>
-                    Закрыть
-                </Button>
-            </Modal.Footer>
         </Modal>
     );
 }

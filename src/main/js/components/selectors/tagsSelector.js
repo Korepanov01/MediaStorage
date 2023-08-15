@@ -7,7 +7,7 @@ import {PageSelector} from "./pageSelector";
 
 export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect, selectedTags: selectedTags}) {
     const [tags, setTags] = useState([]);
-    const [tagSearchParameters, setTagSearchParameters] = useState({pageSize: 5, pageIndex: 0});
+    const [tagSearchParameters, setTagSearchParameters] = useState({pageSize: 10, pageIndex: 0});
 
     useEffect(() => {
         getTags(tagSearchParameters).then(({error, data: tags}) => {
@@ -15,30 +15,12 @@ export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect
         });
     }, [tagSearchParameters]);
 
-    function handleSearchStringChange(searchString) {
-        setTagSearchParameters({...tagSearchParameters, pageIndex: 0, searchString: searchString});
-    }
-
-    function handlePageChange(newPageIndex) {
-        const updatedSearchParameters = {...tagSearchParameters, pageIndex: newPageIndex};
-        setTagSearchParameters(updatedSearchParameters)
-    }
-
-    function handleCheckBoxOnChange(e) {
-        if (e.target.checked) {
-            handleSelect(e.target.value);
-        } else {
-            handleUnselect(e.target.value);
-        }
-    }
-
     return (
         <FormGroup>
-            <Form.Label>Тэги</Form.Label>
-            <SearchBar onSearchStringChange={handleSearchStringChange}/>
+            <SearchBar onSearchStringChange={(searchString) => setTagSearchParameters({...tagSearchParameters, pageIndex: 0, searchString: searchString})}/>
             {selectedTags.map((selectedTag) => (
                 <Badge
-                    onClick={() => handleUnselect(selectedTag.id)}
+                    onClick={() => handleUnselect(selectedTag)}
                     size={"sm"}
                     key={selectedTag.id}>
                     {selectedTag.name}
@@ -47,14 +29,14 @@ export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect
             {tags.map((tag) => (
                 <Form.Check
                     checked={selectedTags.some(t => t.id === tag.id)}
-                    onChange={handleCheckBoxOnChange}
+                    onChange={(e) => e.target.checked ? handleSelect(tag) : handleUnselect(tag)}
                     type={"checkbox"}
                     label={tag.name}
                     key={tag.id}
                     value={tag.id}
                 />
             ))}
-            <PageSelector pageIndex={tagSearchParameters.pageIndex} onPageChange={handlePageChange}/>
+            <PageSelector pageIndex={tagSearchParameters.pageIndex} onPageChange={(newPageIndex) => setTagSearchParameters({...tagSearchParameters, pageIndex: newPageIndex})}/>
         </FormGroup>
     );
 }
