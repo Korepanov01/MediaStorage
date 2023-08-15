@@ -42,7 +42,7 @@ export const request = (url, method, payload, params) => {
     };
 
     return (Api
-        .request({data: payload, method, url, params, headers: AuthService.getAuthHeader()})
+        .request({data: payload, method, url, params, headers: AuthService.getAuthHeader(), responseType: "json"})
         .then(response => result.data = response.data)
         .catch(error => result.error = convertError(error)))
         .then(() => result);
@@ -61,6 +61,9 @@ function convertError(error) {
             errorObj.messages.push("Неавторизован");
         if (errorObj.status === 403)
             errorObj.messages.push("Нет доступа к ресурсу");
+
+        if (errorObj.messages.length === 0)
+            errorObj.messages.push("Ошибка!");
     } else {
         errorObj.status = 0;
         errorObj.messages = error.request ? ["Нет ответа от сервера"] : ["Неизвестная ошибка"];
