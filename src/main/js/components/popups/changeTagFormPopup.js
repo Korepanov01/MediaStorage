@@ -46,7 +46,7 @@ export function ChangeTagFormPopup({show, onChangeShow: handleChangeShow, tag, o
                                 <Form.Control.Feedback type="invalid">{errors.tagName}</Form.Control.Feedback>
                             </FormGroup>
                             <FormGroup>
-                                <Button type="submit">Измменить</Button>
+                                <Button type="submit">Изменить</Button>
                             </FormGroup>
                         </Form>
                     )}
