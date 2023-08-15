@@ -5,6 +5,7 @@ import {PageSelector} from "../selectors/PageSelector";
 import {toast} from "react-toastify";
 import {ChangeTagFormPopup} from "../popups/changeTagFormPopup";
 import {AddTagForm} from "../forms/addTagForm";
+import {SearchBar} from "../selectors/SearchBar";
 
 const PAGE_SIZE = 100;
 
@@ -46,6 +47,7 @@ export default function TagsTable() {
     return (
         <>
             <ChangeTagFormPopup tag={selectedTag} show={showChangeTagPopup} onChangeShow={setShowChangeTagPopup} onSubmit={handleChangeTagSubmit}/>
+            <SearchBar onSearchStringChange={(searchString) => setSearchParameters({...searchParameters, searchString: searchString})}/>
             <ListGroup>
                 <ListGroup.Item key={"0"} variant={'primary'}>
                     <AddTagForm onSubmit={handlePostTag}/>
