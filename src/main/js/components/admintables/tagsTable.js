@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-import {Table, Button, Form, Modal, ListGroup, Row, Col, Spinner} from "react-bootstrap";
-import {
-    useGetTags,
-    usePostTag,
-    usePutTag,
-    useDeleteTag, TagAPI,
-} from "../../apis/TagAPI";
+import {Button, ListGroup, Row, Col, Spinner} from "react-bootstrap";
+import {useGetTags, deleteTag,} from "../../apis/TagAPI";
 import {PageSelector} from "../selectors/PageSelector";
 import {toast} from "react-toastify";
+import {toastErrors} from "../../services/toastService";
 
 function TagsTable() {
     const [searchParameters, setSearchParameters] = useState({pageIndex: 0, pageSize: 5})
     const {data: tags, error, loaded} = useGetTags(searchParameters);
 
     function handleDeleteClick(tagId) {
-        TagAPI.delete(tagId).then(() => {
-            setSearchParameters({...searchParameters, pageIndex: 0})
-            toast.success('Тег удален');
+        deleteTag(tagId).then((result) => {
+            if (result.error) {
+                console.log(JSON.stringify(result))
+                toastErrors(result.error.messages);
+            } else {
+                setSearchParameters({...searchParameters, pageIndex: 0})
+                toast.success('Тег удален');
+            }
         });
     }
 

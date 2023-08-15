@@ -50,13 +50,17 @@ export const request = (url, method, payload, params) => {
 
 function convertError(error) {
     let errorObj = {
-        status: null,
-        messages: null
+        status: 0,
+        messages: []
     };
-
     if (error.response) {
         errorObj.status = error.response.status;
         errorObj.messages = error.response?.data?.errors ? error.response.data.errors : [];
+
+        if (errorObj.status === 401)
+            errorObj.messages.push("Неавторизован");
+        if (errorObj.status === 403)
+            errorObj.messages.push("Нет доступа к ресурсу");
     } else {
         errorObj.status = 0;
         errorObj.messages = error.request ? ["Нет ответа от сервера"] : ["Неизвестная ошибка"];
