@@ -6,7 +6,7 @@ import {TagsFormPopup} from "./popups/tagsFormPopup";
 import {useNavigate} from "react-router-dom";
 import {deleteMedia} from "../apis/mediaAPI";
 
-export function MediaRedactor({media: media, mediaFiles: mediaFiles, tags: tags, onTagsChange: handleTagsChange}) {
+export function MediaRedactor({media: media, mediaFiles: mediaFiles, tags, onTagsChange: handleTagsChange}) {
     const [showMediaForm, setShowMediaForm] = useState(false);
     const [showFilesForm, setShowFilesForm] = useState(false);
     const [showTagsForm, setShowTagsForm] = useState(false);
