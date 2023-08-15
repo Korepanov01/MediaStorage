@@ -1,10 +1,12 @@
 import {Api} from "./Api"
 import {TagBuilder} from "../models/Tag";
-import {deleteRequest, putRequest, useGetRequest} from "./baseApi";
+import {deleteRequest, getRequest, putRequest, useGetRequest} from "./baseApi";
 
 export const useGetTags = (searchParameters) => {
     return useGetRequest("/tags", searchParameters);
 };
+
+export const getTags = (params) => getRequest('/tags', params);
 
 export const deleteTag = (tagId) => deleteRequest(`/tags/${tagId}`);
 

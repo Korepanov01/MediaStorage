@@ -4,22 +4,16 @@ import {Formik} from "formik";
 import {object, string} from "yup"
 import {putTag} from "../../apis/TagAPI";
 import {toastErrors} from "../../services/toastService";
-import {TagBuilder} from "../../models/Tag";
 import {toast} from "react-toastify";
 
-ChangeTagFormPopup.defaultProps = {
-    tag: {name: "", id: 0}
-};
-
-export function ChangeTagFormPopup({show: show, onChangeShow: handleChangeShow, tag: tag, onSubmit: handleSubmit}) {
+export function ChangeTagFormPopup({show, onChangeShow: handleChangeShow, tag, onSubmit: handleSubmit}) {
 
     function handlePutLogic(values) {
         putTag(tag.id, {name: values.tagName}).then(result => {
-            if (result.error)
-                toastErrors(result.error.messages)
-            else {
-                toast.success(`Изменен тег "${tag.name}" -> "${values.tagName}"`)
-                handleSubmit({...tag, name: values.tagName})
+            if (!result.error) {
+                toast.success(`Изменен тег "${tag.name}" -> "${values.tagName}"`);
+                handleSubmit({...tag, name: values.tagName});
+                handleChangeShow(false);
             }
         });
     }
