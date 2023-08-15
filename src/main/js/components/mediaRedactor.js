@@ -22,8 +22,7 @@ export function MediaRedactor({media, setMedia, mediaFiles, tags, setTags}) {
 
     return (
         <>
-            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm}
-                            onSubmit={handleMediaFormSubmit} media={media}/>
+            <MediaFormPopup show={showMediaForm} setShow={setShowMediaForm} media={media} setMedia={setMedia}/>
             {/*<FilesFormPopup show={showFilesForm} onChangeShow={setShowFilesForm} onSubmit={() => {*/}
             {/*}} mediaFiles={mediaFiles} mediaId={media.id}/>*/}
             <TagsFormPopup show={showTagsForm} setShow={setShowTagsForm} setTags={setTags} tags={tags} mediaId={media.id}/>

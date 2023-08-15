@@ -1,15 +1,14 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {CategorySelector} from "../selectors/categorySelector";
 import {getMediaTypes} from "../../apis/mediaTypeAPI";
+import {Formik} from "formik";
+import {putMedia} from "../../apis/mediaAPI";
+import {object, string} from "yup";
+
 
 export function MediaFormPopup({show, setShow, setMedia, media}) {
     const [types, setTypes] = useState([]);
-    const [postPutMediaRequest, setPostPutMediaRequest] = useState(initialData);
-
-    useEffect(() => {
-        setPostPutMediaRequest(initialData);
-    }, [initialData]);
 
     useLayoutEffect(() => {
         getMediaTypes().then(({data, error}) => {
@@ -17,62 +16,64 @@ export function MediaFormPopup({show, setShow, setMedia, media}) {
         });
     }, []);
 
-    const handleInputChange = (event) => {
-        const {name, value} = event.target;
-        setPostPutMediaRequest((prevRequest) => ({
-            ...prevRequest,
-            [name]: value
-        }));
+    const handleSubmit = (values) => {
+        putMedia(media.id, values).then(({error}) => {
+            if (!error) {
+                setMedia({...media, name: values.name, description: values.description});
+                setShow(false);
+            }
+        })
     };
+
+    const validationSchema = object({
+        name: string().required("Введите имя").max(200, "Название должно быть меньше 200 символов"),
+        description: string().max(10000, "Описание должно быть меньше 10 тыс. символов")
+    });
 
     return (
         <Modal show={show} onHide={() => setShow(false)}>
             <Modal.Body>
-                <Form>
-                    <Form.Group>
-                        <Form.Label>Название</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="name"
-                            value={postPutMediaRequest.name}
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Описание</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            name="description"
-                            value={postPutMediaRequest.description || ""}
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <FormGroup>
-                        <Form.Label>Тип</Form.Label>
-                        <Form.Select
-                            defaultValue={postPutMediaRequest.mediaTypeId}
-                            name="mediaTypeId"
-                            onChange={handleInputChange}
-                            aria-label="Тип">
-                            {types.map((type) => (
-                                <option key={type.id} value={type.id}>{type.name}</option>
-                            ))};
-                        </Form.Select>
-                    </FormGroup>
-                    <FormGroup>
-                        <Form.Label>Категория</Form.Label>
-                        <CategorySelector onSelect={(categoryId) => handleInputChange({target: {name: "categoryId", value: categoryId}})}/>
-                    </FormGroup>
-                </Form>
+                <Formik
+                    initialValues={{
+                        name: media?.name ?? '',
+                        description: media?.description ?? '',
+                        categoryId: media?.category?.id,
+                        mediaTypeId: media?.mediaType?.id
+                    }}
+                    onSubmit={handleSubmit}
+                    validationSchema={validationSchema}
+                >
+                    {({ handleChange, handleSubmit, values, errors, touched }) => (
+                        <Form onSubmit={handleSubmit}>
+                            <FormGroup>
+                                <Form.Label>Название</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="name"
+                                    onChange={handleChange}
+                                    value={values.name}
+                                    isInvalid={touched.name && errors.name}
+                                />
+                                <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
+                            </FormGroup>
+                            <FormGroup>
+                                <Form.Label>Описание</Form.Label>
+                                <Form.Control
+                                    as="textarea"
+                                    name="description"
+                                    onChange={handleChange}
+                                    value={values.description}
+                                    isInvalid={touched.description && errors.description}
+                                />
+                                <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
+                            </FormGroup>
+                            <FormGroup className={"d-flex justify-content-end"}>
+                                <Button type="submit">Изменить</Button>
+                            </FormGroup>
+                        </Form>
+                    )}
+                </Formik>
             </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={() => setShow(false)}>
-                    Отмена
-                </Button>
-                <Button variant="primary" onClick={() => setMedia(postPutMediaRequest)}>
-                    Сохранить
-                </Button>
-            </Modal.Footer>
         </Modal>
     );
 }
