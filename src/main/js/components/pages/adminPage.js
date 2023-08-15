@@ -1,14 +1,7 @@
 import React from 'react';
 import Nav from "react-bootstrap/Nav";
 import {Link, Route, Routes} from "react-router-dom";
-import * as PropTypes from "prop-types";
 import TagsTable from "../admintables/tagsTable";
-
-function Redirect(props) {
-    return null;
-}
-
-Redirect.propTypes = {to: PropTypes.string};
 
 export function AdminPage() {
     return (
