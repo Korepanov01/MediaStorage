@@ -73,8 +73,7 @@ public class SecurityConfig {
                         "/api/media_file/**",
                         "/api/file_types/**").permitAll()
                 .antMatchers(HttpMethod.GET,
-                        "/api/users/**",
-                        "/api/roles/**").hasRole(Role.ADMIN)
+                        "/api/users/**").hasRole(Role.ADMIN)
 
                 .antMatchers(HttpMethod.POST,
                         "/api/auth/**").permitAll()

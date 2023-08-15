@@ -8,7 +8,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,13 +16,8 @@ public class RoleService extends ParameterSearchService<Role, RoleSearchParamete
 
     private final RoleRepository roleRepository;
 
-    public List<Role> getUserRoles(@NonNull Long userId) {
-        return roleRepository.findByUserId(userId);
-    }
-
     public Optional<Role> findByName(@NonNull String name) {
-        return roleRepository.findByName(name);
-    }
+        return roleRepository.findByName(name);    }
 
     @Override
     protected boolean isSameEntityExists(@NonNull Role role) {
