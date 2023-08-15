@@ -1,19 +1,18 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
-import com.bftcom.mediastorage.model.api.request.PutMediaRequest;
-import com.bftcom.mediastorage.model.dto.MediaDto;
-import com.bftcom.mediastorage.model.dto.MediaListItemDto;
-import com.bftcom.mediastorage.model.entity.Category;
-import com.bftcom.mediastorage.model.entity.Media;
-import com.bftcom.mediastorage.model.entity.MediaType;
-import com.bftcom.mediastorage.model.entity.User;
-import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.model.api.request.PostMediaRequest;
+import com.bftcom.mediastorage.model.api.request.PutMediaRequest;
+import com.bftcom.mediastorage.model.dto.*;
+import com.bftcom.mediastorage.model.entity.*;
+import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/media")
@@ -31,6 +30,8 @@ public class MediaController implements FullController<
     private final UserService userService;
     private final CategoryService categoryService;
     private final MediaTypeService mediaTypeService;
+    private final MediaFileService mediaFileService;
+    private final TagService tagService;
 
     @Override
     public MediaListItemDto convertToListItemDto(Media media) {
@@ -40,7 +41,17 @@ public class MediaController implements FullController<
 
         MediaType mediaType = mediaTypeService.findById(media.getMediaTypeId()).orElseThrow();
 
-        return new MediaListItemDto(media, user, category, mediaType);
+        List<Tag> tags = tagService.getByMediaId(media.getId());
+
+        return new MediaListItemDto(
+                media.getId(),
+                media.getName(),
+                mediaFileService.getThumbnailUrl(media.getId()),
+                tags.stream().map(TagDto::new).collect(Collectors.toList()),
+                new UserHeaderDto(user),
+                new CategoryDto(category),
+                new MediaTypeDto(mediaType)
+        );
     }
 
     @Override
@@ -51,7 +62,18 @@ public class MediaController implements FullController<
 
         MediaType mediaType = mediaTypeService.findById(media.getMediaTypeId()).orElseThrow();
 
-        return new MediaDto(media, user, category, mediaType);
+        List<Tag> tags = tagService.getByMediaId(media.getId());
+
+        return new MediaDto(
+                media.getId(),
+                media.getName(),
+                media.getDescription(),
+                mediaFileService.getMainUrls(media.getId()),
+                tags.stream().map(TagDto::new).collect(Collectors.toList()),
+                new UserHeaderDto(user),
+                new CategoryDto(category),
+                new MediaTypeDto(mediaType)
+        );
     }
 
     @Override

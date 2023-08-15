@@ -57,4 +57,12 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
                 .tryAddEqualsCondition("media_id", parameters.getMediaId())
                 .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }
+
+    @Override
+    public List<MediaFile> findByMediaIdAndFileType(@NonNull Long mediaId, @NonNull String fileType) {
+        return this.new ParametersSearcher("JOIN \"public.file_type\" ON \"public.media_file\".file_type_id = \"public.file_type\".id")
+                .addEqualsCondition("\"public.file_type\".name", fileType)
+                .addEqualsCondition("media_id", mediaId)
+                .findByParameters(this::mapRowToModel);
+    }
 }

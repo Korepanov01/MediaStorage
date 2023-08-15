@@ -11,6 +11,10 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class FileType extends BaseEntity {
+
+    public static final String THUMBNAIL = "Превью";
+    public static final String MAIN = "Основной";
+
     @NotBlank
     @Size(max = 100)
     private String name;
