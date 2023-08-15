@@ -1,7 +1,7 @@
 import React, {useLayoutEffect, useState} from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {CategorySelector} from "../selectors/categorySelector";
-import {getMediaTypes} from "../../apis/mediaTypeAPI";
+import {getMediaTypeById, getMediaTypes} from "../../apis/mediaTypeAPI";
 import {Formik} from "formik";
 import {putMedia} from "../../apis/mediaAPI";
 import {object, string} from "yup";
@@ -17,10 +17,14 @@ export function MediaFormPopup({show, setShow, setMedia, media}) {
     }, []);
 
     const handleSubmit = (values) => {
-        putMedia(media.id, values).then(({error}) => {
-            if (!error) {
-                setMedia({...media, name: values.name, description: values.description});
-                setShow(false);
+        putMedia(media.id, values).then(({error: putMediaError}) => {
+            if (!putMediaError) {
+                getMediaTypeById(values.mediaTypeId).then(({error: getMediaTypeError, data: mediaType}) => {
+                    if (!putMediaError) {
+                        setMedia({...media, mediaType: mediaType, name: values.name, description: values.description});
+                        setShow(false);
+                    }
+                });
             }
         })
     };
@@ -43,7 +47,7 @@ export function MediaFormPopup({show, setShow, setMedia, media}) {
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
                 >
-                    {({ handleChange, handleSubmit, values, errors, touched }) => (
+                    {({handleChange, handleSubmit, values, errors, touched}) => (
                         <Form onSubmit={handleSubmit}>
                             <FormGroup>
                                 <Form.Label>Название</Form.Label>
@@ -66,6 +70,18 @@ export function MediaFormPopup({show, setShow, setMedia, media}) {
                                     isInvalid={touched.description && errors.description}
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
+                            </FormGroup>
+                            <FormGroup>
+                                <Form.Label>Тип</Form.Label>
+                                <Form.Select
+                                    name="mediaTypeId"
+                                    onChange={handleChange}
+                                    value={values.mediaTypeId}
+                                    defaultValue={values.mediaTypeId}>
+                                    {types.map((type) => (
+                                        <option key={type.id} value={type.id}>{type.name}</option>
+                                    ))};
+                                </Form.Select>
                             </FormGroup>
                             <FormGroup className={"d-flex justify-content-end"}>
                                 <Button type="submit">Изменить</Button>
