@@ -6,7 +6,6 @@ export const BASE_URL = "http://localhost:8080/api/";
 
 export const Api = axios.create({
     baseURL: BASE_URL,
-    headers: AuthService.getAuthHeader()
 });
 
 export const useRequest = (url, method, payload, params) => {
@@ -21,7 +20,8 @@ export const useRequest = (url, method, payload, params) => {
                     data: payload,
                     method,
                     url,
-                    params
+                    params,
+                    headers: AuthService.getAuthHeader()
                 });
                 setData(response.data);
             } catch (error) {
@@ -42,7 +42,7 @@ export const request = (url, method, payload, params) => {
     };
 
     return (Api
-        .request({data: payload, method, url, params })
+        .request({data: payload, method, url, params, headers: AuthService.getAuthHeader()})
         .then(response => result.data = response.data)
         .catch(error => result.error = convertError(error)))
         .then(() => result);
