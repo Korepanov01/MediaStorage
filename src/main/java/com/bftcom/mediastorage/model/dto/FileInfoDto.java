@@ -9,8 +9,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class FileInfoDto extends BaseDto {
     private final Long fileId;
-
     private final String url;
-
     private final String fileType;
 }

@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.model.searchparameters.TagSearchParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,6 +45,7 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Tag> findByParameters(@NonNull TagSearchParameters parameters) {
         return (parameters.getMediaId() == null
                 ? this.new ParametersSearcher()
@@ -54,7 +56,16 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Tag> findByName(@NonNull String name) {
         return this.findByUniqueField("name", name);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Tag> getByMediaId(@NonNull Long mediaId) {
+        return this.new ParametersSearcher("JOIN \"public.media_tag\" ON \"public.tag\".id = \"public.media_tag\".tag_id")
+                .addEqualsCondition("\"public.media_tag\".media_id", mediaId)
+                .findByParameters(this::mapRowToModel);
     }
 }
