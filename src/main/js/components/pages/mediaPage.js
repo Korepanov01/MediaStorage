@@ -22,11 +22,11 @@ export function MediaPage() {
 
     useLayoutEffect(() => {
         Promise.all([
-            getTagByMediaId(id).then(({error, data: tags}) => {
-                if (!error) setTags(tags);
-            }),
             getMediaById(id).then(({data: media, error}) => {
-                if (!error) setMedia(media);
+                if (!error) {
+                    setMedia(media);
+                    setTags(media.tags);
+                }
             }),
             getMediaFilesByMediaId(id).then(({data: mediaFiles, error}) => {
                 if (!error) setMediaFiles(mediaFiles)
