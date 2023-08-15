@@ -9,7 +9,7 @@ export const Api = axios.create({
     headers: AuthService.getAuthHeader()
 });
 
-export const useAxios = (url, method, payload, params) => {
+export const useRequest = (url, method, payload, params) => {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loaded, setLoaded] = useState(false);
@@ -17,7 +17,7 @@ export const useAxios = (url, method, payload, params) => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await Api.request({
+                let response = await Api.request({
                     data: payload,
                     method,
                     url,
@@ -25,22 +25,7 @@ export const useAxios = (url, method, payload, params) => {
                 });
                 setData(response.data);
             } catch (error) {
-                if (error.response) {
-                    setError({
-                        status: error.response.status,
-                        messages: error.response?.data?.errors ? error.response.data.errors : []
-                    });
-                } else if (error.request) {
-                    setError({
-                        status: 0,
-                        messages: ["Нет ответа от сервера"]
-                    });
-                } else {
-                    setError({
-                        status: 0,
-                        messages: ["Неизвестная ошибка"]
-                    });
-                }
+                setError(convertError(error));
             } finally {
                 setLoaded(true);
             }
@@ -50,4 +35,34 @@ export const useAxios = (url, method, payload, params) => {
     return { data, error, loaded };
 };
 
-export const useGet = (url, params) =>  useAxios(url, "GET", null, params);
+export const request = (url, method, payload, params) => {
+    let result = {
+        data: null,
+        error: null
+    };
+
+    return (Api
+        .request({data: payload, method, url, params })
+        .then(response => result.data = response.data)
+        .catch(error => result.error = convertError(error)))
+        .then(() => result);
+};
+
+export const useGet = (url, params) =>  useRequest(url, "GET", null, params);
+
+function convertError(error) {
+    let errorObj = {
+        status: null,
+        messages: null
+    };
+
+    if (error.response) {
+        errorObj.status = error.response.status;
+        errorObj.messages = error.response?.data?.errors ? error.response.data.errors : [];
+    } else {
+        errorObj.status = 0;
+        errorObj.messages = error.request ? ["Нет ответа от сервера"] : ["Неизвестная ошибка"];
+    }
+
+    return errorObj;
+}
