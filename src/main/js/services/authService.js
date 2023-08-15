@@ -5,8 +5,8 @@ export const AuthService = {
         return login(email, password)
             .then(({error, data}) => {
                 if (!error) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
-                    return response.data;
+                    localStorage.setItem("user", JSON.stringify(data));
+                    return data;
                 }
             });
     },

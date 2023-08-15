@@ -1,8 +1,9 @@
 import {deleteRequest, getRequest, postRequest, putRequest} from "./baseApi";
+import {MAX_PAGE_SIZE} from "../enums/api";
 
 export const getTagById = (id) => getRequest(`/tags/${id}`);
 
-export const getTagByMediaId = (mediaId) => () => getTags({mediaId, pageSize: Number.MAX_VALUE});
+export const getTagByMediaId = (mediaId) => getTags({mediaId, pageSize: MAX_PAGE_SIZE});
 
 export const getTags = (params) => getRequest('/tags', params);
 
