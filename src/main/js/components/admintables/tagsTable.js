@@ -47,7 +47,7 @@ export default function TagsTable() {
         <>
             <ChangeTagFormPopup tag={selectedTag} show={showChangeTagPopup} onChangeShow={setShowChangeTagPopup} onSubmit={handleChangeTagSubmit}/>
             <ListGroup>
-                <ListGroup.Item key={"0"} className={"bg-light-blue"}>
+                <ListGroup.Item key={"0"} variant={'primary'}>
                     <AddTagForm onSubmit={handlePostTag}/>
                 </ListGroup.Item>
                 {tags.map(tag => (
