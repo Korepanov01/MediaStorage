@@ -1,5 +1,3 @@
-import {Api} from "./Api"
-import {TagBuilder} from "../models/Tag";
 import {deleteRequest, getRequest, postRequest, putRequest} from "./baseApi";
 
 export const getTagById = (id) => getRequest(`/tags/${id}`);

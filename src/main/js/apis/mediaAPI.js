@@ -1,4 +1,4 @@
-import { Api } from "./Api"
+import { Api } from "./api"
 import {MediaBuilder} from "../models/Media";
 const qs = require('qs');
 

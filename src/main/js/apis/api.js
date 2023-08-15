@@ -1,5 +1,5 @@
 import axios from "axios";
-import {AuthService} from "../services/AuthService";
+import {AuthService} from "../services/authService";
 import {toastErrors} from "../services/toastService";
 
 export const BASE_URL = "http://localhost:8080/api/";

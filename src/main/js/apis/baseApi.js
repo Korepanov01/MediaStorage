@@ -1,4 +1,4 @@
-import {request} from "./Api";
+import {request} from "./api";
 
 export const getRequest = (url, params) => request(url, "GET", undefined, params);
 

@@ -1,9 +1,9 @@
 import React, {useEffect} from "react";
 import {useState} from "react";
-import {SearchBar} from "./SearchBar";
+import {SearchBar} from "./searchBar";
 import {Badge, Form, FormGroup} from "react-bootstrap";
-import {getTags} from "../../apis/TagAPI";
-import {PageSelector} from "./PageSelector";
+import {getTags} from "../../apis/tagAPI";
+import {PageSelector} from "./pageSelector";
 
 export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect, selectedTags: selectedTags}) {
     const [tags, setTags] = useState([]);

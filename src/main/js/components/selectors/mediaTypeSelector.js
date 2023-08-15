@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useState} from "react";
 import {Form} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import {MediaTypeAPI} from "../../apis/MediaTypeAPI";
+import {MediaTypeAPI} from "../../apis/mediaTypeAPI";
 
 export function MediaTypeSelector({onSelect: onSelect, selectedTypesIds: selectedTypesIds}) {
     const [types, setTypes] = useState([]);

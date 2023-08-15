@@ -1,6 +1,6 @@
 import React from "react";
 import {Carousel, Image} from "react-bootstrap";
-import {Defaults} from "../enums/Defaults";
+import {Defaults} from "../enums/defaults";
 
 export function FilesCarousel({filesUrls: filesUrls}) {
     return (

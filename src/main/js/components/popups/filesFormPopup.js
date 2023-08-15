@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Card, Form, FormGroup, Modal} from "react-bootstrap";
-import {FileAPI} from "../../apis/FileAPI";
-import {FileTypeAPI} from "../../apis/FileTypeAPI";
+import {FileAPI} from "../../apis/fileAPI";
+import {FileTypeAPI} from "../../apis/fileTypeAPI";
 
 export function FilesFormPopup({show: show, onChangeShow: handleChangeShow, mediaFiles: mediaFiles, onSubmit: handleSubmit, mediaId: mediaId}) {
     const [fileTypes, setFileTypes] = useState([]);

@@ -1,4 +1,4 @@
-import { Api } from "./Api"
+import { Api } from "./api"
 
 export const MediaTagAPI = {
     post: function (mediaId, tagId) {

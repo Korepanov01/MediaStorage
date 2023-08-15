@@ -1,8 +1,8 @@
 import React from "react";
-import { MediaCard } from './MediaCard';
+import { MediaCard } from './mediaCard';
 import {CardGroup, Col, Row} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import {utils} from "../Utils";
+import {utils} from "../utils";
 
 export function MediaCards({medias: medias, cardsInRow: cardsInRow}) {
     return (

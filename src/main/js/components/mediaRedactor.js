@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Accordion, Button, Card, ListGroup} from "react-bootstrap";
 import {PostPutMediaRequestBuilder} from "../models/PostPutMediaRequest";
-import {MediaAPI} from "../apis/MediaAPI";
-import {FilesFormPopup} from "./popups/FilesFormPopup";
-import {MediaFormPopup} from "./popups/MediaFormPopup";
-import {TagsFormPopup} from "./popups/TagsFormPopup";
+import {MediaAPI} from "../apis/mediaAPI";
+import {FilesFormPopup} from "./popups/filesFormPopup";
+import {MediaFormPopup} from "./popups/mediaFormPopup";
+import {TagsFormPopup} from "./popups/tagsFormPopup";
 import {useNavigate} from "react-router-dom";
 
 export function MediaRedactor({media: media, mediaFiles: mediaFiles, tags: tags, onTagsChange: handleTagsChange}) {

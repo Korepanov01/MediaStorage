@@ -1,10 +1,10 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {MediaCards} from "../MediaCards";
-import {MediaAPI} from "../../apis/MediaAPI";
-import {PageSelector} from "../selectors/PageSelector";
+import {MediaCards} from "../mediaCards";
+import {MediaAPI} from "../../apis/mediaAPI";
+import {PageSelector} from "../selectors/pageSelector";
 import {Col, Row} from "react-bootstrap";
-import {UserMenu} from "../UserMenu";
-import {MediaFormPopup} from "../popups/MediaFormPopup";
+import {UserMenu} from "../userMenu";
+import {MediaFormPopup} from "../popups/mediaFormPopup";
 import {useNavigate} from "react-router-dom";
 import {PostPutMediaRequestBuilder} from "../../models/PostPutMediaRequest";
 import {useSelector} from "react-redux";

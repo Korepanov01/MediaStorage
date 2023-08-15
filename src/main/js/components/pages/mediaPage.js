@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Col, Row} from "react-bootstrap";
-import {MediaAPI} from "../../apis/MediaAPI";
-import {FilesCarousel} from "../FileCarousel";
-import {MediaInfo} from "../MediaInfo";
+import {MediaAPI} from "../../apis/mediaAPI";
+import {FilesCarousel} from "../fileCarousel";
+import {MediaInfo} from "../mediaInfo";
 import {MediaBuilder} from "../../models/Media";
-import {FileTypes} from "../../enums/FileTypes";
-import {MediaFileAPI} from "../../apis/MediaFileAPI";
-import {MediaRedactor} from "../MediaRedactor";
-import {getTags, TagAPI} from "../../apis/TagAPI";
+import {FileTypes} from "../../enums/fileTypes";
+import {MediaFileAPI} from "../../apis/mediaFileAPI";
+import {MediaRedactor} from "../mediaRedactor";
+import {getTags, TagAPI} from "../../apis/tagAPI";
 
 export function MediaPage() {
     const {id} = useParams();

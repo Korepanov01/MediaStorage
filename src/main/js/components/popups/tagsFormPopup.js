@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
-import {TagsSelector} from "../selectors/TagsSelector";
-import {MediaTagAPI} from "../../apis/MediaTagsAPI";
+import {TagsSelector} from "../selectors/tagsSelector";
+import {MediaTagAPI} from "../../apis/mediaTagsAPI";
 
 export function TagsFormPopup({show: show, onChangeShow: handleChangeShow, onTagsChange: handleTagsChange, tags: tags, mediaId: mediaId}) {
 

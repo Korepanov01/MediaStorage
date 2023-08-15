@@ -5,7 +5,7 @@ import {object, string} from "yup"
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {login} from "../../redux/authSlice";
-import {AuthService} from "../../services/AuthService";
+import {AuthService} from "../../services/authService";
 
 export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
 

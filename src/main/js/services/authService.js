@@ -1,4 +1,4 @@
-import {AuthAPI} from "../apis/AuthAPI";
+import {AuthAPI} from "../apis/authAPI";
 
 export const AuthService = {
     login: (email, password) => {

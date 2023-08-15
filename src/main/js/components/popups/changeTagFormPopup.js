@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {Formik} from "formik";
 import {object, string} from "yup"
-import {putTag} from "../../apis/TagAPI";
+import {putTag} from "../../apis/tagAPI";
 import {toast} from "react-toastify";
 
 export function ChangeTagFormPopup({show, onChangeShow: handleChangeShow, tag, onSubmit: handleSubmit}) {

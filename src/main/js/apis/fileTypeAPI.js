@@ -1,4 +1,4 @@
-import { Api } from "./Api"
+import { Api } from "./api"
 import {FileTypeBuilder} from "../models/FileType";
 
 export const FileTypeAPI = {

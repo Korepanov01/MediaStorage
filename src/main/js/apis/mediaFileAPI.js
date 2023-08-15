@@ -1,4 +1,4 @@
-import { Api } from "./Api"
+import { Api } from "./api"
 import {MediaFileBuilder} from "../models/MediaFile";
 
 export const MediaFileAPI = {

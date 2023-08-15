@@ -3,7 +3,7 @@ import {Button, Form, FormGroup} from "react-bootstrap";
 import {Formik} from "formik";
 import {object, string} from "yup"
 import {toast} from "react-toastify";
-import {postTag} from "../../apis/TagAPI";
+import {postTag} from "../../apis/tagAPI";
 
 export function AddTagForm({onSubmit: handleSubmit}) {
     const initialValues={tagName: ""};

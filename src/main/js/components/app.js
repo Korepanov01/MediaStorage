@@ -4,11 +4,11 @@ const React = require('react');
 
 import {SearchMediaPage} from "./pages/SearchMediaPage";
 import {Routes, Route } from 'react-router-dom';
-import {MainPage} from "./pages/MainPage";
-import {ProfilePage} from "./pages/ProfilePage";
-import {MediaPage} from "./pages/MediaPage";
-import {AppNavbar} from "./AppNavbar";
-import {AdminPage} from "./pages/AdminPage";
+import {MainPage} from "./pages/mainPage";
+import {ProfilePage} from "./pages/profilePage";
+import {MediaPage} from "./pages/mediaPage";
+import {AppNavbar} from "./appNavbar";
+import {AdminPage} from "./pages/adminPage";
 
 export function App() {
     return (

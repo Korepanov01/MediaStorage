@@ -1,4 +1,4 @@
-import { Api } from "./Api"
+import { Api } from "./api"
 
 export const UserAPI = {
     getById: function (id) {

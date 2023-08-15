@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Card, ListGroup} from "react-bootstrap";
-import {TagsCarousel} from "./TagsCarousel";
+import {TagsCarousel} from "./tagsCarousel";
 import {Link} from "react-router-dom";
-import {FileAPI} from "../apis/FileAPI";
-import {getTags} from "../apis/TagAPI";
+import {FileAPI} from "../apis/fileAPI";
+import {getTags} from "../apis/tagAPI";
 
 export function MediaCard({ media }) {
     const [thumbnail, setThumbnail] = useState(null)

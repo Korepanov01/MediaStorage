@@ -1,7 +1,7 @@
-import { Api } from "./Api"
-import {MediaFileAPI} from "./MediaFileAPI";
-import {FileTypes} from "../enums/FileTypes";
-import {Defaults} from "../enums/Defaults";
+import { Api } from "./api"
+import {MediaFileAPI} from "./mediaFileAPI";
+import {FileTypes} from "../enums/fileTypes";
+import {Defaults} from "../enums/defaults";
 
 export const FileAPI = {
     get: function (id) {

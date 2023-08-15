@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {MediaCards} from "../MediaCards";
-import {MediaAPI} from "../../apis/MediaAPI";
-import {PageSelector} from "../selectors/PageSelector";
+import {MediaCards} from "../mediaCards";
+import {MediaAPI} from "../../apis/mediaAPI";
+import {PageSelector} from "../selectors/pageSelector";
 import {Col, Row} from "react-bootstrap";
-import {MediaSearchMenu} from "../MediaSearchMenu";
+import {MediaSearchMenu} from "../mediaSearchMenu";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;

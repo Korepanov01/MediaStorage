@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {MediaCards} from "../MediaCards";
-import {MediaAPI} from "../../apis/MediaAPI";
+import {MediaCards} from "../mediaCards";
+import {MediaAPI} from "../../apis/mediaAPI";
 
 const CARDS_IN_ROW = 4;
 

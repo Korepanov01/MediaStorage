@@ -6,10 +6,10 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {Button, Col, Row} from "react-bootstrap";
 import {useState} from "react";
-import {LoginPopup} from "./popups/LoginPopup";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../redux/authSlice";
 import {Roles} from "../enums/roles";
+import {LoginPopup} from "./popups/loginPopup";
 
 const PROFILE_TAB_NAME = "Личный кабинет";
 const SEARCH_TAB_NAME = "Поиск";
