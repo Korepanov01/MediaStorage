@@ -32,7 +32,7 @@ export const useRequest = (url, method, payload, params) => {
         })();
     }, [params, url]);
 
-    return { data, error, loaded };
+    return {data, error, loaded};
 };
 
 export const request = (url, method, payload, params) => {
@@ -47,8 +47,6 @@ export const request = (url, method, payload, params) => {
         .catch(error => result.error = convertError(error)))
         .then(() => result);
 };
-
-export const useGet = (url, params) =>  useRequest(url, "GET", null, params);
 
 function convertError(error) {
     let errorObj = {

@@ -1,18 +1,12 @@
-import {Api, useGet} from "./Api"
+import {Api} from "./Api"
 import {TagBuilder} from "../models/Tag";
-
-export const useGetAllTagsByMedia = (mediaId) => {
-    const searchParameters = { pageIndex: 0, pageSize: 1000, mediaId: mediaId };
-    return useGet("/tags", { params: searchParameters });
-};
+import {deleteRequest, useGetRequest} from "./baseApi";
 
 export const useGetTags = (searchParameters) => {
-    return useGet("/tags", searchParameters);
+    return useGetRequest("/tags", searchParameters);
 };
 
-export const useGetTagById = (id) => {
-    return useGet(`/tags/${id}`);
-}
+export const deleteTag = (tagId) => deleteRequest(`/tags/${tagId}`);
 
 export const TagAPI = {
     getAllByMedia: async function (mediaId) {
