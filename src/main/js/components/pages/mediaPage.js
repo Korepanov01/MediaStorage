@@ -5,10 +5,10 @@ import {getMediaById} from "../../apis/mediaAPI";
 import {FilesCarousel} from "../fileCarousel";
 import {MediaInfo} from "../mediaInfo";
 import {FileTypes} from "../../enums/fileTypes";
-import {getMediaFiles} from "../../apis/mediaFileAPI";
 import {MediaRedactor} from "../mediaRedactor";
-import {getTags} from "../../apis/tagAPI";
+import {getTagByMediaId} from "../../apis/tagAPI";
 import {useSelector} from "react-redux";
+import {getMediaFilesByMediaId} from "../../apis/mediaFileAPI";
 
 export function MediaPage() {
     const {id} = useParams();
@@ -16,27 +16,26 @@ export function MediaPage() {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const authUserId = useSelector(state => state.auth.user.id);
 
+    const [isLoading, setIsLoading] = useState(true);
+    const [media, setMedia] = useState(null);
     const [mediaFiles, setMediaFiles] = useState([]);
     const [tags, setTags] = useState([])
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [media, setMedia] = useState(null);
-
     useEffect(() => {
-        getTags({mediaId: id}).then(result => {
-            if (!result.error) setTags(result.data);
+        getTagByMediaId({mediaId: id}).then(({error, data: tags}) => {
+            if (!error) setTags(tags);
         });
     }, []);
 
     useEffect(() => {
-        getMediaById(id).then(({data, error}) => {
-            if (!error) setMedia(data);
+        getMediaById(id).then(({data: media, error}) => {
+            if (!error) setMedia(media);
         });
     }, []);
 
     useEffect(() => {
-        getMediaFiles({id}).then(({data, error}) => {
-            if (!error) setMediaFiles(data)
+        getMediaFilesByMediaId({id}).then(({data: mediaFiles, error}) => {
+            if (!error) setMediaFiles(mediaFiles)
         });
     }, []);
 
