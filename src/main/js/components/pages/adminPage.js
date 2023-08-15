@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Nav from "react-bootstrap/Nav";
-import {Link, Navigate, Route, Routes, useNavigate} from "react-router-dom";
+import {Link, Route, Routes} from "react-router-dom";
 import * as PropTypes from "prop-types";
 import TagsTable from "../admintables/tagsTable";
 

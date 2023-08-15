@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Accordion, Button, Card, ListGroup} from "react-bootstrap";
+import {Accordion, Button, ListGroup} from "react-bootstrap";
 import {PostPutMediaRequestBuilder} from "../models/PostPutMediaRequest";
 import {MediaAPI} from "../apis/mediaAPI";
 import {FilesFormPopup} from "./popups/filesFormPopup";

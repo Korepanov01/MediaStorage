@@ -8,7 +8,7 @@ import {MediaBuilder} from "../../models/Media";
 import {FileTypes} from "../../enums/fileTypes";
 import {MediaFileAPI} from "../../apis/mediaFileAPI";
 import {MediaRedactor} from "../mediaRedactor";
-import {getTags, TagAPI} from "../../apis/tagAPI";
+import {getTags} from "../../apis/tagAPI";
 
 export function MediaPage() {
     const {id} = useParams();

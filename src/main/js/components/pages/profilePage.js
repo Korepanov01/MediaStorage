@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {MediaCards} from "../mediaCards";
 import {MediaAPI} from "../../apis/mediaAPI";
 import {PageSelector} from "../selectors/pageSelector";
