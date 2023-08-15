@@ -12,6 +12,8 @@ export const deleteTag = (tagId) => deleteRequest(`/tags/${tagId}`);
 
 export const putTag = (tagId, payload) => putRequest(`/tags/${tagId}`, payload);
 
+export const postTag = (payload) => putRequest('/tags', payload);
+
 export const TagAPI = {
     getAllByMedia: async function (mediaId) {
         let searchParameters = {pageIndex: 0, pageSize: 1000, mediaId: mediaId}
