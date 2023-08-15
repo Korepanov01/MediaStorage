@@ -1,16 +1,5 @@
-import {Api} from "./api"
+import {postRequest} from "./baseApi";
 
-export const AuthAPI = {
+export const register = (name, email, password) => postRequest('/auth/register', {name, email, password});
 
-    register: function (name, email, password) {
-        return Api.post("/auth/register", {
-            name,
-            email,
-            password,
-        })
-    },
-
-    login: function (email, password) {
-        return Api.post("/auth/login", {email, password});
-    }
-}
+export const login = (email, password) => postRequest('/auth/login', {email, password});

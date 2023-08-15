@@ -1,7 +1,7 @@
 import { Api } from "./api"
-import {MediaFileAPI} from "./mediaFileAPI";
 import {FileTypes} from "../enums/fileTypes";
 import {Defaults} from "../enums/defaults";
+import {getMediaFiles} from "./mediaFileAPI";
 
 export const FileAPI = {
     get: function (id) {
@@ -21,13 +21,14 @@ export const FileAPI = {
         return Api.postForm(`/files`, file, {params: params});
     },
 
+
     delete: function (id) {
         return Api.delete(`/files/${id}`);
     },
 
     getThumbnailUrl: async function (mediaId) {
         let searchParameters = {pageIndex: 0, pageSize: 1, mediaId: mediaId, type: FileTypes.thumbnail};
-        let mediaFiles = await MediaFileAPI.get(searchParameters);
+        let {data: mediaFiles, error} = await getMediaFiles(searchParameters);
         if (mediaFiles.length === 0)
             return Defaults.defaultImageUrl;
 
@@ -36,7 +37,7 @@ export const FileAPI = {
 
     getMainUrls: async function (mediaId) {
         let searchParameters = {pageIndex: 0, pageSize: 100, mediaId: mediaId, type: FileTypes.main};
-        let mediaFiles = await MediaFileAPI.get(searchParameters);
+        let {data: mediaFiles, error} = await getMediaFiles(searchParameters);
         if (mediaFiles.length === 0)
             return  [Defaults.defaultImageUrl];
 

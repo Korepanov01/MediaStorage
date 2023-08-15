@@ -1,7 +1,5 @@
-import { Api } from "./api"
+import {getRequest} from "./baseApi";
 
-export const MediaTypeAPI = {
-    get: function () {
-        return  Api.get("/media_type");
-    }
-}
+export const getMediaTypes = (params) => getRequest('/media_type', params);
+
+export const getMediaTypeById = (id) => getRequest(`/media_type/${id}`);

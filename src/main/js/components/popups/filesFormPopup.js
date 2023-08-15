@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Card, Form, FormGroup, Modal} from "react-bootstrap";
 import {FileAPI} from "../../apis/fileAPI";
-import {FileTypeAPI} from "../../apis/fileTypeAPI";
+import {getFileTypes} from "../../apis/fileTypeAPI";
 
 export function FilesFormPopup({show: show, onChangeShow: handleChangeShow, mediaFiles: mediaFiles, onSubmit: handleSubmit, mediaId: mediaId}) {
     const [fileTypes, setFileTypes] = useState([]);
@@ -10,8 +10,8 @@ export function FilesFormPopup({show: show, onChangeShow: handleChangeShow, medi
     const [selectedFileType, setSelectedFileType] = useState("1");
 
     useEffect(() => {
-        FileTypeAPI.get().then(fileTypes => {
-            setFileTypes(fileTypes);
+        getFileTypes().then(({data, error}) => {
+            if (!error) setFileTypes(fileTypes);
         });
     }, []);
 

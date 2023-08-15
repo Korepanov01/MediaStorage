@@ -1,7 +1,5 @@
-import { Api } from "./api"
+import {getRequest} from "./baseApi";
 
-export const UserAPI = {
-    getById: function (id) {
-        return Api.get(`/users/${id}`);
-    }
-}
+export const getUsers = (params) => getRequest('/users', params);
+
+export const deleteUser = (id) => getRequest(`/users/${id}`);

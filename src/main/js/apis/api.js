@@ -1,6 +1,7 @@
 import axios from "axios";
 import {AuthService} from "../services/authService";
 import {toastErrors} from "../services/toastService";
+import qs from "qs";
 
 export const BASE_URL = "http://localhost:8080/api/";
 
@@ -15,7 +16,7 @@ export const request = (url, method, payload, params) => {
     };
 
     return (Api
-        .request({data: payload, method, url, params, headers: AuthService.getAuthHeader(), responseType: "json"})
+        .request({data: payload, method, url, params, headers: AuthService.getAuthHeader(), paramsSerializer: params =>  qs.stringify(params)})
         .then(response => result.data = response.data)
         .catch(error => {
             result.error = convertError(error);

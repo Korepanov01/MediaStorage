@@ -1,19 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Col, Row} from "react-bootstrap";
-import {MediaAPI} from "../../apis/mediaAPI";
+import {getMediaById} from "../../apis/mediaAPI";
 import {FilesCarousel} from "../fileCarousel";
 import {MediaInfo} from "../mediaInfo";
-import {MediaBuilder} from "../../models/Media";
 import {FileTypes} from "../../enums/fileTypes";
-import {MediaFileAPI} from "../../apis/mediaFileAPI";
+import {getMediaFiles} from "../../apis/mediaFileAPI";
 import {MediaRedactor} from "../mediaRedactor";
 import {getTags} from "../../apis/tagAPI";
 
 export function MediaPage() {
     const {id} = useParams();
 
-    const [media, setMedia] = useState(MediaBuilder.getDefault());
+    const [media, setMedia] = useState({
+        id: 0,
+        name: "string",
+        user: {
+            id: 0,
+            name: "string"
+        }});
     const [mediaFiles, setMediaFiles] = useState([]);
     const [tags, setTags] = useState([])
 
@@ -24,13 +29,15 @@ export function MediaPage() {
     }, []);
 
     useEffect(() => {
-        MediaAPI.getById(id).then(media => {
-            setMedia(media);
+        getMediaById(id).then(({data, error}) => {
+            if (!error) setMedia(data);
         });
     }, []);
 
     useEffect(() => {
-        MediaFileAPI.getByMediaId(id).then(mediaFiles => setMediaFiles(mediaFiles));
+        getMediaFiles({id}).then(({data, error}) => {
+            if (!error) setMediaFiles(data)
+        });
     }, []);
 
     return (

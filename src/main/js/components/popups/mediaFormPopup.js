@@ -1,7 +1,7 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
-import {MediaTypeAPI} from "../../apis/mediaTypeAPI";
 import {CategorySelector} from "../selectors/categorySelector";
+import {getMediaTypes} from "../../apis/mediaTypeAPI";
 
 export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSubmit: handleSubmit, initialData: initialData}) {
     const [types, setTypes] = useState([]);
@@ -12,8 +12,8 @@ export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSu
     }, [initialData]);
 
     useLayoutEffect(() => {
-        MediaTypeAPI.get().then(response => {
-            setTypes(response.data);
+        getMediaTypes().then(({data, error}) => {
+            if (!error) setTypes(data);
         });
     }, []);
 

@@ -1,11 +1,13 @@
-import {AuthAPI} from "../apis/authAPI";
+import {login, register} from "../apis/authAPI";
 
 export const AuthService = {
     login: (email, password) => {
-        return AuthAPI.login(email, password)
-            .then(response => {
-                localStorage.setItem("user", JSON.stringify(response.data));
-                return response.data;
+        return login(email, password)
+            .then(({error, data}) => {
+                if (!error) {
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                    return response.data;
+                }
             });
     },
 
@@ -14,7 +16,7 @@ export const AuthService = {
     },
 
     register: (name, email, password) => {
-        return AuthAPI.register(name, email, password);
+        return register(name, email, password);
     },
 
     getCurrentUser: () => {

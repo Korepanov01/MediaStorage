@@ -1,12 +1,3 @@
-import { Api } from "./api"
-import {MediaFileBuilder} from "../models/MediaFile";
+import {getRequest} from "./baseApi";
 
-export const MediaFileAPI = {
-    get: async function (searchParameters) {
-        return MediaFileBuilder.buildArrayByData((await Api.get("/media_file", {params: searchParameters})).data);
-    },
-
-    getByMediaId: async function (id) {
-        return MediaFileBuilder.buildArrayByData((await Api.get("/media_file", {params: {pageIndex: 0, pageSize: 100, mediaId: id}})).data);
-    }
-}
+export const getMediaFiles = (params) => getRequest('/media_file', params);

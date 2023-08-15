@@ -1,33 +1,11 @@
-import { Api } from "./api"
-import {MediaBuilder} from "../models/Media";
-const qs = require('qs');
+import {deleteRequest, getRequest, postRequest, putRequest} from "./baseApi";
 
-export const MediaAPI = {
-    get: function (searchParameters) {
-        return  Api.get('/media', {
-            params: searchParameters,
-            paramsSerializer: params => {
-                console.log(JSON.stringify(params))
-                return qs.stringify(params);
-            }
-        });
-    },
+export const getMediaById = (id) => getRequest(`/media/${id}`);
 
-    getById: async function (id) {
-        return Api.get(`/media/${id}`)
-            .then(response => response.data)
-            .then(data => MediaBuilder.buildByData(data));
-    },
+export const getMedias = (params) => getRequest('/media', params);
 
-    post: function (newMedia) {
-        return  Api.post("/media", newMedia);
-    },
+export const deleteMedia = (id) => deleteRequest(`/media/${id}`);
 
-    put: function (id, media) {
-        return  Api.put(`/media/${id}`, media);
-    },
+export const putMedia = (id, payload) => putRequest(`/media/${id}`, payload);
 
-    delete: function (id) {
-        return  Api.delete(`/media/${id}`);
-    }
-}
+export const postMedia = (payload) => postRequest('/media', payload);

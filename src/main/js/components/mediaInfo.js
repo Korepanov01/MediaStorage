@@ -1,10 +1,5 @@
 import React from 'react';
 import {Accordion, Badge} from "react-bootstrap";
-import {MediaBuilder} from "../models/Media";
-
-MediaInfo.defaultProps = {
-    media: MediaBuilder.getDefault()
-}
 
 export function MediaInfo({media: media, tags: tags}) {
     return (

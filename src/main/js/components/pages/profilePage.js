@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {MediaCards} from "../mediaCards";
-import {MediaAPI} from "../../apis/mediaAPI";
 import {PageSelector} from "../selectors/pageSelector";
 import {Col, Row} from "react-bootstrap";
 import {UserMenu} from "../userMenu";
 import {MediaFormPopup} from "../popups/mediaFormPopup";
 import {useNavigate} from "react-router-dom";
-import {PostPutMediaRequestBuilder} from "../../models/PostPutMediaRequest";
 import {useSelector} from "react-redux";
+import {getMedias, postMedia} from "../../apis/mediaAPI";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;
@@ -25,8 +24,8 @@ export function ProfilePage() {
         navigate("/");
 
     useEffect(() => {
-        MediaAPI.get({pageIndex, pageSize: PAGE_SIZE, userId: user?.id}).then(response => {
-            setMedias(response.data);
+        getMedias({pageIndex, pageSize: PAGE_SIZE, userId: user?.id}).then(({data, error}) => {
+            if (!error) setMedias(data);
         });
     }, [pageIndex]);
 
@@ -36,16 +35,21 @@ export function ProfilePage() {
 
     const handleFormSubmit = (postRequest) => {
         postRequest.userId = user.id;
-        MediaAPI.post(postRequest)
-            .then((response) => {
-                let newMediaId = response.data.id;
-                navigate(`/media/${newMediaId}`);
+        postMedia(postRequest)
+            .then(({data, error}) => {
+                if (!error) navigate(`/media/${data.id}`);
             });
     };
 
     return (
         <>
-            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} onSubmit={handleFormSubmit} initialData={PostPutMediaRequestBuilder.getDefault()}/>
+            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} onSubmit={handleFormSubmit} initialData={{
+                userId: 0,
+                categoryId: 0,
+                name: "string",
+                description: "string",
+                mediaTypeId: 0
+            }}/>
             <Row>
                 <Col lg={4}>
                     <UserMenu user={user} onAddMediaClick={() => setShowMediaForm(true)}/>

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {MediaCards} from "../mediaCards";
-import {MediaAPI} from "../../apis/mediaAPI";
 import {PageSelector} from "../selectors/pageSelector";
 import {Col, Row} from "react-bootstrap";
 import {MediaSearchMenu} from "../mediaSearchMenu";
+import {getMedias} from "../../apis/mediaAPI";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;
@@ -14,8 +14,8 @@ export function SearchMediaPage() {
     const [searchParameters, setSearchParameters] = useState({pageSize: PAGE_SIZE});
 
     useEffect(() => {
-        MediaAPI.get(searchParameters).then(response => {
-            setMedias(response.data);
+        getMedias(searchParameters).then(({data, error}) => {
+            if (!error) setMedias(data);
         });
     }, [searchParameters]);
 

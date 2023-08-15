@@ -1,23 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import {Accordion, Button, ListGroup} from "react-bootstrap";
-import {PostPutMediaRequestBuilder} from "../models/PostPutMediaRequest";
-import {MediaAPI} from "../apis/mediaAPI";
 import {FilesFormPopup} from "./popups/filesFormPopup";
 import {MediaFormPopup} from "./popups/mediaFormPopup";
 import {TagsFormPopup} from "./popups/tagsFormPopup";
 import {useNavigate} from "react-router-dom";
+import {deleteMedia} from "../apis/mediaAPI";
 
 export function MediaRedactor({media: media, mediaFiles: mediaFiles, tags: tags, onTagsChange: handleTagsChange}) {
     const [showMediaForm, setShowMediaForm] = useState(false);
     const [showFilesForm, setShowFilesForm] = useState(false);
     const [showTagsForm, setShowTagsForm] = useState(false);
 
-    const [putMediaRequest, setPutMediaRequest] = useState(PostPutMediaRequestBuilder.getDefault());
+    const [putMediaRequest, setPutMediaRequest] = useState({
+        categoryId: 0,
+        name: "string",
+        description: "string",
+        mediaTypeId: 0
+    });
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        setPutMediaRequest(PostPutMediaRequestBuilder.buildByMedia(media));
+        setPutMediaRequest(media);
     }, []);
 
     const handleMediaFormSubmit = (putRequest) => {
@@ -28,9 +32,9 @@ export function MediaRedactor({media: media, mediaFiles: mediaFiles, tags: tags,
     };
 
     const handleDeleteButtonClick = () => {
-        MediaAPI.delete(media.id)
-            .then(() => {
-                navigate("/");
+        deleteMedia(media.id)
+            .then(({data, error}) => {
+                if(!error) navigate("/");
             });
     };
 

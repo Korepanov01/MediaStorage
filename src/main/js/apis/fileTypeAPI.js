@@ -1,8 +1,5 @@
-import { Api } from "./api"
-import {FileTypeBuilder} from "../models/FileType";
+import {getRequest} from "./baseApi";
 
-export const FileTypeAPI = {
-    get: async function () {
-        return FileTypeBuilder.buildArrayByData((await Api.get("/file_types")).data);
-    }
-}
+export const getFileTypes = () => getRequest('/file_types');
+
+export const getFileTypeById = (id) => getRequest(`/file_types/${id}`);
