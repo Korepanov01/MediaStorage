@@ -1,10 +1,6 @@
 import {Api} from "./Api"
 import {TagBuilder} from "../models/Tag";
-import {deleteRequest, getRequest, putRequest} from "./baseApi";
-
-export const useGetTags = (searchParameters) => {
-    return useGetRequest("/tags", searchParameters);
-};
+import {deleteRequest, getRequest, postRequest, putRequest} from "./baseApi";
 
 export const getTags = (params) => getRequest('/tags', params);
 
@@ -12,7 +8,7 @@ export const deleteTag = (tagId) => deleteRequest(`/tags/${tagId}`);
 
 export const putTag = (tagId, payload) => putRequest(`/tags/${tagId}`, payload);
 
-export const postTag = (payload) => putRequest('/tags', payload);
+export const postTag = (payload) => postRequest('/tags', payload);
 
 export const TagAPI = {
     getAllByMedia: async function (mediaId) {

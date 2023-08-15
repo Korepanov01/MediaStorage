@@ -3,11 +3,13 @@ import {Button, ListGroup, Row, Col, ButtonGroup} from "react-bootstrap";
 import {deleteTag, getTags,} from "../../apis/TagAPI";
 import {PageSelector} from "../selectors/PageSelector";
 import {toast} from "react-toastify";
-import {toastErrors} from "../../services/toastService";
 import {ChangeTagFormPopup} from "../popups/changeTagFormPopup";
+import {AddTagForm} from "../forms/addTagForm";
+
+const PAGE_SIZE = 100;
 
 export default function TagsTable() {
-    const [searchParameters, setSearchParameters] = useState({pageIndex: 0, pageSize: 5})
+    const [searchParameters, setSearchParameters] = useState({pageSize: PAGE_SIZE, pageIndex: 0})
     const [tags, setTags] = useState([])
 
     const [showChangeTagPopup, setShowChangeTagPopup] = useState(false);
@@ -21,7 +23,10 @@ export default function TagsTable() {
 
     function handleDeleteClick(tagId, tagName) {
         deleteTag(tagId).then((result) => {
-            if (!result.error) toast.success(`Тег "${tagName}" удален`);
+            if (!result.error) {
+                toast.success(`Тег "${tagName}" удален`);
+                setTags(tags.filter(tag => tag.id !== tagId));
+            }
         });
     }
 
@@ -34,10 +39,17 @@ export default function TagsTable() {
         setShowChangeTagPopup(true);
     }
 
+    function handlePostTag(tag) {
+        setTags([tag, ...tags]);
+    }
+
     return (
         <>
             <ChangeTagFormPopup tag={selectedTag} show={showChangeTagPopup} onChangeShow={setShowChangeTagPopup} onSubmit={handleChangeTagSubmit}/>
             <ListGroup>
+                <ListGroup.Item key={"0"} className={"bg-light-blue"}>
+                    <AddTagForm onSubmit={handlePostTag}/>
+                </ListGroup.Item>
                 {tags.map(tag => (
                     <ListGroup.Item key={tag.id}>
                         <Row>
