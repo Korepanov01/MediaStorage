@@ -3,7 +3,7 @@ import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {CategorySelector} from "../selectors/categorySelector";
 import {getMediaTypes} from "../../apis/mediaTypeAPI";
 
-export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSubmit: handleSubmit, initialData: initialData}) {
+export function MediaFormPopup({show, setShow, setMedia, media}) {
     const [types, setTypes] = useState([]);
     const [postPutMediaRequest, setPostPutMediaRequest] = useState(initialData);
 
@@ -26,7 +26,7 @@ export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSu
     };
 
     return (
-        <Modal show={show} onHide={() => handleChangeShow(false)}>
+        <Modal show={show} onHide={() => setShow(false)}>
             <Modal.Body>
                 <Form>
                     <Form.Group>
@@ -66,10 +66,10 @@ export function MediaFormPopup({show: show, onChangeShow: handleChangeShow, onSu
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={() => handleChangeShow(false)}>
+                <Button variant="secondary" onClick={() => setShow(false)}>
                     Отмена
                 </Button>
-                <Button variant="primary" onClick={() => handleSubmit(postPutMediaRequest)}>
+                <Button variant="primary" onClick={() => setMedia(postPutMediaRequest)}>
                     Сохранить
                 </Button>
             </Modal.Footer>

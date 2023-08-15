@@ -43,8 +43,9 @@ export function MediaPage() {
                     <Col lg={4}>
                         <MediaInfo media={media} tags={tags}/>
                         {(authUserId === media.user.id) &&
-                            <MediaRedactor media={media} mediaFiles={mediaFiles}
-                                           tags={tags} onTagsChange={setTags}/>
+                            <MediaRedactor media={media} setMedia={setMedia}
+                                           mediaFiles={mediaFiles}
+                                           tags={tags} setTags={setTags}/>
                         }
                     </Col>
                     <Col lg={8}>

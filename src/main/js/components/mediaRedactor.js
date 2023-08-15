@@ -6,30 +6,12 @@ import {TagsFormPopup} from "./popups/tagsFormPopup";
 import {useNavigate} from "react-router-dom";
 import {deleteMedia} from "../apis/mediaAPI";
 
-export function MediaRedactor({media: media, mediaFiles: mediaFiles, tags, onTagsChange: handleTagsChange}) {
+export function MediaRedactor({media, setMedia, mediaFiles, tags, setTags}) {
     const [showMediaForm, setShowMediaForm] = useState(false);
     const [showFilesForm, setShowFilesForm] = useState(false);
     const [showTagsForm, setShowTagsForm] = useState(false);
 
-    const [putMediaRequest, setPutMediaRequest] = useState({
-        categoryId: 0,
-        name: "string",
-        description: "string",
-        mediaTypeId: 0
-    });
-
     const navigate = useNavigate();
-
-    useEffect(() => {
-        setPutMediaRequest(media);
-    }, []);
-
-    const handleMediaFormSubmit = (putRequest) => {
-        MediaAPI.put(media.id, putRequest)
-            .then(() => {
-                setShowMediaForm(false);
-            });
-    };
 
     const handleDeleteButtonClick = () => {
         deleteMedia(media.id)
@@ -41,11 +23,10 @@ export function MediaRedactor({media: media, mediaFiles: mediaFiles, tags, onTag
     return (
         <>
             <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm}
-                            onSubmit={handleMediaFormSubmit} initialData={putMediaRequest}/>
-            <FilesFormPopup show={showFilesForm} onChangeShow={setShowFilesForm} onSubmit={() => {
-            }} mediaFiles={mediaFiles} mediaId={media.id}/>
-            <TagsFormPopup show={showTagsForm} onChangeShow={setShowTagsForm}
-                           onTagsChange={handleTagsChange} tags={tags} mediaId={media.id}/>
+                            onSubmit={handleMediaFormSubmit} media={media}/>
+            {/*<FilesFormPopup show={showFilesForm} onChangeShow={setShowFilesForm} onSubmit={() => {*/}
+            {/*}} mediaFiles={mediaFiles} mediaId={media.id}/>*/}
+            <TagsFormPopup show={showTagsForm} setShow={setShowTagsForm} setTags={setTags} tags={tags} mediaId={media.id}/>
             <Accordion>
                 <Accordion.Item eventKey={"1"}>
                     <Accordion.Header>Изменить</Accordion.Header>
