@@ -4,7 +4,7 @@ import {TagsSelector} from "./selectors/TagsSelector";
 import {Button} from "react-bootstrap";
 import {MediaTypeSelector} from "./selectors/MediaTypeSelector";
 import {CategorySelector} from "./selectors/CategorySelector";
-import {TagAPI} from "../apis/TagAPI";
+import {getTagById} from "../apis/TagAPI";
 
 const SEARCH_BUTTON_TITLE = "Найти"
 
@@ -24,7 +24,9 @@ export function MediaSearchMenu({onSearch: onSearch, searchParameters: searchPar
     }
 
     function handleSelect(tagId) {
-        TagAPI.getById(tagId).then(tag => setSelectedTags(selectedTags.concat([tag])));
+        getTagById(tagId).then(({error, data: tag}) => {
+            if (!error) setSelectedTags(selectedTags.concat([tag]));
+        });
     }
 
     function handleUnselect(tagId) {

@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {useState} from "react";
 import {SearchBar} from "./SearchBar";
 import {Badge, Form, FormGroup} from "react-bootstrap";
-import {TagAPI} from "../../apis/TagAPI";
+import {getTags} from "../../apis/TagAPI";
 import {PageSelector} from "./PageSelector";
 
 export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect, selectedTags: selectedTags}) {
@@ -10,8 +10,8 @@ export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect
     const [tagSearchParameters, setTagSearchParameters] = useState({pageSize: 5, pageIndex: 0});
 
     useEffect(() => {
-        TagAPI.get(tagSearchParameters).then(tags => {
-            setTags(tags);
+        getTags(tagSearchParameters).then(({error, data: tags}) => {
+            if(!error) setTags(tags);
         });
     }, [tagSearchParameters]);
 

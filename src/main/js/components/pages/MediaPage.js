@@ -8,7 +8,7 @@ import {MediaBuilder} from "../../models/Media";
 import {FileTypes} from "../../enums/FileTypes";
 import {MediaFileAPI} from "../../apis/MediaFileAPI";
 import {MediaRedactor} from "../MediaRedactor";
-import {TagAPI} from "../../apis/TagAPI";
+import {getTags, TagAPI} from "../../apis/TagAPI";
 
 export function MediaPage() {
     const {id} = useParams();
@@ -18,8 +18,8 @@ export function MediaPage() {
     const [tags, setTags] = useState([])
 
     useEffect(() => {
-        TagAPI.getAllByMedia(id).then(tags => {
-            setTags(tags);
+        getTags({mediaId: id}).then(result => {
+            if (!result.error) setTags(result.data);
         });
     }, []);
 

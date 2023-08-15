@@ -3,15 +3,15 @@ import {Card, ListGroup} from "react-bootstrap";
 import {TagsCarousel} from "./TagsCarousel";
 import {Link} from "react-router-dom";
 import {FileAPI} from "../apis/FileAPI";
-import {TagAPI} from "../apis/TagAPI";
+import {getTags} from "../apis/TagAPI";
 
 export function MediaCard({ media }) {
     const [thumbnail, setThumbnail] = useState(null)
     const [tags, setTags] = useState([])
 
     useEffect(() => {
-        TagAPI.getAllByMedia(media.id).then(tags => {
-            setTags(tags);
+        getTags({mediaId: media.id}).then(({error, data: tags}) => {
+            if(!error) setTags(tags);
         });
     }, []);
 
