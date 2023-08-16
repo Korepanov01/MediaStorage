@@ -56,7 +56,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
         <Modal show={show} onHide={() => setShow(false)}>
             {fileTypes.length !== 0 &&
                 <Modal.Header>
-                    <Form>
+                    <Form className={"w-100"}>
                         <FormGroup>
                             <Form.Label>Файл</Form.Label>
                             <Form.Control type="file" onChange={(e) => setSelectedFile(e.target.files[0])}/>
@@ -73,7 +73,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
                             </Form.Select>
                         </FormGroup>
                         <FormGroup>
-                            <Button onClick={handleAddFile}>Добавить</Button>
+                            <Button className={"w-100"} onClick={handleAddFile}>Добавить</Button>
                         </FormGroup>
                     </Form>
                 </Modal.Header>
