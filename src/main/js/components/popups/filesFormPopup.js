@@ -4,17 +4,15 @@ import {deleteFile, getFileUrl, postFile} from "../../apis/fileAPI";
 import {getFileTypes} from "../../apis/fileTypeAPI";
 import {toast} from "react-toastify";
 import Container from "react-bootstrap/Container";
+import {Formik} from "formik";
+import {object, string} from "yup";
 
 export function FilesFormPopup({show, setShow, setMedia, media}) {
     const [fileTypes, setFileTypes] = useState([]);
 
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [selectedFileTypeId, setSelectedFileTypeId] = useState(null);
-
     useEffect(() => {
         getFileTypes().then(({data: fileTypes, error}) => {
             if (!error && fileTypes.length !== 0) {
-                setSelectedFileTypeId(fileTypes[0].id);
                 setFileTypes(fileTypes);
             }
         });
@@ -29,13 +27,13 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
         });
     }
 
-    function handleAddFile() {
-        postFile(selectedFile, selectedFileTypeId, media.id).then(({error, data}) => {
+    function handleAddFile({fileTypeId, file}) {
+        postFile(file, fileTypeId, media.id).then(({error, data}) => {
             if (!error) {
                 toast.success("Файл добавлен");
                 setMedia({...media, files: [{
                         id: data.id,
-                        type: fileTypes.find(fileType => fileType.id == selectedFileTypeId).name,
+                        type: fileTypes.find(fileType => fileType.id == fileTypeId).name,
                         url: getFileUrl(data.id)}, ...media.files]});
             }
         });
@@ -52,30 +50,52 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
         return filesByType;
     })();
 
+    const validationSchema = object({
+        file: string().required("Не выбран файл")
+    });
+
     return (
         <Modal show={show} onHide={() => setShow(false)}>
             {fileTypes.length !== 0 &&
                 <Modal.Header>
-                    <Form className={"w-100"}>
-                        <FormGroup>
-                            <Form.Label>Файл</Form.Label>
-                            <Form.Control type="file" onChange={(e) => setSelectedFile(e.target.files[0])}/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Form.Label>Тип</Form.Label>
-                            <Form.Select
-                                onChange={(e) => setSelectedFileTypeId(e.target.value)}
-                                value={selectedFileTypeId}
-                                aria-label="Тип">
-                                {fileTypes.map((fileType) => (
-                                    <option key={fileType.id} value={fileType.id}>{fileType.name}</option>
-                                ))};
-                            </Form.Select>
-                        </FormGroup>
-                        <FormGroup>
-                            <Button className={"w-100"} onClick={handleAddFile}>Добавить</Button>
-                        </FormGroup>
-                    </Form>
+                    <Formik
+                        initialValues={{fileTypeId: fileTypes[0].id, file: null}}
+                        onSubmit={handleAddFile}
+                        validationSchema={validationSchema}
+                    >
+                        {({ handleChange, handleSubmit, values, errors, touched }) => (
+                            <Form onSubmit={handleSubmit} className={"w-100"}>
+                                <FormGroup>
+                                    <Form.Label>Файл</Form.Label>
+                                    <Form.Control
+                                        type="file"
+                                        name="file"
+                                        onChange={handleChange}
+                                        value={values.file}
+                                        isInvalid={touched.file && errors.file}
+                                    />
+                                    <Form.Control.Feedback type="invalid">{errors.file}</Form.Control.Feedback>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Form.Label>Тип</Form.Label>
+                                    <Form.Select
+                                        name={"fileTypeId"}
+                                        onChange={handleChange}
+                                        value={values.fileTypeId}
+                                        isInvalid={touched.fileTypeId && errors.fileTypeId}
+                                    >
+                                        {fileTypes.map((fileType) => (
+                                            <option key={fileType.id} value={fileType.id}>{fileType.name}</option>
+                                        ))};
+                                    </Form.Select>
+                                    <Form.Control.Feedback type="invalid">{errors.fileTypeId}</Form.Control.Feedback>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Button type={"submit"} className={"w-100"} >Добавить</Button>
+                                </FormGroup>
+                            </Form>
+                        )}
+                    </Formik>
                 </Modal.Header>
             }
             {media.files.length !== 0 &&
