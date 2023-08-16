@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Tag;
-import com.bftcom.mediastorage.model.searchparameters.TagSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.TagRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
@@ -46,26 +46,24 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
 
     @Override
     @Transactional(readOnly = true)
-    public List<Tag> findByParameters(@NonNull TagSearchParameters parameters) {
-        return (parameters.getMediaId() == null
-                ? this.new ParametersSearcher()
-                : this.new ParametersSearcher("JOIN \"public.media_tag\" ON \"public.tag\".id = \"public.media_tag\".tag_id"))
+    public List<Tag> findByParameters(@NonNull SearchStringParameters parameters) {
+        return this.new ParametersSearcher().select().where()
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
-                .tryAddEqualsCondition("\"public.media_tag\".media_id", parameters.getMediaId())
                 .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Tag> findByMediaId(@NonNull Long mediaId) {
+        return this.new ParametersSearcher().select().where()
+                .addStatement("JOIN \"public.media_tag\" ON \"public.tag\".id = \"public.media_tag\".tag_id")
+                .addEqualsCondition("\"public.media_tag\".media_id", mediaId)
+                .findByParameters(this::mapRowToModel);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Optional<Tag> findByName(@NonNull String name) {
         return this.findByUniqueField("name", name);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Tag> getByMediaId(@NonNull Long mediaId) {
-        return this.new ParametersSearcher("JOIN \"public.media_tag\" ON \"public.tag\".id = \"public.media_tag\".tag_id")
-                .addEqualsCondition("\"public.media_tag\".media_id", mediaId)
-                .findByParameters(this::mapRowToModel);
     }
 }

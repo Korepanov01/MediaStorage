@@ -44,6 +44,8 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
     private String sqlUpdate;
     private String sqlDelete;
 
+    private String sqlCount;
+
     private JdbcCrudRepository() {}
 
     public JdbcCrudRepository(
@@ -80,6 +82,11 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
                 "DELETE FROM %s WHERE %s = ?",
                 tableName,
                 idFiled);
+
+        this.sqlCount = String.format(
+                "SELECT COUNT(*) FROM %s WHERE %s = ?",
+                tableName,
+                idFiled);
     }
 
     @Autowired
@@ -89,7 +96,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
 
     @Transactional
     public List<Entity> findByField(@NonNull String fieldName, @NonNull Object field) {
-        return this.new ParametersSearcher()
+        return this.new ParametersSearcher().select().where()
                 .addEqualsCondition(fieldName, field)
                 .findByParameters(this::mapRowToModel);
     }
@@ -184,42 +191,39 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
 
     protected class ParametersSearcher {
 
-        private final StringBuilder sqlBuilder;
+        private final StringBuilder sqlBuilder = new StringBuilder();
 
         private final List<Object> queryParams = new ArrayList<>();
 
-        public ParametersSearcher() {
-            this(null);
+        public ParametersSearcher select() {
+            sqlBuilder.append(" ").append(sqlSelectFrom).append(" ");
+            return this;
         }
 
-        public ParametersSearcher(String join) {
-            sqlBuilder = new StringBuilder(sqlSelectFrom);
-            if (join != null) {
-                sqlBuilder.append(join);
-            }
-            sqlBuilder.append(" WHERE 1=1");
+        public ParametersSearcher count() {
+            sqlBuilder.append(" ").append(sqlCount).append(" ");
+            return this;
         }
 
-        public void addBefore(@NonNull String before, Object... params) {
-            sqlBuilder.insert(0, before).append(" ");
-            if (params != null) {
-                queryParams.addAll(0, Arrays.asList(params));
-            }
+        public ParametersSearcher where() {
+            sqlBuilder.append(" WHERE 1=1 ");
+            return this;
         }
 
-        public void addStatement(@NonNull String statement, Object... params) {
+        public ParametersSearcher addStatement(@NonNull String statement, Object... params) {
             sqlBuilder.append(" ").append(statement);
             if (params != null) {
                 queryParams.addAll(Arrays.asList(params));
             }
+            return this;
         }
 
-        public void addCondition(@NonNull String condition, Object... params) {
+        public void addWhereCondition(@NonNull String condition, Object... params) {
             addStatement("AND " + condition, params);
         }
 
         public ParametersSearcher addEqualsCondition(@NonNull String fieldName, @NonNull Object param) {
-            addCondition(fieldName + " = ?", param);
+            addWhereCondition(fieldName + " = ?", param);
             return this;
         }
 
@@ -230,7 +234,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         }
 
         public ParametersSearcher addSearchStringCondition(@NonNull String fieldName, @NonNull String searchString) {
-            addCondition("LOWER(" + fieldName + ") LIKE LOWER(?)", "%" + searchString + "%");
+            addWhereCondition("LOWER(" + fieldName + ") LIKE LOWER(?)", "%" + searchString + "%");
             return this;
         }
 
@@ -251,6 +255,7 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
             return this;
         }
 
+        @Transactional
         public Optional<Entity> findUniqueByParameters(@NotNull RowMapper<Entity> rowMapper) {
             List<Entity> results = findByParameters(0, 1, rowMapper);
             return results.isEmpty() ?
@@ -275,6 +280,12 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
         public List<Entity> findByParameters(int pageIndex, int pageSize, @NotNull RowMapper<Entity> rowMapper, Boolean isRandomOrder) {
             return addOrderAndPagination(pageIndex, pageSize, isRandomOrder)
                     .findByParameters(rowMapper);
+        }
+
+        @Transactional
+        public Integer getCount() {
+            String sql = sqlBuilder.toString();
+            return jdbcTemplate.queryForObject(sql, Integer.class, queryParams.toArray());
         }
     }
 }

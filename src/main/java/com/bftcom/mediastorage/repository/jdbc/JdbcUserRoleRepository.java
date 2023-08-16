@@ -4,7 +4,7 @@ import com.bftcom.mediastorage.model.entity.UserRole;
 import com.bftcom.mediastorage.repository.UserRoleRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,14 +46,16 @@ public class JdbcUserRoleRepository extends JdbcCrudRepository<UserRole> impleme
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<UserRole> findByUserAndRole(@NonNull Long userId, @NonNull Long roleId) {
-        return this.new ParametersSearcher()
+        return this.new ParametersSearcher().select().where()
                 .addEqualsCondition("role_id", roleId)
                 .addEqualsCondition("user_id", userId)
                 .findUniqueByParameters(this::mapRowToModel);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean isExists(@NonNull Long userId, @NonNull Long roleId) {
         return findByUserAndRole(userId, roleId).isPresent();
     }

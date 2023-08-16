@@ -8,6 +8,9 @@ import com.bftcom.mediastorage.model.entity.*;
 import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -67,11 +70,7 @@ public class MediaController implements FullController<
 
         List<MediaFile> mediaFiles = mediaFileService.getByMediaId(media.getId());
 
-        List<FileInfoDto> fileInfoDtoList = mediaFiles.stream().map(mediaFile -> {
-            FileType fileType = fileTypeService.findById(mediaFile.getFileTypeId()).orElseThrow();
-            String url = FileService.getFileUrl(mediaFile.getFileId());
-            return new FileInfoDto(mediaFile.getFileId(), url, fileType.getName());
-        }).collect(Collectors.toList());
+        List<FileInfoDto> fileInfoDtoList = mediaFiles.stream().map(this::convertToFileInfoDto).collect(Collectors.toList());
 
         return new MediaDto(
                 media.getId(),
@@ -83,6 +82,20 @@ public class MediaController implements FullController<
                 new CategoryDto(category),
                 new MediaTypeDto(mediaType)
         );
+    }
+
+    @GetMapping("/{id}/files")
+    public ResponseEntity<List<FileInfoDto>> getFiles(
+            @PathVariable
+            Long id) {
+        List<MediaFile> mediaFiles = mediaFileService.getByMediaId(id);
+        return ResponseEntity.ok(mediaFiles.stream().map(this::convertToFileInfoDto).collect(Collectors.toList()));
+    }
+
+    private FileInfoDto convertToFileInfoDto(MediaFile mediaFile) {
+        FileType fileType = fileTypeService.findById(mediaFile.getFileTypeId()).orElseThrow();
+        String url = FileService.getFileUrl(mediaFile.getFileId());
+        return new FileInfoDto(mediaFile.getFileId(), url, fileType.getName());
     }
 
     @Override

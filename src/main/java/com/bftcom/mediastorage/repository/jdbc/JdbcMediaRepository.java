@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.repository.MediaRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.ListUtils;
 
 import java.sql.PreparedStatement;
@@ -12,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -99,37 +99,30 @@ public class JdbcMediaRepository extends JdbcCrudRepository<Media> implements Me
             "    JOIN category_recursive cr ON c.parent_category_id = cr.id\n)";
 
     @Override
+    @Transactional(readOnly = true)
     public List<Media> findByParameters(@NonNull MediaSearchParameters parameters) {
-        String join = "";
-        List<Object> beforeParams = new ArrayList<>();
+        boolean byCategory = parameters.getCategoryId() != null;
+        boolean byTags = parameters.getTagIds() != null && !parameters.getTagIds().isEmpty();
 
-        if (parameters.getCategoryId() != null) {
-            join += " JOIN category_recursive cr ON \"public.media\".category_id = cr.id ";
-            beforeParams.add(parameters.getCategoryId());
-        }
+        ParametersSearcher searcher = this.new ParametersSearcher();
 
-        if (parameters.getTagIds() != null && !parameters.getTagIds().isEmpty()) {
-            join += " JOIN \"public.media_tag\" mt ON \"public.media\".id = mt.media_id";
-            beforeParams.addAll(parameters.getTagIds());
-        }
-        ParametersSearcher searcher = !join.equals("") ? this.new ParametersSearcher(join) : this.new ParametersSearcher();
+        if (byCategory) searcher.addStatement(CATEGORY_RECURSIVE, parameters.getCategoryId());
 
-        if (parameters.getCategoryId() != null) {
-            searcher.addBefore(CATEGORY_RECURSIVE);
-        }
+        searcher.select();
 
-        searcher.addStatement("", beforeParams.toArray());
+        if (byCategory) searcher.addStatement("JOIN category_recursive cr ON \"public.media\".category_id = cr.id");
 
-        if (parameters.getTagIds() != null && !parameters.getTagIds().isEmpty()) {
-            searcher.addCondition("mt.tag_id IN (" + String.join(", ", Collections.nCopies(parameters.getTagIds().size(), "?")) + ")");
-        }
+        if (byTags) searcher.addStatement("JOIN \"public.media_tag\" mt ON \"public.media\".id = mt.media_id");
+
+        searcher.where();
+
+        if (byTags) searcher.addWhereCondition("mt.tag_id IN (" + String.join(", ", Collections.nCopies(parameters.getTagIds().size(), "?")) + ")", parameters.getTagIds().toArray());
 
         if (!ListUtils.isEmpty(parameters.getTypeIds()))
-            searcher.addCondition("media_type_id IN (" + String.join(", ", Collections.nCopies(parameters.getTypeIds().size(), "?")) + ")", parameters.getTypeIds().toArray());
-
-        searcher.tryAddEqualsCondition("user_id", parameters.getUserId());
+            searcher.addWhereCondition("media_type_id IN (" + String.join(", ", Collections.nCopies(parameters.getTypeIds().size(), "?")) + ")", parameters.getTypeIds().toArray());
 
         return searcher
+                .tryAddEqualsCondition("user_id", parameters.getUserId())
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
                 .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel, parameters.getRandomOrder());
     }

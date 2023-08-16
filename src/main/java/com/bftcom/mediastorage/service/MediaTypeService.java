@@ -20,7 +20,7 @@ public class MediaTypeService extends ParameterSearchService<MediaType, SearchSt
     }
 
     @Override
-    protected boolean isSameEntityExists(@NonNull MediaType mediaType) {
+    public boolean isSameEntityExists(@NonNull MediaType mediaType) {
         return mediaTypeRepository.findByName(mediaType.getName()).isPresent();
     }
 }
