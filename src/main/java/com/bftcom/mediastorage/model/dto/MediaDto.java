@@ -11,7 +11,7 @@ public class MediaDto extends BaseDto{
     private final Long id;
     private final String name;
     private final String description;
-    private final List<String> mainFilesUrls;
+    private final List<FileInfoDto> files;
 
     private final List<TagDto> tags;
     private final UserHeaderDto user;
