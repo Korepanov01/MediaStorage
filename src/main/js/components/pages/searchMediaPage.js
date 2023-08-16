@@ -30,7 +30,7 @@ export function SearchMediaPage() {
                 <MediaSearchMenu onSearch={setSearchParameters}/>
             </Col>
             <Col lg={8}>
-                <MediaCards medias={ medias } cardsInRow={CARDS_IN_ROW}/>
+                <MediaCards medias={medias} cardsInRow={CARDS_IN_ROW}/>
                 <PageSelector pageIndex={ searchParameters.pageIndex } onPageChange={onPageChange}/>
             </Col>
         </Row>
