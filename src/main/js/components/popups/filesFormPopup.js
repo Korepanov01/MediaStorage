@@ -5,10 +5,11 @@ import {getFileTypes} from "../../apis/fileTypeAPI";
 import {toast} from "react-toastify";
 import Container from "react-bootstrap/Container";
 import {Formik} from "formik";
-import {object, string} from "yup";
 
 export function FilesFormPopup({show, setShow, setMedia, media}) {
     const [fileTypes, setFileTypes] = useState([]);
+
+    const [selectedFile, setSelectedFile] = useState(null);
 
     useEffect(() => {
         getFileTypes().then(({data: fileTypes, error}) => {
@@ -27,8 +28,8 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
         });
     }
 
-    function handleAddFile({fileTypeId, file}) {
-        postFile(file, fileTypeId, media.id).then(({error, data}) => {
+    function handleAddFile({fileTypeId}) {
+        postFile(selectedFile, fileTypeId, media.id).then(({error, data}) => {
             if (!error) {
                 toast.success("Файл добавлен");
                 setMedia({...media, files: [{
@@ -50,18 +51,24 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
         return filesByType;
     })();
 
-    const validationSchema = object({
-        file: string().required("Не выбран файл")
-    });
+    const validate = () => {
+        const errors = {};
+
+        if (!selectedFile) {
+            errors.file = 'Не выбран файл';
+        }
+
+        return errors;
+    };
 
     return (
         <Modal show={show} onHide={() => setShow(false)}>
             {fileTypes.length !== 0 &&
                 <Modal.Header>
                     <Formik
-                        initialValues={{fileTypeId: fileTypes[0].id, file: null}}
+                        initialValues={{fileTypeId: fileTypes[0].id}}
                         onSubmit={handleAddFile}
-                        validationSchema={validationSchema}
+                        validate={validate}
                     >
                         {({ handleChange, handleSubmit, values, errors, touched }) => (
                             <Form onSubmit={handleSubmit} className={"w-100"}>
@@ -69,10 +76,8 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
                                     <Form.Label>Файл</Form.Label>
                                     <Form.Control
                                         type="file"
-                                        name="file"
-                                        onChange={handleChange}
-                                        value={values.file}
-                                        isInvalid={touched.file && errors.file}
+                                        onChange={(e) => setSelectedFile(e.target.files[0])}
+                                        isInvalid={errors.file}
                                     />
                                     <Form.Control.Feedback type="invalid">{errors.file}</Form.Control.Feedback>
                                 </FormGroup>
