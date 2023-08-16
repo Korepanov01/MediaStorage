@@ -6,9 +6,7 @@ import {FilesCarousel} from "../fileCarousel";
 import {MediaInfo} from "../mediaInfo";
 import {FileTypes} from "../../enums/fileTypes";
 import {MediaRedactor} from "../mediaRedactor";
-import {getTagByMediaId} from "../../apis/tagAPI";
 import {useSelector} from "react-redux";
-import {getMediaFilesByMediaId} from "../../apis/mediaFileAPI";
 
 export function MediaPage() {
     const {id} = useParams();
@@ -40,8 +38,11 @@ export function MediaPage() {
                         }
                     </Col>
                     <Col lg={8}>
-                        <FilesCarousel
-                            filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)}/>
+                        {media.files.length !== 0 &&
+                            <FilesCarousel filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)}/>
+                            ||
+                            <h1>Нет файлов</h1>
+                        }
                     </Col>
                 </Row>
             )}
