@@ -5,6 +5,7 @@ import {MediaFormPopup} from "./popups/mediaFormPopup";
 import {TagsFormPopup} from "./popups/tagsFormPopup";
 import {useNavigate} from "react-router-dom";
 import {deleteMedia} from "../apis/mediaAPI";
+import {toast} from "react-toastify";
 
 export function MediaRedactor({media, setMedia, mediaFiles, tags, setTags}) {
     const [showMediaForm, setShowMediaForm] = useState(false);
@@ -16,7 +17,10 @@ export function MediaRedactor({media, setMedia, mediaFiles, tags, setTags}) {
     const handleDeleteButtonClick = () => {
         deleteMedia(media.id)
             .then(({data, error}) => {
-                if(!error) navigate("/");
+                if(!error) {
+                    navigate("/");
+                    toast.success(`Медиа "${media.name}" удалено`)
+                }
             });
     };
 
