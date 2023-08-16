@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.model.searchparameters.MediaFilesSearchParameters
 import com.bftcom.mediastorage.repository.MediaFileRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,6 +50,7 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MediaFile> findByParameters(@NonNull MediaFilesSearchParameters parameters) {
         return (parameters.getType() != null
                 ? new ParametersSearcher("JOIN \"public.file_type\" ON \"public.media_file\".file_type_id = \"public.file_type\".id")
@@ -59,9 +61,18 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MediaFile> findByMediaIdAndFileType(@NonNull Long mediaId, @NonNull String fileType) {
         return this.new ParametersSearcher("JOIN \"public.file_type\" ON \"public.media_file\".file_type_id = \"public.file_type\".id")
                 .addEqualsCondition("\"public.file_type\".name", fileType)
+                .addEqualsCondition("media_id", mediaId)
+                .findByParameters(this::mapRowToModel);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MediaFile> findByMediaId(@NonNull Long mediaId) {
+        return this.new ParametersSearcher()
                 .addEqualsCondition("media_id", mediaId)
                 .findByParameters(this::mapRowToModel);
     }
