@@ -38,11 +38,7 @@ export function MediaPage() {
                         }
                     </Col>
                     <Col lg={8}>
-                        {media.files.length !== 0 &&
-                            <FilesCarousel filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)}/>
-                            ||
-                            <h1>Нет файлов</h1>
-                        }
+                        <FilesCarousel filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)}/>
                     </Col>
                 </Row>
             )}

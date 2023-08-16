@@ -8,10 +8,10 @@ export function MediaInfo({media: media}) {
         <>
             <Title>{media.name}</Title>
             <InfoCard title={"Тип"}>
-                {media.mediaType.name}
+                <Title level={6}>{media.mediaType.name}</Title>
             </InfoCard>
             <InfoCard title={"Категория"}>
-                {media.category.name}
+                <Title level={6}>{media.category.name}</Title>
             </InfoCard>
             {media.description &&
                 <InfoCard title={"Описание"}>

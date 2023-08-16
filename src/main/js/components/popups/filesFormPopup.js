@@ -111,7 +111,9 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
                                 {filesByType[fileType].map(file => (
                                     <Card key={file.id}>
                                         <Card.Body>
-                                            <Card.Img src={file.url}/>
+                                            <a href={file.url} download>
+                                                <Card.Img src={file.url}/>
+                                            </a>
                                         </Card.Body>
                                         <Card.Footer className={"w-100"}>
                                             <Button onClick={() => handleDeleteFile(file.id)} className={"w-100"} variant={"danger"}>Удалить</Button>

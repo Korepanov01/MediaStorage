@@ -1,5 +1,5 @@
 import React from "react";
-import {Carousel, Image} from "react-bootstrap";
+import {Button, Carousel, Image} from "react-bootstrap";
 import {defaults} from "../enums/defaults";
 import {InfoCard} from "./decor/infoCard";
 
@@ -14,7 +14,9 @@ export function FilesCarousel({filesUrls: filesUrls}) {
                 }
                 {filesUrls.map((url, i) => (
                     <Carousel.Item key={i}>
-                        <Image className={"w-100"} src={url}/>
+                        <a href={url} download>
+                            <Image className={"w-100"} src={url}/>
+                        </a>
                     </Carousel.Item>
                 ))}
             </Carousel>
