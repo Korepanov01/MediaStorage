@@ -48,14 +48,14 @@ public class FileController implements DeleteController<File> {
             @RequestParam(name = "file")
             MultipartFile multipartFile,
             UploadFileRequest request) {
-        if (multipartFile.getSize() > 5 * 1024 * 1024) {
-            return Response.getFileTooBig("Файл не может быть больше 5МБ");
+        if (multipartFile.getSize() > 10 * 1024 * 1024) {
+            return Response.getFileTooBig("Файл не может быть больше 10МБ");
         }
 
         File file;
         try {
             file = new File(
-                    multipartFile.getName(),
+                    multipartFile.getOriginalFilename(),
                     multipartFile.getContentType(),
                     multipartFile.getSize(),
                     multipartFile.getBytes());
