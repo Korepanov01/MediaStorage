@@ -1,8 +1,9 @@
 import React from 'react';
-import {Form, Modal} from "react-bootstrap";
+import {Form, FormGroup, Modal} from "react-bootstrap";
 import {TagsSelector} from "../selectors/tagsSelector";
 import {deleteMediaTag, postMediaTag} from "../../apis/mediaTagsAPI";
 import {toast} from "react-toastify";
+import {Title} from "../decor/title";
 
 export function TagsFormPopup({show, setShow, setMedia, media}) {
 
@@ -27,14 +28,16 @@ export function TagsFormPopup({show, setShow, setMedia, media}) {
     return (
         <Modal show={show} onHide={() => setShow(false)}>
             <Modal.Header>
-                <h1 className={"text-center w-100"}>Изменить теги</h1>
+                <Title level={4}>Изменить теги</Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <TagsSelector
-                        selectedTags={media.tags}
-                        onSelect={handleSelect}
-                        onUnselect={handleUnselect}/>
+                    <FormGroup>
+                        <TagsSelector
+                            selectedTags={media.tags}
+                            onSelect={handleSelect}
+                            onUnselect={handleUnselect}/>
+                    </FormGroup>
                 </Form>
             </Modal.Body>
         </Modal>

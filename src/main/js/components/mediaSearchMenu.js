@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {SearchBar} from "./selectors/searchBar";
 import {TagsSelector} from "./selectors/tagsSelector";
-import {Button} from "react-bootstrap";
+import {Button, Card, Form} from "react-bootstrap";
 import {MediaTypeSelector} from "./selectors/mediaTypeSelector";
 import {CategorySelector} from "./selectors/categorySelector";
 import {getTagById} from "../apis/tagAPI";
@@ -34,12 +34,26 @@ export function MediaSearchMenu({onSearch: onSearch, searchParameters: searchPar
     }
 
     return (
-        <>
-            <SearchBar onSearchStringChange={setSearchString}/>
-            <MediaTypeSelector selectedTypesIds={selectedTypesIds} onSelect={setSelectedTypesIds}/>
-            <TagsSelector onSelect={handleSelect} onUnselect={handleUnselect} selectedTags={selectedTags}/>
-            <CategorySelector onSelect={setCategoryId}/>
-            <Button onClick={handleClickSearchButton}>{SEARCH_BUTTON_TITLE}</Button>
-        </>
+        <Form>
+            <Form.Group>
+                <Form.Label>Название</Form.Label>
+                <SearchBar onSearchStringChange={setSearchString}/>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Тип</Form.Label>
+                <MediaTypeSelector selectedTypesIds={selectedTypesIds} onSelect={setSelectedTypesIds}/>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Теги</Form.Label>
+                <TagsSelector onSelect={handleSelect} onUnselect={handleUnselect} selectedTags={selectedTags}/>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Категория</Form.Label>
+                <CategorySelector onSelect={setCategoryId}/>
+            </Form.Group>
+            <Form.Group>
+                <Button onClick={handleClickSearchButton}>{SEARCH_BUTTON_TITLE}</Button>
+            </Form.Group>
+        </Form>
     );
 }

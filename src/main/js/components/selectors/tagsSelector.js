@@ -16,7 +16,7 @@ export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect
     }, [tagSearchParameters]);
 
     return (
-        <FormGroup>
+        <>
             <SearchBar onSearchStringChange={(searchString) => setTagSearchParameters({...tagSearchParameters, pageIndex: 0, searchString: searchString})}/>
             {selectedTags.map((selectedTag) => (
                 <Badge
@@ -37,6 +37,6 @@ export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect
                 />
             ))}
             <PageSelector pageIndex={tagSearchParameters.pageIndex} onPageChange={(newPageIndex) => setTagSearchParameters({...tagSearchParameters, pageIndex: newPageIndex})}/>
-        </FormGroup>
+        </>
     );
 }

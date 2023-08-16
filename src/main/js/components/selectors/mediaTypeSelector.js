@@ -24,21 +24,16 @@ export function MediaTypeSelector({onSelect: onSelect, selectedTypesIds: selecte
     }
 
     return (
-        <Container>
-            <Form>
-                <Form.Group>
-                    <Form.Label>Тип</Form.Label>
-                    {types.map((type) => (
-                        <Form.Check
-                            onChange={handleCheckBoxOnChange}
-                            type={"checkbox"}
-                            label={type.name}
-                            key={type.id}
-                            value={type.id}
-                        />
-                    ))}
-                </Form.Group>
-            </Form>
-        </Container>
+        <>
+            {types.map((type) => (
+                <Form.Check
+                    onChange={handleCheckBoxOnChange}
+                    type={"checkbox"}
+                    label={type.name}
+                    key={type.id}
+                    value={type.id}
+                />
+            ))}
+        </>
     );
 }
