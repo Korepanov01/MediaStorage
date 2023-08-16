@@ -5,6 +5,7 @@ import {getMediaTypeById, getMediaTypes} from "../../apis/mediaTypeAPI";
 import {Formik} from "formik";
 import {putMedia} from "../../apis/mediaAPI";
 import {object, string} from "yup";
+import {toast} from "react-toastify";
 
 
 export function MediaFormPopup({show, setShow, setMedia, media}) {
@@ -23,6 +24,7 @@ export function MediaFormPopup({show, setShow, setMedia, media}) {
                     if (!putMediaError) {
                         setMedia({...media, mediaType: mediaType, name: values.name, description: values.description});
                         setShow(false);
+                        toast.success('Данные изменены');
                     }
                 });
             }

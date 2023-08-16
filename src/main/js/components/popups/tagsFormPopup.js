@@ -2,18 +2,25 @@ import React from 'react';
 import {Form, Modal} from "react-bootstrap";
 import {TagsSelector} from "../selectors/tagsSelector";
 import {deleteMediaTag, postMediaTag} from "../../apis/mediaTagsAPI";
+import {toast} from "react-toastify";
 
 export function TagsFormPopup({show, setShow, setTags, tags, mediaId}) {
 
     function handleSelect(tag) {
         postMediaTag(mediaId, tag.id).then(({error}) => {
-            if (!error) setTags(tags.concat([tag]));
+            if (!error) {
+                setTags(tags.concat([tag]));
+                toast.success(`Тег "${tag.name}" добавлен`);
+            }
         });
     }
 
     function handleUnselect(deletedTag) {
         deleteMediaTag(mediaId, deletedTag.id).then(({error}) => {
-            if (!error) setTags(tags.filter((tag) => tag.id !== deletedTag.id));
+            if (!error) {
+                setTags(tags.filter((tag) => tag.id !== deletedTag.id));
+                toast.success(`Тег "${deletedTag.name}" удалён`);
+            }
         });
     }
 
