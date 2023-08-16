@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import {SearchBar} from "./selectors/searchBar";
 import {TagsSelector} from "./selectors/tagsSelector";
-import {Button, Card, Form} from "react-bootstrap";
+import {Button, Card, Form, FormGroup} from "react-bootstrap";
 import {MediaTypeSelector} from "./selectors/mediaTypeSelector";
 import {CategorySelector} from "./selectors/categorySelector";
 import {getTagById} from "../apis/tagAPI";
+import {Title} from "./decor/title";
 
 const SEARCH_BUTTON_TITLE = "Найти"
 
@@ -35,6 +36,9 @@ export function MediaSearchMenu({onSearch: onSearch, searchParameters: searchPar
 
     return (
         <Form>
+            <FormGroup>
+                <Title>Поиск</Title>
+            </FormGroup>
             <Form.Group>
                 <Form.Label>Название</Form.Label>
                 <SearchBar onSearchStringChange={setSearchString}/>
