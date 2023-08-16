@@ -9,7 +9,7 @@ export const Api = axios.create({
     baseURL: BASE_URL,
 });
 
-export const request = (url, method, payload, params) => {
+export const request = (url, method, payload = undefined, params = undefined) => {
     let result = {
         data: null,
         error: null
@@ -25,7 +25,7 @@ export const request = (url, method, payload, params) => {
         .then(() => result);
 };
 
-function convertError(error) {
+export function convertError(error) {
     let errorObj = {
         status: 0,
         messages: []

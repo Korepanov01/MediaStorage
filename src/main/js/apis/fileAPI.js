@@ -1,46 +1,34 @@
-import { Api } from "./api"
-import {FileTypes} from "../enums/fileTypes";
-import {defaults} from "../enums/defaults";
-import {getMediaFiles} from "./mediaFileAPI";
+import {Api, BASE_URL, convertError} from "./api"
+import {deleteRequest, getRequest} from "./baseApi";
+import {toastErrors} from "../services/toastService";
+import {AuthService} from "../services/authService";
 
-export const FileAPI = {
-    get: function (id) {
-        return Api.get(`/files/${id}`);
-    },
+export const getFileUrl = (id) => BASE_URL + `files/${id}`;
 
-    post: function (file, params) {
-        const formData = new FormData();
-        formData.append('file', file);
-        Api.post('/files', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            params: params
-        })
+export const getFileById = (id) => getRequest(`/files/${id}`);
 
-        return Api.postForm(`/files`, file, {params: params});
-    },
+export const deleteFile = (id) => deleteRequest(`/files/${id}`);
 
-
-    delete: function (id) {
-        return Api.delete(`/files/${id}`);
-    },
-
-    getThumbnailUrl: async function (mediaId) {
-        let searchParameters = {pageIndex: 0, pageSize: 1, mediaId: mediaId, type: FileTypes.thumbnail};
-        let {data: mediaFiles, error} = await getMediaFiles(searchParameters);
-        if (mediaFiles.length === 0)
-            return defaults.defaultImageUrl;
-
-        return mediaFiles[0].url;
-    },
-
-    getMainUrls: async function (mediaId) {
-        let searchParameters = {pageIndex: 0, pageSize: 100, mediaId: mediaId, type: FileTypes.main};
-        let {data: mediaFiles, error} = await getMediaFiles(searchParameters);
-        if (mediaFiles.length === 0)
-            return  [defaults.defaultImageUrl];
-
-        return mediaFiles.map(mediaFile => mediaFile.url);
+export const postFile = (file, fileTypeId, mediaId) => {
+    let result = {
+        data: null,
+        error: null
     }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return  Api.postForm('/files', formData, {
+        headers: {
+            ...AuthService.getAuthHeader(),
+            'Content-Type': 'multipart/form-data'
+        },
+        params: {fileTypeId, mediaId}
+    })
+        .then(response => result.data = response.data)
+        .catch(error => {
+            result.error = convertError(error);
+            toastErrors(result.error.messages);
+        })
+        .then(() => result);
 }

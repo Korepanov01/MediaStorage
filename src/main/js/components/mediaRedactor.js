@@ -27,7 +27,7 @@ export function MediaRedactor({media, setMedia}) {
     return (
         <>
             <MediaFormPopup show={showMediaForm} setShow={setShowMediaForm} media={media} setMedia={setMedia}/>
-            {/*<FilesFormPopup show={showFilesForm} setShow={setShowFilesForm} setMedia={setMedia} media={media}}/>*/}
+            <FilesFormPopup show={showFilesForm} setShow={setShowFilesForm} setMedia={setMedia} media={media}/>
             <TagsFormPopup show={showTagsForm} setShow={setShowTagsForm} setMedia={setMedia} media={media}/>
             <Accordion>
                 <Accordion.Item eventKey={"1"}>
