@@ -10,6 +10,7 @@ import {toast} from "react-toastify";
 
 export function MediaFormPopup({show, setShow, setMedia, media}) {
     const [types, setTypes] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(media?.category);
 
     useLayoutEffect(() => {
         getMediaTypes().then(({data, error}) => {
@@ -18,11 +19,12 @@ export function MediaFormPopup({show, setShow, setMedia, media}) {
     }, []);
 
     const handleSubmit = (values) => {
-        putMedia(media.id, values).then(({error: putMediaError}) => {
+        let payload = {...values, categoryId: selectedCategory.id};
+        putMedia(media.id, payload).then(({error: putMediaError}) => {
             if (!putMediaError) {
                 getMediaTypeById(values.mediaTypeId).then(({error: getMediaTypeError, data: mediaType}) => {
                     if (!putMediaError) {
-                        setMedia({...media, mediaType: mediaType, name: values.name, description: values.description});
+                        setMedia({...media, mediaType: mediaType, name: values.name, description: values.description, category: selectedCategory});
                         setShow(false);
                         toast.success('Данные изменены');
                     }
@@ -84,6 +86,10 @@ export function MediaFormPopup({show, setShow, setMedia, media}) {
                                         <option key={type.id} value={type.id}>{type.name}</option>
                                     ))};
                                 </Form.Select>
+                            </FormGroup>
+                            <FormGroup>
+                                <Form.Label>Категория</Form.Label>
+                                <CategorySelector onSelect={(category) => setSelectedCategory(category)}/>
                             </FormGroup>
                             <FormGroup className={"d-flex justify-content-end"}>
                                 <Button type="submit">Изменить</Button>

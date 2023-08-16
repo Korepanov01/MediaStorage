@@ -3,26 +3,28 @@ import {useState} from "react";
 import DropdownTreeSelect from "react-dropdown-tree-select";
 import {getCategories} from "../../apis/categoryAPI";
 
-export function CategorySelector({onSelect: onSelect}) {
+export function CategorySelector({onSelect: handleSelect}) {
     const [categories, setCategories] = useState([]);
 
     const convertToNode = category => ({
         label: category.name,
-        value: category.id,
+        value: category,
         children: []
     });
 
-    const fetchCategoryTree = async (parentId = 0) => {
-        const searchParameters = { parentCategoryId: parentId, pageSize: 100 };
-        const response = await getCategories(searchParameters);
+    const fetchCategoryTree = async (parent) => {
+        const searchParameters = { parentCategoryId: parent?.id ?? 0, pageSize: 100 };
+        const {error, data} = await getCategories(searchParameters);
 
-        const categories = response.data.map(category => convertToNode(category));
+        if (!error) {
+            const categories = data.map(category => convertToNode(category));
 
-        for (const category of categories) {
-            category.children = await fetchCategoryTree(category.value);
+            for (const category of categories) {
+                category.children = await fetchCategoryTree(category.value);
+            }
+
+            return categories;
         }
-
-        return categories;
     };
 
     useEffect(() => {
@@ -35,7 +37,7 @@ export function CategorySelector({onSelect: onSelect}) {
     }, []);
 
     function handleChange(currentNode, selectedNodes) {
-        onSelect(selectedNodes.length !== 0
+        handleSelect(selectedNodes.length !== 0
             ? selectedNodes[0].value
             : null);
     }
