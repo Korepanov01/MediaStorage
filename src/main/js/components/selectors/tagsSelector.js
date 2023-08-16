@@ -5,7 +5,7 @@ import {Badge, Form, FormGroup} from "react-bootstrap";
 import {getTags} from "../../apis/tagAPI";
 import {PageSelector} from "./pageSelector";
 
-export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect, selectedTags: selectedTags}) {
+export function TagsSelector({onSelect: handleSelect, onUnselect: handleUnselect, selectedTags}) {
     const [tags, setTags] = useState([]);
     const [tagSearchParameters, setTagSearchParameters] = useState({pageSize: 10, pageIndex: 0});
 
