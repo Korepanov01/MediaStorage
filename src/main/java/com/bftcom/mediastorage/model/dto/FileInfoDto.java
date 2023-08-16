@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class FileInfoDto extends BaseDto {
-    private final Long fileId;
+    private final Long id;
     private final String url;
-    private final String fileType;
+    private final String type;
 }

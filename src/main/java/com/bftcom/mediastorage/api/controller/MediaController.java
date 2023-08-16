@@ -32,6 +32,7 @@ public class MediaController implements FullController<
     private final MediaTypeService mediaTypeService;
     private final MediaFileService mediaFileService;
     private final TagService tagService;
+    private final FileTypeService fileTypeService;
 
     @Override
     public MediaListItemDto convertToListItemDto(Media media) {
@@ -64,11 +65,19 @@ public class MediaController implements FullController<
 
         List<Tag> tags = tagService.getByMediaId(media.getId());
 
+        List<MediaFile> mediaFiles = mediaFileService.getByMediaId(media.getId());
+
+        List<FileInfoDto> fileInfoDtoList = mediaFiles.stream().map(mediaFile -> {
+            FileType fileType = fileTypeService.findById(mediaFile.getFileTypeId()).orElseThrow();
+            String url = FileService.getFileUrl(mediaFile.getFileId());
+            return new FileInfoDto(mediaFile.getFileId(), url, fileType.getName());
+        }).collect(Collectors.toList());
+
         return new MediaDto(
                 media.getId(),
                 media.getName(),
                 media.getDescription(),
-                mediaFileService.getMainUrls(media.getId()),
+                fileInfoDtoList,
                 tags.stream().map(TagDto::new).collect(Collectors.toList()),
                 new UserHeaderDto(user),
                 new CategoryDto(category),

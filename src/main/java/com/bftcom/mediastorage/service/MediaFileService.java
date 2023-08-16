@@ -18,6 +18,10 @@ public class MediaFileService extends ParameterSearchService<MediaFile, MediaFil
 
     private final MediaFileRepository repository;
 
+    public List<MediaFile> getByMediaId(@NonNull Long mediaId) {
+        return repository.findByMediaId(mediaId);
+    }
+
     public String getThumbnailUrl(@NonNull Long mediaId) {
         List<MediaFile> mediaFiles = repository.findByMediaIdAndFileType(mediaId, FileType.THUMBNAIL);
         return mediaFiles.size() != 0 ? FileService.getFileUrl(mediaFiles.get(0).getFileId()) : null;

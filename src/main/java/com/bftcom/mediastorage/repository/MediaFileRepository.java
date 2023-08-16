@@ -10,5 +10,5 @@ public interface MediaFileRepository extends ParametersSearchRepository<MediaFil
 
     List<MediaFile> findByMediaIdAndFileType(@NonNull Long mediaId, @NonNull String fileType);
 
-
+    List<MediaFile> findByMediaId(@NonNull Long mediaId);
 }
