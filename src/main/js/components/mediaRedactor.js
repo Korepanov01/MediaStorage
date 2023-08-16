@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {deleteMedia} from "../apis/mediaAPI";
 import {toast} from "react-toastify";
 
-export function MediaRedactor({media, setMedia, mediaFiles, tags, setTags}) {
+export function MediaRedactor({media, setMedia}) {
     const [showMediaForm, setShowMediaForm] = useState(false);
     const [showFilesForm, setShowFilesForm] = useState(false);
     const [showTagsForm, setShowTagsForm] = useState(false);
@@ -16,7 +16,7 @@ export function MediaRedactor({media, setMedia, mediaFiles, tags, setTags}) {
 
     const handleDeleteButtonClick = () => {
         deleteMedia(media.id)
-            .then(({data, error}) => {
+            .then(({error}) => {
                 if(!error) {
                     navigate("/");
                     toast.success(`Медиа "${media.name}" удалено`)
@@ -27,9 +27,8 @@ export function MediaRedactor({media, setMedia, mediaFiles, tags, setTags}) {
     return (
         <>
             <MediaFormPopup show={showMediaForm} setShow={setShowMediaForm} media={media} setMedia={setMedia}/>
-            {/*<FilesFormPopup show={showFilesForm} onChangeShow={setShowFilesForm} onSubmit={() => {*/}
-            {/*}} mediaFiles={mediaFiles} mediaId={media.id}/>*/}
-            <TagsFormPopup show={showTagsForm} setShow={setShowTagsForm} setTags={setTags} tags={tags} mediaId={media.id}/>
+            {/*<FilesFormPopup show={showFilesForm} setShow={setShowFilesForm} setMedia={setMedia} media={media}}/>*/}
+            <TagsFormPopup show={showTagsForm} setShow={setShowTagsForm} setMedia={setMedia} media={media}/>
             <Accordion>
                 <Accordion.Item eventKey={"1"}>
                     <Accordion.Header>Изменить</Accordion.Header>

@@ -3,7 +3,7 @@ import {Button, Card, Form, FormGroup, Modal} from "react-bootstrap";
 import {FileAPI} from "../../apis/fileAPI";
 import {getFileTypes} from "../../apis/fileTypeAPI";
 
-export function FilesFormPopup({show: show, onChangeShow: handleChangeShow, mediaFiles: mediaFiles, onSubmit: handleSubmit, mediaId: mediaId}) {
+export function FilesFormPopup({show, setShow, setMedia, media}) {
     const [fileTypes, setFileTypes] = useState([]);
 
     const [selectedFile, setSelectedFile] = useState(null);
@@ -16,7 +16,7 @@ export function FilesFormPopup({show: show, onChangeShow: handleChangeShow, medi
     }, []);
 
     const filesByType = {};
-    mediaFiles.forEach(file => {
+    files.forEach(file => {
         if (!filesByType[file.fileType]) {
             filesByType[file.fileType] = [];
         }
@@ -24,16 +24,16 @@ export function FilesFormPopup({show: show, onChangeShow: handleChangeShow, medi
     });
 
     function deleteFile(id) {
-        FileAPI.delete(id).then(handleSubmit());
+        FileAPI.delete(id).then(setMedia());
     }
 
     function addFile() {
-        let params = {fileTypeId: selectedFileType, mediaId: mediaId}
-        FileAPI.post(selectedFile, params).then(handleSubmit());
+        let params = {fileTypeId: selectedFileType, mediaId: media}
+        FileAPI.post(selectedFile, params).then(setMedia());
     }
 
     return (
-        <Modal show={show} onHide={() => handleChangeShow(false)}>
+        <Modal show={show} onHide={() => setShow(false)}>
             <Modal.Header>
                 <Form>
                     <Form.Text>Добавить файл</Form.Text>
@@ -73,7 +73,7 @@ export function FilesFormPopup({show: show, onChangeShow: handleChangeShow, medi
                 ))}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={() => handleChangeShow(false)}>
+                <Button variant="secondary" onClick={() => setShow(false)}>
                     Закрыть
                 </Button>
             </Modal.Footer>

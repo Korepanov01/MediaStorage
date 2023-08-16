@@ -17,21 +17,14 @@ export function MediaPage() {
 
     const [isLoading, setIsLoading] = useState(true);
     const [media, setMedia] = useState(null);
-    const [mediaFiles, setMediaFiles] = useState([]);
-    const [tags, setTags] = useState([])
 
     useLayoutEffect(() => {
-        Promise.all([
-            getMediaById(id).then(({data: media, error}) => {
-                if (!error) {
-                    setMedia(media);
-                    setTags(media.tags);
-                }
-            }),
-            getMediaFilesByMediaId(id).then(({data: mediaFiles, error}) => {
-                if (!error) setMediaFiles(mediaFiles)
-            })
-        ]).then(() => setIsLoading(false));
+        getMediaById(id).then(({data: media, error}) => {
+            if (!error) {
+                setMedia(media);
+                setIsLoading(false);
+            }
+        });
     }, []);
 
     return (
@@ -41,14 +34,14 @@ export function MediaPage() {
             ) : (
                 <Row>
                     <Col lg={4}>
-                        <MediaInfo media={media} tags={tags}/>
+                        <MediaInfo media={media}/>
                         {(authUserId === media.user.id) &&
-                            <MediaRedactor media={media} setMedia={setMedia} mediaFiles={mediaFiles} tags={tags} setTags={setTags}/>
+                            <MediaRedactor media={media} setMedia={setMedia}/>
                         }
                     </Col>
                     <Col lg={8}>
                         <FilesCarousel
-                            filesUrls={mediaFiles.filter(mediaFile => mediaFile.fileType === FileTypes.main).map(mediaFile => mediaFile.url)}/>
+                            filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)}/>
                     </Col>
                 </Row>
             )}

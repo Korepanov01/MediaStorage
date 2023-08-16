@@ -4,21 +4,21 @@ import {TagsSelector} from "../selectors/tagsSelector";
 import {deleteMediaTag, postMediaTag} from "../../apis/mediaTagsAPI";
 import {toast} from "react-toastify";
 
-export function TagsFormPopup({show, setShow, setTags, tags, mediaId}) {
+export function TagsFormPopup({show, setShow, setMedia, media}) {
 
     function handleSelect(tag) {
-        postMediaTag(mediaId, tag.id).then(({error}) => {
+        postMediaTag(media.id, tag.id).then(({error}) => {
             if (!error) {
-                setTags(tags.concat([tag]));
+                setMedia({...media, tags: media.tags.concat([tag])});
                 toast.success(`Тег "${tag.name}" добавлен`);
             }
         });
     }
 
     function handleUnselect(deletedTag) {
-        deleteMediaTag(mediaId, deletedTag.id).then(({error}) => {
+        deleteMediaTag(media.id, deletedTag.id).then(({error}) => {
             if (!error) {
-                setTags(tags.filter((tag) => tag.id !== deletedTag.id));
+                setMedia({...media, tags: media.tags.filter((tag) => tag.id !== deletedTag.id)});
                 toast.success(`Тег "${deletedTag.name}" удалён`);
             }
         });
@@ -32,7 +32,7 @@ export function TagsFormPopup({show, setShow, setTags, tags, mediaId}) {
             <Modal.Body>
                 <Form>
                     <TagsSelector
-                        selectedTags={tags}
+                        selectedTags={media.tags}
                         onSelect={handleSelect}
                         onUnselect={handleUnselect}/>
                 </Form>
