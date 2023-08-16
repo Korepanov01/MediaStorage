@@ -53,8 +53,7 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     }
 
     @Override
-    protected boolean isSameEntityExists(@NonNull User user) {
-        return userRepository.findByEmail(user.getEmail()).isPresent()
-                || userRepository.findByName(user.getName()).isPresent();
+    public boolean isSameEntityExists(@NonNull User user) {
+        return userRepository.existsByEmail(user.getEmail()) || userRepository.existsByName(user.getName());
     }
 }

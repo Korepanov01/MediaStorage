@@ -10,10 +10,7 @@ import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.MediaTagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,6 +20,19 @@ import javax.validation.Valid;
 public class MediaTagController implements SaveController<MediaTag, PostMediaTag> {
 
     private final MediaTagService mediaTagService;
+
+    @PostMapping
+    public ResponseEntity<?> save(
+            @RequestBody
+            @Valid
+            DeleteMediaTagRequest request) {
+        try {
+            mediaTagService.delete(request.getMediaId(), request.getTagId());
+        } catch (EntityNotFoundException exception) {
+            return Response.getEntityNotFound(exception.getMessage());
+        }
+        return Response.getOk();
+    }
 
     @DeleteMapping()
     public ResponseEntity<?> delete(
@@ -34,7 +44,7 @@ public class MediaTagController implements SaveController<MediaTag, PostMediaTag
         } catch (EntityNotFoundException exception) {
             return Response.getEntityNotFound(exception.getMessage());
         }
-        return  Response.getOk();
+        return Response.getOk();
     }
 
     @Override

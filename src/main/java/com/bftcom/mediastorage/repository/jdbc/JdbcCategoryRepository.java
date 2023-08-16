@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.model.searchparameters.CategorySearchParameters;
 import com.bftcom.mediastorage.repository.CategoryRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,18 +56,26 @@ public class JdbcCategoryRepository extends JdbcCrudRepository<Category> impleme
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Category> findByName(@NonNull String name) {
         return findByUniqueField("name", name);
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public boolean existsByName(@NonNull String name) {
+        return findByName(name).isPresent();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Category> findByParameters(@NonNull CategorySearchParameters parameters) {
-        ParametersSearcher searcher = this.new ParametersSearcher();
+        ParametersSearcher searcher = this.new ParametersSearcher().select().where();
 
         if (parameters.getParentCategoryId() != null) {
             if (parameters.getParentCategoryId() != 0)
                 searcher.addEqualsCondition("parent_category_id", parameters.getParentCategoryId());
-            else searcher.addCondition("parent_category_id IS NULL");
+            else searcher.addWhereCondition("parent_category_id IS NULL");
         }
 
         return searcher

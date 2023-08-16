@@ -25,14 +25,13 @@ public class UserRoleService {
     public void addRole(@NonNull Long userId, @NonNull Long roleId)
             throws EntityNotFoundException, EntityAlreadyExistsException {
         if (userRepository.existsById(userId))
-            throw new EntityNotFoundException("Пользователь (id: " + userId + ") не найден");
+            throw new EntityNotFoundException("Пользователь не найден");
 
         if (roleRepository.existsById(roleId))
-            throw new EntityNotFoundException("Роль (id: " + roleId + ") не найдена");
+            throw new EntityNotFoundException("Роль не найдена");
 
         if (userRoleRepository.isExists(userId, roleId))
-            throw new EntityAlreadyExistsException("Роль (id: " + roleId + ") уже принадлежит пользователю (id: " + userId + ")");
-        userRoleRepository.findByUserAndRole(userId, roleId);
+            throw new EntityAlreadyExistsException("Роль уже принадлежит пользователю");
 
         userRoleRepository.save(new UserRole(roleId, userId));
     }
@@ -41,15 +40,15 @@ public class UserRoleService {
     public void deleteRole(@NonNull Long userId, @NonNull Long roleId)
             throws EntityNotFoundException {
         if (userRepository.existsById(userId))
-            throw new EntityNotFoundException("Пользователь (id: " + userId + ") не найден");
+            throw new EntityNotFoundException("Пользователь не найден");
 
         if (roleRepository.existsById(roleId))
-            throw new EntityNotFoundException("Роль (id: " + roleId + ") не найдена");
+            throw new EntityNotFoundException("Роль не найдена");
 
         Optional<UserRole> optionalUserRole = userRoleRepository.findByUserAndRole(userId, roleId);
 
         if (optionalUserRole.isEmpty())
-            throw new EntityNotFoundException("Роль (id: " + roleId + ") не принадлежит пользователю (id: " + userId + ")");
+            throw new EntityNotFoundException("Роль не принадлежит пользователю");
 
         userRoleRepository.delete(optionalUserRole.get());
     }
