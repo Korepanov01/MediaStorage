@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
+import com.bftcom.mediastorage.api.controller.interfaces.GetAllController;
 import com.bftcom.mediastorage.api.controller.interfaces.GetByIdController;
 import com.bftcom.mediastorage.model.dto.FileTypeDto;
 import com.bftcom.mediastorage.model.entity.FileType;
@@ -12,12 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/file_types")
 @RequiredArgsConstructor
-public class FileTypeController implements GetByIdController<FileTypeDto, FileType> {
+public class FileTypeController implements GetByIdController<FileTypeDto, FileType>, GetAllController<FileTypeDto, FileType> {
 
     private final FileTypeService fileTypeService;
 
     @Override
     public FileTypeDto convertToDto(FileType fileType) {
+        return new FileTypeDto(fileType);
+    }
+
+    @Override
+    public FileTypeDto convertToListItemDto(FileType fileType) {
         return new FileTypeDto(fileType);
     }
 
