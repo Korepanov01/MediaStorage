@@ -70,8 +70,8 @@ public class SecurityConfig {
 
                 .antMatchers(HttpMethod.POST, "/api/media").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/media/{id}/**").access("(@securityUtils.checkUserOwning(authentication, #id))")
-                .antMatchers(HttpMethod.PUT, "/api/media/**").access("(@securityUtils.checkUserOwning(authentication, #id))")
-                .antMatchers(HttpMethod.DELETE, "/api/media/**").access("(@securityUtils.checkUserOwning(authentication, #id))")
+                .antMatchers(HttpMethod.PUT, "/api/media/{id}/**").access("(@securityUtils.checkUserOwning(authentication, #id))")
+                .antMatchers(HttpMethod.DELETE, "/api/media/{id}/**").access("(@securityUtils.checkUserOwning(authentication, #id))")
 
                 .antMatchers(HttpMethod.POST, "/api/category/**").hasRole(Role.ADMIN)
                 .antMatchers(HttpMethod.PUT, "/api/category/**").hasRole(Role.ADMIN)
