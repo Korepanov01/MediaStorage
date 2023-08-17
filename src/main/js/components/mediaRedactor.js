@@ -6,6 +6,7 @@ import {TagsFormPopup} from "./popups/tagsFormPopup";
 import {useNavigate} from "react-router-dom";
 import {deleteMedia} from "../apis/mediaAPI";
 import {toast} from "react-toastify";
+import {InfoCard} from "./decor/infoCard";
 
 export function MediaRedactor({media, setMedia}) {
     const [showMediaForm, setShowMediaForm] = useState(false);
@@ -29,17 +30,15 @@ export function MediaRedactor({media, setMedia}) {
             <MediaFormPopup show={showMediaForm} setShow={setShowMediaForm} media={media} setMedia={setMedia}/>
             <FilesFormPopup show={showFilesForm} setShow={setShowFilesForm} setMedia={setMedia} media={media}/>
             <TagsFormPopup show={showTagsForm} setShow={setShowTagsForm} setMedia={setMedia} media={media}/>
-            <Card>
-                <Card.Header className={"text-center"}>Изменить</Card.Header>
-                <Card.Body>
-                    <ButtonGroup vertical className={"w-100"}>
-                        <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Основное</Button>
-                        <Button className={"w-100"} onClick={() => setShowFilesForm(true)}>Файлы</Button>
-                        <Button className={"w-100"} onClick={() => setShowTagsForm(true)}>Теги</Button>
-                        <Button variant={"danger"} className={"w-100"} onClick={handleDeleteButtonClick}>Удалить</Button>
-                    </ButtonGroup>
-                </Card.Body>
-            </Card>
+
+            <InfoCard title={"Изменить"}>
+                <ButtonGroup vertical className={"w-100"}>
+                    <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Основное</Button>
+                    <Button className={"w-100"} onClick={() => setShowFilesForm(true)}>Файлы</Button>
+                    <Button className={"w-100"} onClick={() => setShowTagsForm(true)}>Теги</Button>
+                    <Button variant={"danger"} className={"w-100"} onClick={handleDeleteButtonClick}>Удалить</Button>
+                </ButtonGroup>
+            </InfoCard>
         </>
     );
 }

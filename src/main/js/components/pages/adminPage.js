@@ -2,8 +2,14 @@ import React from 'react';
 import Nav from "react-bootstrap/Nav";
 import {Link, Route, Routes} from "react-router-dom";
 import TagsTable from "../admintables/tagsTable";
+import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import {Roles} from "../../enums/roles";
 
 export function AdminPage() {
+    const navigate = useNavigate()
+    const user = useSelector(state => state.auth.user?.roles?.includes(Roles.ADMIN) ?? navigate("/"));
+
     return (
         <>
             <Nav variant="tabs" defaultActiveKey="users">

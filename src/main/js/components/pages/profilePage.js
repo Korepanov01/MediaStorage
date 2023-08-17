@@ -17,11 +17,7 @@ export function ProfilePage() {
     const [showMediaForm, setShowMediaForm] = useState(false);
 
     const navigate = useNavigate();
-    const user = useSelector(state => state.auth.user);
-    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-
-    if (!isLoggedIn)
-        navigate("/");
+    const user = useSelector(state => state.auth.user ?? navigate("/"));
 
     useEffect(() => {
         getMedias({pageIndex, pageSize: PAGE_SIZE, userId: user?.id}).then(({data, error}) => {
@@ -43,6 +39,7 @@ export function ProfilePage() {
 
     return (
         <>
+
             <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} onSubmit={handleFormSubmit} initialData={{
                 userId: 0,
                 categoryId: 0,
@@ -50,21 +47,23 @@ export function ProfilePage() {
                 description: "string",
                 mediaTypeId: 0
             }}/>
-            <Row>
-                <Col lg={4}>
-                    <InfoCard title={"Имя"}>
-                        {user.name}
-                    </InfoCard>
-                    <InfoCard title={"Почта"}>
-                        {user.email}
-                    </InfoCard>
-                    <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Добавить медиа</Button>
-                </Col>
-                <Col lg={8}>
-                    <MediaCards medias={medias} cardsInRow={CARDS_IN_ROW}/>
-                    <PageSelector pageIndex={pageIndex} onPageChange={onPageChange}/>
-                </Col>
-            </Row>
+            {user &&
+                <Row>
+                    <Col lg={4}>
+                        <InfoCard title={"Имя"}>
+                            {user.name}
+                        </InfoCard>
+                        <InfoCard title={"Почта"}>
+                            {user.email}
+                        </InfoCard>
+                        <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Добавить медиа</Button>
+                    </Col>
+                    <Col lg={8}>
+                        <MediaCards medias={medias} cardsInRow={CARDS_IN_ROW}/>
+                        <PageSelector pageIndex={pageIndex} onPageChange={onPageChange}/>
+                    </Col>
+                </Row>
+            }
         </>
     );
 }

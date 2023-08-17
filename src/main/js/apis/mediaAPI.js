@@ -10,6 +10,6 @@ export const putMedia = (id, payload) => putRequest(`/media/${id}`, payload);
 
 export const postMedia = (payload) => postRequest('/media', payload);
 
-export const addTagToMedia = (mediaId, tagId) => postRequest(`/media/${mediaId}`, undefined, {tagId});
+export const addTagToMedia = (mediaId, tagId) => postRequest(`/media/${mediaId}/add_tag`, undefined, {tagId});
 
-export const removeTagFromMedia = (mediaId, tagId) => putRequest(`/media/${mediaId}`, undefined, {tagId});
+export const removeTagFromMedia = (mediaId, tagId) => deleteRequest(`/media/${mediaId}/remove_tag`, undefined, {tagId});

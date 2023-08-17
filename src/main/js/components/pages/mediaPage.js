@@ -1,12 +1,13 @@
 import React, {useLayoutEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {Col, Row, Spinner} from "react-bootstrap";
+import {Badge, Col, Row, Spinner} from "react-bootstrap";
 import {getMediaById} from "../../apis/mediaAPI";
 import {FilesCarousel} from "../fileCarousel";
-import {MediaInfo} from "../mediaInfo";
 import {FileTypes} from "../../enums/fileTypes";
 import {MediaRedactor} from "../mediaRedactor";
 import {useSelector} from "react-redux";
+import {Title} from "../decor/title";
+import {InfoCard} from "../decor/infoCard";
 
 export function MediaPage() {
     const {id} = useParams();
@@ -32,7 +33,27 @@ export function MediaPage() {
             ) : (
                 <Row>
                     <Col lg={4}>
-                        <MediaInfo media={media}/>
+                        <InfoCard title={"Название"}>
+                            <Title level={5}>{media.name}</Title>
+                        </InfoCard>
+                        <InfoCard title={"Тип"}>
+                            <Title level={6}>{media.mediaType.name}</Title>
+                        </InfoCard>
+                        <InfoCard title={"Категория"}>
+                            <Title level={6}>{media.category.name}</Title>
+                        </InfoCard>
+                        {media.description &&
+                            <InfoCard title={"Описание"}>
+                                {media.description}
+                            </InfoCard>
+                        }
+                        {media.tags.length !== 0 &&
+                            <InfoCard title={"Теги"}>
+                                {media.tags.map(tag => (
+                                    <Badge key={tag.id}>{tag.name}</Badge>
+                                ))}
+                            </InfoCard>
+                        }
                         {(authUserId === media.user.id) &&
                             <MediaRedactor media={media} setMedia={setMedia}/>
                         }
