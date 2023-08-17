@@ -1,10 +1,9 @@
 import React, {useEffect} from "react";
 import {useState} from "react";
 import {Form} from "react-bootstrap";
-import Container from "react-bootstrap/Container";
 import {getMediaTypes} from "../../apis/mediaTypeAPI";
 
-export function MediaTypeSelector({onSelect: onSelect, selectedTypesIds: selectedTypesIds}) {
+export function MediaTypeSelector({setSelectedTypesIds, selectedTypesIds}) {
     const [types, setTypes] = useState([]);
 
     useEffect(() => {
@@ -20,7 +19,7 @@ export function MediaTypeSelector({onSelect: onSelect, selectedTypesIds: selecte
         } else {
             newSelectedTypesIds.delete(e.target.value);
         }
-        onSelect(newSelectedTypesIds);
+        setSelectedTypesIds([...newSelectedTypesIds]);
     }
 
     return (
