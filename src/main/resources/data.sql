@@ -75,7 +75,7 @@ INSERT INTO "public.user_role" ("role_id", "user_id")
 VALUES
     (1, 1),
     (2, 1),
-    (2, 2);
+    (1, 2);
 
 -- Тестовые данные "public.media_tag"
 INSERT INTO "public.media_tag" ("media_id", "tag_id")

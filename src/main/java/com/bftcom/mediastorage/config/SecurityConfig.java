@@ -81,6 +81,7 @@ public class SecurityConfig {
 
                 .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
 
+                .antMatchers(HttpMethod.GET, "/api/users/**").hasRole(Role.ADMIN)
                 .antMatchers(HttpMethod.PATCH, "/api/users/**").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/api/users/{id}").access("(@securityUtils.checkUserId(authentication, #id)) || hasRole(\"ADMIN\")")
 
