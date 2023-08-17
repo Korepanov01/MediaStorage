@@ -1,9 +1,11 @@
 import React, {useLayoutEffect, useState} from "react";
 import {getCategories} from "../../apis/categoryAPI";
+import {Card, Form} from "react-bootstrap";
 
 export function Testcat() {
     const [parents, setParents] = useState([]);
     const [children, setChildren] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     useLayoutEffect(() => {
         getCategories({parentCategoryId: 0})
@@ -24,12 +26,14 @@ export function Testcat() {
             })
     }
 
-    function handleBack(parentCategory) {
-        getCategories({parentCategoryId: parentCategory.id})
+    function handleBack(parent) {
+        getCategories({parentCategoryId: parent.id})
             .then(({error, data}) => {
                 if (!error) {
+                    setSelectedCategory(null);
+
                     let newParents = [...parents];
-                    while (parents.pop().parentCategoryId !== parentCategory.id) {}
+                    while (newParents.pop().parentCategoryId !== parent.id) {}
                     setParents(newParents);
 
                     setChildren(data);
@@ -41,6 +45,7 @@ export function Testcat() {
         getCategories({parentCategoryId: 0})
             .then(({error, data}) => {
                 if (!error) {
+                    setSelectedCategory(null);
                     setParents([]);
                     setChildren(data);
                 }
@@ -48,14 +53,24 @@ export function Testcat() {
     }
 
     return (
-        <>
-            <h5 onClick={() => handleFirst()}>Категории</h5>
-            {parents.map(parent =>
-                <h5 onClick={() => handleBack(parent)}>{parent.name}</h5>
-            )}
-            {children.map(child =>
-                <h6 onClick={() => handleExpand(child)}>{child.name}</h6>
-            )}
-        </>
+        <Card>
+            <Card.Header>
+                <h6 onClick={() => handleFirst()}>Категории</h6>
+                {parents.map(parent =>
+                    <h6 key={parent.id} onClick={() => handleBack(parent)}>{parent.name}</h6>
+                )}
+            </Card.Header>
+            <Card.Body>
+                {children.map(child =>
+                    <Form.Check
+                        type="radio"
+                        checked={child.id === selectedCategory?.id}
+                        onChange={(e) => setSelectedCategory(child)}
+                        onClick={() => handleExpand(child)}
+                        label={child.name}
+                    />
+                )}
+            </Card.Body>
+        </Card>
     );
 }
