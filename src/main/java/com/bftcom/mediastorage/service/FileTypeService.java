@@ -1,26 +1,25 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.model.entity.FileType;
-import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
+import com.bftcom.mediastorage.repository.CrudRepository;
 import com.bftcom.mediastorage.repository.FileTypeRepository;
-import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class FileTypeService extends ParameterSearchService<FileType, SearchStringParameters> {
+public class FileTypeService extends CrudService<FileType> {
 
     private final FileTypeRepository fileTypeRepository;
 
     @Override
-    protected ParametersSearchRepository<FileType, SearchStringParameters> getMainRepository() {
+    protected CrudRepository<FileType> getMainRepository() {
         return fileTypeRepository;
     }
 
     @Override
-    protected boolean isSameEntityExists(@NonNull FileType fileType) {
-        return fileTypeRepository.findByName(fileType.getName()).isPresent();
+    public boolean isSameEntityExists(@NonNull FileType fileType) {
+        return fileTypeRepository.existsByName(fileType.getName());
     }
 }

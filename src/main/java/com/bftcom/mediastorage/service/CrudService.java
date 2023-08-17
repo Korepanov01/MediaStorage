@@ -44,5 +44,6 @@ public abstract class CrudService<Entity extends BaseEntity> {
 
     protected abstract CrudRepository<Entity> getMainRepository();
 
-    protected abstract boolean isSameEntityExists(@NonNull Entity entity);
+    @Transactional
+    public abstract boolean isSameEntityExists(@NonNull Entity entity);
 }

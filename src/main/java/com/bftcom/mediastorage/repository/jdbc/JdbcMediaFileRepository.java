@@ -1,7 +1,6 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.MediaFile;
-import com.bftcom.mediastorage.model.searchparameters.MediaFilesSearchParameters;
 import com.bftcom.mediastorage.repository.MediaFileRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
@@ -51,19 +50,10 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
 
     @Override
     @Transactional(readOnly = true)
-    public List<MediaFile> findByParameters(@NonNull MediaFilesSearchParameters parameters) {
-        return (parameters.getType() != null
-                ? new ParametersSearcher("JOIN \"public.file_type\" ON \"public.media_file\".file_type_id = \"public.file_type\".id")
-                    .addSearchStringCondition("\"public.file_type\".name", parameters.getType())
-                : new ParametersSearcher())
-                .tryAddEqualsCondition("media_id", parameters.getMediaId())
-                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public List<MediaFile> findByMediaIdAndFileType(@NonNull Long mediaId, @NonNull String fileType) {
-        return this.new ParametersSearcher("JOIN \"public.file_type\" ON \"public.media_file\".file_type_id = \"public.file_type\".id")
+        return this.new ParametersSearcher().select()
+                .addStatement("JOIN \"public.file_type\" ON \"public.media_file\".file_type_id = \"public.file_type\".id")
+                .where()
                 .addEqualsCondition("\"public.file_type\".name", fileType)
                 .addEqualsCondition("media_id", mediaId)
                 .findByParameters(this::mapRowToModel);
@@ -72,8 +62,16 @@ public class JdbcMediaFileRepository extends JdbcCrudRepository<MediaFile> imple
     @Override
     @Transactional(readOnly = true)
     public List<MediaFile> findByMediaId(@NonNull Long mediaId) {
-        return this.new ParametersSearcher()
+        return this.new ParametersSearcher().select().where()
                 .addEqualsCondition("media_id", mediaId)
                 .findByParameters(this::mapRowToModel);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer countByMediaId(@NonNull Long mediaId) {
+        return this.new ParametersSearcher().count().where()
+                .addEqualsCondition("media_id", mediaId)
+                .getCount();
     }
 }
