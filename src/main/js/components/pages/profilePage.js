@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {MediaCards} from "../mediaCards";
 import {PageSelector} from "../selectors/pageSelector";
-import {Col, Row} from "react-bootstrap";
-import {UserMenu} from "../userMenu";
+import {Button, Col, Row} from "react-bootstrap";
 import {MediaFormPopup} from "../popups/mediaFormPopup";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {getMedias, postMedia} from "../../apis/mediaAPI";
+import {InfoCard} from "../decor/infoCard";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;
@@ -52,7 +52,13 @@ export function ProfilePage() {
             }}/>
             <Row>
                 <Col lg={4}>
-                    <UserMenu user={user} onAddMediaClick={() => setShowMediaForm(true)}/>
+                    <InfoCard title={"Имя"}>
+                        {user.name}
+                    </InfoCard>
+                    <InfoCard title={"Почта"}>
+                        {user.email}
+                    </InfoCard>
+                    <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Добавить медиа</Button>
                 </Col>
                 <Col lg={8}>
                     <MediaCards medias={medias} cardsInRow={CARDS_IN_ROW}/>
