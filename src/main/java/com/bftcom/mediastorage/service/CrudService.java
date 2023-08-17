@@ -7,12 +7,19 @@ import com.bftcom.mediastorage.repository.CrudRepository;
 import lombok.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public abstract class CrudService<Entity extends BaseEntity> {
 
+    @Transactional(readOnly = true)
     public Optional<Entity> findById(@NonNull Long id) {
         return getMainRepository().findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Entity> findAll() {
+        return getMainRepository().findAll();
     }
 
     @Transactional

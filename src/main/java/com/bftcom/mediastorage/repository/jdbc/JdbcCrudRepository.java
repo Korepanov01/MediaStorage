@@ -84,9 +84,8 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
                 idFiled);
 
         this.sqlCount = String.format(
-                "SELECT COUNT(*) FROM %s WHERE %s = ?",
-                tableName,
-                idFiled);
+                "SELECT COUNT(*) FROM %s ",
+                tableName);
     }
 
     @Autowired
@@ -125,6 +124,12 @@ public abstract class JdbcCrudRepository<Entity extends BaseEntity> implements C
     @Transactional
     public boolean existsById(@NonNull Long id) {
         return findById(id).isEmpty();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Entity> findAll() {
+        return this.new ParametersSearcher().select().findByParameters(this::mapRowToModel);
     }
 
     @Transactional
