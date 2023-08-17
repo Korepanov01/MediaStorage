@@ -2,7 +2,7 @@ package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.api.controller.interfaces.DeleteController;
-import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
+import com.bftcom.mediastorage.exception.TooManyFilesException;
 import com.bftcom.mediastorage.model.api.request.UploadFileRequest;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
 import com.bftcom.mediastorage.model.entity.File;
@@ -66,8 +66,8 @@ public class FileController implements DeleteController<File> {
 
         try {
             fileService.save(file, request.getMediaId(), request.getFileTypeId());
-        } catch (EntityAlreadyExistsException exception) {
-            return Response.getEntityAlreadyExists(exception.getMessage());
+        } catch (TooManyFilesException exception) {
+            return Response.getBadRequest(exception.getMessage());
         }
 
         return ResponseEntity.ok(new PostEntityResponse(file.getId()));

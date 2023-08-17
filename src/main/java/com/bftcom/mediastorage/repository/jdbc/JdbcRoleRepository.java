@@ -1,10 +1,11 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.Role;
-import com.bftcom.mediastorage.model.searchparameters.RoleSearchParameters;
+import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.RoleRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,24 +45,32 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Role> findByName(@NonNull String name) {
         return this.findByUniqueField("name", name);
     }
 
     @Override
-    public List<Role> findByParameters(@NonNull RoleSearchParameters parameters) {
-        return (parameters.getUserId() != null
-                ? this.new ParametersSearcher("JOIN \"public.user_role\" ON \"public.role\".id = \"public.user_role\".role_id")
-                    .addEqualsCondition("\"public.user_role\".user_id", parameters.getUserId())
-                : this.new ParametersSearcher())
-                    .tryAddSearchStringCondition("name", parameters.getSearchString())
-                    .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+    @Transactional(readOnly = true)
+    public boolean existsByName(@NonNull String name) {
+        return findByName(name).isPresent();
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Role> findByParameters(@NonNull SearchStringParameters parameters) {
+        return this.new ParametersSearcher().select().where()
+                .tryAddSearchStringCondition("name", parameters.getSearchString())
+                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Role> findByUserId(@NonNull Long userId) {
-        return this.new ParametersSearcher(String.format("JOIN \"public.user_role\" ur ON %s.id = ur.role_id", TABLE_NAME))
-                .addEqualsCondition("ur.\"user_id\"", userId)
+        return this.new ParametersSearcher()
+                .addStatement("JOIN \"public.user_role\" ON \"public.role\".id = \"public.user_role\".role_id")
+                .select().where()
+                .addEqualsCondition("\"public.user_role\".user_id", userId)
                 .findByParameters(this::mapRowToModel);
     }
 }

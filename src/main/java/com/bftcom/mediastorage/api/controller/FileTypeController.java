@@ -1,12 +1,10 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.GetByIdController;
-import com.bftcom.mediastorage.api.controller.interfaces.ParametersSearchController;
 import com.bftcom.mediastorage.model.dto.FileTypeDto;
 import com.bftcom.mediastorage.model.entity.FileType;
-import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
+import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.FileTypeService;
-import com.bftcom.mediastorage.service.ParameterSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,15 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/file_types")
 @RequiredArgsConstructor
-public class FileTypeController implements  ParametersSearchController<FileTypeDto, FileType, SearchStringParameters>,
-        GetByIdController<FileTypeDto, FileType> {
+public class FileTypeController implements GetByIdController<FileTypeDto, FileType> {
 
     private final FileTypeService fileTypeService;
-
-    @Override
-    public FileTypeDto convertToListItemDto(FileType fileType) {
-        return new FileTypeDto(fileType);
-    }
 
     @Override
     public FileTypeDto convertToDto(FileType fileType) {
@@ -30,7 +22,7 @@ public class FileTypeController implements  ParametersSearchController<FileTypeD
     }
 
     @Override
-    public ParameterSearchService<FileType, SearchStringParameters> getMainService() {
+    public CrudService<FileType> getMainService() {
         return fileTypeService;
     }
 }

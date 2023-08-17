@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.MediaTypeRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,13 +45,15 @@ public class JdbcMediaTypeRepository extends JdbcCrudRepository<MediaType> imple
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<MediaType> findByName(@NonNull String name) {
         return findByUniqueField("name", name);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MediaType> findByParameters(@NonNull SearchStringParameters parameters) {
-        return this.new ParametersSearcher()
+        return this.new ParametersSearcher().select().where()
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
                 .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
     }

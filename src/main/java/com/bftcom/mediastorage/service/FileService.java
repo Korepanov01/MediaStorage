@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.service;
 
-import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
+import com.bftcom.mediastorage.exception.TooManyFilesException;
 import com.bftcom.mediastorage.model.entity.File;
 import com.bftcom.mediastorage.model.entity.MediaFile;
 import com.bftcom.mediastorage.repository.CrudRepository;
@@ -29,12 +29,12 @@ public class FileService extends CrudService<File> {
 
     @Transactional
     public void save(@NonNull File file, @NonNull Long mediaId, @NonNull Long fileTypeId)
-            throws EntityAlreadyExistsException {
+            throws TooManyFilesException {
+        if (mediaFileRepository.countByMediaId(mediaId) > 5)
+            throw new TooManyFilesException("Не может быть больше 10 файлов");
 
         fileRepository.save(file);
-
-        MediaFile mediaFile = new MediaFile(mediaId, file.getId(), fileTypeId);
-        mediaFileRepository.save(mediaFile);
+        mediaFileRepository.save(new MediaFile(mediaId, file.getId(), fileTypeId));
     }
 
     @Override
@@ -43,7 +43,7 @@ public class FileService extends CrudService<File> {
     }
 
     @Override
-    protected boolean isSameEntityExists(@NonNull File file) {
+    public boolean isSameEntityExists(@NonNull File file) {
         return false;
     }
 }

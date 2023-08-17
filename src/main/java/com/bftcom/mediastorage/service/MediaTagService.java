@@ -1,8 +1,9 @@
 package com.bftcom.mediastorage.service;
 
+import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
+import com.bftcom.mediastorage.exception.TooManyTagsException;
 import com.bftcom.mediastorage.model.entity.MediaTag;
-import com.bftcom.mediastorage.repository.CrudRepository;
 import com.bftcom.mediastorage.repository.MediaTagRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +14,21 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MediaTagService extends CrudService<MediaTag> {
+public class MediaTagService {
 
     private final MediaTagRepository mediaTagRepository;
 
-    @Override
-    protected CrudRepository<MediaTag> getMainRepository() {
-        return mediaTagRepository;
+    @Transactional
+    public void save(@NonNull Long mediaId, @NonNull Long tagId) throws EntityNotFoundException, TooManyTagsException, EntityAlreadyExistsException {
+        if (mediaTagRepository.mediaTagsCount(mediaId) > 20)
+            throw new TooManyTagsException("Тегов не может быть больше 20");
+
+        if (mediaTagRepository.existsByMediaIdTagId(mediaId, tagId))
+            throw new EntityAlreadyExistsException("Тег уже принадлежит медиа");
+
+        MediaTag mediaTag = new MediaTag(mediaId, tagId);
+
+        mediaTagRepository.save(new MediaTag(mediaId, tagId));
     }
 
     @Transactional
@@ -28,11 +37,6 @@ public class MediaTagService extends CrudService<MediaTag> {
 
         mediaTagRepository.delete(optionalEntity
                 .orElseThrow(()
-                        -> new EntityNotFoundException(String.format("Тег id(%d) не принадлежит медиа id(%d)", tagId, mediaId))));
-    }
-
-    @Override
-    protected boolean isSameEntityExists(@NonNull MediaTag mediaTag) {
-        return mediaTagRepository.isExists(mediaTag.getMediaId(), mediaTag.getTagId());
+                        -> new EntityNotFoundException("Тег не принадлежит медиа")));
     }
 }

@@ -20,7 +20,7 @@ public class MediaService extends ParameterSearchService<Media, MediaSearchParam
     }
 
     @Override
-    protected boolean isSameEntityExists(@NonNull Media entity) {
+    public boolean isSameEntityExists(@NonNull Media entity) {
         return false;
     }
 }

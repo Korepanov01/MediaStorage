@@ -1,10 +1,10 @@
 package com.bftcom.mediastorage.repository.jdbc;
 
 import com.bftcom.mediastorage.model.entity.FileType;
-import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.FileTypeRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,14 +44,22 @@ public class JdbcFileTypeRepository extends JdbcCrudRepository<FileType> impleme
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<FileType> findByName(@NonNull String name) {
         return findByUniqueField("name", name);
     }
 
     @Override
-    public List<FileType> findByParameters(@NonNull SearchStringParameters parameters) {
-        return this.new ParametersSearcher()
-                .tryAddSearchStringCondition("name", parameters.getSearchString())
-                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+    @Transactional(readOnly = true)
+    public boolean existsByName(@NonNull String name) {
+        return findByName(name).isPresent();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FileType> findBySearchString(@NonNull String searchString) {
+        return this.new ParametersSearcher().select().where()
+                .addSearchStringCondition("name", searchString)
+                .findByParameters(this::mapRowToModel);
     }
 }

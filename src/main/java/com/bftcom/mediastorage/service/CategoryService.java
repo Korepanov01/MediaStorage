@@ -20,7 +20,7 @@ public class CategoryService extends ParameterSearchService<Category, CategorySe
     }
 
     @Override
-    protected boolean isSameEntityExists(@NonNull Category entity) {
-        return categoryRepository.findByName(entity.getName()).isPresent();
+    public boolean isSameEntityExists(@NonNull Category entity) {
+        return categoryRepository.existsByName(entity.getName());
     }
 }
