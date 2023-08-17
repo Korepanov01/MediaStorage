@@ -6,7 +6,7 @@ import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.NameAlreadyUsedException;
 import com.bftcom.mediastorage.model.api.request.LoginRequest;
 import com.bftcom.mediastorage.model.api.request.RegisterRequest;
-import com.bftcom.mediastorage.model.api.response.JwtResponse;
+import com.bftcom.mediastorage.model.dto.AuthDto;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.security.AppUserDetails;
@@ -54,7 +54,7 @@ public class AuthController {
                 .collect(Collectors.toList());
 
         return ResponseEntity
-                .ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getName(), userDetails.getEmail(), roles));
+                .ok(new AuthDto(userDetails, roles, jwt));
     }
 
     @PostMapping("/register")
