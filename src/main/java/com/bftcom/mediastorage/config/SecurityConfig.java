@@ -64,44 +64,25 @@ public class SecurityConfig {
         http.cors(AbstractHttpConfigurer::disable);
 
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET,
-                        "/api/tags/**",
-                        "/api/media/**",
-                        "/api/category/**",
-                        "/api/files/**",
-                        "/api/media_type/**",
-                        "/api/media_file/**",
-                        "/api/file_types/**").permitAll()
-                .antMatchers(HttpMethod.GET,
-                        "/api/users/**").hasRole(Role.ADMIN)
+                .antMatchers("/api/auth/**").permitAll()
 
-                .antMatchers(HttpMethod.POST,
-                        "/api/auth/**").permitAll()
-                .antMatchers(HttpMethod.POST,
-                        "/api/media/**",
-                        "/api/media_tag/**",
-                        "/api/files/**").authenticated()
-                .antMatchers(HttpMethod.POST,
-                        "/api/tags/**",
-                        "/api/category/**").hasRole(Role.ADMIN)
-                .antMatchers(HttpMethod.POST,
-                        "/api/user_role/**").hasRole(Role.SUPER_ADMIN)
+                .antMatchers(HttpMethod.PATCH, "/api/users/**").authenticated()
 
-                .antMatchers(HttpMethod.PUT,
-                        "/api/media/{id}").access("(@securityUtils.checkUserOwning(authentication, #id)) || hasRole(\"ADMIN\")")
-                .antMatchers(HttpMethod.PUT,
-                        "/api/tags/**",
-                        "/api/category/**").hasRole(Role.ADMIN)
+                .antMatchers("/api/users/**").hasRole(Role.ADMIN)
 
-                .antMatchers(HttpMethod.DELETE,
-                        "/api/media_tag/**",
-                        "/api/files/**").authenticated()
-                .antMatchers(HttpMethod.DELETE,
-                        "/api/media/{id}").access("(@securityUtils.checkUserOwning(authentication, #id)) || hasRole(\"ADMIN\")")
-                .antMatchers(HttpMethod.DELETE,
+                // Все остальные ресурсы могут получать все
+                .antMatchers(HttpMethod.GET).permitAll()
+
+                // Управлять медиа может только владелец
+                .antMatchers("/api/media/{id}/**").access("(@securityUtils.checkUserOwning(authentication, #id))")
+                // Публиковать медиа могут авторизованные пользователи
+                .antMatchers(HttpMethod.POST, "/api/media/").authenticated()
+
+                // Управлять тегами, категориями и ролями может только админ
+                .antMatchers(
                         "/api/tags/**",
                         "/api/category/**",
-                        "/api/users/**").hasRole(Role.ADMIN);
+                        "/api/user_role/**").hasRole(Role.ADMIN);
 
         http.authenticationProvider(authenticationProvider);
 
