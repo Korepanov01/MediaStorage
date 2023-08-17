@@ -3,22 +3,23 @@ import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {Formik} from "formik";
 import {object, string} from "yup"
 import {useNavigate} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {login} from "../../redux/authSlice";
 import {AuthService} from "../../services/authService";
+import {toast} from "react-toastify";
 
 export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     function handleLoginClick(values) {
         AuthService.login(values.email, values.password)
-            .then(({error, user}) => {
+            .then(({error}) => {
                 if (!error) {
-                    dispatch(login(user));
                     handleChangeShow(false);
                     navigate("/profile");
+                } else {
+                    if (error.status == 401) {
+                        toast.error("Неправильный логин или пароль");
+                    }
                 }
             });
     }

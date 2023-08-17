@@ -1,16 +1,21 @@
 import {login, register} from "../apis/authAPI";
+import {store} from "../redux/store";
+import {logout as actionLogout, login as actionLogin} from "../redux/authSlice";
 
 export const AuthService = {
     login: (email, password) => {
         return login(email, password)
             .then(({error, data: user}) => {
-                if (!error)
+                if (!error) {
                     localStorage.setItem("user", JSON.stringify(user));
+                    store.dispatch(actionLogin(user));
+                }
                 return {error, user};
             });
     },
 
     logout: () => {
+        store.dispatch(actionLogout());
         localStorage.removeItem("user");
     },
 

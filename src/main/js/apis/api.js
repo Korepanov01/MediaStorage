@@ -20,7 +20,11 @@ export const request = (url, method, payload = undefined, params = undefined) =>
         .then(response => result.data = response.data)
         .catch(error => {
             result.error = convertError(error);
-            toastErrors(result.error.messages);
+            if (result.error.status == 401) {
+                AuthService.logout();
+            } else {
+                toastErrors(result.error.messages);
+            }
         }))
         .then(() => result);
 };
@@ -34,13 +38,11 @@ export function convertError(error) {
         errorObj.status = error.response.status;
         errorObj.messages = error.response?.data?.errors ? error.response.data.errors : [];
 
-        if (errorObj.status === 401)
-            errorObj.messages.push("Неавторизован");
-        if (errorObj.status === 403)
+        if (errorObj.status == 403)
             errorObj.messages.push("Нет доступа к ресурсу");
 
         if (errorObj.messages.length === 0)
-            errorObj.messages.push("Ошибка!");
+            errorObj.messages.push("Неизвестная ошибка");
     } else {
         errorObj.status = 0;
         errorObj.messages = error.request ? ["Нет ответа от сервера"] : ["Неизвестная ошибка"];

@@ -22,7 +22,6 @@ export const authSlice = createSlice({
         },
 
         logout: (state) => {
-            AuthService.logout();
             state.isLoggedIn = false;
             state.user = null;
         },
