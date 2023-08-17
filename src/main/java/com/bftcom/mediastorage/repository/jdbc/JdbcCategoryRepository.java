@@ -80,6 +80,6 @@ public class JdbcCategoryRepository extends JdbcCrudRepository<Category> impleme
 
         return searcher
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
-                .findByParameters(parameters.getPageIndex(), parameters.getPageSize(), this::mapRowToModel);
+                .findByParameters(this::mapRowToModel);
     }
 }
