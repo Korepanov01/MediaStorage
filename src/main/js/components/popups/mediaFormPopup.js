@@ -75,7 +75,7 @@ export function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
                                     <CategorySelector onSelect={(category) => setSelectedCategory(category)}/>
                                 </FormGroup>
                                 <FormGroup className={"d-flex justify-content-end"}>
-                                    <Button type="submit">Изменить</Button>
+                                    <Button type="submit">Готово</Button>
                                 </FormGroup>
                             </Form>
                         )}
