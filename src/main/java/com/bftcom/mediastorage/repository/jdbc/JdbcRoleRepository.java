@@ -67,9 +67,9 @@ public class JdbcRoleRepository extends JdbcCrudRepository<Role> implements Role
     @Override
     @Transactional(readOnly = true)
     public List<Role> findByUserId(@NonNull Long userId) {
-        return this.new ParametersSearcher()
+        return this.new ParametersSearcher().select()
                 .addStatement("JOIN \"public.user_role\" ON \"public.role\".id = \"public.user_role\".role_id")
-                .select().where()
+                .where()
                 .addEqualsCondition("\"public.user_role\".user_id", userId)
                 .findByParameters(this::mapRowToModel);
     }
