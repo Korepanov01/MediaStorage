@@ -31,7 +31,7 @@ public class FileService extends CrudService<File> {
     public void save(@NonNull File file, @NonNull Long mediaId, @NonNull Long fileTypeId)
             throws TooManyFilesException {
         if (mediaFileRepository.countByMediaId(mediaId) > 5)
-            throw new TooManyFilesException("Не может быть больше 10 файлов");
+            throw new TooManyFilesException("Слишком много файлов");
 
         fileRepository.save(file);
         mediaFileRepository.save(new MediaFile(mediaId, file.getId(), fileTypeId));

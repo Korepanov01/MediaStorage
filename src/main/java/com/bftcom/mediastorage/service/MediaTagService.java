@@ -21,12 +21,10 @@ public class MediaTagService {
     @Transactional
     public void save(@NonNull Long mediaId, @NonNull Long tagId) throws EntityNotFoundException, TooManyTagsException, EntityAlreadyExistsException {
         if (mediaTagRepository.mediaTagsCount(mediaId) > 20)
-            throw new TooManyTagsException("Тегов не может быть больше 20");
+            throw new TooManyTagsException("Слишком много тегов");
 
         if (mediaTagRepository.existsByMediaIdTagId(mediaId, tagId))
             throw new EntityAlreadyExistsException("Тег уже принадлежит медиа");
-
-        MediaTag mediaTag = new MediaTag(mediaId, tagId);
 
         mediaTagRepository.save(new MediaTag(mediaId, tagId));
     }
