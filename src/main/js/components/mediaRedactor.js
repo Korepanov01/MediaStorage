@@ -33,10 +33,10 @@ export function MediaRedactor({media, setMedia}) {
                 <Card.Header className={"text-center"}>Изменить</Card.Header>
                 <Card.Body>
                     <ButtonGroup vertical className={"w-100"}>
-                        <Button border className={"w-100"} onClick={() => setShowMediaForm(true)}>Основное</Button>
-                        <Button border className={"w-100"} onClick={() => setShowFilesForm(true)}>Файлы</Button>
-                        <Button border className={"w-100"} onClick={() => setShowTagsForm(true)}>Теги</Button>
-                        <Button border variant={"danger"} className={"w-100"} onClick={handleDeleteButtonClick}>Удалить</Button>
+                        <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Основное</Button>
+                        <Button className={"w-100"} onClick={() => setShowFilesForm(true)}>Файлы</Button>
+                        <Button className={"w-100"} onClick={() => setShowTagsForm(true)}>Теги</Button>
+                        <Button variant={"danger"} className={"w-100"} onClick={handleDeleteButtonClick}>Удалить</Button>
                     </ButtonGroup>
                 </Card.Body>
             </Card>
