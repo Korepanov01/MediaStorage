@@ -22,10 +22,12 @@ public class JwtUtils {
 
         AppUserDetails userPrincipal = (AppUserDetails) authentication.getPrincipal();
 
+        Date timestamp = new Date();
+
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setIssuedAt(timestamp)
+                .setExpiration(new Date(timestamp.getTime() + jwtExpirationMs))
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
