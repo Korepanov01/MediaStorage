@@ -3,11 +3,10 @@ import {login, register} from "../apis/authAPI";
 export const AuthService = {
     login: (email, password) => {
         return login(email, password)
-            .then(({error, data}) => {
-                if (!error) {
-                    localStorage.setItem("user", JSON.stringify(data));
-                    return data;
-                }
+            .then(({error, data: user}) => {
+                if (!error)
+                    localStorage.setItem("user", JSON.stringify(user));
+                return {error, user};
             });
     },
 

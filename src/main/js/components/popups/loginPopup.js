@@ -14,10 +14,12 @@ export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
 
     function handleLoginClick(values) {
         AuthService.login(values.email, values.password)
-            .then((user) => {
-                dispatch(login(user));
-                navigate("/profile");
-                handleChangeShow(false);
+            .then(({error, user}) => {
+                if (!error) {
+                    dispatch(login(user));
+                    handleChangeShow(false);
+                    navigate("/profile");
+                }
             });
     }
 
