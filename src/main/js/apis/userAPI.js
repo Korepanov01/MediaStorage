@@ -1,5 +1,5 @@
-import {getRequest} from "./baseApi";
+import {deleteRequest, getRequest} from "./baseApi";
 
 export const getUsers = (params) => getRequest('/users', params);
 
-export const deleteUser = (id) => getRequest(`/users/${id}`);
+export const deleteUser = (id) => deleteRequest(`/users/${id}`);

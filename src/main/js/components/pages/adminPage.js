@@ -5,6 +5,7 @@ import TagsTable from "../admintables/tagsTable";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {Roles} from "../../enums/roles";
+import UsersTable from "../admintables/usersTable";
 
 export function AdminPage() {
     const navigate = useNavigate()
@@ -24,7 +25,7 @@ export function AdminPage() {
                 </Nav.Item>
             </Nav>
             <Routes>
-                <Route path="users" element={<h1>users</h1>}/>
+                <Route path="users" element={<UsersTable currentUserId={user.id}/>}/>
                 <Route path="tags" element={<TagsTable/>}/>
                 <Route path="categories" element={<h1>categories</h1>}/>
             </Routes>
