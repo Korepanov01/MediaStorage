@@ -29,9 +29,15 @@ export function ProfilePage() {
         setPageIndex(newPageIndex);
     }
 
-    const handleFormSubmit = (postRequest) => {
-        postRequest.userId = user.id;
-        postMedia(postRequest)
+    const handleFormSubmit = (values) => {
+        let payload = {
+            userId: user.id,
+            name: values.name,
+            description: values.description,
+            mediaTypeId: values.mediaTypeId,
+            categoryId: values.category?.id
+        }
+        postMedia(payload)
             .then(({data, error}) => {
                 if (!error) navigate(`/media/${data.id}`);
             });
@@ -39,31 +45,22 @@ export function ProfilePage() {
 
     return (
         <>
-
-            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} onSubmit={handleFormSubmit} initialData={{
-                userId: 0,
-                categoryId: 0,
-                name: "string",
-                description: "string",
-                mediaTypeId: 0
-            }}/>
-            {user &&
-                <Row>
-                    <Col lg={4}>
-                        <InfoCard title={"Имя"}>
-                            {user.name}
-                        </InfoCard>
-                        <InfoCard title={"Почта"}>
-                            {user.email}
-                        </InfoCard>
-                        <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Добавить медиа</Button>
-                    </Col>
-                    <Col lg={8}>
-                        <MediaCards medias={medias} cardsInRow={CARDS_IN_ROW}/>
-                        <PageSelector pageIndex={pageIndex} onPageChange={onPageChange}/>
-                    </Col>
-                </Row>
-            }
+            <MediaFormPopup show={showMediaForm} onChangeShow={setShowMediaForm} onSubmit={handleFormSubmit}/>
+            <Row>
+                <Col lg={4}>
+                    <InfoCard title={"Имя"}>
+                        {user.name}
+                    </InfoCard>
+                    <InfoCard title={"Почта"}>
+                        {user.email}
+                    </InfoCard>
+                    <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Добавить медиа</Button>
+                </Col>
+                <Col lg={8}>
+                    <MediaCards medias={medias} cardsInRow={CARDS_IN_ROW}/>
+                    <PageSelector pageIndex={pageIndex} onPageChange={onPageChange}/>
+                </Col>
+            </Row>
         </>
     );
 }
