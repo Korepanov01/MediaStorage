@@ -1,12 +1,11 @@
 import React, {useLayoutEffect, useState} from "react";
-import {Button, ListGroup, Row, Col, ButtonGroup} from "react-bootstrap";
-import {deleteTag, getTags,} from "../../apis/tagAPI";
+import {Button, ListGroup, Row, Col, Form, Badge} from "react-bootstrap";
 import {PageSelector} from "../selectors/pageSelector";
 import {toast} from "react-toastify";
-import {ChangeTagFormPopup} from "../popups/changeTagFormPopup";
-import {AddTagForm} from "../forms/addTagForm";
 import {SearchBar} from "../selectors/searchBar";
 import {deleteUser, getUsers} from "../../apis/userAPI";
+import {Roles} from "../../enums/roles";
+import {giveAdmin, removeAdmin} from "../../apis/userRoleAPI";
 
 const PAGE_SIZE = 100;
 
@@ -23,10 +22,23 @@ export default function UsersTable({currentUserId}) {
     function handleDeleteClick(id, name) {
         deleteUser(id).then(({error}) => {
             if (!error) {
-                toast.success(`Тег "${name}" удален`);
+                toast.success(`Пользователь "${name}" удален`);
                 setUsers(users.filter(user => user.id !== id));
             }
         });
+    }
+
+    function handleAdminChange(userId, checked) {
+        (checked ? giveAdmin(userId) : removeAdmin(userId))
+            .then(({error}) => {
+                if (!error) {
+                    toast.success("Права изменены");
+                    let newRoles = checked
+                        ? (roles) => [...roles, Roles.ADMIN]
+                        : (roles) =>roles.filter(role => role !== Roles.ADMIN);
+                    setUsers(users.map(user => user.id === userId ? {...user, roles: newRoles(user.roles)} : user));
+                }
+            })
     }
 
     return (
@@ -35,15 +47,21 @@ export default function UsersTable({currentUserId}) {
             <ListGroup>
                 {users.map(user => (
                     <ListGroup.Item key={user.id}>
-                        <Row>
+                        <Row className="align-items-center">
                             <Col>
                                 <span>{user.name}</span>
+                            </Col>
+                            <Col>
                                 <span>{user.email}</span>
                             </Col>
-                            <Col className={"d-flex justify-content-end align-content-center"}>
-                                <ButtonGroup>
-                                    <Button variant={"danger"} onClick={() => handleDeleteClick(user.id, user.name)}>Удалить</Button>
-                                </ButtonGroup>
+                            <Col>
+                                {user.roles.includes(Roles.SUPER_ADMIN) && <Badge className="bg-danger">Супер-админ</Badge>}
+                            </Col>
+                            <Col>
+                                <Form.Check type="switch" label="Админ" checked={user.roles.includes(Roles.ADMIN)} onChange={(e) => handleAdminChange(user.id, e.target.checked)}/>
+                            </Col>
+                            <Col className="d-flex justify-content-end align-content-center">
+                                <Button variant="danger" onClick={() => handleDeleteClick(user.id, user.name)}>Удалить</Button>
                             </Col>
                         </Row>
                     </ListGroup.Item>
