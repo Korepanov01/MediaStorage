@@ -15,8 +15,8 @@ export const AuthService = {
     },
 
     logout: () => {
-        store.dispatch(actionLogout());
         localStorage.removeItem("user");
+        store.dispatch(actionLogout());
     },
 
     register: (name, email, password) => {
@@ -28,11 +28,8 @@ export const AuthService = {
     },
 
     getAuthHeader: () => {
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (user && user.jwt) {
-            return {Authorization: 'Bearer ' + user.jwt};
-        } else {
-            return {};
-        }
+        let userItem = localStorage.getItem('user');
+        if (!userItem) return {};
+        return {Authorization: 'Bearer ' + (JSON.parse(userItem)).jwt};
     }
 }

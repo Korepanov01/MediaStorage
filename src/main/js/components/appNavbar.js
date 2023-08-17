@@ -7,9 +7,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import {Button, Col, Row} from "react-bootstrap";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {logout} from "../redux/authSlice";
 import {Roles} from "../enums/roles";
 import {LoginPopup} from "./popups/loginPopup";
+import {AuthService} from "../services/authService";
 
 const PROFILE_TAB_NAME = "Личный кабинет";
 const SEARCH_TAB_NAME = "Поиск";
@@ -19,7 +19,6 @@ export function AppNavbar() {
     const [showLoginForm, setShowLoginForm] = useState(false);
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const roles = useSelector(state => state.auth.user?.roles);
-    const dispatch = useDispatch();
 
     return (
         <Row className={"w-100"}>
@@ -44,7 +43,7 @@ export function AppNavbar() {
             </Col>
             <Col lg={"2"} className={"d-flex align-items-center"}>
                 {isLoggedIn ? (
-                    <Button className={"w-100"} onClick={() => dispatch(logout())}>Выйти</Button>
+                    <Button className={"w-100"} onClick={() => AuthService.logout()}>Выйти</Button>
                 ) : (
                     <>
                         <LoginPopup onChangeShow={setShowLoginForm} show={showLoginForm}/>
