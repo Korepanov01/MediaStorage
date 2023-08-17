@@ -55,8 +55,9 @@ public class JdbcTagRepository extends JdbcCrudRepository<Tag> implements TagRep
     @Override
     @Transactional(readOnly = true)
     public List<Tag> findByMediaId(@NonNull Long mediaId) {
-        return this.new ParametersSearcher().select().where()
+        return this.new ParametersSearcher().select()
                 .addStatement("JOIN \"public.media_tag\" ON \"public.tag\".id = \"public.media_tag\".tag_id")
+                .where()
                 .addEqualsCondition("\"public.media_tag\".media_id", mediaId)
                 .findByParameters(this::mapRowToModel);
     }

@@ -1,6 +1,5 @@
 package com.bftcom.mediastorage.repository;
 
-import com.bftcom.mediastorage.model.searchparameters.TagSearchParameters;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,9 +24,6 @@ public class TagRepositoryTests {
 
     @Test
     public void FoundByMediaId() {
-        TagSearchParameters parameters = new TagSearchParameters();
-        parameters.setMediaId(1L);
-
-        Assert.assertFalse(repository.findByParameters(parameters).isEmpty());
+        Assert.assertFalse(repository.findByMediaId(1L).isEmpty());
     }
 }

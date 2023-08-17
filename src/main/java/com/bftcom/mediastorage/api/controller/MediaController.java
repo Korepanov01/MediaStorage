@@ -1,6 +1,10 @@
 package com.bftcom.mediastorage.api.controller;
 
+import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
+import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
+import com.bftcom.mediastorage.exception.TooManyTagsException;
 import com.bftcom.mediastorage.model.api.request.PostMediaRequest;
 import com.bftcom.mediastorage.model.api.request.PutMediaRequest;
 import com.bftcom.mediastorage.model.dto.*;
@@ -9,10 +13,7 @@ import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ public class MediaController implements FullController<
     private final CategoryService categoryService;
     private final MediaTypeService mediaTypeService;
     private final MediaFileService mediaFileService;
+    private final MediaTagService mediaTagService;
     private final TagService tagService;
     private final FileTypeService fileTypeService;
 
@@ -84,18 +86,40 @@ public class MediaController implements FullController<
         );
     }
 
-    @GetMapping("/{id}/files")
-    public ResponseEntity<List<FileInfoDto>> getFiles(
-            @PathVariable
-            Long id) {
-        List<MediaFile> mediaFiles = mediaFileService.getByMediaId(id);
-        return ResponseEntity.ok(mediaFiles.stream().map(this::convertToFileInfoDto).collect(Collectors.toList()));
-    }
-
     private FileInfoDto convertToFileInfoDto(MediaFile mediaFile) {
         FileType fileType = fileTypeService.findById(mediaFile.getFileTypeId()).orElseThrow();
         String url = FileService.getFileUrl(mediaFile.getFileId());
         return new FileInfoDto(mediaFile.getFileId(), url, fileType.getName());
+    }
+
+    @PostMapping("/{id}/add_tag")
+    public ResponseEntity<?> addTag(
+            @PathVariable
+            Long id,
+            @RequestParam
+            Long tagId) {
+        try {
+            mediaTagService.save(id, tagId);
+        } catch (EntityNotFoundException exception) {
+            return Response.getEntityNotFound(exception.getMessage());
+        } catch (EntityAlreadyExistsException | TooManyTagsException exception) {
+            return Response.getBadRequest(exception.getMessage());
+        }
+        return Response.getOk();
+    }
+
+    @DeleteMapping("/{id}/remove_tag")
+    public ResponseEntity<?> removeTag(
+            @PathVariable
+            Long id,
+            @RequestParam
+            Long tagId) {
+        try {
+            mediaTagService.delete(id, tagId);
+        } catch (EntityNotFoundException exception) {
+            return Response.getEntityNotFound(exception.getMessage());
+        }
+        return Response.getOk();
     }
 
     @Override

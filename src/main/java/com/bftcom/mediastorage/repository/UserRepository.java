@@ -1,6 +1,5 @@
 package com.bftcom.mediastorage.repository;
 
-import com.bftcom.mediastorage.model.entity.MediaType;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import lombok.NonNull;
@@ -11,7 +10,7 @@ import java.util.Optional;
 public interface UserRepository extends ParametersSearchRepository<User, SearchStringParameters> {
 
     @Transactional(readOnly = true)
-    Optional<MediaType> findByName(@NonNull String name);
+    Optional<User> findByName(@NonNull String name);
 
     @Transactional(readOnly = true)
     Optional<User> findByEmail(@NonNull String email);
