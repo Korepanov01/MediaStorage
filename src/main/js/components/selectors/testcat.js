@@ -2,22 +2,59 @@ import React, {useLayoutEffect, useState} from "react";
 import {getCategories} from "../../apis/categoryAPI";
 
 export function Testcat() {
-    const [parentCategory, setParentCategory] = useState(null);
-    const [childrenCategories, setChildrenCategories] = useState([]);
+    const [parents, setParents] = useState([]);
+    const [children, setChildren] = useState([]);
 
     useLayoutEffect(() => {
-        getCategories({parentCategoryId: parentCategory?.id ?? 0})
+        getCategories({parentCategoryId: 0})
             .then(({error, data}) => {
                 if (!error) {
-                    setChildrenCategories(data);
+                    setChildren(data);
+                }
+            });
+    }, []);
+
+    function handleExpand(child) {
+        getCategories({parentCategoryId: child.id})
+            .then(({error, data}) => {
+                if (!error && data.length !== 0) {
+                    setChildren(data);
+                    setParents([...parents, child]);
                 }
             })
-    }, [parentCategory])
+    }
+
+    function handleBack(parentCategory) {
+        getCategories({parentCategoryId: parentCategory.id})
+            .then(({error, data}) => {
+                if (!error) {
+                    let newParents = [...parents];
+                    while (parents.pop().parentCategoryId !== parentCategory.id) {}
+                    setParents(newParents);
+
+                    setChildren(data);
+                }
+            });
+    }
+
+    function handleFirst() {
+        getCategories({parentCategoryId: 0})
+            .then(({error, data}) => {
+                if (!error) {
+                    setParents([]);
+                    setChildren(data);
+                }
+            })
+    }
 
     return (
         <>
-            {childrenCategories.map(child =>
-                <div>{child.name}</div>
+            <h5 onClick={() => handleFirst()}>Категории</h5>
+            {parents.map(parent =>
+                <h5 onClick={() => handleBack(parent)}>{parent.name}</h5>
+            )}
+            {children.map(child =>
+                <h6 onClick={() => handleExpand(child)}>{child.name}</h6>
             )}
         </>
     );
