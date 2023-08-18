@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect} from 'react';
+import React, {useLayoutEffect} from 'react';
 import Nav from "react-bootstrap/Nav";
 import {Link, Route, Routes} from "react-router-dom";
 import TagsTable from "../admintables/tagsTable";
@@ -32,8 +32,8 @@ export function AdminPage() {
                         </Nav.Item>
                     </Nav>
                     <Routes>
-                        <Route path='/' element={<UsersTable currentUserId={user.id}/>}/>
-                        <Route path='users' element={<UsersTable currentUserId={user.id}/>}/>
+                        <Route path='/' element={<UsersTable currentUser={user}/>}/>
+                        <Route path='users' element={<UsersTable currentUser={user}/>}/>
                         <Route path="tags" element={<TagsTable/>}/>
                         <Route path="categories" element={<CategoryRedactor/>}/>
                     </Routes>
