@@ -28,15 +28,15 @@ export function RegisterPopup({show, setShow}) {
     return (
         <Modal show={show} onHide={() => setShow(false)}>
             <Modal.Header>
-                <h1 className={'text-center w-100'}>Регистрация</h1>
+                <h1 className='text-center w-100'>Регистрация</h1>
             </Modal.Header>
             <Modal.Body>
                 <Formik
-                    initialValues={{ name: '', email: '', password: '', repeatPassword: '' }}
+                    initialValues={{name: '', email: '', password: '', repeatPassword: ''}}
                     onSubmit={handleRegisterClick}
                     validationSchema={validationSchema}
                 >
-                    {({ handleChange, handleSubmit, values, errors, touched }) => (
+                    {({handleChange, handleSubmit, values, errors, touched}) => (
                         <Form onSubmit={handleSubmit}>
                             <FormGroup>
                                 <Form.Label>Имя</Form.Label>
@@ -83,7 +83,7 @@ export function RegisterPopup({show, setShow}) {
                                 <Form.Control.Feedback type="invalid">{errors.repeatPassword}</Form.Control.Feedback>
                             </FormGroup>
                             <FormGroup>
-                                <Button type="submit">Зарегистрироваться</Button>
+                                <Button className="w-100" type="submit">Зарегистрироваться</Button>
                             </FormGroup>
                         </Form>
                     )}

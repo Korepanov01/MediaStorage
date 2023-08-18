@@ -65,7 +65,7 @@ export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
                                 <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                             </FormGroup>
                             <FormGroup>
-                                <Button type="submit">Войти</Button>
+                                <Button className="w-100" type="submit">Войти</Button>
                             </FormGroup>
                         </Form>
                     )}
