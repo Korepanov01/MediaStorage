@@ -113,7 +113,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
                                 {filesByType[fileType].map(file => (
                                     <Card key={file.id}>
                                         <Card.Body>
-                                            {(media.mediaType === MediaTypes.images || fileType === FileTypes.thumbnail) &&
+                                            {(media.mediaType.name === MediaTypes.images || fileType === FileTypes.thumbnail) &&
                                                 <a href={file.url} download>
                                                     <Card.Img src={file.url}/>
                                                 </a>
