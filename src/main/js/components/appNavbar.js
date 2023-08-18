@@ -6,7 +6,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import {Button, ButtonGroup, Col, Row} from "react-bootstrap";
 import {useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {Roles} from "../enums/roles";
 import {LoginPopup} from "./popups/loginPopup";
 import {AuthService} from "../services/authService";
