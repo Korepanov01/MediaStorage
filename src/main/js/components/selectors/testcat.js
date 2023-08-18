@@ -1,6 +1,6 @@
 import React, {useLayoutEffect, useState} from "react";
 import {getCategories} from "../../apis/categoryAPI";
-import {Card, Form} from "react-bootstrap";
+import {Badge, Card, Form} from "react-bootstrap";
 
 export function Testcat({selectedCategory, setSelectedCategory}) {
     const [parents, setParents] = useState([]);
@@ -26,46 +26,38 @@ export function Testcat({selectedCategory, setSelectedCategory}) {
     }
 
     function handleBack(parent) {
-        getCategories({parentCategoryId: parent.id})
+        let newParents = [...parents];
+        while (newParents.pop().id !== parent.id) {}
+
+        getCategories({parentCategoryId: newParents.length === 0 ? 0 : newParents[newParents.length - 1].id})
             .then(({error, data}) => {
                 if (!error) {
                     setSelectedCategory(null);
-
-                    let newParents = [...parents];
-                    while (newParents.pop().parentCategoryId !== parent.id) {}
                     setParents(newParents);
-
                     setChildren(data);
                 }
             });
     }
 
-    function handleFirst() {
-        getCategories({parentCategoryId: 0})
-            .then(({error, data}) => {
-                if (!error) {
-                    setSelectedCategory(null);
-                    setParents([]);
-                    setChildren(data);
-                }
-            })
-    }
-
     return (
         <Card>
-            <Card.Header>
-                <h6 onClick={() => handleFirst()}>Категории</h6>
-                {parents.map(parent =>
-                    <h6 key={parent.id} onClick={() => handleBack(parent)}>{parent.name}</h6>
-                )}
-            </Card.Header>
+            {parents.length !== 0 &&
+                <Card.Header>
+                    {parents.map((parent, i) =>
+                        <div key={parent.id} style={{paddingLeft: `${i * 20}px`}}>
+                            <Badge role="button" onClick={() => handleBack(parent)}>⬉</Badge>
+                            <span>{parent.name}</span>
+                        </div>
+                    )}
+                </Card.Header>
+            }
             <Card.Body>
                 {children.map(child =>
                     <Form.Check
                         key={child.id}
                         type="radio"
                         checked={child.id === selectedCategory?.id}
-                        onChange={(e) => setSelectedCategory(child)}
+                        onChange={() => setSelectedCategory(child)}
                         onClick={() => handleExpand(child)}
                         label={child.name}
                     />
