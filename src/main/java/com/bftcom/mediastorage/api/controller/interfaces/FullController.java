@@ -3,7 +3,6 @@ package com.bftcom.mediastorage.api.controller.interfaces;
 import com.bftcom.mediastorage.model.api.request.ToEntityConvertable;
 import com.bftcom.mediastorage.model.dto.BaseDto;
 import com.bftcom.mediastorage.model.entity.BaseEntity;
-import com.bftcom.mediastorage.model.searchparameters.PagingParameters;
 
 public interface FullController <
         Dto extends BaseDto,
@@ -11,7 +10,7 @@ public interface FullController <
         Entity extends BaseEntity,
         PostRequest extends ToEntityConvertable<Entity>,
         PutRequest extends ToEntityConvertable<Entity>,
-        SearchParameters extends PagingParameters>
+        SearchParameters>
         extends
         ParametersSearchController<ListItemDto, Entity, SearchParameters>,
         PutController<Entity, PutRequest>,
