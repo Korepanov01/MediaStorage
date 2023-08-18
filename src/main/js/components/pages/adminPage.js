@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Nav from "react-bootstrap/Nav";
-import {Link, Route, Routes} from "react-router-dom";
+import {Link, Route, Routes, useRoutes} from "react-router-dom";
 import TagsTable from "../admintables/tagsTable";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -26,7 +26,8 @@ export function AdminPage() {
                 </Nav.Item>
             </Nav>
             <Routes>
-                <Route path="users" element={<UsersTable currentUserId={user.id}/>}/>
+                <Route path='/' element={<UsersTable currentUserId={user.id}/>}/>
+                <Route path='users' element={<UsersTable currentUserId={user.id}/>}/>
                 <Route path="tags" element={<TagsTable/>}/>
                 <Route path="categories" element={<CategoryRedactor/>}/>
             </Routes>
