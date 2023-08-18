@@ -8,31 +8,25 @@ export function Files({filesUrls, mediaTypeName}) {
         <InfoCard title={"Файлы"}>
             {filesUrls.length !== 0 &&
                 <>
-                    {mediaTypeName === MediaTypes.images &&
-                        <Carousel>
-                            {filesUrls.map((url, i) => (
-                                <Carousel.Item key={i}>
+                    <Carousel>
+                        {filesUrls.map((url, i) => (
+                            <Carousel.Item key={i}>
+                                {mediaTypeName === MediaTypes.images &&
                                     <a href={url} download>
                                         <Image className={"w-100"} src={url}/>
                                     </a>
-                                </Carousel.Item>
-                            ))}
-                        </Carousel>
-                    }
-                    {mediaTypeName === MediaTypes.audio &&
-                        <>
-                            {filesUrls.map((url, i) => (
-                                <audio className={"w-100"} key={i} controls src={url}/>
-                            ))}
-                        </>
-                    }
-                    {mediaTypeName === MediaTypes.video &&
-                        <>
-                            {filesUrls.map((url, i) => (
-                                <video controls className={"w-100"} key={i} src={url}/>
-                            ))}
-                        </>
-                    }
+                                }
+                                {mediaTypeName === MediaTypes.video &&
+                                    <a href={url} download>
+                                        <video controls className={"w-100"} key={i} src={url}/>
+                                    </a>
+                                }
+                                {mediaTypeName === MediaTypes.audio &&
+                                    <audio className={"w-100"} key={i} controls src={url}/>
+                                }
+                            </Carousel.Item>
+                        ))}
+                    </Carousel>
                 </>
             }
         </InfoCard>
