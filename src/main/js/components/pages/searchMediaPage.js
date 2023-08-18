@@ -19,7 +19,7 @@ export function SearchMediaPage() {
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedTypesIds, setSelectedTypesIds] = useState([]);
     const [searchString, setSearchString] = useState("");
-    const [selectedCategoryId, setSelectedCategoryId] = useState(undefined);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     useLayoutEffect(updateMedias, [pageIndex]);
 
@@ -29,7 +29,7 @@ export function SearchMediaPage() {
             pageSize: PAGE_SIZE,
             tagIds: selectedTags.map(tag => tag.id),
             searchString: searchString,
-            categoryId: selectedCategoryId,
+            categoryId: selectedCategory?.id,
             typeIds: selectedTypesIds
         }).then(({data: medias, error}) => {
             if (!error) setMedias(medias);
@@ -66,8 +66,7 @@ export function SearchMediaPage() {
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>Категория</Form.Label>
-                                <Testcat/>
-                                {/*<CategorySelector onSelect={(category) => setSelectedCategoryId(category.id)}/>*/}
+                                <Testcat selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
                             </Form.Group>
                         </Card.Body>
                         <Card.Footer>

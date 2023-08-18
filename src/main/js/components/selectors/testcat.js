@@ -2,10 +2,9 @@ import React, {useLayoutEffect, useState} from "react";
 import {getCategories} from "../../apis/categoryAPI";
 import {Card, Form} from "react-bootstrap";
 
-export function Testcat() {
+export function Testcat({selectedCategory, setSelectedCategory}) {
     const [parents, setParents] = useState([]);
     const [children, setChildren] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
 
     useLayoutEffect(() => {
         getCategories({parentCategoryId: 0})
@@ -63,6 +62,7 @@ export function Testcat() {
             <Card.Body>
                 {children.map(child =>
                     <Form.Check
+                        key={child.id}
                         type="radio"
                         checked={child.id === selectedCategory?.id}
                         onChange={(e) => setSelectedCategory(child)}
