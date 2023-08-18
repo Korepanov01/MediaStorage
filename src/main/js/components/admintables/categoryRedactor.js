@@ -25,27 +25,23 @@ export default function CategoryRedactor() {
 
     }
 
-    function handleAdd({name}) {
-        let parentCategoryId = null;
-
-        if (addingSubcategory) {
-            if (!selectedCategory) {
-                toast.error("Не выбрана категория!");
-                return;
-            }
-            parentCategoryId = selectedCategory.id;
-        } else {
-            if (parents.length !== 0) {
-                parentCategoryId = parents[parents.length - 1];
-            }
+    function handleAdd({ name }) {
+        if (addingSubcategory && !selectedCategory) {
+            toast.error('Не выбрана категория!');
+            return;
         }
+
+        let parentCategoryId = addingSubcategory ? selectedCategory.id : parents[parents.length - 1]?.id;
 
         postCategory(name, parentCategoryId)
             .then(({error, data}) => {
-                if(!error) {
-                    if (!addingSubcategory)
-                        setChildren([...children, {id: data.id, name, parentCategoryId}]);
+                if (!error) {
+                    if (!addingSubcategory) {
+                        let newCategory = {id: data.id, name, parentCategoryId: parentCategoryId ?? 0};
+                        setChildren(prevChildren => [...prevChildren, newCategory]);
+                    }
                     toast.success(`Категория "${name}" добавлена`);
+                    setShowCategoryPopup(false);
                 }
             });
     }
