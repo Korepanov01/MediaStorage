@@ -3,7 +3,7 @@ import {Carousel, Image} from "react-bootstrap";
 import {InfoCard} from "./decor/infoCard";
 import {MediaTypes} from "../enums/mediaTypes";
 
-export function FilesCarousel({filesUrls, mediaTypeName}) {
+export function Files({filesUrls, mediaTypeName}) {
     return (
         <InfoCard title={"Файлы"}>
             {filesUrls.length !== 0 &&
@@ -23,6 +23,13 @@ export function FilesCarousel({filesUrls, mediaTypeName}) {
                         <>
                             {filesUrls.map((url, i) => (
                                 <audio className={"w-100"} key={i} controls src={url}/>
+                            ))}
+                        </>
+                    }
+                    {mediaTypeName === MediaTypes.video &&
+                        <>
+                            {filesUrls.map((url, i) => (
+                                <a className={"w-100"} key={i} href={url}>Видео</a>
                             ))}
                         </>
                     }

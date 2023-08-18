@@ -5,6 +5,8 @@ import {getFileTypes} from "../../apis/fileTypeAPI";
 import {toast} from "react-toastify";
 import Container from "react-bootstrap/Container";
 import {Formik} from "formik";
+import {MediaTypes} from "../../enums/mediaTypes";
+import {FileTypes} from "../../enums/fileTypes";
 
 export function FilesFormPopup({show, setShow, setMedia, media}) {
     const [fileTypes, setFileTypes] = useState([]);
@@ -111,9 +113,17 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
                                 {filesByType[fileType].map(file => (
                                     <Card key={file.id}>
                                         <Card.Body>
-                                            <a href={file.url} download>
-                                                <Card.Img src={file.url}/>
-                                            </a>
+                                            {(media.mediaType === MediaTypes.images || fileType === FileTypes.thumbnail) &&
+                                                <a href={file.url} download>
+                                                    <Card.Img src={file.url}/>
+                                                </a>
+                                            }
+                                            {media.mediaType.name === MediaTypes.audio &&
+                                                <audio className={"w-100"} key={file.id} controls src={file.url}/>
+                                            }
+                                            {media.mediaType.name === MediaTypes.video &&
+                                                <a className={"w-100"} key={file.id} href={file.url}>Видео</a>
+                                            }
                                         </Card.Body>
                                         <Card.Footer className={"w-100"}>
                                             <Button onClick={() => handleDeleteFile(file.id)} className={"w-100"} variant={"danger"}>Удалить</Button>

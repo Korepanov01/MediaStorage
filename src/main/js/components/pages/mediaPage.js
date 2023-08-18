@@ -2,7 +2,7 @@ import React, {useLayoutEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Badge, Col, Row, Spinner} from "react-bootstrap";
 import {getMediaById} from "../../apis/mediaAPI";
-import {FilesCarousel} from "../fileCarousel";
+import {Files} from "../files";
 import {FileTypes} from "../../enums/fileTypes";
 import {MediaRedactor} from "../mediaRedactor";
 import {useSelector} from "react-redux";
@@ -59,7 +59,7 @@ export function MediaPage() {
                         }
                     </Col>
                     <Col lg={8}>
-                        <FilesCarousel filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)} mediaTypeName={media.mediaType.name}/>
+                        <Files filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)} mediaTypeName={media.mediaType.name}/>
                     </Col>
                 </Row>
             )}
