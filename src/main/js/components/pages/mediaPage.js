@@ -59,7 +59,7 @@ export function MediaPage() {
                         }
                     </Col>
                     <Col lg={8}>
-                        <FilesCarousel filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)}/>
+                        <FilesCarousel filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)} mediaTypeName={media.mediaType.name}/>
                     </Col>
                 </Row>
             )}

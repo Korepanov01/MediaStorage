@@ -1,25 +1,33 @@
 import React from "react";
-import {Button, Carousel, Image} from "react-bootstrap";
-import {defaults} from "../enums/defaults";
+import {Carousel, Image} from "react-bootstrap";
 import {InfoCard} from "./decor/infoCard";
+import {MediaTypes} from "../enums/mediaTypes";
 
-export function FilesCarousel({filesUrls: filesUrls}) {
+export function FilesCarousel({filesUrls, mediaTypeName}) {
     return (
         <InfoCard title={"Файлы"}>
-            <Carousel>
-                {filesUrls.length === 0 &&
-                    <Carousel.Item>
-                        <Image className={"w-100"} src={defaults.defaultImageUrl}/>
-                    </Carousel.Item>
-                }
-                {filesUrls.map((url, i) => (
-                    <Carousel.Item key={i}>
-                        <a href={url} download>
-                            <Image className={"w-100"} src={url}/>
-                        </a>
-                    </Carousel.Item>
-                ))}
-            </Carousel>
+            {filesUrls.length !== 0 &&
+                <>
+                    {mediaTypeName === MediaTypes.images &&
+                        <Carousel>
+                            {filesUrls.map((url, i) => (
+                                <Carousel.Item key={i}>
+                                    <a href={url} download>
+                                        <Image className={"w-100"} src={url}/>
+                                    </a>
+                                </Carousel.Item>
+                            ))}
+                        </Carousel>
+                    }
+                    {mediaTypeName === MediaTypes.audio &&
+                        <>
+                            {filesUrls.map((url, i) => (
+                                <audio className={"w-100"} key={i} controls src={url}/>
+                            ))}
+                        </>
+                    }
+                </>
+            }
         </InfoCard>
     );
 }
