@@ -3,7 +3,7 @@ import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {Formik} from "formik";
 import {object, string} from "yup"
 
-export function ChangeCategoryPopup({show, setShow: setShow, onSubmit: handleSubmit}) {
+export function ChangeCategoryPopup({show, setShow: setShow, onSubmit: handleSubmit, selectedCategory}) {
 
     const validationSchema = object({
         name: string().required("Имя не может быть пустым").max(200, "Имя категории не может быть длиннее 200 символов!")
@@ -13,7 +13,7 @@ export function ChangeCategoryPopup({show, setShow: setShow, onSubmit: handleSub
         <Modal show={show} onHide={() => setShow(false)}>
             <Modal.Body>
                 <Formik
-                    initialValues={{name: ''}}
+                    initialValues={{name: selectedCategory?.name ?? ''}}
                     onSubmit={handleSubmit}
                     validationSchema={validationSchema}
                 >
@@ -25,7 +25,7 @@ export function ChangeCategoryPopup({show, setShow: setShow, onSubmit: handleSub
                                     type="text"
                                     name="name"
                                     onChange={handleChange}
-                                    value={values.tagName}
+                                    value={values.name}
                                     isInvalid={touched.name && errors.name}
                                 />
                                 <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>

@@ -2,7 +2,7 @@ import React from "react";
 import {CategorySelector} from "../selectors/categorySelector";
 import {useState} from "react";
 import {Button, ButtonGroup} from "react-bootstrap";
-import {deleteCategory, postCategory} from "../../apis/categoryAPI";
+import {deleteCategory, postCategory, putCategory} from "../../apis/categoryAPI";
 import {ChangeCategoryPopup} from "../popups/changeCategoryPopup";
 import {toast} from "react-toastify";
 
@@ -14,6 +14,7 @@ export default function CategoryRedactor() {
 
     const [addingSubcategory, setAddingSubcategory] = useState(false);
     const [showCategoryPopup, setShowCategoryPopup] = useState(false);
+    const [showPutCategoryPopup, setPutShowCategoryPopup] = useState(false);
 
     function handleDelete() {
         deleteCategory(selectedCategory.id)
@@ -46,8 +47,27 @@ export default function CategoryRedactor() {
             });
     }
 
+    function handlePut({name}) {
+        if (!selectedCategory) {
+            toast.error('Не выбрана категория!');
+            return;
+        }
+
+        putCategory(selectedCategory.id, name, selectedCategory.parentCategoryId !== 0 ? selectedCategory.parentCategoryId : undefined)
+            .then(({error}) => {
+                if (!error) {
+                    let newCategory = {...selectedCategory, name};
+                    setChildren(prevChildren => prevChildren.map(category => category.id === selectedCategory.id ? newCategory : category));
+                    toast.success(`Категория "${selectedCategory.name}" изменена на "${newCategory.name}"`);
+                    setSelectedCategory(newCategory);
+                    setShowCategoryPopup(false);
+                }
+            });
+    }
+
     return (
         <>
+            <ChangeCategoryPopup show={showPutCategoryPopup} setShow={setPutShowCategoryPopup} onSubmit={handlePut} selectedCategory={selectedCategory}/>
             <ChangeCategoryPopup show={showCategoryPopup} setShow={setShowCategoryPopup} onSubmit={handleAdd}/>
             <CategorySelector selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} parentsState={[parents, setParents]} childrenState={[children, setChildren]} resetOnChange={true}/>
             <ButtonGroup>
@@ -59,6 +79,9 @@ export default function CategoryRedactor() {
                     setShowCategoryPopup(true);
                     setAddingSubcategory(true);
                 }}>Добавить подкатегорию</Button>
+                <Button disabled={!selectedCategory} onClick={() => {
+                    setPutShowCategoryPopup(true);
+                }}>Изменить</Button>
                 <Button variant="danger" onClick={handleDelete}>Удалить</Button>
             </ButtonGroup>
         </>
