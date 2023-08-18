@@ -58,14 +58,20 @@ export default function UsersTable({currentUser}) {
                                 <span>{user.email}</span>
                             </Col>
                             <Col>
-                                {!user.roles.includes(Roles.SUPER_ADMIN) &&
-                                    <Form.Check type="switch" label="Админ" checked={user.roles.includes(Roles.ADMIN)} onChange={(e) => handleAdminChange(user.id, e.target.checked)}/>
-                                    ||
+                                {user.roles.includes(Roles.SUPER_ADMIN) &&
                                     <Badge className="bg-danger">Супер-админ</Badge>
+                                    ||
+                                    <>
+                                        {currentUser.roles.includes(Roles.SUPER_ADMIN) &&
+                                            <Form.Check type="switch" label="Админ" checked={user.roles.includes(Roles.ADMIN)} onChange={(e) => handleAdminChange(user.id, e.target.checked)}/>
+                                        }
+                                    </>
                                 }
+
                             </Col>
                             <Col className="d-flex justify-content-end align-content-center">
-                                <Button variant="danger" onClick={() => handleDeleteClick(user.id, user.name)}>Удалить</Button>
+                                <Button variant="danger"
+                                        onClick={() => handleDeleteClick(user.id, user.name)}>Удалить</Button>
                             </Col>
                         </Row>
                     </ListGroup.Item>
