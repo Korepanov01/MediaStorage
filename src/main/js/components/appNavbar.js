@@ -4,12 +4,13 @@ const React = require('react');
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import {Button, Col, Row} from "react-bootstrap";
+import {Button, ButtonGroup, Col, Row} from "react-bootstrap";
 import {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Roles} from "../enums/roles";
 import {LoginPopup} from "./popups/loginPopup";
 import {AuthService} from "../services/authService";
+import {RegisterPopup} from "./popups/registerPopup";
 
 const PROFILE_TAB_NAME = "Личный кабинет";
 const SEARCH_TAB_NAME = "Поиск";
@@ -17,6 +18,8 @@ const ADMIN_TAB_NAME = "Админ-панель";
 
 export function AppNavbar() {
     const [showLoginForm, setShowLoginForm] = useState(false);
+    const [showRegisterForm, setShowRegisterForm] = useState(false);
+
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const roles = useSelector(state => state.auth.user?.roles);
 
@@ -46,8 +49,13 @@ export function AppNavbar() {
                     <Button className={"w-100"} onClick={() => AuthService.logout()}>Выйти</Button>
                 ) : (
                     <>
+                        <RegisterPopup setShow={setShowRegisterForm} show={showRegisterForm}/>
                         <LoginPopup onChangeShow={setShowLoginForm} show={showLoginForm}/>
-                        <Button className={"w-100"} onClick={() => setShowLoginForm(true)}>Войти</Button>
+
+                        <ButtonGroup>
+                            <Button className={"w-100"} onClick={() => setShowRegisterForm(true)}>Регистрация</Button>
+                            <Button className={"w-100"} onClick={() => setShowLoginForm(true)}>Вход</Button>
+                        </ButtonGroup>
                     </>
                 )}
             </Col>
