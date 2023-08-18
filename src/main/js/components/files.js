@@ -8,18 +8,16 @@ export function Files({filesUrls, mediaTypeName}) {
         <InfoCard title={"Файлы"}>
             {filesUrls.length !== 0 &&
                 <>
-                    <Carousel>
+                    <Carousel style={{paddingBottom: "10px", }}>
                         {filesUrls.map((url, i) => (
-                            <Carousel.Item key={i}>
+                            <Carousel.Item key={i} style={{padding: "0 100px 0 100px"}}>
                                 {mediaTypeName === MediaTypes.images &&
                                     <a href={url} download>
                                         <Image className={"w-100"} src={url}/>
                                     </a>
                                 }
                                 {mediaTypeName === MediaTypes.video &&
-                                    <a href={url} download>
-                                        <video controls className={"w-100"} key={i} src={url}/>
-                                    </a>
+                                    <video controls className={"w-100"} key={i} src={url}/>
                                 }
                                 {mediaTypeName === MediaTypes.audio &&
                                     <audio className={"w-100"} key={i} controls src={url}/>
