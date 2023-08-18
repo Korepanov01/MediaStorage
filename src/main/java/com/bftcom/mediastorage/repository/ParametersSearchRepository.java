@@ -1,13 +1,12 @@
 package com.bftcom.mediastorage.repository;
 
 import com.bftcom.mediastorage.model.entity.BaseEntity;
-import com.bftcom.mediastorage.model.searchparameters.PagingParameters;
 import lombok.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface ParametersSearchRepository<Entity extends BaseEntity, Parameters extends PagingParameters>
+public interface ParametersSearchRepository<Entity extends BaseEntity, Parameters>
         extends CrudRepository<Entity>{
 
     @Transactional(readOnly = true)
