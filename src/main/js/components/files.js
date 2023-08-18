@@ -29,7 +29,7 @@ export function Files({filesUrls, mediaTypeName}) {
                     {mediaTypeName === MediaTypes.video &&
                         <>
                             {filesUrls.map((url, i) => (
-                                <a className={"w-100"} key={i} href={url}>Видео</a>
+                                <video controls className={"w-100"} key={i} src={url}/>
                             ))}
                         </>
                     }

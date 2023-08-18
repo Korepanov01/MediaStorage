@@ -118,11 +118,11 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
                                                     <Card.Img src={file.url}/>
                                                 </a>
                                             }
-                                            {media.mediaType.name === MediaTypes.audio &&
+                                            {media.mediaType.name === MediaTypes.audio && fileType === FileTypes.main &&
                                                 <audio className={"w-100"} key={file.id} controls src={file.url}/>
                                             }
-                                            {media.mediaType.name === MediaTypes.video &&
-                                                <a className={"w-100"} key={file.id} href={file.url}>Видео</a>
+                                            {media.mediaType.name === MediaTypes.video && fileType === FileTypes.main &&
+                                                <video controls className={"w-100"} key={file.id} href={file.url}/>
                                             }
                                         </Card.Body>
                                         <Card.Footer className={"w-100"}>
