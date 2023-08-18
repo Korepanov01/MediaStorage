@@ -2,7 +2,7 @@ import React, {useLayoutEffect, useState} from "react";
 import {getCategories} from "../../apis/categoryAPI";
 import {Badge, Card} from "react-bootstrap";
 
-export function CategorySelector({selectedCategory, setSelectedCategory, parentsState= undefined, childrenState=undefined}) {
+export function CategorySelector({selectedCategory, setSelectedCategory, parentsState= undefined, childrenState=undefined}, resetOnChange = false) {
     const [parents, setParents] = !parentsState ? useState([]) : parentsState;
     const [children, setChildren] = !childrenState ? useState([]) : childrenState;
 
@@ -21,6 +21,7 @@ export function CategorySelector({selectedCategory, setSelectedCategory, parents
                 if (!error && data.length !== 0) {
                     setChildren(data);
                     setParents([...parents, child]);
+                    if (resetOnChange) setSelectedCategory(null);
                 }
             })
     }
@@ -34,6 +35,7 @@ export function CategorySelector({selectedCategory, setSelectedCategory, parents
                 if (!error) {
                     setParents(newParents);
                     setChildren(data);
+                    if (resetOnChange) setSelectedCategory(null);
                 }
             });
     }
@@ -58,7 +60,7 @@ export function CategorySelector({selectedCategory, setSelectedCategory, parents
                     </div>
                 )}
             </Card.Body>
-            {selectedCategory &&
+            {!resetOnChange && selectedCategory &&
                 <Card.Footer>
                     <Badge role="button" onClick={() => setSelectedCategory(null)}>{selectedCategory.name}</Badge>
                 </Card.Footer>
