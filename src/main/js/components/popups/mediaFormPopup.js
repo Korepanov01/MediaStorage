@@ -1,9 +1,9 @@
 import React, {useLayoutEffect, useState} from 'react';
 import {Button, Form, FormGroup, Modal} from "react-bootstrap";
-import {CategorySelector} from "../selectors/categorySelector";
 import {getMediaTypes} from "../../apis/mediaTypeAPI";
 import {Formik} from "formik";
 import {object, string} from "yup";
+import {CategorySelector} from "../selectors/categorySelector";
 
 
 export function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
@@ -72,7 +72,7 @@ export function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
                                 </FormGroup>
                                 <FormGroup>
                                     <Form.Label>Категория</Form.Label>
-                                    <CategorySelector onSelect={(category) => setSelectedCategory(category)}/>
+                                    <CategorySelector selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
                                 </FormGroup>
                                 <FormGroup className={"d-flex justify-content-end"}>
                                     <Button type="submit">Готово</Button>

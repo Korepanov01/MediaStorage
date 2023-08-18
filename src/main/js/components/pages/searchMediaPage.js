@@ -5,9 +5,8 @@ import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import {getMedias} from "../../apis/mediaAPI";
 import {Title} from "../decor/title";
 import {TagsSelector} from "../selectors/tagsSelector";
-import {CategorySelector} from "../selectors/categorySelector";
 import {MediaTypeSelector} from "../selectors/mediaTypeSelector";
-import {Testcat} from "../selectors/testcat";
+import {CategorySelector} from "../selectors/categorySelector";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;
@@ -66,7 +65,7 @@ export function SearchMediaPage() {
                             </Form.Group>
                             <Form.Group>
                                 <Form.Label>Категория</Form.Label>
-                                <Testcat selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
+                                <CategorySelector selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
                             </Form.Group>
                         </Card.Body>
                         <Card.Footer>

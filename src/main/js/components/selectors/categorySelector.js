@@ -1,54 +1,68 @@
-import React, {useEffect} from "react";
-import {useState} from "react";
-import DropdownTreeSelect from "react-dropdown-tree-select";
+import React, {useLayoutEffect, useState} from "react";
 import {getCategories} from "../../apis/categoryAPI";
+import {Badge, Card} from "react-bootstrap";
 
-export function CategorySelector({onSelect: handleSelect}) {
-    const [categories, setCategories] = useState([]);
+export function CategorySelector({selectedCategory, setSelectedCategory}) {
+    const [parents, setParents] = useState([]);
+    const [children, setChildren] = useState([]);
 
-    const convertToNode = category => ({
-        label: category.name,
-        value: category,
-        children: []
-    });
-
-    const fetchCategoryTree = async (parent) => {
-        const searchParameters = { parentCategoryId: parent?.id ?? 0, pageSize: 100 };
-        const {error, data} = await getCategories(searchParameters);
-
-        if (!error) {
-            const categories = data.map(category => convertToNode(category));
-
-            for (const category of categories) {
-                category.children = await fetchCategoryTree(category.value);
-            }
-
-            return categories;
-        }
-    };
-
-    useEffect(() => {
-        const fetchCategories = async () => {
-            const categoryTree = await fetchCategoryTree();
-            setCategories(categoryTree);
-        };
-
-        fetchCategories();
+    useLayoutEffect(() => {
+        getCategories({parentCategoryId: 0})
+            .then(({error, data}) => {
+                if (!error) {
+                    setChildren(data);
+                }
+            });
     }, []);
 
-    function handleChange(currentNode, selectedNodes) {
-        handleSelect(selectedNodes.length !== 0
-            ? selectedNodes[0].value
-            : null);
+    function handleExpand(child) {
+        getCategories({parentCategoryId: child.id})
+            .then(({error, data}) => {
+                if (!error && data.length !== 0) {
+                    setChildren(data);
+                    setParents([...parents, child]);
+                }
+            })
+    }
+
+    function handleBack(parent) {
+        let newParents = [...parents];
+        while (newParents.pop().id !== parent.id) {}
+
+        getCategories({parentCategoryId: newParents.length === 0 ? 0 : newParents[newParents.length - 1].id})
+            .then(({error, data}) => {
+                if (!error) {
+                    setParents(newParents);
+                    setChildren(data);
+                }
+            });
     }
 
     return (
-        <DropdownTreeSelect
-            onChange={handleChange}
-            data={categories}
-            texts={{ placeholder: "Поиск" }}
-            mode="radioSelect"
-            inlineSearchInput="true"
-        />
+        <Card>
+            {parents.length !== 0 &&
+                <Card.Header>
+                    {parents.map((parent, i) =>
+                        <div key={parent.id} style={{paddingLeft: `${i * 20}px`}}>
+                            <Badge role="button" onClick={() => handleBack(parent)}>⬉</Badge>
+                            <span>{parent.name}</span>
+                        </div>
+                    )}
+                </Card.Header>
+            }
+            <Card.Body>
+                {children.map(child =>
+                    <div key={child.id} className={"form-check"}>
+                        <input type={"radio"} className={"form-check-input"} checked={child.id === selectedCategory?.id} onChange={() => setSelectedCategory(child)}/>
+                        <label className={"form-check-label"} onClick={() => handleExpand(child)}>{child.name}</label>
+                    </div>
+                )}
+            </Card.Body>
+            {selectedCategory &&
+                <Card.Footer>
+                    <Badge role="button" onClick={() => setSelectedCategory(null)}>{selectedCategory.name}</Badge>
+                </Card.Footer>
+            }
+        </Card>
     );
 }
