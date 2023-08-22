@@ -17,10 +17,15 @@ public class HibernateCategoryRepository extends HibernateCrudRepository<Categor
 
     @Override
     public List<Category> findByParentCategoryId(@NonNull Long parentCategoryId) {
-        return this.new ParametersSearcher()
+        ParametersSearcher searcher = this.new ParametersSearcher()
                 .select()
-                .where()
-                .addEqualsCondition("parentCategory.id", parentCategoryId)
-                .find();
+                .where();
+
+        if (parentCategoryId != 0)
+            searcher.addEqualsCondition("parentCategory.id", parentCategoryId);
+        else
+            searcher.addStatement("AND parentCategory.id IS NULL", null);
+
+        return searcher.find();
     }
 }
