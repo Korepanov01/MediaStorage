@@ -101,7 +101,7 @@ public class MediaRepositoryTests {
     @Test
     @Transactional
     public void testDeleteMedia() {
-        Long mediaIdToDelete = 10L;
+        Long mediaIdToDelete = 3L;
         Media existingMedia = mediaRepository.findById(mediaIdToDelete).orElse(null);
         Assert.assertNotNull(existingMedia);
 

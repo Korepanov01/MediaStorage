@@ -20,5 +20,6 @@ public class CategoryRepositoryTests {
     @Test
     public void FoundByParameters() {
         Assert.assertFalse(repository.findByParentCategoryId(0L).isEmpty());
+        Assert.assertFalse(repository.findByParentCategoryId(1L).isEmpty());
     }
 }
