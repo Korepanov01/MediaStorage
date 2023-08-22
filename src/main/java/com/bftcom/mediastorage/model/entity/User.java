@@ -34,7 +34,7 @@ public class User extends BaseEntity {
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "author")
     private List<Media> medias;
 
     @ManyToMany
