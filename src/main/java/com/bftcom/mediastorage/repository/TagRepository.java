@@ -15,7 +15,4 @@ public interface TagRepository extends ParametersSearchRepository<Tag, SearchStr
 
     @Transactional(readOnly = true)
     List<Tag> findByParameters(@NonNull SearchStringParameters parameters);
-
-    @Transactional(readOnly = true)
-    List<Tag> findByMediaId(@NonNull Long mediaId);
 }
