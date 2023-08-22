@@ -1,6 +1,5 @@
 package com.bftcom.mediastorage.repository.hibernate;
 
-import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.repository.CrudRepository;
 import lombok.NonNull;
 import org.hibernate.Session;
@@ -20,7 +19,7 @@ import java.util.Optional;
 
 @Transactional(readOnly = true)
 @Repository
-public abstract class HibernateCrudRepository <Entity extends BaseEntity> implements CrudRepository<Entity> {
+public abstract class HibernateCrudRepository <Entity> implements CrudRepository<Entity> {
 
     @Autowired
     protected SessionFactory sessionFactory;

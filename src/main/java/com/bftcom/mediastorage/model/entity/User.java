@@ -2,7 +2,6 @@ package com.bftcom.mediastorage.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -16,10 +15,13 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "user")
-public class User extends BaseEntity {
+@Table(name = "user", schema = "public")
+public class User {
+
+    @Id
+    @Column(name = "id")
+    private Long id;
 
     @NotBlank
     @Size(max = 200)
@@ -34,7 +36,7 @@ public class User extends BaseEntity {
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "user")
     private List<Media> medias;
 
     @ManyToMany
@@ -44,11 +46,4 @@ public class User extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-
-    public User(Long id, String name, String passwordHash, String email) {
-        super(id);
-        this.name = name;
-        this.passwordHash = passwordHash;
-        this.email = email;
-    }
 }

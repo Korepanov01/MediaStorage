@@ -2,13 +2,9 @@ package com.bftcom.mediastorage.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,11 +13,13 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "file")
-public class File extends BaseEntity {
+@Table(name = "file", schema = "public")
+public class File {
 
+    @Id
+    @Column(name = "id")
+    private Long id;
     @NotBlank
     @Size(max = 200)
     private String name;
@@ -39,12 +37,4 @@ public class File extends BaseEntity {
 
     @ManyToMany(mappedBy = "files")
     private Set<Media> media;
-
-    public File(Long Id, String name, String contentType, Long size, byte[] data) {
-        super(Id);
-        this.name = name;
-        this.contentType = contentType;
-        this.size = size;
-        this.data = data;
-    }
 }

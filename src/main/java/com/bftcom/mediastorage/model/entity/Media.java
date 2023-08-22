@@ -2,7 +2,6 @@ package com.bftcom.mediastorage.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -15,15 +14,13 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "media")
-public class Media extends BaseEntity {
+@Table(name = "media", schema = "public")
+public class Media {
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @NotNull
-    private User author;
+    @Id
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -42,6 +39,11 @@ public class Media extends BaseEntity {
     @NotNull
     private MediaType mediaType;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @NotNull
+    private User user;
+
     @ManyToMany
     @JoinTable(
             name = "media_tag",
@@ -57,13 +59,4 @@ public class Media extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "file_id")
     )
     private Set<File> files = new HashSet<>();
-
-    public Media(Long id, User author, Category category, String name, String description, MediaType mediaType) {
-        super(id);
-        this.author = author;
-        this.category = category;
-        this.name = name;
-        this.description = description;
-        this.mediaType = mediaType;
-    }
 }

@@ -2,7 +2,6 @@ package com.bftcom.mediastorage.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -14,10 +13,13 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "category")
-public class Category extends BaseEntity {
+@Table(name = "category", schema = "public")
+public class Category {
+
+    @Id
+    @Column(name = "id")
+    private Long id;
 
     @NotBlank
     @Size(max = 200)
@@ -35,10 +37,4 @@ public class Category extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-
-    public Category(Long id, String name, Category parentCategory) {
-        super(id);
-        this.name = name;
-        this.parentCategory = parentCategory;
-    }
 }
