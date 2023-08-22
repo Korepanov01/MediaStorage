@@ -2,10 +2,8 @@ package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.exception.TooManyFilesException;
 import com.bftcom.mediastorage.model.entity.File;
-import com.bftcom.mediastorage.model.entity.MediaFile;
 import com.bftcom.mediastorage.repository.CrudRepository;
 import com.bftcom.mediastorage.repository.FileRepository;
-import com.bftcom.mediastorage.repository.MediaFileRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -3,8 +3,6 @@ package com.bftcom.mediastorage.service;
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.TooManyTagsException;
-import com.bftcom.mediastorage.model.entity.MediaTag;
-import com.bftcom.mediastorage.repository.MediaTagRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

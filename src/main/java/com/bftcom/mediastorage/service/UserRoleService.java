@@ -2,10 +2,8 @@ package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
-import com.bftcom.mediastorage.model.entity.UserRole;
 import com.bftcom.mediastorage.repository.RoleRepository;
 import com.bftcom.mediastorage.repository.UserRepository;
-import com.bftcom.mediastorage.repository.UserRoleRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

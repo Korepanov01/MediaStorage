@@ -1,6 +1,5 @@
 package com.bftcom.mediastorage.model.api.request;
 
-import com.bftcom.mediastorage.model.entity.MediaTag;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
