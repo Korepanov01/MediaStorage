@@ -124,8 +124,9 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
 
         public ParametersSearcher addEqualsCondition(@NonNull String fieldName, @NonNull Object param) {
             and();
-            hqlBuilder.append(fieldName).append(" = :").append(fieldName);
-            queryParams.put(fieldName, param);
+            String paramName = fieldName.replace('.', '_');
+            hqlBuilder.append(fieldName).append(" = :").append(paramName);
+            queryParams.put(paramName, param);
             return this;
         }
 
