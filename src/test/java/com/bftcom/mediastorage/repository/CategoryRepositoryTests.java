@@ -1,6 +1,5 @@
 package com.bftcom.mediastorage.repository;
 
-import com.bftcom.mediastorage.model.searchparameters.CategorySearchParameters;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +19,6 @@ public class CategoryRepositoryTests {
 
     @Test
     public void FoundByParameters() {
-        CategorySearchParameters parameters = new CategorySearchParameters();
-        parameters.setParentCategoryId(0L);
-
-        Assert.assertFalse(repository.findByParameters(parameters).isEmpty());
+        Assert.assertFalse(repository.findByParentCategoryId(0L).isEmpty());
     }
 }

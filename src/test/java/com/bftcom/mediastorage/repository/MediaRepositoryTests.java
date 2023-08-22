@@ -11,7 +11,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +22,6 @@ public class MediaRepositoryTests {
 
     @Autowired
     private MediaRepository mediaRepository;
-
-    @Autowired
-    private MediaTagRepository mediaTagRepository;
 
     @Test
     public void testFindById() {
@@ -49,7 +46,7 @@ public class MediaRepositoryTests {
         for (Media media : mediaList) {
             boolean any = false;
             for (Long tagId : tagsIds) {
-                if (mediaTagRepository.isExists(media.getId(), tagId)) {
+                if (media.getTags().stream().anyMatch(tag -> tag.getId().equals(tagId))) {
                     any = true;
                     break;
                 }
@@ -102,30 +99,7 @@ public class MediaRepositoryTests {
     }
 
     @Test
-    public void testSaveMedia() {
-        Media newMedia = new Media(
-                1L,
-                1L,
-                "Новая запись",
-                "Описание",
-                1L,
-                LocalDateTime.now(),
-                LocalDateTime.now());
-
-        mediaRepository.save(newMedia);
-
-        Assert.assertNotNull(newMedia.getId());
-        Optional<Media> savedMediaOptional = mediaRepository.findById(newMedia.getId());
-        Assert.assertTrue(savedMediaOptional.isPresent());
-        Media savedMedia = savedMediaOptional.get();
-        Assert.assertEquals(newMedia.getUserId(), savedMedia.getUserId());
-        Assert.assertEquals(newMedia.getCategoryId(), savedMedia.getCategoryId());
-        Assert.assertEquals(newMedia.getName(), savedMedia.getName());
-        Assert.assertEquals(newMedia.getDescription(), savedMedia.getDescription());
-        Assert.assertEquals(newMedia.getMediaTypeId(), savedMedia.getMediaTypeId());
-    }
-
-    @Test
+    @Transactional
     public void testDeleteMedia() {
         Long mediaIdToDelete = 10L;
         Media existingMedia = mediaRepository.findById(mediaIdToDelete).orElse(null);

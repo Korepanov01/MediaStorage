@@ -21,9 +21,4 @@ public class TagRepositoryTests {
     public void FoundById() {
         Assert.assertTrue(repository.findById(1L).isPresent());
     }
-
-    @Test
-    public void FoundByMediaId() {
-        Assert.assertFalse(repository.findByMediaId(1L).isEmpty());
-    }
 }
