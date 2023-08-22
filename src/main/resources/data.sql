@@ -1,24 +1,24 @@
--- Исходные данные "public.file_type"
-INSERT INTO "public.file_type" ("name")
+-- Исходные данные "file_type"
+INSERT INTO "file_type" ("name")
 VALUES
     ('Превью'),
     ('Основной');
 
--- Исходные данные "public.role"
-INSERT INTO "public.role" ("name")
+-- Исходные данные "role"
+INSERT INTO "role" ("name")
 VALUES
     ('ADMIN'),
     ('SUPER_ADMIN');
 
--- Исходные данные "public.media_type"
-INSERT INTO "public.media_type" ("name")
+-- Исходные данные "media_type"
+INSERT INTO "media_type" ("name")
 VALUES
     ('Изображение'),
     ('Видео'),
     ('Аудио');
 
--- Тестовые данные "public.tag"
-INSERT INTO "public.tag" ("name")
+-- Тестовые данные "tag"
+INSERT INTO "tag" ("name")
 VALUES
     ('Природа'),
     ('Города'),
@@ -34,8 +34,8 @@ VALUES
     ('Здоровье'),
     ('Рисунки');
 
--- Тестовые данные "public.category"
-INSERT INTO "public.category" ("name", "parent_category_id")
+-- Тестовые данные "category"
+INSERT INTO "category" ("name", "parent_category_id")
 VALUES
     ('Природа', NULL),  --1
     ('Города', NULL),   --2
@@ -45,8 +45,8 @@ VALUES
     ('Дома', 5),        --6
     ('Памятники', 5);   --7
 
--- Тестовые данные "public.user"
-INSERT INTO "public.user" ("name", "password_hash", "email")
+-- Тестовые данные "user"
+INSERT INTO "user" ("name", "password_hash", "email")
 VALUES
     ('Иван', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'string'),
     ('Сергей', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'string1'),
@@ -54,31 +54,31 @@ VALUES
     ('Анатолий', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'string3'),
     ('Игорь', '$2a$10$gpcA36S9xR.EQN79LhLBFOKypg61z9mhQsGaPaiqQiCW8sWtJilma', 'string4');
 
--- Тестовые данные "public.media"
-INSERT INTO "public.media" ("user_id", "category_id", "name", "description", "media_type_id", "created_at", "edited_at")
+-- Тестовые данные "media"
+INSERT INTO "media" ("user_id", "category_id", "name", "description", "media_type_id")
 VALUES
-    (1, 3, 'Запись 1', 'Описание записи 1', 1, NOW(), NOW()),
-    (2, 4, 'Запись 2', NULL, 1, NOW(), NOW()),
-    (3, 5, 'Запись 3', 'Описание записи 3', 2, NOW(), NOW()),
-    (4, 6, 'Запись 4', NULL, 1, NOW(), NOW()),
-    (5, 7, 'Запись 5', 'Описание записи 5', 1, NOW(), NOW()),
-    (1, 3, 'Запись 6', NULL, 1, NOW(), NOW()),
-    (2, 4, 'Запись 7', 'Описание записи 7', 1, NOW(), NOW()),
-    (3, 5, 'Запись 8', NULL, 1, NOW(), NOW()),
-    (4, 6, 'Запись 9', 'Описание записи 9', 1, NOW(), NOW()),
-    (5, 7, 'Запись 10', NULL, 1, NOW(), NOW()),
-    (1, 3, 'Запись 11', 'Описание записи 11', 1, NOW(), NOW()),
-    (2, 4, 'Запись 12', NULL, 1, NOW(), NOW());
+    (1, 3, 'Запись 1', 'Описание записи 1', 1),
+    (2, 4, 'Запись 2', NULL, 1),
+    (3, 5, 'Запись 3', 'Описание записи 3', 2),
+    (4, 6, 'Запись 4', NULL, 1),
+    (5, 7, 'Запись 5', 'Описание записи 5', 1),
+    (1, 3, 'Запись 6', NULL, 1),
+    (2, 4, 'Запись 7', 'Описание записи 7', 1),
+    (3, 5, 'Запись 8', NULL, 1),
+    (4, 6, 'Запись 9', 'Описание записи 9', 1),
+    (5, 7, 'Запись 10', NULL, 1),
+    (1, 3, 'Запись 11', 'Описание записи 11', 1),
+    (2, 4, 'Запись 12', NULL, 1);
 
--- Тестовые данные "public.user_role"
-INSERT INTO "public.user_role" ("role_id", "user_id")
+-- Тестовые данные "user_role"
+INSERT INTO "user_role" ("role_id", "user_id")
 VALUES
     (1, 1),
     (2, 1),
     (1, 2);
 
--- Тестовые данные "public.media_tag"
-INSERT INTO "public.media_tag" ("media_id", "tag_id")
+-- Тестовые данные "media_tag"
+INSERT INTO "media_tag" ("media_id", "tag_id")
 VALUES
     (1, 1),
     (1, 2),
