@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -27,10 +26,9 @@ public class MediaRepositoryTests {
     public void testFindById() {
         Long mediaId = 1L;
 
-        Optional<Media> mediaOptional = mediaRepository.findById(mediaId);
+        Media media = mediaRepository.findById(mediaId);
 
-        Assert.assertTrue(mediaOptional.isPresent());
-        Media media = mediaOptional.get();
+        Assert.assertNotNull(media);
         Assert.assertEquals(mediaId, media.getId());
     }
 
@@ -102,12 +100,12 @@ public class MediaRepositoryTests {
     @Transactional
     public void testDeleteMedia() {
         Long mediaIdToDelete = 3L;
-        Media existingMedia = mediaRepository.findById(mediaIdToDelete).orElse(null);
-        Assert.assertNotNull(existingMedia);
+        Media media = mediaRepository.findById(mediaIdToDelete);
+        Assert.assertNotNull(media);
 
-        mediaRepository.delete(existingMedia);
+        mediaRepository.delete(media);
 
-        Optional<Media> deletedMediaOptional = mediaRepository.findById(mediaIdToDelete);
-        Assert.assertFalse(deletedMediaOptional.isPresent());
+        Media deletedMedia = mediaRepository.findById(mediaIdToDelete);
+        Assert.assertNull(deletedMedia);
     }
 }
