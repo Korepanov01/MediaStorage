@@ -76,13 +76,11 @@ public class Media implements Identical {
         tags.remove(tag);
     }
 
-    public Media(Category category, String name, String description, MediaType mediaType, User user, Set<Tag> tags, Set<File> files) {
+    public Media(String name, String description, Category category, MediaType mediaType, User user) {
         this.category = category;
         this.name = name;
         this.description = description;
         this.mediaType = mediaType;
         this.user = user;
-        this.tags = tags;
-        this.files = files;
     }
 }

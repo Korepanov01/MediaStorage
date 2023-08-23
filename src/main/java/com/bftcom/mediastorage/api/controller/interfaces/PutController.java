@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 public interface PutController <
@@ -28,7 +29,11 @@ public interface PutController <
         if (entity == null)
             return Response.getEntityNotFound();
 
-        updateEntity(entity, request);
+        try {
+            updateEntity(entity, request);
+        } catch (EntityNotFoundException e) {
+            return Response.getEntityNotFound(e.getMessage());
+        }
 
         try {
             getMainService().update(entity);
@@ -39,5 +44,5 @@ public interface PutController <
         return Response.getOk();
     }
 
-    void updateEntity(@NonNull Entity entity, @NonNull PutRequest putRequest);
+    void updateEntity(@NonNull Entity entity, @NonNull PutRequest putRequest) throws EntityNotFoundException;
 }
