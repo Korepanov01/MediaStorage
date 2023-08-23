@@ -64,8 +64,16 @@ public class Media implements Identical {
         files.add(file);
     }
 
-    public void deleteFile(File file) {
+    public void removeFile(File file) {
         files.remove(file);
+    }
+
+    public void addTag(Tag tag) {
+        tags.add(tag);
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
     }
 
     public Media(Category category, String name, String description, MediaType mediaType, User user, Set<Tag> tags, Set<File> files) {
