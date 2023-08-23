@@ -1,19 +1,19 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.api.Response;
-import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.model.api.request.ToEntityConvertable;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
-import com.bftcom.mediastorage.model.entity.BaseEntity;
+import com.bftcom.mediastorage.model.entity.Identical;
 import com.bftcom.mediastorage.service.CrudService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.persistence.EntityExistsException;
 import javax.validation.Valid;
 
 public interface SaveController<
-        Entity extends BaseEntity,
+        Entity extends Identical,
         PostRequest extends ToEntityConvertable<Entity>> {
 
     CrudService<Entity> getMainService();
@@ -23,15 +23,16 @@ public interface SaveController<
             @Valid
             @RequestBody
             PostRequest request) {
-        Entity entity = request.covertToEntity();
+        Entity entity = fillEntity(request);
 
         try {
             getMainService().save(entity);
-        } catch (EntityAlreadyExistsException exception) {
+        } catch (EntityExistsException exception) {
             return Response.getEntityAlreadyExists(exception.getMessage());
         }
 
-        PostEntityResponse response = PostEntityResponse.convertFromEntity(entity);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new PostEntityResponse(entity));
     }
+
+    Entity fillEntity(PostRequest postRequest);
 }

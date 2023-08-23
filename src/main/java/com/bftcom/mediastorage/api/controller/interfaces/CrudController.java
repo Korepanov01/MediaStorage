@@ -4,13 +4,14 @@ import com.bftcom.mediastorage.model.api.request.ToEntityConvertable;
 import com.bftcom.mediastorage.model.dto.BaseDto;
 import com.bftcom.mediastorage.model.entity.Identical;
 
-public interface FullController <
+public interface CrudController <
         Dto extends BaseDto,
-        ListItemDto extends BaseDto,
         Entity extends Identical,
-        PostRequest extends ToEntityConvertable<Entity>,
-        SearchParameters>
+        PostRequest extends ToEntityConvertable<Entity>
+        >
         extends
-        ParametersSearchController<ListItemDto, Entity, SearchParameters>,
-        CrudController<Dto, Entity, PostRequest> {
+        GetByIdController<Dto, Entity>,
+        SaveController<Entity, PostRequest>,
+        DeleteController<Entity> {
+
 }

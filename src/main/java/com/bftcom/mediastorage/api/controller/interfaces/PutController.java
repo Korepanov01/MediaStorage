@@ -1,20 +1,20 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.api.Response;
-import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
-import com.bftcom.mediastorage.model.api.request.ToEntityConvertable;
-import com.bftcom.mediastorage.model.entity.BaseEntity;
+import com.bftcom.mediastorage.model.entity.Identical;
 import com.bftcom.mediastorage.service.CrudService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.persistence.EntityExistsException;
 import javax.validation.Valid;
+import java.util.Optional;
 
 public interface PutController <
-        Entity extends BaseEntity,
-        PutRequest extends ToEntityConvertable<Entity>> {
+        Entity extends Identical,
+        PutRequest> {
 
     CrudService<Entity> getMainService();
 
@@ -25,15 +25,22 @@ public interface PutController <
             @Valid
             @RequestBody
             PutRequest request) {
-        Entity entity = request.covertToEntity();
-        entity.setId(id);
+        Optional<Entity> optionalEntity = getMainService().findById(id);
+        if (optionalEntity.isEmpty())
+            return Response.getEntityNotFound();
+
+        Entity entity = optionalEntity.get();
+
+        updateEntity(entity, request);
 
         try {
             getMainService().update(entity);
-        } catch (EntityAlreadyExistsException exception) {
-            return Response.getEntityAlreadyExists(exception.getMessage());
+        } catch (EntityExistsException e) {
+            return Response.getEntityAlreadyExists(e.getMessage());
         }
 
         return Response.getOk();
     }
+
+    void updateEntity(Entity entity, PutRequest putRequest);
 }
