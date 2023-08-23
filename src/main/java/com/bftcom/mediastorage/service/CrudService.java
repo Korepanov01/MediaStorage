@@ -39,13 +39,10 @@ public abstract class CrudService<Entity> {
 
     @Transactional
     public void delete(@NonNull Long id) throws EntityNotFoundException {
-        Optional<Entity> optionalEntity = getMainRepository().findById(id);
+        Entity entity = getMainRepository().findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Запись не найдена"));
 
-        if (optionalEntity.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-
-        getMainRepository().delete(optionalEntity.get());
+        getMainRepository().delete(entity);
     }
 
     protected abstract CrudRepository<Entity> getMainRepository();

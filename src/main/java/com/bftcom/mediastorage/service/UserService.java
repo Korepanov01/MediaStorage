@@ -1,7 +1,5 @@
 package com.bftcom.mediastorage.service;
 
-import com.bftcom.mediastorage.exception.EmailAlreadyUsedException;
-import com.bftcom.mediastorage.exception.NameAlreadyUsedException;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
@@ -24,12 +22,12 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     private final RoleRepository roleRepository;
 
     @Transactional
-    public void register(@NonNull User user) throws EntityExistsException, NameAlreadyUsedException, EmailAlreadyUsedException {
+    public void register(@NonNull User user) throws EntityExistsException {
         if (userRepository.existsByName(user.getName())) {
-            throw new NameAlreadyUsedException();
+            throw new EntityExistsException("Имя пользователя уже занято!");
         }
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new EmailAlreadyUsedException();
+            throw new EntityExistsException("Пользователь не найден");
         }
         userRepository.save(user);
     }
