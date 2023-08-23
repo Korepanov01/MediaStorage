@@ -9,9 +9,6 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode
 public class UploadFileRequest {
 
-    @NotNull(message = "Должен быть указан id типа файла (fileTypeId)")
+    @NotNull(message = "Должен быть указан тип файла")
     private Long fileTypeId;
-
-    @NotNull(message = "Должен быть указан id медиа (mediaId)")
-    private Long mediaId;
 }
