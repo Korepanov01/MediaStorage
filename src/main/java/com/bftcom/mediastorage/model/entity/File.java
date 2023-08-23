@@ -36,17 +36,18 @@ public class File implements Identical {
     @NotNull
     private byte[] data;
 
-    @ManyToMany(mappedBy = "files")
-    private Set<Media> media = new HashSet<>();
-
     @ManyToOne
     @JoinColumn(name = "file_type_id")
     private FileType fileType;
 
-    public File(String name, String contentType, Long size, @NotNull byte[] data) {
+    @ManyToMany(mappedBy = "files")
+    private Set<Media> media = new HashSet<>();
+
+    public File(String name, String contentType, Long size, @NotNull byte[] data, FileType fileType) {
         this.name = name;
         this.contentType = contentType;
         this.size = size;
         this.data = data;
+        this.fileType = fileType;
     }
 }
