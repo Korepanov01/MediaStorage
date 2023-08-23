@@ -7,11 +7,17 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService extends CrudService<Category> {
 
     private final CategoryRepository categoryRepository;
+
+    public List<Category> findByParentCategoryId(@NonNull Long parentCategoryId) {
+        return categoryRepository.findByParentCategoryId(parentCategoryId);
+    }
 
     @Override
     protected CrudRepository<Category> getMainRepository() {

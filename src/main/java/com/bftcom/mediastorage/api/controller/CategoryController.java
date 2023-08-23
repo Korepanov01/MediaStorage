@@ -1,18 +1,22 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.CrudController;
+import com.bftcom.mediastorage.model.api.request.PostCategoryRequest;
 import com.bftcom.mediastorage.model.api.request.PutCategoryRequest;
 import com.bftcom.mediastorage.model.dto.CategoryDto;
 import com.bftcom.mediastorage.model.entity.Category;
-import com.bftcom.mediastorage.model.api.request.PostCategoryRequest;
 import com.bftcom.mediastorage.service.CategoryService;
 import com.bftcom.mediastorage.service.CrudService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/category")
@@ -25,6 +29,17 @@ public class CategoryController implements CrudController<
 
     private final CategoryService categoryService;
 
+    @GetMapping("/{id}/children")
+    public List<CategoryDto> getChildren(
+            @PathVariable
+            Long id) {
+        return categoryService
+                .findByParentCategoryId(id)
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public CategoryDto convertToDto(@NonNull Category category) {
         return new CategoryDto(category);
@@ -36,7 +51,7 @@ public class CategoryController implements CrudController<
     }
 
     @Override
-    public Category fillEntity(@NonNull PostCategoryRequest request) throws Exception {
+    public Category fillEntity(@NonNull PostCategoryRequest request) throws EntityNotFoundException {
         Category parentCategory = null;
 
         if (request.getParentCategoryId() != null && request.getParentCategoryId() != 0)
