@@ -15,6 +15,6 @@ public class CategoryDto extends BaseDto {
     private Long parentCategoryId;
 
     public CategoryDto(@NonNull Category category) {
-        this(category.getId(), category.getName(), category.getParentCategoryId());
+        this(category.getId(), category.getName(), category.getParentCategory().getId());
     }
 }
