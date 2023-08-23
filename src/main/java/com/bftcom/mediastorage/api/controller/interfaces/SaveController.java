@@ -1,7 +1,6 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.api.Response;
-import com.bftcom.mediastorage.model.api.request.ToEntityConvertable;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
 import com.bftcom.mediastorage.model.entity.Identical;
 import com.bftcom.mediastorage.service.CrudService;
@@ -14,7 +13,7 @@ import javax.validation.Valid;
 
 public interface SaveController<
         Entity extends Identical,
-        PostRequest extends ToEntityConvertable<Entity>> {
+        PostRequest> {
 
     CrudService<Entity> getMainService();
 
