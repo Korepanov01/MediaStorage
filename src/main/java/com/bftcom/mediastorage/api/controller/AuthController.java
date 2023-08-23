@@ -60,7 +60,7 @@ public class AuthController {
             @Valid
             @RequestBody
             RegisterRequest request) {
-        User user = request.covertToEntity(passwordEncoder);
+        User user = new User(request.getName(), request.getPassword(), request.getEmail());
 
         try {
             userService.register(user);

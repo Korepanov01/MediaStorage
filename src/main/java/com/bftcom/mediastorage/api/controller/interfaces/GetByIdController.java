@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.Optional;
-
 public interface GetByIdController <
         Dto,
         Entity> {
@@ -17,10 +15,10 @@ public interface GetByIdController <
     default ResponseEntity<?> get(
             @PathVariable
             Long id) {
-        Optional<Entity> optionalEntity = getMainService().findById(id);
-        if (optionalEntity.isEmpty())
+        Entity entity = getMainService().findById(id);
+        if (entity == null)
             return Response.getEntityNotFound();
-        return ResponseEntity.ok(convertToDto(optionalEntity.get()));
+        return ResponseEntity.ok(convertToDto(entity));
     }
 
     Dto convertToDto(@NonNull Entity entity);

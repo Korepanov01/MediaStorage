@@ -9,7 +9,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -37,7 +36,7 @@ public class User implements Identical {
     private String email;
 
     @OneToMany(mappedBy = "user")
-    private List<Media> medias;
+    private Set<Media> medias = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -55,11 +54,9 @@ public class User implements Identical {
         roles.remove(role);
     }
 
-    public User(String name, String passwordHash, String email, List<Media> medias, Set<Role> roles) {
+    public User(String name, String passwordHash, String email) {
         this.name = name;
         this.passwordHash = passwordHash;
         this.email = email;
-        this.medias = medias;
-        this.roles = roles;
     }
 }

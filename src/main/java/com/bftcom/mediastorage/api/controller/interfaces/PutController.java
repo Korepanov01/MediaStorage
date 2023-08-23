@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityExistsException;
 import javax.validation.Valid;
-import java.util.Optional;
 
 public interface PutController <
         Entity,
@@ -25,11 +24,9 @@ public interface PutController <
             @Valid
             @RequestBody
             PutRequest request) {
-        Optional<Entity> optionalEntity = getMainService().findById(id);
-        if (optionalEntity.isEmpty())
+        Entity entity = getMainService().findById(id);
+        if (entity == null)
             return Response.getEntityNotFound();
-
-        Entity entity = optionalEntity.get();
 
         updateEntity(entity, request);
 

@@ -54,9 +54,11 @@ public class CategoryController implements CrudController<
     public Category fillEntity(@NonNull PostCategoryRequest request) throws EntityNotFoundException {
         Category parentCategory = null;
 
-        if (request.getParentCategoryId() != null && request.getParentCategoryId() != 0)
-            parentCategory = categoryService.findById(request.getParentCategoryId())
-                    .orElseThrow(() -> new EntityNotFoundException("Не найдена родительская категория"));
+        if (request.getParentCategoryId() != null && request.getParentCategoryId() != 0) {
+            parentCategory = categoryService.findById(request.getParentCategoryId());
+            if (parentCategory == null)
+                throw new EntityNotFoundException("Не найдена родительская категория");
+        }
 
         return new Category(request.getName(), parentCategory);
     }
