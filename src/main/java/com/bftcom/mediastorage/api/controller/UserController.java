@@ -2,26 +2,24 @@ package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.api.controller.interfaces.ParametersSearchController;
-import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
-import com.bftcom.mediastorage.exception.EntityNotFoundException;
+import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.model.api.request.UpdateUserNameRequest;
 import com.bftcom.mediastorage.model.dto.UserDto;
-import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.security.AuthParser;
 import com.bftcom.mediastorage.service.ParameterSearchService;
-import com.bftcom.mediastorage.service.RoleService;
 import com.bftcom.mediastorage.service.UserService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -30,7 +28,6 @@ public class UserController implements
         ParametersSearchController<UserDto, User, SearchStringParameters> {
 
     private final UserService userService;
-    private final RoleService roleService;
 
     @PatchMapping("/update_name")
     public ResponseEntity<?> updateName(
@@ -45,7 +42,7 @@ public class UserController implements
 
         try {
             userService.updateName(request.getName(), optionalUserId.get());
-        } catch (EntityAlreadyExistsException e) {
+        } catch (EntityExistsException e) {
             return Response.getEntityAlreadyExists(e.getMessage());
         }
 
@@ -56,23 +53,21 @@ public class UserController implements
     public ResponseEntity<?> delete(
             @PathVariable
             Long id) {
-        List<Role> roles = roleService.findByUserId(id);
-        if (roles.stream().anyMatch(role -> role.getName().equals(Role.SUPER_ADMIN)))
-            return Response.getBadRequest("Данного пользователя нельзя удалить");
 
         try {
-            getMainService().delete(id);
-        } catch (EntityNotFoundException exception) {
-            return Response.getEntityNotFound(exception.getMessage());
+            userService.delete(id);
+        } catch (IllegalOperationException e) {
+            return Response.getBadRequest(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            return Response.getEntityNotFound(e.getMessage());
         }
 
         return Response.getOk();
     }
 
     @Override
-    public UserDto convertToListItemDto(User user) {
-        List<Role> roles = roleService.findByUserId(user.getId());
-        return new UserDto(user, roles.stream().map(role -> "ROLE_" + role.getName()).collect(Collectors.toList()));
+    public UserDto convertToListItemDto(@NonNull User user) {
+        return new UserDto(user);
     }
 
     @Override

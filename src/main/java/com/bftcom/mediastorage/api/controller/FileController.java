@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.api.controller.interfaces.DeleteController;
+import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.exception.TooManyFilesException;
 import com.bftcom.mediastorage.model.api.request.UploadFileRequest;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
@@ -63,7 +64,11 @@ public class FileController implements DeleteController<File> {
             Long id,
             Long fileId) {
 
-        fileService.delete(fileId);
+        try {
+            fileService.delete(fileId);
+        } catch (IllegalOperationException e) {
+            return Response.getBadRequest(e.getMessage());
+        }
 
         return Response.getOk();
     }

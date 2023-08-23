@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.exception.DbDataException;
+import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
@@ -93,6 +94,19 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
             user.addRole(adminRole);
 
         userRepository.update(user);
+    }
+
+    @Override
+    @Transactional
+    public void delete(@NonNull Long id) throws EntityNotFoundException, IllegalOperationException {
+        User user = getMainRepository().findById(id);
+        if (user == null)
+            throw new EntityNotFoundException("Пользователь не найден");
+
+        if (user.getRoles().stream().anyMatch(role -> role.getName().equals(Role.SUPER_ADMIN)))
+            throw new IllegalOperationException("Нельзя удалить суперадмина");
+
+        getMainRepository().delete(user);
     }
 
     @Override

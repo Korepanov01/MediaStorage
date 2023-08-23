@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -19,9 +20,9 @@ public class UserDto extends UserHeaderDto {
         this.roles = roles;
     }
 
-    public UserDto(@NonNull User user, List<String> roles) {
+    public UserDto(@NonNull User user) {
         super(user);
         this.email = user.getEmail();
-        this.roles = roles;
+        this.roles = user.getRoles().stream().map(role -> "ROLE_" + role.getName()).collect(Collectors.toList());
     }
 }
