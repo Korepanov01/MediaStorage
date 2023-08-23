@@ -24,8 +24,9 @@ public class SecurityUtils {
         if (optionalAuthUserId.isEmpty())
             return false;
 
-        Optional<Media> optionalMedia = mediaService.findById(mediaId);
+        Media media = mediaService.findById(mediaId);
 
-        return optionalMedia.map(media -> media.getUserId().equals(optionalAuthUserId.get())).orElse(false);
+
+        return media != null && media.getUser().getId().equals(optionalAuthUserId.get());
     }
 }
