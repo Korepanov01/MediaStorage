@@ -20,10 +20,4 @@ public interface UserRepository extends ParametersSearchRepository<User, SearchS
 
     @Transactional(readOnly = true)
     boolean existsByEmail(@NonNull String email);
-
-    @Transactional
-    void updateEmail(@NonNull String email, @NonNull Long id);
-
-    @Transactional
-    void updateName(@NonNull String name, @NonNull Long id);
 }
