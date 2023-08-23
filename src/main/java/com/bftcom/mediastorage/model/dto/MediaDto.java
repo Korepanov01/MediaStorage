@@ -1,13 +1,11 @@
 package com.bftcom.mediastorage.model.dto;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class MediaDto extends BaseDto{
+public class MediaDto {
     private final Long id;
     private final String name;
     private final String description;

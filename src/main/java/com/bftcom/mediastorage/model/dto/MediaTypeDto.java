@@ -3,13 +3,11 @@ package com.bftcom.mediastorage.model.dto;
 import com.bftcom.mediastorage.model.entity.MediaType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class MediaTypeDto extends BaseDto {
+public class MediaTypeDto {
     private final Long id;
     private final String name;
 

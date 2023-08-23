@@ -5,8 +5,7 @@ import lombok.*;
 
 @Getter
 @RequiredArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class UserHeaderDto extends BaseDto {
+public class UserHeaderDto {
     private final Long id;
     private final String name;
 
