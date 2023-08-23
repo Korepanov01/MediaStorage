@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.service;
 
+import com.bftcom.mediastorage.exception.DbDataException;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
@@ -65,33 +66,31 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     }
 
     @Transactional
-    public void addRole(@NonNull Long userId, @NonNull Long roleId)
+    public void addAdminRole(@NonNull Long userId)
             throws EntityNotFoundException, EntityExistsException {
-        addOrDeleteRole(userId, roleId, false);
+        addOrRemoveAdminRole(userId,false);
     }
 
     @Transactional
-    public void deleteRole(@NonNull Long userId, @NonNull Long roleId)
-            throws EntityNotFoundException {
-        addOrDeleteRole(userId, roleId, true);
+    public void removeAdminRole(@NonNull Long userId)
+            throws EntityNotFoundException, EntityExistsException {
+        addOrRemoveAdminRole(userId,true);
     }
 
-    private void addOrDeleteRole(@NonNull Long userId, @NonNull Long roleId, boolean isDelete)
-            throws EntityNotFoundException {
-        User user = userRepository.findById(userId);
+    private void addOrRemoveAdminRole(@NonNull Long userId, boolean isRemove)
+            throws EntityNotFoundException, EntityExistsException {
+        Role adminRole = roleRepository.findByName(Role.ADMIN);
+        if (adminRole == null)
+            throw new DbDataException("в БД отсутствует роль " + Role.ADMIN);
 
+        User user = userRepository.findById(userId);
         if (user == null)
             throw new EntityNotFoundException("Пользователь не найден");
 
-        Role role = roleRepository.findById(roleId);
-
-        if (role == null)
-            throw new EntityNotFoundException("Роль не найдена");
-
-        if (isDelete)
-            user.removeRole(role);
+        if (isRemove)
+            user.removeRole(adminRole);
         else
-            user.addRole(role);
+            user.addRole(adminRole);
 
         userRepository.update(user);
     }
