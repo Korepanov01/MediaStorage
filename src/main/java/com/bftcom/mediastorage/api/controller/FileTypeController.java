@@ -6,6 +6,7 @@ import com.bftcom.mediastorage.model.dto.FileTypeDto;
 import com.bftcom.mediastorage.model.entity.FileType;
 import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.FileTypeService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +19,12 @@ public class FileTypeController implements GetByIdController<FileTypeDto, FileTy
     private final FileTypeService fileTypeService;
 
     @Override
-    public FileTypeDto convertToDto(FileType fileType) {
+    public FileTypeDto convertToDto(@NonNull FileType fileType) {
         return new FileTypeDto(fileType);
     }
 
     @Override
-    public FileTypeDto convertToListItemDto(FileType fileType) {
+    public FileTypeDto convertToListItemDto(@NonNull FileType fileType) {
         return new FileTypeDto(fileType);
     }
 
