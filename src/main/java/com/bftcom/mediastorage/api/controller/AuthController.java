@@ -1,13 +1,10 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
-import com.bftcom.mediastorage.exception.EmailAlreadyUsedException;
-import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
-import com.bftcom.mediastorage.exception.NameAlreadyUsedException;
 import com.bftcom.mediastorage.model.api.request.LoginRequest;
 import com.bftcom.mediastorage.model.api.request.RegisterRequest;
-import com.bftcom.mediastorage.model.dto.AuthDto;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
+import com.bftcom.mediastorage.model.dto.AuthDto;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.security.AppUserDetails;
 import com.bftcom.mediastorage.security.JwtUtils;
@@ -24,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityExistsException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,12 +64,8 @@ public class AuthController {
 
         try {
             userService.register(user);
-        } catch (EntityAlreadyExistsException e) {
-            return Response.getEntityAlreadyExists("Пользователь уже существует");
-        } catch (NameAlreadyUsedException e) {
-            return Response.getUserNameAlreadyExists();
-        } catch (EmailAlreadyUsedException e) {
-            return Response.getEmailAlreadyExists();
+        } catch (EntityExistsException e) {
+            return Response.getEntityAlreadyExists(e.getMessage());
         }
 
         return ResponseEntity.ok(new PostEntityResponse(user.getId()));
