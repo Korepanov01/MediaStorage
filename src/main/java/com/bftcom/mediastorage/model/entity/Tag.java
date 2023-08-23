@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -25,10 +26,9 @@ public class Tag implements Identical {
     private String name;
 
     @ManyToMany(mappedBy = "tags")
-    private Set<Media> media;
+    private Set<Media> media = new HashSet<>();
 
-    public Tag(String name, Set<Media> media) {
+    public Tag(String name) {
         this.name = name;
-        this.media = media;
     }
 }

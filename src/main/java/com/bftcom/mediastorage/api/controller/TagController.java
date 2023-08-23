@@ -7,6 +7,7 @@ import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.TagService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,17 +26,27 @@ public class TagController implements FullController<
     private final TagService tagService;
 
     @Override
-    public TagDto convertToListItemDto(Tag tag) {
+    public TagDto convertToListItemDto(@NonNull Tag tag) {
         return new TagDto(tag);
     }
 
     @Override
-    public TagDto convertToDto(Tag tag) {
+    public TagDto convertToDto(@NonNull Tag tag) {
         return new TagDto(tag);
     }
 
     @Override
     public ParameterSearchService<Tag, SearchStringParameters> getMainService() {
         return tagService;
+    }
+
+    @Override
+    public Tag fillEntity(@NonNull PostPutTagRequest postPutTagRequest) throws Exception {
+        return new Tag(postPutTagRequest.getName());
+    }
+
+    @Override
+    public void updateEntity(@NonNull Tag tag, @NonNull PostPutTagRequest postPutTagRequest) {
+        tag.setName(postPutTagRequest.getName());
     }
 }
