@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.model.api.response;
 
-import com.bftcom.mediastorage.model.entity.BaseEntity;
+import com.bftcom.mediastorage.model.entity.Identical;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -10,7 +10,7 @@ public class PostEntityResponse {
 
     private final Long id;
 
-    public static PostEntityResponse convertFromEntity(BaseEntity entity) {
-        return new PostEntityResponse(entity.getId());
+    public PostEntityResponse(Identical identical) {
+        id = identical.getId();
     }
 }

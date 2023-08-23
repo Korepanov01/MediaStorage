@@ -1,9 +1,6 @@
 package com.bftcom.mediastorage.model.api.request;
 
-import com.bftcom.mediastorage.model.entity.User;
 import lombok.Data;
-import lombok.NonNull;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -24,8 +21,4 @@ public class RegisterRequest {
     @Size(min = 8, message = "Пароль должен иметь больше 8 символов")
     @Size(max = 100, message = "Пароль не должен быть больше 100 символов")
     private String password;
-
-    public User covertToEntity(@NonNull PasswordEncoder passwordEncoder) {
-        return new User(name, passwordEncoder.encode(password), email);
-    }
 }

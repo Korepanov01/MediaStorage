@@ -1,17 +1,15 @@
 package com.bftcom.mediastorage.model.api.request;
 
-import com.bftcom.mediastorage.model.entity.Media;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode
-public class PostMediaRequest implements ToEntityConvertable<Media> {
+public class PostMediaRequest {
 
     @NotNull(message = "Должен быть указан id пользователя (userId)")
     private Long userId;
@@ -27,10 +25,4 @@ public class PostMediaRequest implements ToEntityConvertable<Media> {
     private String description;
 
     private Long mediaTypeId;
-
-    @Override
-    public Media covertToEntity() {
-        LocalDateTime now = LocalDateTime.now();
-        return new Media(userId, categoryId, name, description, mediaTypeId, now, now);
-    }
 }
