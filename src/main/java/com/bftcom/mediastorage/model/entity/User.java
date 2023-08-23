@@ -24,15 +24,18 @@ public class User implements Identical {
 
     @NotBlank
     @Size(max = 200)
+    @Column(name = "name")
     private String name;
 
     @NotBlank
     @Size(max = 256)
+    @Column(name = "password_hash")
     private String passwordHash;
 
     @NotBlank
     @Size(max = 500)
     @Email
+    @Column(name = "email")
     private String email;
 
     @OneToMany(mappedBy = "user")

@@ -21,19 +21,24 @@ public class File implements Identical {
     @Id
     @Column(name = "id")
     private Long id;
+
     @NotBlank
     @Size(max = 200)
+    @Column(name = "name")
     private String name;
 
     @NotBlank
     @Size(max = 50)
+    @Column(name = "content_type")
     private String contentType;
 
     @NotNull
+    @Column(name = "size")
     private Long size;
 
     @Lob
     @NotNull
+    @Column(name = "data")
     private byte[] data;
 
     @ManyToOne

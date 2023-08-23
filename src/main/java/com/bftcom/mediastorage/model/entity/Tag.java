@@ -23,6 +23,7 @@ public class Tag implements Identical {
 
     @NotBlank
     @Size(max = 200)
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "tags")

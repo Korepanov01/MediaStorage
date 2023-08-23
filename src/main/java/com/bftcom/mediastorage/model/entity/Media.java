@@ -22,26 +22,28 @@ public class Media implements Identical {
     @Column(name = "id")
     private Long id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @NotNull
     private Category category;
 
     @NotBlank
     @Size(max = 200)
+    @Column(name = "name")
     private String name;
 
     @Size(max = 10_000)
+    @Column(name = "description")
     private String description;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "media_type_id")
-    @NotNull
     private MediaType mediaType;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @NotNull
     private User user;
 
     @ManyToMany
@@ -62,10 +64,6 @@ public class Media implements Identical {
 
     public void addFile(File file) {
         files.add(file);
-    }
-
-    public void removeFile(File file) {
-        files.remove(file);
     }
 
     public void addTag(Tag tag) {

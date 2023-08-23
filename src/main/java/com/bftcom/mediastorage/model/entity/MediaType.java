@@ -24,9 +24,6 @@ public class MediaType implements Identical {
 
     @NotBlank
     @Size(max = 100)
+    @Column(name = "name")
     private String name;
-
-    public MediaType(String name) {
-        this.name = name;
-    }
 }

@@ -27,9 +27,6 @@ public class FileType implements Identical {
 
     @NotBlank
     @Size(max = 100)
+    @Column(name = "name")
     private String name;
-
-    public FileType(String name) {
-        this.name = name;
-    }
 }
