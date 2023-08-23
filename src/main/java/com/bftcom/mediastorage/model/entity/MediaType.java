@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Entity
 @Table(name = "media_type", schema = "public")
-public class MediaType {
+public class MediaType implements Identical {
 
     @Id
     @Column(name = "id")
@@ -25,4 +25,8 @@ public class MediaType {
     @NotBlank
     @Size(max = 100)
     private String name;
+
+    public MediaType(String name) {
+        this.name = name;
+    }
 }

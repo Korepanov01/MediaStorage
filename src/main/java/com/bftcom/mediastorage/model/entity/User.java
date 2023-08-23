@@ -17,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "user", schema = "public")
-public class User {
+public class User implements Identical {
 
     @Id
     @Column(name = "id")
@@ -53,5 +53,13 @@ public class User {
 
     public void removeRole(Role role) {
         roles.remove(role);
+    }
+
+    public User(String name, String passwordHash, String email, List<Media> medias, Set<Role> roles) {
+        this.name = name;
+        this.passwordHash = passwordHash;
+        this.email = email;
+        this.medias = medias;
+        this.roles = roles;
     }
 }

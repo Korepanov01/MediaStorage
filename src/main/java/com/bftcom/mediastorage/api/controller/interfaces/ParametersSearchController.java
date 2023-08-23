@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.service.ParameterSearchService;
+import lombok.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.validation.Valid;
@@ -23,7 +24,7 @@ public interface ParametersSearchController <
                 .collect(Collectors.toList());
     }
 
-    ListItemDto convertToListItemDto(Entity entity);
+    ListItemDto convertToListItemDto(@NonNull Entity entity);
 
     ParameterSearchService<Entity, SearchParameters> getMainService();
 }

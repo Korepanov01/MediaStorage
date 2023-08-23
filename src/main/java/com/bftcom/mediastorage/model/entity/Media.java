@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "media", schema = "public")
-public class Media {
+public class Media implements Identical {
 
     @Id
     @Column(name = "id")
@@ -66,5 +66,15 @@ public class Media {
 
     public void deleteFile(File file) {
         files.remove(file);
+    }
+
+    public Media(Category category, String name, String description, MediaType mediaType, User user, Set<Tag> tags, Set<File> files) {
+        this.category = category;
+        this.name = name;
+        this.description = description;
+        this.mediaType = mediaType;
+        this.user = user;
+        this.tags = tags;
+        this.files = files;
     }
 }

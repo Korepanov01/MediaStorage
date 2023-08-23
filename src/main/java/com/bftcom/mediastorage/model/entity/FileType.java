@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Entity
 @Table(name = "file_type", schema = "public")
-public class FileType {
+public class FileType implements Identical {
 
     public static final String THUMBNAIL = "Превью";
     public static final String MAIN = "Основной";
@@ -28,4 +28,8 @@ public class FileType {
     @NotBlank
     @Size(max = 100)
     private String name;
+
+    public FileType(String name) {
+        this.name = name;
+    }
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "file", schema = "public")
-public class File {
+public class File implements Identical {
 
     @Id
     @Column(name = "id")
@@ -37,4 +37,12 @@ public class File {
 
     @ManyToMany(mappedBy = "files")
     private Set<Media> media;
+
+    public File(String name, String contentType, Long size, @NotNull byte[] data, Set<Media> media) {
+        this.name = name;
+        this.contentType = contentType;
+        this.size = size;
+        this.data = data;
+        this.media = media;
+    }
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "role", schema = "public")
-public class Role {
+public class Role implements Identical {
 
     public static final String ADMIN = "ADMIN";
     public static final String SUPER_ADMIN = "SUPER_ADMIN";
@@ -30,4 +30,9 @@ public class Role {
 
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
+
+    public Role(String name, Set<User> users) {
+        this.name = name;
+        this.users = users;
+    }
 }

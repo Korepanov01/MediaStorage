@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "tag", schema = "public")
-public class Tag {
+public class Tag implements Identical {
 
     @Id
     @Column(name = "id")
@@ -26,4 +26,9 @@ public class Tag {
 
     @ManyToMany(mappedBy = "tags")
     private Set<Media> media;
+
+    public Tag(String name, Set<Media> media) {
+        this.name = name;
+        this.media = media;
+    }
 }

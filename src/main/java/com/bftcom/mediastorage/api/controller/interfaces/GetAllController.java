@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.service.CrudService;
+import lombok.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface GetAllController <
                 .collect(Collectors.toList());
     }
 
-    ListItemDto convertToListItemDto(Entity entity);
+    ListItemDto convertToListItemDto(@NonNull Entity entity);
 
     CrudService<Entity> getMainService();
 }

@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.service.CrudService;
+import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,5 +42,5 @@ public interface PutController <
         return Response.getOk();
     }
 
-    void updateEntity(Entity entity, PutRequest putRequest);
+    void updateEntity(@NonNull Entity entity, @NonNull PutRequest putRequest);
 }

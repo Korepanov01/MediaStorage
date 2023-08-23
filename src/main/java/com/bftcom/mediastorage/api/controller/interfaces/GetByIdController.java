@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.service.CrudService;
+import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ public interface GetByIdController <
         return ResponseEntity.ok(convertToDto(optionalEntity.get()));
     }
 
-    Dto convertToDto(Entity entity);
+    Dto convertToDto(@NonNull Entity entity);
 
     CrudService<Entity> getMainService();
 }

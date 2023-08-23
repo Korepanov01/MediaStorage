@@ -4,6 +4,7 @@ import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
 import com.bftcom.mediastorage.model.entity.Identical;
 import com.bftcom.mediastorage.service.CrudService;
+import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,13 @@ public interface SaveController<
             @Valid
             @RequestBody
             PostRequest request) {
-        Entity entity = fillEntity(request);
+        Entity entity = null;
+
+        try {
+            entity = fillEntity(request);
+        } catch (Exception e) {
+            return Response.getBadRequest(e.getMessage());
+        }
 
         try {
             getMainService().save(entity);
@@ -33,5 +40,5 @@ public interface SaveController<
         return ResponseEntity.ok(new PostEntityResponse(entity));
     }
 
-    Entity fillEntity(PostRequest postRequest);
+    Entity fillEntity(@NonNull PostRequest postRequest) throws Exception;
 }
