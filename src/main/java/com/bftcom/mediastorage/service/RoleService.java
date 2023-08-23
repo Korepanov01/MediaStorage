@@ -1,28 +1,22 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.model.entity.Role;
-import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
-import com.bftcom.mediastorage.repository.ParametersSearchRepository;
+import com.bftcom.mediastorage.repository.CrudRepository;
 import com.bftcom.mediastorage.repository.RoleRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class RoleService extends ParameterSearchService<Role, SearchStringParameters> {
+public class RoleService extends CrudService<Role> {
 
     private final RoleRepository roleRepository;
 
     public Optional<Role> findByName(@NonNull String name) {
         return roleRepository.findByName(name);
-    }
-
-    public List<Role> findByUserId(@NonNull Long userId) {
-        return roleRepository.findByUserId(userId);
     }
 
     @Override
@@ -31,7 +25,7 @@ public class RoleService extends ParameterSearchService<Role, SearchStringParame
     }
 
     @Override
-    protected ParametersSearchRepository<Role, SearchStringParameters> getMainRepository() {
+    protected CrudRepository<Role> getMainRepository() {
         return roleRepository;
     }
 }

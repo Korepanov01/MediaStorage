@@ -1,26 +1,25 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.model.entity.Category;
-import com.bftcom.mediastorage.model.searchparameters.CategorySearchParameters;
 import com.bftcom.mediastorage.repository.CategoryRepository;
-import com.bftcom.mediastorage.repository.ParametersSearchRepository;
+import com.bftcom.mediastorage.repository.CrudRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryService extends ParameterSearchService<Category, CategorySearchParameters> {
+public class CategoryService extends CrudService<Category> {
 
     private final CategoryRepository categoryRepository;
 
     @Override
-    protected ParametersSearchRepository<Category, CategorySearchParameters> getMainRepository() {
+    protected CrudRepository<Category> getMainRepository() {
         return categoryRepository;
     }
 
     @Override
-    public boolean isSameEntityExists(@NonNull Category entity) {
-        return categoryRepository.existsByName(entity.getName());
+    public boolean isSameEntityExists(@NonNull Category category) {
+        return categoryRepository.existsByName(category.getName());
     }
 }

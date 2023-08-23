@@ -4,10 +4,12 @@ import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.UserRepository;
 import lombok.NonNull;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class HibernateUserRepository extends HibernateCrudRepository<User> implements UserRepository {
 
     @Override

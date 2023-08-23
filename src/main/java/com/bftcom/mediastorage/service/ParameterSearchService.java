@@ -1,6 +1,5 @@
 package com.bftcom.mediastorage.service;
 
-import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public abstract class ParameterSearchService<Entity extends BaseEntity, SearchParameters>
+public abstract class ParameterSearchService<Entity, SearchParameters>
         extends CrudService<Entity>{
 
     @Transactional(readOnly = true)

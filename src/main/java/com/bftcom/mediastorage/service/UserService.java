@@ -1,25 +1,30 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.exception.EmailAlreadyUsedException;
-import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
 import com.bftcom.mediastorage.exception.NameAlreadyUsedException;
+import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.ParametersSearchRepository;
+import com.bftcom.mediastorage.repository.RoleRepository;
 import com.bftcom.mediastorage.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+
 @Service
 @RequiredArgsConstructor
 public class UserService extends ParameterSearchService<User, SearchStringParameters> {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Transactional
-    public void register(@NonNull User user) throws EntityAlreadyExistsException, NameAlreadyUsedException, EmailAlreadyUsedException {
+    public void register(@NonNull User user) throws EntityExistsException, NameAlreadyUsedException, EmailAlreadyUsedException {
         if (userRepository.existsByName(user.getName())) {
             throw new NameAlreadyUsedException();
         }
@@ -30,21 +35,59 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     }
 
     @Transactional
-    public void updateName(@NonNull String name, @NonNull Long id) throws EntityAlreadyExistsException {
+    public void updateName(@NonNull String name, @NonNull Long id) throws EntityExistsException {
         if (userRepository.existsByName(name)) {
-            throw new EntityAlreadyExistsException("Имя пользователя уже занято!");
+            throw new EntityExistsException("Имя пользователя уже занято!");
         }
 
-        userRepository.updateName(name, id);
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Пользователь не найден"));
+
+        user.setName(name);
+
+        userRepository.update(user);
     }
 
     @Transactional
-    public void updateEmail(@NonNull String email, @NonNull Long id) throws EntityAlreadyExistsException {
+    public void updateEmail(@NonNull String email, @NonNull Long id) throws EntityExistsException {
         if (userRepository.existsByEmail(email)) {
-            throw new EntityAlreadyExistsException("Почта уже используется!");
+            throw new EntityExistsException("Почта уже используется");
         }
 
-        userRepository.updateEmail(email, id);
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Пользователь не найден"));
+
+        user.setEmail(email);
+
+        userRepository.update(user);
+    }
+
+    @Transactional
+    public void addRole(@NonNull Long userId, @NonNull Long roleId)
+            throws EntityNotFoundException, EntityExistsException {
+        addOrDeleteRole(userId, roleId, false);
+    }
+
+    @Transactional
+    public void deleteRole(@NonNull Long userId, @NonNull Long roleId)
+            throws EntityNotFoundException {
+        addOrDeleteRole(userId, roleId, true);
+    }
+
+    private void addOrDeleteRole(@NonNull Long userId, @NonNull Long roleId, boolean isDelete)
+            throws EntityNotFoundException {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new EntityNotFoundException("Пользователь не найден"));
+
+        Role role = roleRepository.findById(roleId).orElseThrow(() ->
+                new EntityNotFoundException("Роль не найдена"));
+
+        if (isDelete)
+            user.removeRole(role);
+        else
+            user.addRole(role);
+
+        userRepository.update(user);
     }
 
     @Override

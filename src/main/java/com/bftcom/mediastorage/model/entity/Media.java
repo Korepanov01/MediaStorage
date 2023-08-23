@@ -59,4 +59,12 @@ public class Media {
             inverseJoinColumns = @JoinColumn(name = "file_id")
     )
     private Set<File> files = new HashSet<>();
+
+    public void addFile(File file) {
+        files.add(file);
+    }
+
+    public void deleteFile(File file) {
+        files.remove(file);
+    }
 }

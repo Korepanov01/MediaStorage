@@ -1,16 +1,15 @@
 package com.bftcom.mediastorage.service;
 
-import com.bftcom.mediastorage.exception.EntityAlreadyExistsException;
-import com.bftcom.mediastorage.exception.EntityNotFoundException;
-import com.bftcom.mediastorage.model.entity.BaseEntity;
 import com.bftcom.mediastorage.repository.CrudRepository;
 import lombok.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class CrudService<Entity extends BaseEntity> {
+public abstract class CrudService<Entity> {
 
     @Transactional(readOnly = true)
     public Optional<Entity> findById(@NonNull Long id) {
@@ -23,17 +22,17 @@ public abstract class CrudService<Entity extends BaseEntity> {
     }
 
     @Transactional
-    public void save(@NonNull Entity entity) throws EntityAlreadyExistsException {
+    public void save(@NonNull Entity entity) throws EntityExistsException {
         if (isSameEntityExists(entity)) {
-            throw new EntityAlreadyExistsException();
+            throw new EntityExistsException();
         }
         getMainRepository().save(entity);
     }
 
     @Transactional
-    public void update(@NonNull Entity entity) throws EntityAlreadyExistsException {
+    public void update(@NonNull Entity entity) throws EntityExistsException {
         if (isSameEntityExists(entity)) {
-            throw new EntityAlreadyExistsException();
+            throw new EntityExistsException();
         }
         getMainRepository().update(entity);
     }

@@ -8,17 +8,11 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class TagService extends ParameterSearchService<Tag, SearchStringParameters> {
 
     private final TagRepository tagRepository;
-
-    public List<Tag> getByMediaId(@NonNull Long mediaId) {
-        return tagRepository.findByMediaId(mediaId);
-    }
 
     @Override
     protected ParametersSearchRepository<Tag, SearchStringParameters> getMainRepository() {
