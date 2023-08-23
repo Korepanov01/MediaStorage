@@ -140,17 +140,6 @@ ALTER TABLE "media_tag"
             ON UPDATE CASCADE;
 
 
--- Таблица файлов
-CREATE TABLE "file"
-(
-    "id"            BIGSERIAL       CONSTRAINT "file_pk" PRIMARY KEY,
-    "name"          VARCHAR(200)    NOT NULL,
-    "content_type"  VARCHAR(50)     NOT NULL,
-    "size"          BIGINT          NOT NULL,
-    "data"          BYTEA           NOT NULL
-);
-
-
 -- Таблица типов файлов
 CREATE TABLE "file_type"
 (
@@ -161,18 +150,36 @@ CREATE TABLE "file_type"
 CREATE UNIQUE INDEX uidx_file_type_name ON "file_type" (LOWER("name") varchar_pattern_ops);
 
 
+-- Таблица файлов
+CREATE TABLE "file"
+(
+    "id"            BIGSERIAL       CONSTRAINT "file_pk" PRIMARY KEY,
+    "name"          VARCHAR(200)    NOT NULL,
+    "content_type"  VARCHAR(50)     NOT NULL,
+    "size"          BIGINT          NOT NULL,
+    "data"          BYTEA           NOT NULL,
+    "file_type_id" bigint           NOT NULL
+);
+
+CREATE INDEX idx_file_file_type_id ON "file" ("file_type_id");
+
+ALTER TABLE "file"
+    ADD CONSTRAINT "file_file_type_fk2"
+        FOREIGN KEY ("file_type_id") REFERENCES "file_type" ("id")
+            ON DELETE CASCADE
+            ON UPDATE CASCADE;
+
+
 -- Таблица связей файлов и медиа
 CREATE TABLE "media_file"
 (
     "id"           BIGSERIAL    CONSTRAINT "media_file_pk" PRIMARY KEY,
     "media_id"     bigint       NOT NULL,
-    "file_id"      bigint       NOT NULL,
-    "file_type_id" bigint       NOT NULL
+    "file_id"      bigint       NOT NULL
 );
 
 CREATE UNIQUE INDEX uidx_media_file_media_id_file_id    ON "media_file" ("media_id", "file_id");
 CREATE INDEX idx_media_file_media_id                    ON "media_file" ("media_id");
-CREATE INDEX idx_media_file_file_type_id                ON "media_file" ("file_type_id");
 
 ALTER TABLE "media_file"
     ADD CONSTRAINT "media_file_fk0"
@@ -182,10 +189,5 @@ ALTER TABLE "media_file"
 ALTER TABLE "media_file"
     ADD CONSTRAINT "media_file_fk1"
         FOREIGN KEY ("file_id") REFERENCES "file" ("id")
-            ON DELETE CASCADE
-            ON UPDATE CASCADE;
-ALTER TABLE "media_file"
-    ADD CONSTRAINT "media_file_fk2"
-        FOREIGN KEY ("file_type_id") REFERENCES "file_type" ("id")
             ON DELETE CASCADE
             ON UPDATE CASCADE;

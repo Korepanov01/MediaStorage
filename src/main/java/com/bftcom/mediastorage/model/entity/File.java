@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -36,13 +37,16 @@ public class File implements Identical {
     private byte[] data;
 
     @ManyToMany(mappedBy = "files")
-    private Set<Media> media;
+    private Set<Media> media = new HashSet<>();
 
-    public File(String name, String contentType, Long size, @NotNull byte[] data, Set<Media> media) {
+    @ManyToOne
+    @JoinColumn(name = "file_type_id")
+    private FileType fileType;
+
+    public File(String name, String contentType, Long size, @NotNull byte[] data) {
         this.name = name;
         this.contentType = contentType;
         this.size = size;
         this.data = data;
-        this.media = media;
     }
 }
