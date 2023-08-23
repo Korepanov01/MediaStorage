@@ -7,12 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class CrudService<Entity> {
 
     @Transactional(readOnly = true)
-    public Optional<Entity> findById(@NonNull Long id) {
+    public Entity findById(@NonNull Long id) {
         return getMainRepository().findById(id);
     }
 
@@ -39,8 +38,10 @@ public abstract class CrudService<Entity> {
 
     @Transactional
     public void delete(@NonNull Long id) throws EntityNotFoundException {
-        Entity entity = getMainRepository().findById(id).orElseThrow(() ->
-                new EntityNotFoundException("Запись не найдена"));
+        Entity entity = getMainRepository().findById(id);
+
+        if (entity == null)
+            throw new EntityNotFoundException("Запись не найдена");
 
         getMainRepository().delete(entity);
     }

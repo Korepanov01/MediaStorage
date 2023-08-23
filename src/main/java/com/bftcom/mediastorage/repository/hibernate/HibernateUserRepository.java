@@ -7,7 +7,6 @@ import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class HibernateUserRepository extends HibernateCrudRepository<User> implements UserRepository {
@@ -22,7 +21,7 @@ public class HibernateUserRepository extends HibernateCrudRepository<User> imple
     }
 
     @Override
-    public Optional<User> findByEmail(@NonNull String email) {
+    public User findByEmail(@NonNull String email) {
         return findByField("email", email);
     }
 

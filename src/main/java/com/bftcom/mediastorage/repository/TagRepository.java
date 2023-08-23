@@ -6,12 +6,11 @@ import lombok.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TagRepository extends ParametersSearchRepository<Tag, SearchStringParameters> {
 
     @Transactional(readOnly = true)
-    Optional<Tag> findByName(@NonNull String name);
+    Tag findByName(@NonNull String name);
 
     @Transactional(readOnly = true)
     List<Tag> findByParameters(@NonNull SearchStringParameters parameters);

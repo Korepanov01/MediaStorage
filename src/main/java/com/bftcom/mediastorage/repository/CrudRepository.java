@@ -4,12 +4,11 @@ import lombok.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CrudRepository<Entity> {
 
     @Transactional(readOnly = true)
-    Optional<Entity> findById(@NonNull Long id);
+    Entity findById(@NonNull Long id);
 
     @Transactional(readOnly = true)
     List<Entity> findAll();

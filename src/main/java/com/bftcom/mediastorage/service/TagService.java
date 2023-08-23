@@ -21,6 +21,6 @@ public class TagService extends ParameterSearchService<Tag, SearchStringParamete
 
     @Override
     public boolean isSameEntityExists(@NonNull Tag tag) {
-        return tagRepository.findByName(tag.getName()).isPresent();
+        return tagRepository.findByName(tag.getName()) != null;
     }
 }

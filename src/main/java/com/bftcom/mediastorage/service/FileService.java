@@ -32,7 +32,10 @@ public class FileService extends CrudService<File> {
     @Transactional
     public void save(@NonNull File file, @NonNull Long mediaId, @NonNull Long fileTypeId)
             throws TooManyFilesException, EntityNotFoundException {
-        Media media = mediaRepository.findById(mediaId).orElseThrow(() -> new EntityNotFoundException("Медиа не найдено"));
+        Media media = mediaRepository.findById(mediaId);
+
+        if (media == null)
+            throw new EntityNotFoundException("Медиа не найдено");
 
         if (media.getFiles().size() > 5)
             throw new TooManyFilesException("Слишком много файлов");

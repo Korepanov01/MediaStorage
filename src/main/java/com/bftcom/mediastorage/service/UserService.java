@@ -38,8 +38,10 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
             throw new EntityExistsException("Имя пользователя уже занято!");
         }
 
-        User user = userRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("Пользователь не найден"));
+        User user = userRepository.findById(id);
+
+        if (user == null)
+            throw new EntityNotFoundException("Пользователь не найден");
 
         user.setName(name);
 
@@ -52,8 +54,10 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
             throw new EntityExistsException("Почта уже используется");
         }
 
-        User user = userRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException("Пользователь не найден"));
+        User user = userRepository.findById(id);
+
+        if (user == null)
+            throw new EntityNotFoundException("Пользователь не найден");
 
         user.setEmail(email);
 
@@ -74,11 +78,15 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
 
     private void addOrDeleteRole(@NonNull Long userId, @NonNull Long roleId, boolean isDelete)
             throws EntityNotFoundException {
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new EntityNotFoundException("Пользователь не найден"));
+        User user = userRepository.findById(userId);
 
-        Role role = roleRepository.findById(roleId).orElseThrow(() ->
-                new EntityNotFoundException("Роль не найдена"));
+        if (user == null)
+            throw new EntityNotFoundException("Пользователь не найден");
+
+        Role role = roleRepository.findById(roleId);
+
+        if (role == null)
+            throw new EntityNotFoundException("Роль не найдена");
 
         if (isDelete)
             user.removeRole(role);

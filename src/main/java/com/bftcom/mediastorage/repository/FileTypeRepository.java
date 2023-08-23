@@ -4,12 +4,10 @@ import com.bftcom.mediastorage.model.entity.FileType;
 import lombok.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 public interface FileTypeRepository extends CrudRepository<FileType> {
 
     @Transactional(readOnly = true)
-    Optional<FileType> findByName(@NonNull String name);
+    FileType findByName(@NonNull String name);
 
     @Transactional(readOnly = true)
     boolean existsByName(@NonNull String name);

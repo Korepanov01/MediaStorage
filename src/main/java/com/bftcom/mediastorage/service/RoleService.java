@@ -7,15 +7,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class RoleService extends CrudService<Role> {
 
     private final RoleRepository roleRepository;
 
-    public Optional<Role> findByName(@NonNull String name) {
+    public Role findByName(@NonNull String name) {
         return roleRepository.findByName(name);
     }
 

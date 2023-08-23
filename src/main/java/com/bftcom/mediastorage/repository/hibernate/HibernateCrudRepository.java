@@ -15,7 +15,6 @@ import javax.persistence.TypedQuery;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Transactional(readOnly = true)
 @Repository
@@ -25,11 +24,11 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
     protected SessionFactory sessionFactory;
 
     @Override
-    public Optional<Entity> findById(@NonNull Long id) {
-        return Optional.ofNullable(getSession().get(getEntityClass(), id));
+    public Entity findById(@NonNull Long id) {
+        return getSession().get(getEntityClass(), id);
     }
 
-    public Optional<Entity> findByField(@NonNull String fieldName, @NonNull Object value) {
+    public Entity findByField(@NonNull String fieldName, @NonNull Object value) {
         return this.new ParametersSearcher()
                 .select()
                 .where()
@@ -45,7 +44,7 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
                 .getNumber() > 0;
     }
 
-    public Optional<Entity> findByName(@NonNull String name) {
+    public Entity findByName(@NonNull String name) {
         return findByField("name", name);
     }
 
@@ -155,12 +154,12 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
             return query;
         }
 
-        public Optional<Entity> findUnique() {
+        public Entity findUnique() {
             try {
-                return Optional.of(buildQuery().getSingleResult());
+                return buildQuery().getSingleResult();
             }
             catch (NoResultException e) {
-                return Optional.empty();
+                return null;
             }
         }
 
