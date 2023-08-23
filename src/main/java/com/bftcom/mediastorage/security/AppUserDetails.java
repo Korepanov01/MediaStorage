@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -63,7 +64,7 @@ public class AppUserDetails implements UserDetails {
         return true;
     }
 
-    public static AppUserDetails build(User user, List<Role> roles) {
+    public static AppUserDetails build(User user, Set<Role> roles) {
         List<GrantedAuthority> authorities = roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                 .collect(Collectors.toList());
