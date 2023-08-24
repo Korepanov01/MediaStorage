@@ -26,7 +26,6 @@ public class SecurityUtils {
 
         Media media = mediaService.findById(mediaId);
 
-
         return media != null && media.getUser().getId().equals(optionalAuthUserId.get());
     }
 }

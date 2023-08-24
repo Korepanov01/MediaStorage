@@ -77,12 +77,9 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.PUT, "/api/category/**").hasRole(Role.ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/api/category/**").hasRole(Role.ADMIN)
 
-                .antMatchers(HttpMethod.POST, "/api/user_role/**").hasRole(Role.SUPER_ADMIN)
-
-                .antMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-
                 .antMatchers(HttpMethod.GET, "/api/users/**").hasRole(Role.ADMIN)
                 .antMatchers(HttpMethod.PATCH, "/api/users/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/users/{id}/**").hasRole(Role.ADMIN)
                 .antMatchers(HttpMethod.DELETE, "/api/users/{id}").access("(@securityUtils.checkUserId(authentication, #id)) || hasRole(\"ADMIN\")")
 
                 .and();
