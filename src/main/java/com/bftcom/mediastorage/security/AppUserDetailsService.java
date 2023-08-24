@@ -1,7 +1,6 @@
 package com.bftcom.mediastorage.security;
 
 import com.bftcom.mediastorage.model.entity.User;
-import com.bftcom.mediastorage.repository.RoleRepository;
 import com.bftcom.mediastorage.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AppUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
 
     @Override
     @Transactional(readOnly = true)

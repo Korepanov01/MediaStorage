@@ -39,10 +39,7 @@ public class User implements Identical {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Media> medias = new HashSet<>();
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
