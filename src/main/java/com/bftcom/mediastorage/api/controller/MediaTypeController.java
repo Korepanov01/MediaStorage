@@ -8,14 +8,12 @@ import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.MediaTypeService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/media_type")
 @RequiredArgsConstructor
-@Transactional
 public class MediaTypeController implements
         GetAllController<MediaTypeDto, MediaType>,
         GetByIdController<MediaTypeDto, MediaType> {

@@ -14,7 +14,6 @@ import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.service.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/media")
 @RequiredArgsConstructor
-@Transactional
 public class MediaController implements FullController<
         MediaDto,
         MediaListItemDto,

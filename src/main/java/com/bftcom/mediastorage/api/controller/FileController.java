@@ -21,11 +21,11 @@ import java.io.IOException;
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
-@Transactional
 public class FileController {
 
     private final FileService fileService;
 
+    @Transactional(readOnly = true)
     @GetMapping("/api/files/{id}")
     public ResponseEntity<?> downloadFile(
             @PathVariable
@@ -42,6 +42,7 @@ public class FileController {
                 .body(file.getData());
     }
 
+    @Transactional
     @PostMapping(path = "/api/media/{id}/add_file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadFile(
             @PathVariable("id")
@@ -59,6 +60,7 @@ public class FileController {
         return ResponseEntity.ok(new PostEntityResponse(file.getId()));
     }
 
+    @Transactional
     @DeleteMapping(path = "/api/media/{id}/delete_file")
     public ResponseEntity<?> deleteFile(
             @PathVariable

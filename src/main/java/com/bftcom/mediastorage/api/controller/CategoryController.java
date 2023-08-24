@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/category")
 @RequiredArgsConstructor
-@Transactional
 public class CategoryController implements CrudController<
         CategoryDto,
         Category,
@@ -32,6 +31,7 @@ public class CategoryController implements CrudController<
 
     private final CategoryService categoryService;
 
+    @Transactional(readOnly = true)
     @GetMapping("/{id}/children")
     public List<CategoryDto> getChildren(
             @PathVariable

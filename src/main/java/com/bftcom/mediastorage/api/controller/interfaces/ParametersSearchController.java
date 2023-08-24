@@ -9,12 +9,12 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Transactional
 public interface ParametersSearchController <
         ListItemDto,
         Entity,
         SearchParameters> {
 
+    @Transactional(readOnly = true)
     @GetMapping
     default List<ListItemDto> get(
             @Valid

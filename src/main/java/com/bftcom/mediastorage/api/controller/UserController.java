@@ -25,12 +25,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-@Transactional
-public class UserController implements
-        ParametersSearchController<UserDto, User, SearchStringParameters> {
+public class UserController implements ParametersSearchController<UserDto, User, SearchStringParameters> {
 
     private final UserService userService;
 
+    @Transactional
     @PatchMapping("/update_name")
     public ResponseEntity<?> updateName(
             @Valid
@@ -53,6 +52,7 @@ public class UserController implements
         return Response.getOk();
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(
             @PathVariable

@@ -29,13 +29,13 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@Transactional
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final UserService userService;
 
+    @Transactional(readOnly = true)
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(
             @Valid
@@ -55,6 +55,7 @@ public class AuthController {
                 .ok(new AuthDto(userDetails, roles, jwt));
     }
 
+    @Transactional
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(
             @Valid

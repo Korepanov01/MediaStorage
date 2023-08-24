@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
-@Transactional
 public interface SaveController<
         Entity extends Identical,
         PostRequest> {
 
     CrudService<Entity> getMainService();
 
+    @Transactional
     @PostMapping
     default ResponseEntity<?> post(
             @Valid

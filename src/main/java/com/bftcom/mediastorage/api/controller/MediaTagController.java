@@ -13,11 +13,11 @@ import javax.persistence.EntityNotFoundException;
 @RestController
 @RequestMapping("/api/media")
 @RequiredArgsConstructor
-@Transactional
 public class MediaTagController {
 
     private final MediaService mediaService;
 
+    @Transactional
     @PostMapping("/{id}/add_tag")
     public ResponseEntity<?> addTag(
             @PathVariable
@@ -35,6 +35,7 @@ public class MediaTagController {
         return Response.getOk();
     }
 
+    @Transactional
     @DeleteMapping("/{id}/remove_tag")
     public ResponseEntity<?> removeTag(
             @PathVariable

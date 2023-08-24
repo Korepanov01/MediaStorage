@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 
-@Transactional
 public interface PutController <
         Entity,
         PutRequest> {
 
     CrudService<Entity> getMainService();
 
+    @Transactional
     @PutMapping("/{id}")
     default ResponseEntity<?> put(
             @PathVariable

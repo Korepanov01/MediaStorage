@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-@Transactional
 public class UserRoleController {
 
     private final UserService userService;
 
+    @Transactional
     @PostMapping("/{id}/give_admin")
     public ResponseEntity<?> makeAdmin(
             @PathVariable
@@ -28,6 +28,7 @@ public class UserRoleController {
         return addDeleteRole(id, false);
     }
 
+    @Transactional
     @PostMapping("/{id}/remove_admin")
     public ResponseEntity<?> removeAdmin(
             @PathVariable

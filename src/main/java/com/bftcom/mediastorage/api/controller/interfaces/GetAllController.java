@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.service.CrudService;
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public interface GetAllController <
         ListItemDto,
         Entity> {
 
+    @Transactional(readOnly = true)
     @GetMapping
     default List<ListItemDto> getAll() {
         return getMainService()

@@ -8,14 +8,12 @@ import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.FileTypeService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/file_types")
 @RequiredArgsConstructor
-@Transactional
 public class FileTypeController implements GetByIdController<FileTypeDto, FileType>, GetAllController<FileTypeDto, FileType> {
 
     private final FileTypeService fileTypeService;

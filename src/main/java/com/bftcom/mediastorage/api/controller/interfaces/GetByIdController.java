@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Transactional
 public interface GetByIdController <
         Dto,
         Entity> {
 
+    @Transactional(readOnly = true)
     @GetMapping("/{id}")
     default ResponseEntity<?> get(
             @PathVariable
