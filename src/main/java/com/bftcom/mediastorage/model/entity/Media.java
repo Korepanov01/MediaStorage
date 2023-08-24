@@ -19,6 +19,7 @@ import java.util.Set;
 public class Media implements Identical {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
