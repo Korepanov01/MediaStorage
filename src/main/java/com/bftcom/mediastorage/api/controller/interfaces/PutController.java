@@ -4,6 +4,7 @@ import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.service.CrudService;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
+@Transactional
 public interface PutController <
         Entity,
         PutRequest> {

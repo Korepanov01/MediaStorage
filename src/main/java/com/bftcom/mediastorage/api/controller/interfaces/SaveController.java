@@ -6,12 +6,14 @@ import com.bftcom.mediastorage.model.entity.Identical;
 import com.bftcom.mediastorage.service.CrudService;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityExistsException;
 import javax.validation.Valid;
 
+@Transactional
 public interface SaveController<
         Entity extends Identical,
         PostRequest> {
@@ -23,7 +25,7 @@ public interface SaveController<
             @Valid
             @RequestBody
             PostRequest request) {
-        Entity entity = null;
+        Entity entity;
 
         try {
             entity = fillEntity(request);

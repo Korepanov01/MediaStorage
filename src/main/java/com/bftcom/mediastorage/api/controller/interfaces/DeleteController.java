@@ -4,11 +4,13 @@ import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.service.CrudService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.persistence.EntityNotFoundException;
 
+@Transactional
 public interface DeleteController<Entity> {
 
     CrudService<Entity> getMainService();

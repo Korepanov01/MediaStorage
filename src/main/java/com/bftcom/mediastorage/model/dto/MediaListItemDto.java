@@ -3,7 +3,10 @@ package com.bftcom.mediastorage.model.dto;
 import com.bftcom.mediastorage.model.entity.FileType;
 import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.service.FileService;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.stream.Collectors;
