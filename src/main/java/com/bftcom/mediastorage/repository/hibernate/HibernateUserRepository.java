@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.UserRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class HibernateUserRepository extends HibernateCrudRepository<User> implements UserRepository {
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findByParameters(@NonNull SearchStringParameters searchStringParameters) {
         return this.new ParametersSearcher()
                 .selectFrom()
@@ -21,11 +23,13 @@ public class HibernateUserRepository extends HibernateCrudRepository<User> imple
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findByEmail(@NonNull String email) {
         return findByField("email", email);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existsByEmail(@NonNull String email) {
         return existsByField("email", email);
     }

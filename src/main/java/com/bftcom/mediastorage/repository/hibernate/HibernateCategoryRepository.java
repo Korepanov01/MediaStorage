@@ -4,6 +4,7 @@ import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.repository.CategoryRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class HibernateCategoryRepository extends HibernateCrudRepository<Categor
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Category> findByParentCategoryId(@NonNull Long parentCategoryId) {
         ParametersSearcher searcher = this.new ParametersSearcher()
                 .selectFrom()

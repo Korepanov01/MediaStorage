@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Transactional(readOnly = true)
 @Repository
 public abstract class HibernateCrudRepository <Entity> implements CrudRepository<Entity> {
 
@@ -25,10 +24,12 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
     protected SessionFactory sessionFactory;
 
     @Override
+    @Transactional(readOnly = true)
     public Entity findById(@NonNull Long id) {
         return getSession().get(getEntityClass(), id);
     }
 
+    @Transactional(readOnly = true)
     public Entity findByField(@NonNull String fieldName, @NonNull Object value) {
         return this.new ParametersSearcher()
                 .selectFrom()
@@ -37,6 +38,7 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
                 .findUnique();
     }
 
+    @Transactional(readOnly = true)
     public boolean existsByField(@NonNull String fieldName, @NonNull Object value) {
         return this.new ParametersSearcher()
                 .count()
@@ -45,14 +47,17 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
                 .getNumber() > 0;
     }
 
+    @Transactional(readOnly = true)
     public Entity findByName(@NonNull String name) {
         return findByField("name", name);
     }
 
+    @Transactional(readOnly = true)
     public boolean existsByName(@NonNull String name) {
         return existsByField("name", name);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Entity> findAll() {
         return this.new ParametersSearcher().selectFrom().find();
