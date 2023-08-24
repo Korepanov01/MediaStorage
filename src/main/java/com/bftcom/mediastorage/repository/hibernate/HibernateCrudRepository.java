@@ -138,20 +138,25 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
             return this;
         }
 
+        private String getVarName(@NonNull String fieldName) {
+            return fieldName.replace('.', '_');
+        }
+
         public ParametersSearcher addEqualsCondition(@NonNull String fieldName, @NonNull Object param) {
             and();
-            String paramName = fieldName.replace('.', '_');
-            hqlBuilder.append(fieldName).append(" = :").append(paramName);
-            queryParams.put(paramName, param);
+            String varName = getVarName(fieldName);
+            hqlBuilder.append(fieldName).append(" = :").append(varName);
+            queryParams.put(varName, param);
             return this;
         }
 
         public ParametersSearcher addSearchStringCondition(@NonNull String fieldName, @NonNull String searchString) {
             and();
+            String varName = getVarName(fieldName);
             hqlBuilder
                     .append("LOWER(").append(fieldName)
-                    .append(") LIKE LOWER(:").append(fieldName).append(")");
-            queryParams.put(fieldName, "%" + searchString + "%");
+                    .append(") LIKE LOWER(:").append(varName).append(")");
+            queryParams.put(varName, "%" + searchString + "%");
             return this;
         }
 
