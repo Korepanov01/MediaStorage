@@ -60,14 +60,11 @@ public class AuthController {
             @Valid
             @RequestBody
             RegisterRequest request) {
-        User user = new User(request.getName(), request.getPassword(), request.getEmail());
-
         try {
-            userService.register(user);
+            User user = userService.register(request.getName(), request.getEmail(), request.getPassword());
+            return ResponseEntity.ok(new PostEntityResponse(user.getId()));
         } catch (EntityExistsException e) {
             return Response.getEntityAlreadyExists(e.getMessage());
         }
-
-        return ResponseEntity.ok(new PostEntityResponse(user.getId()));
     }
 }

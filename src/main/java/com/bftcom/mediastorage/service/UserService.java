@@ -12,6 +12,7 @@ import com.bftcom.mediastorage.repository.RoleRepository;
 import com.bftcom.mediastorage.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,16 +22,22 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void register(@NonNull User user) throws EntityExistsException {
-        if (userRepository.existsByName(user.getName())) {
-            throw new EntityExistsException("Имя пользователя уже занято!");
+    public User register(@NonNull String name, @NonNull String email, @NonNull String password) throws EntityExistsException {
+        if (userRepository.existsByName(name)) {
+            throw new EntityExistsException("Имя пользователя уже занято");
         }
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new EntityExistsException("Пользователь не найден");
+        if (userRepository.existsByEmail(email)) {
+            throw new EntityExistsException("Почта уже занята");
         }
+
+        User user = new User(name, passwordEncoder.encode(password), email);
+
         userRepository.save(user);
+
+        return user;
     }
 
     @Transactional
