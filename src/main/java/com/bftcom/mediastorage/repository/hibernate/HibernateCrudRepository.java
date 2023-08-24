@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.HashMap;
 import java.util.List;
@@ -176,9 +175,9 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
             return this;
         }
 
-        private TypedQuery<Entity> buildQuery() {
+        private <T> TypedQuery<T> buildQuery(Class<T> queryType) {
             String hql = hqlBuilder.toString();
-            TypedQuery<Entity> query = getSession().createQuery(hql, getEntityClass());
+            TypedQuery<T> query = getSession().createQuery(hql, queryType);
 
             for (Map.Entry<String, Object> param : queryParams.entrySet()) {
                 query.setParameter(param.getKey(), param.getValue());
@@ -188,7 +187,7 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
 
         public Entity findUnique() {
             try {
-                return buildQuery().getSingleResult();
+                return buildQuery(getEntityClass()).getSingleResult();
             }
             catch (NoResultException e) {
                 return null;
@@ -196,25 +195,19 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
         }
 
         public Long getNumber() {
-            String hql = hqlBuilder.toString();
-            Query query = getSession().createQuery(hql);
+            TypedQuery<Long> query = buildQuery(Long.class);
 
-            for (Map.Entry<String, Object> param : queryParams.entrySet()) {
-                query.setParameter(param.getKey(), param.getValue());
-            }
-
-            return (Long)query.getSingleResult();
+            return query.getSingleResult();
         }
 
         public List<Entity> find(int pageIndex, int pageSize) {
-            return buildQuery()
+            return buildQuery(getEntityClass())
                     .setFirstResult(pageIndex * pageSize)
                     .setMaxResults(pageSize).getResultList();
         }
 
         public List<Entity> find() {
-
-            return buildQuery().getResultList();
+            return buildQuery(getEntityClass()).getResultList();
         }
 
         private char getAlias() {

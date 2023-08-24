@@ -26,7 +26,7 @@ public class HibernateCategoryRepository extends HibernateCrudRepository<Categor
         if (parentCategoryId != 0)
             searcher.addEqualsCondition("parentCategory.id", parentCategoryId);
         else
-            searcher.addStatement("AND parentCategory.id IS NULL", null);
+            searcher.addStatement("AND parentCategory.id IS NULL");
 
         return searcher.find();
     }
