@@ -54,7 +54,7 @@ public class FileController {
         File file;
         try {
             file = fileService.save(multipartFile, mediaId, request.getFileTypeId());
-        } catch (TooManyFilesException | IOException | InvalidFileTypeException e) {
+        } catch (TooManyFilesException | IOException | InvalidFileTypeException | IllegalOperationException e) {
             return Response.getBadRequest(e.getMessage());
         }
 

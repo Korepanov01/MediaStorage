@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.service;
 
+import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.exception.InvalidFileTypeException;
 import com.bftcom.mediastorage.exception.TooManyFilesException;
 import com.bftcom.mediastorage.model.entity.File;
@@ -38,7 +39,7 @@ public class FileService extends CrudService<File> {
 
     @Transactional
     public File save(@NonNull MultipartFile multipartFile, @NonNull Long mediaId, @NonNull Long fileTypeId)
-            throws TooManyFilesException, EntityNotFoundException, IOException, InvalidFileTypeException {
+            throws TooManyFilesException, EntityNotFoundException, IOException, InvalidFileTypeException, IllegalOperationException {
         Media media = mediaRepository.findById(mediaId);
 
         if (media == null)
@@ -61,6 +62,10 @@ public class FileService extends CrudService<File> {
         String contentType = file.getContentType();
         String fileTypeName = fileType.getName();
         String mediaTypeName = media.getMediaType().getName();
+
+        if (fileTypeName.equals(FileType.THUMBNAIL) && media.getFiles().stream().anyMatch(mediaFile -> mediaFile.getFileType().getName().equals(FileType.THUMBNAIL)))
+            throw new IllegalOperationException("Не может быть больше одного первью");
+
         if (contentType.startsWith("image")) {
             if (!fileTypeName.equals(FileType.THUMBNAIL) && !mediaTypeName.equals(MediaType.IMAGE))
                 throw new InvalidFileTypeException("Изображение может быть только в медиа типа '" + MediaType.IMAGE + "'");
