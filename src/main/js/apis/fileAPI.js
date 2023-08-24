@@ -7,7 +7,7 @@ export const getFileUrl = (id) => BASE_URL + `files/${id}`;
 
 export const getFileById = (id) => getRequest(`/files/${id}`);
 
-export const deleteFile = (id) => deleteRequest(`/files/${id}`);
+export const deleteFile = (mediaId, fileId) => deleteRequest(`/media/${mediaId}/delete_file`, null, {fileId});
 
 export const postFile = (file, fileTypeId, mediaId) => {
     let result = {
@@ -18,12 +18,12 @@ export const postFile = (file, fileTypeId, mediaId) => {
     const formData = new FormData();
     formData.append('file', file);
 
-    return  Api.postForm('/files', formData, {
+    return  Api.postForm(`/media/${mediaId}/add_file`, formData, {
         headers: {
             ...AuthService.getAuthHeader(),
             'Content-Type': 'multipart/form-data'
         },
-        params: {fileTypeId, mediaId}
+        params: {fileTypeId}
     })
         .then(response => result.data = response.data)
         .catch(error => {

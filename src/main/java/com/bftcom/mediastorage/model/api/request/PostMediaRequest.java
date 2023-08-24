@@ -11,13 +11,13 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 public class PostMediaRequest {
 
-    @NotNull(message = "Должен быть указан id пользователя (userId)")
+    @NotNull(message = "Должен быть указан пользователь")
     private Long userId;
 
-    @NotNull(message = "Должен быть указан id категории (categoryId)")
+    @NotNull(message = "Должна быть указана категория")
     private Long categoryId;
 
-    @NotBlank(message = "Должно быть указано название (name)")
+    @NotBlank(message = "Должно быть указано название")
     @Size(max = 200, message = "Название не должно быть больше 200 символов")
     private String name;
 

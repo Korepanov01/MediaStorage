@@ -22,7 +22,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
     }, []);
 
     function handleDeleteFile(fileId) {
-        deleteFile(fileId).then(({error}) => {
+        deleteFile(media.id, fileId).then(({error}) => {
             if (!error) {
                 toast.success("Файл удалён");
                 setMedia({...media, files: media.files.filter(file => file.id !== fileId)});
