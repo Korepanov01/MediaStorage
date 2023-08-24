@@ -1,13 +1,11 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
-import com.bftcom.mediastorage.api.controller.interfaces.DeleteController;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.exception.TooManyFilesException;
 import com.bftcom.mediastorage.model.api.request.UploadFileRequest;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
 import com.bftcom.mediastorage.model.entity.File;
-import com.bftcom.mediastorage.service.CrudService;
 import com.bftcom.mediastorage.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +19,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
-public class FileController implements DeleteController<File> {
+public class FileController {
 
     private final FileService fileService;
 
@@ -71,10 +69,5 @@ public class FileController implements DeleteController<File> {
         }
 
         return Response.getOk();
-    }
-
-    @Override
-    public CrudService<File> getMainService() {
-        return fileService;
     }
 }
