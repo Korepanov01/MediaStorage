@@ -1,6 +1,8 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.exception.EntityExistsException;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api/users")

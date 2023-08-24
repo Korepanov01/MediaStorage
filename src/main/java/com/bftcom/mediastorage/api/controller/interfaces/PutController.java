@@ -1,6 +1,8 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.exception.EntityExistsException;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.service.CrudService;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 @Transactional

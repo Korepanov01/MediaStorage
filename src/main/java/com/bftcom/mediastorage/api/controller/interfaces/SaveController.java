@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
 import com.bftcom.mediastorage.model.entity.Identical;
 import com.bftcom.mediastorage.service.CrudService;
@@ -10,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.persistence.EntityExistsException;
 import javax.validation.Valid;
 
 @Transactional

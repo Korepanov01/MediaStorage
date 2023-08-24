@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.HashMap;
 import java.util.List;
@@ -186,13 +187,13 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
 
         public Long getNumber() {
             String hql = hqlBuilder.toString();
-            TypedQuery<Long> query = getSession().createQuery(hql, Long.class);
+            Query query = getSession().createQuery(hql);
 
             for (Map.Entry<String, Object> param : queryParams.entrySet()) {
                 query.setParameter(param.getKey(), param.getValue());
             }
 
-            return query.getSingleResult();
+            return (Long)query.getSingleResult();
         }
 
         public List<Entity> find(int pageIndex, int pageSize) {

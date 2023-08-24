@@ -2,6 +2,8 @@ package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.api.controller.interfaces.ParametersSearchController;
+import com.bftcom.mediastorage.exception.EntityExistsException;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.model.api.request.UpdateUserNameRequest;
 import com.bftcom.mediastorage.model.dto.UserDto;
@@ -17,8 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -46,6 +46,8 @@ public class UserController implements
             userService.updateName(request.getName(), optionalUserId.get());
         } catch (EntityExistsException e) {
             return Response.getEntityAlreadyExists(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            return Response.getEntityNotFound(e.getMessage());
         }
 
         return Response.getOk();

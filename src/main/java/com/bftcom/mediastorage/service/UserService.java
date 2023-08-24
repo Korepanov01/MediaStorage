@@ -1,6 +1,8 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.exception.DbDataException;
+import com.bftcom.mediastorage.exception.EntityExistsException;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.entity.User;
@@ -12,9 +14,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +34,7 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     }
 
     @Transactional
-    public void updateName(@NonNull String name, @NonNull Long id) throws EntityExistsException {
+    public void updateName(@NonNull String name, @NonNull Long id) throws EntityExistsException, EntityNotFoundException {
         if (userRepository.existsByName(name)) {
             throw new EntityExistsException("Имя пользователя уже занято!");
         }
@@ -51,7 +50,7 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     }
 
     @Transactional
-    public void updateEmail(@NonNull String email, @NonNull Long id) throws EntityExistsException {
+    public void updateEmail(@NonNull String email, @NonNull Long id) throws EntityExistsException, EntityNotFoundException {
         if (userRepository.existsByEmail(email)) {
             throw new EntityExistsException("Почта уже используется");
         }

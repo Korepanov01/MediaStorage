@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.api.request.PostMediaRequest;
 import com.bftcom.mediastorage.model.api.request.PutMediaRequest;
 import com.bftcom.mediastorage.model.dto.MediaDto;
@@ -17,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api/media")

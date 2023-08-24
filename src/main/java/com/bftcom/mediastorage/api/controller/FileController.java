@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.exception.TooManyFilesException;
 import com.bftcom.mediastorage.model.api.request.UploadFileRequest;
@@ -68,6 +69,8 @@ public class FileController {
             fileService.delete(fileId);
         } catch (IllegalOperationException e) {
             return Response.getBadRequest(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            return Response.getEntityNotFound(e.getMessage());
         }
 
         return Response.getOk();

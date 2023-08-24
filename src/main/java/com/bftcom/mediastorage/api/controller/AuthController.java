@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.model.api.request.LoginRequest;
 import com.bftcom.mediastorage.model.api.request.RegisterRequest;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityExistsException;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;

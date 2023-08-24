@@ -1,12 +1,12 @@
 package com.bftcom.mediastorage.service;
 
+import com.bftcom.mediastorage.exception.EntityExistsException;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.repository.CrudRepository;
 import lombok.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 public abstract class CrudService<Entity> {
@@ -24,7 +24,7 @@ public abstract class CrudService<Entity> {
     @Transactional
     public void save(@NonNull Entity entity) throws EntityExistsException {
         if (isSameEntityExists(entity)) {
-            throw new EntityExistsException();
+            throw new EntityExistsException("Запись уже существует");
         }
         getMainRepository().save(entity);
     }
@@ -32,7 +32,7 @@ public abstract class CrudService<Entity> {
     @Transactional
     public void update(@NonNull Entity entity) throws EntityExistsException {
         if (isSameEntityExists(entity)) {
-            throw new EntityExistsException();
+            throw new EntityExistsException("Такая запись уже существует");
         }
         getMainRepository().update(entity);
     }
