@@ -2,7 +2,7 @@ import {deleteRequest, getRequest, postRequest, putRequest} from "./baseApi";
 
 export const getCategoryById = (id) => getRequest(`/category/${id}`);
 
-export const getCategories = (params) => getRequest('/category', params);
+export const getChildrenCategory = (parentCategoryId) => getRequest(`/category/${parentCategoryId}/children`)
 
 export const deleteCategory = (id) => deleteRequest(`/category/${id}`);
 

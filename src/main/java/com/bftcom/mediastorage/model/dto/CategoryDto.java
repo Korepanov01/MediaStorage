@@ -13,6 +13,10 @@ public class CategoryDto {
     private Long parentCategoryId;
 
     public CategoryDto(@NonNull Category category) {
-        this(category.getId(), category.getName(), category.getParentCategory().getId());
+        this(
+                category.getId(),
+                category.getName(),
+                category.getParentCategory() != null ? category.getParentCategory().getId() : 0
+        );
     }
 }

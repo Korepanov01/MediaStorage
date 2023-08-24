@@ -1,5 +1,5 @@
 import React, {useLayoutEffect, useState} from "react";
-import {getCategories} from "../../apis/categoryAPI";
+import {getChildrenCategory} from "../../apis/categoryAPI";
 import {Badge, Card} from "react-bootstrap";
 
 export function CategorySelector({selectedCategory, setSelectedCategory, parentsState= undefined, childrenState=undefined, resetOnChange = false}) {
@@ -7,7 +7,7 @@ export function CategorySelector({selectedCategory, setSelectedCategory, parents
     const [children, setChildren] = !childrenState ? useState([]) : childrenState;
 
     useLayoutEffect(() => {
-        getCategories({parentCategoryId: 0})
+        getChildrenCategory(0)
             .then(({error, data}) => {
                 if (!error) {
                     setChildren(data);
@@ -16,7 +16,7 @@ export function CategorySelector({selectedCategory, setSelectedCategory, parents
     }, []);
 
     function handleExpand(child) {
-        getCategories({parentCategoryId: child.id})
+        getChildrenCategory(child.id)
             .then(({error, data}) => {
                 if (!error && data.length !== 0) {
                     setChildren(data);
@@ -30,7 +30,7 @@ export function CategorySelector({selectedCategory, setSelectedCategory, parents
         let newParents = [...parents];
         while (newParents.pop().id !== parent.id) {}
 
-        getCategories({parentCategoryId: newParents.length === 0 ? 0 : newParents[newParents.length - 1].id})
+        getChildrenCategory(newParents.length === 0 ? 0 : newParents[newParents.length - 1].id)
             .then(({error, data}) => {
                 if (!error) {
                     setParents(newParents);
