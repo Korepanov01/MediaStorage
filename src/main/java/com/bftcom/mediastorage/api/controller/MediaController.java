@@ -2,14 +2,12 @@ package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
+import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.model.api.request.PostMediaRequest;
 import com.bftcom.mediastorage.model.api.request.PutMediaRequest;
 import com.bftcom.mediastorage.model.dto.MediaDto;
 import com.bftcom.mediastorage.model.dto.MediaListItemDto;
-import com.bftcom.mediastorage.model.entity.Category;
-import com.bftcom.mediastorage.model.entity.Media;
-import com.bftcom.mediastorage.model.entity.MediaType;
-import com.bftcom.mediastorage.model.entity.User;
+import com.bftcom.mediastorage.model.entity.*;
 import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.service.*;
 import lombok.NonNull;
@@ -72,7 +70,7 @@ public class MediaController implements FullController<
     }
 
     @Override
-    public void updateEntity(@NonNull Media media, @NonNull PutMediaRequest request) throws EntityNotFoundException {
+    public void updateEntity(@NonNull Media media, @NonNull PutMediaRequest request) throws EntityNotFoundException, IllegalOperationException {
         String description = StringUtils.hasText(request.getDescription()) ? request.getDescription() : null;
 
         Category category = categoryService.findById(request.getCategoryId());
@@ -80,6 +78,8 @@ public class MediaController implements FullController<
 
         MediaType mediaType = mediaTypeService.findById(request.getMediaTypeId());
         if (mediaType == null) throw new EntityNotFoundException("Тип медиа не найден");
+        if (!media.getMediaType().getId().equals(mediaType.getId()) && media.getFiles().stream().anyMatch(mediaFile -> mediaFile.getFileType().getName().equals(FileType.MAIN)))
+            throw new IllegalOperationException("Нельзя менять тип, если есть файлы");
 
         media.setName(request.getName());
         media.setDescription(description);

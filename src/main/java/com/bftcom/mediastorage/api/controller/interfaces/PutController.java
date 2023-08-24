@@ -3,6 +3,7 @@ package com.bftcom.mediastorage.api.controller.interfaces;
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
+import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.service.CrudService;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,8 @@ public interface PutController <
             updateEntity(entity, request);
         } catch (EntityNotFoundException e) {
             return Response.getEntityNotFound(e.getMessage());
-        } catch (EntityExistsException e) {
-            return Response.getEntityAlreadyExists(e.getMessage());
+        } catch (EntityExistsException | IllegalOperationException e) {
+            return Response.getBadRequest(e.getMessage());
         }
 
         getMainService().update(entity);
@@ -44,5 +45,5 @@ public interface PutController <
         return Response.getOk();
     }
 
-    void updateEntity(@NonNull Entity entity, @NonNull PutRequest putRequest) throws EntityNotFoundException, EntityExistsException;
+    void updateEntity(@NonNull Entity entity, @NonNull PutRequest putRequest) throws EntityNotFoundException, EntityExistsException, IllegalOperationException;
 }
