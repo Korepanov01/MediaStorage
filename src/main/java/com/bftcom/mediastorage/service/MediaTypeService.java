@@ -20,6 +20,6 @@ public class MediaTypeService extends CrudService<MediaType> {
 
     @Override
     public boolean isSameEntityExists(@NonNull MediaType mediaType) {
-        return mediaTypeRepository.findByName(mediaType.getName()) != null;
+        return mediaTypeRepository.existsByName(mediaType.getName());
     }
 }
