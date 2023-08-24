@@ -12,5 +12,5 @@ public class MediaSearchParameters extends SearchStringParameters {
     private Long categoryId;
     private Long userId;
     private List<Long> typeIds;
-    private Boolean randomOrder;
+    private Boolean randomOrder = false;
 }
