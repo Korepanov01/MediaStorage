@@ -42,21 +42,20 @@ public class HibernateMediaRepository extends HibernateCrudRepository<Media> imp
             Category category = categoryRepository.findById(parameters.getCategoryId());
             if (category != null) {
                 collectCategoryAndSubcategoryIds(category, categoryIds);
-                searcher.and().addStatement("category.id IN (:categoryIds)", Collections.singletonMap("categoryIds", categoryIds));
             }
 
-            searcher.and().addStatement("category.id IN (:categoryIds)", Collections.singletonMap("categoryIds", categoryIds));
+            searcher.and().addStatement("m.category.id IN (:categoryIds)", Collections.singletonMap("categoryIds", categoryIds));
         }
 
         if (byTags) searcher.and().addStatement("t.id IN (:tagIds)", Collections.singletonMap("tagIds", parameters.getTagIds()));
 
         if (!ListUtils.isEmpty(parameters.getTypeIds()))
-            searcher.and().addStatement("mediaType.id IN (:typeIds)", Collections.singletonMap("typeIds", parameters.getTypeIds()));
+            searcher.and().addStatement("m.mediaType.id IN (:typeIds)", Collections.singletonMap("typeIds", parameters.getTypeIds()));
 
-        searcher.tryAddSearchStringCondition("name", parameters.getSearchString());
+        searcher.tryAddSearchStringCondition("m.name", parameters.getSearchString());
 
         if (parameters.getUserId() != null) {
-            searcher.addEqualsCondition("user.id", parameters.getUserId());
+            searcher.addEqualsCondition("m.user.id", parameters.getUserId());
         }
 
         if (parameters.getRandomOrder())
