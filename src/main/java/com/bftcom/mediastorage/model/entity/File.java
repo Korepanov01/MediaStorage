@@ -37,6 +37,7 @@ public class File implements Identical {
     private Long size;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Type(type = "org.hibernate.type.BinaryType")
     @NotNull
     @Column(name = "data")
