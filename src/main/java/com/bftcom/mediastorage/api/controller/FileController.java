@@ -59,10 +59,11 @@ public class FileController {
         return ResponseEntity.ok(new PostEntityResponse(file.getId()));
     }
 
-    @DeleteMapping(path = "/api/media/{id}/delete_file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @DeleteMapping(path = "/api/media/{id}/delete_file")
     public ResponseEntity<?> deleteFile(
             @PathVariable
             Long id,
+            @RequestParam
             Long fileId) {
 
         try {
