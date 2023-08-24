@@ -142,10 +142,6 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
             return this;
         }
 
-        private String getVarName(@NonNull String fieldName) {
-            return fieldName.replace('.', '_');
-        }
-
         public ParametersSearcher addEqualsCondition(@NonNull String fieldName, @NonNull Object param) {
             and();
             String varName = getVarName(fieldName);
@@ -175,16 +171,6 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
             return this;
         }
 
-        private <T> TypedQuery<T> buildQuery(Class<T> queryType) {
-            String hql = hqlBuilder.toString();
-            TypedQuery<T> query = getSession().createQuery(hql, queryType);
-
-            for (Map.Entry<String, Object> param : queryParams.entrySet()) {
-                query.setParameter(param.getKey(), param.getValue());
-            }
-            return query;
-        }
-
         public Entity findUnique() {
             try {
                 return buildQuery(getEntityClass()).getSingleResult();
@@ -210,8 +196,23 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
             return buildQuery(getEntityClass()).getResultList();
         }
 
+        private <T> TypedQuery<T> buildQuery(Class<T> queryType) {
+            String hql = hqlBuilder.toString();
+            TypedQuery<T> query = getSession().createQuery(hql, queryType);
+
+            for (Map.Entry<String, Object> param : queryParams.entrySet()) {
+                query.setParameter(param.getKey(), param.getValue());
+            }
+            return query;
+        }
+
         private char getAlias() {
             return Character.toLowerCase(getEntityClass().getSimpleName().charAt(0));
         }
+
+        private String getVarName(@NonNull String fieldName) {
+            return fieldName.replace('.', '_');
+        }
+
     }
 }
