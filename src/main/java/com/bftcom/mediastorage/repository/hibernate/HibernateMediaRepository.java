@@ -55,6 +55,10 @@ public class HibernateMediaRepository extends HibernateCrudRepository<Media> imp
 
         searcher.tryAddSearchStringCondition("name", parameters.getSearchString());
 
+        if (parameters.getUserId() != null) {
+            searcher.addEqualsCondition("user.id", parameters.getUserId());
+        }
+
         if (parameters.getRandomOrder())
             searcher.orderRandom();
 
