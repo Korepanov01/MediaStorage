@@ -3,13 +3,12 @@ package com.bftcom.mediastorage.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -38,6 +37,7 @@ public class File implements Identical {
     private Long size;
 
     @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     @NotNull
     @Column(name = "data")
     private byte[] data;
@@ -45,9 +45,6 @@ public class File implements Identical {
     @ManyToOne
     @JoinColumn(name = "file_type_id")
     private FileType fileType;
-
-    @ManyToMany(mappedBy = "files")
-    private Set<Media> media = new HashSet<>();
 
     public File(String name, String contentType, Long size, @NotNull byte[] data, FileType fileType) {
         this.name = name;

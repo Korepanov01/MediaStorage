@@ -54,7 +54,9 @@ public class FileService extends CrudService<File> {
                 multipartFile.getContentType(),
                 multipartFile.getSize(),
                 multipartFile.getBytes(),
-                fileType);;
+                fileType);
+
+        fileRepository.save(file);
 
         media.addFile(file);
 
