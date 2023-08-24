@@ -59,7 +59,9 @@ export function MediaPage() {
                         }
                     </Col>
                     <Col lg={8}>
-                        <Files filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)} mediaTypeName={media.mediaType.name}/>
+                        {media.files.length !== 0 &&
+                            <Files filesUrls={media.files.filter(file => file.type === FileTypes.main).map(file => file.url)} mediaTypeName={media.mediaType.name}/>
+                        }
                     </Col>
                 </Row>
             )}
