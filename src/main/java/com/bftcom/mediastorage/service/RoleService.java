@@ -6,6 +6,7 @@ import com.bftcom.mediastorage.repository.RoleRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +14,7 @@ public class RoleService extends CrudService<Role> {
 
     private final RoleRepository roleRepository;
 
+    @Transactional(readOnly = true)
     public Role findByName(@NonNull String name) {
         return roleRepository.findByName(name);
     }
