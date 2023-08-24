@@ -3,6 +3,7 @@ package com.bftcom.mediastorage.api.controller;
 import com.bftcom.mediastorage.api.Response;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
+import com.bftcom.mediastorage.exception.InvalidFileTypeException;
 import com.bftcom.mediastorage.exception.TooManyFilesException;
 import com.bftcom.mediastorage.model.api.request.UploadFileRequest;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
@@ -53,8 +54,8 @@ public class FileController {
         File file;
         try {
             file = fileService.save(multipartFile, mediaId, request.getFileTypeId());
-        } catch (TooManyFilesException | IOException exception) {
-            return Response.getBadRequest(exception.getMessage());
+        } catch (TooManyFilesException | IOException | InvalidFileTypeException e) {
+            return Response.getBadRequest(e.getMessage());
         }
 
         return ResponseEntity.ok(new PostEntityResponse(file.getId()));

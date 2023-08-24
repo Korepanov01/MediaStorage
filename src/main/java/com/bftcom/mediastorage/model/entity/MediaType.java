@@ -15,6 +15,10 @@ import javax.validation.constraints.Size;
 @Table(name = "media_type", schema = "public")
 public class MediaType implements Identical {
 
+    public static final String IMAGE = "Изображение";
+    public static final String VIDEO = "Видео";
+    public static final String AUDIO = "Аудио";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
