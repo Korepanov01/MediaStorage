@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.exception.TooManyTagsException;
 import com.bftcom.mediastorage.service.MediaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -12,7 +13,7 @@ import javax.persistence.EntityNotFoundException;
 @RestController
 @RequestMapping("/api/media")
 @RequiredArgsConstructor
-
+@Transactional
 public class MediaTagController {
 
     private final MediaService mediaService;

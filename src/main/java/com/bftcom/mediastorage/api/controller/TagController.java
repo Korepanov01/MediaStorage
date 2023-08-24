@@ -9,12 +9,14 @@ import com.bftcom.mediastorage.service.ParameterSearchService;
 import com.bftcom.mediastorage.service.TagService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/tags")
 @RequiredArgsConstructor
+@Transactional
 public class TagController implements FullController<
         TagDto,
         TagDto,
@@ -41,7 +43,7 @@ public class TagController implements FullController<
     }
 
     @Override
-    public Tag fillEntity(@NonNull PostPutTagRequest postPutTagRequest) throws Exception {
+    public Tag fillEntity(@NonNull PostPutTagRequest postPutTagRequest) {
         return new Tag(postPutTagRequest.getName());
     }
 
