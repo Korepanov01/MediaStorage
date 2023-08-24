@@ -88,12 +88,12 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
         private final HashMap<String, Object> queryParams = new HashMap<>();
 
         public ParametersSearcher select() {
-            hqlBuilder.append("\nFROM ").append(getEntityClass().getSimpleName());
+            hqlBuilder.append("\nFROM ").append(getEntityClass().getSimpleName()).append(" ").append(getAlias()).append(" ");
             return this;
         }
 
         public ParametersSearcher count() {
-            hqlBuilder.append("\nSELECT COUNT(*)\nFROM ").append(getEntityClass().getSimpleName());
+            hqlBuilder.append("\nSELECT COUNT(*)\nFROM ").append(getEntityClass().getSimpleName()).append(" ").append(getAlias()).append(" ");
             return this;
         }
 
@@ -113,6 +113,10 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
                 this.queryParams.putAll(queryParams);
             }
             return this;
+        }
+
+        public ParametersSearcher addStatement(@NonNull String statement) {
+            return addStatement(statement, null);
         }
 
         public ParametersSearcher tryAddEqualsCondition(@NonNull String fieldName, @Nullable Object param) {
@@ -183,6 +187,10 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
         public List<Entity> find() {
 
             return buildQuery().getResultList();
+        }
+
+        private char getAlias() {
+            return Character.toLowerCase(getEntityClass().getSimpleName().charAt(0));
         }
     }
 }

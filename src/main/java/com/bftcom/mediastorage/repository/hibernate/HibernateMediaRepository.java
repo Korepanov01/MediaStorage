@@ -25,17 +25,15 @@ public class HibernateMediaRepository extends HibernateCrudRepository<Media> imp
         searcher.select();
 
         if (byTags) {
-            searcher.addStatement("JOIN tags", Collections.singletonMap(":tagIds", parameters.getTagIds()));
+            searcher.addStatement("JOIN m.tags t");
         }
 
         searcher.where();
 
-        if (byTags) searcher.addStatement(
-                "tags.id IN (:tagIds)",
-                Collections.singletonMap(":tagIds", parameters.getTagIds()));
+        if (byTags) searcher.and().addStatement("t.id IN (:tagIds)", Collections.singletonMap("tagIds", parameters.getTagIds()));
 
         if (!ListUtils.isEmpty(parameters.getTypeIds()))
-            searcher.addStatement("mediaType.id IN (:typeIds)", Collections.singletonMap(":typeIds", parameters.getTypeIds()));
+            searcher.and().addStatement("mediaType.id IN (:typeIds)", Collections.singletonMap("typeIds", parameters.getTypeIds()));
 
         return searcher
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
