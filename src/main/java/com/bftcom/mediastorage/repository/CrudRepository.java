@@ -11,6 +11,9 @@ public interface CrudRepository<Entity> {
     Entity findById(@NonNull Long id);
 
     @Transactional(readOnly = true)
+    boolean existsByName(@NonNull String name);
+
+    @Transactional(readOnly = true)
     List<Entity> findAll();
 
     @Transactional

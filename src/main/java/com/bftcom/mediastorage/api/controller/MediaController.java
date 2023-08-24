@@ -74,16 +74,16 @@ public class MediaController implements FullController<
     }
 
     @Override
-    public void updateEntity(@NonNull Media media, @NonNull PutMediaRequest putMediaRequest) throws EntityNotFoundException {
-        String description = StringUtils.hasText(putMediaRequest.getDescription()) ? putMediaRequest.getDescription() : null;
+    public void updateEntity(@NonNull Media media, @NonNull PutMediaRequest request) throws EntityNotFoundException {
+        String description = StringUtils.hasText(request.getDescription()) ? request.getDescription() : null;
 
-        Category category = categoryService.findById(putMediaRequest.getCategoryId());
+        Category category = categoryService.findById(request.getCategoryId());
         if (category == null) throw new EntityNotFoundException("Категория не найдена");
 
-        MediaType mediaType = mediaTypeService.findById(putMediaRequest.getMediaTypeId());
+        MediaType mediaType = mediaTypeService.findById(request.getMediaTypeId());
         if (mediaType == null) throw new EntityNotFoundException("Тип медиа не найден");
 
-        media.setName(putMediaRequest.getName());
+        media.setName(request.getName());
         media.setDescription(description);
         media.setCategory(category);
         media.setMediaType(mediaType);

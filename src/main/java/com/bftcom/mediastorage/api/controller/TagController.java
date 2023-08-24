@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.FullController;
+import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.model.api.request.PostPutTagRequest;
 import com.bftcom.mediastorage.model.dto.TagDto;
 import com.bftcom.mediastorage.model.entity.Tag;
@@ -48,7 +49,10 @@ public class TagController implements FullController<
     }
 
     @Override
-    public void updateEntity(@NonNull Tag tag, @NonNull PostPutTagRequest postPutTagRequest) {
+    public void updateEntity(@NonNull Tag tag, @NonNull PostPutTagRequest postPutTagRequest) throws EntityExistsException {
+        if (tagService.existsByName(postPutTagRequest.getName()))
+            throw new EntityExistsException("Такая запись уже существует");
+
         tag.setName(postPutTagRequest.getName());
     }
 }

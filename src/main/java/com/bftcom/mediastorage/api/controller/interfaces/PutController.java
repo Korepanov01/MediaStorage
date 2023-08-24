@@ -35,16 +35,14 @@ public interface PutController <
             updateEntity(entity, request);
         } catch (EntityNotFoundException e) {
             return Response.getEntityNotFound(e.getMessage());
-        }
-
-        try {
-            getMainService().update(entity);
         } catch (EntityExistsException e) {
             return Response.getEntityAlreadyExists(e.getMessage());
         }
 
+        getMainService().update(entity);
+
         return Response.getOk();
     }
 
-    void updateEntity(@NonNull Entity entity, @NonNull PutRequest putRequest) throws EntityNotFoundException;
+    void updateEntity(@NonNull Entity entity, @NonNull PutRequest putRequest) throws EntityNotFoundException, EntityExistsException;
 }

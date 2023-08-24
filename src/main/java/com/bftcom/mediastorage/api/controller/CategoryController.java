@@ -1,6 +1,7 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.CrudController;
+import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.model.api.request.PostCategoryRequest;
 import com.bftcom.mediastorage.model.api.request.PutCategoryRequest;
 import com.bftcom.mediastorage.model.dto.CategoryDto;
@@ -66,7 +67,11 @@ public class CategoryController implements CrudController<
     }
 
     @Override
-    public void updateEntity(@NonNull Category category, @NonNull PutCategoryRequest request) {
+    public void updateEntity(@NonNull Category category, @NonNull PutCategoryRequest request) throws EntityExistsException {
+        if (categoryService.existsByName(request.getName())) {
+            throw new EntityExistsException("Такая запись уже существует");
+        }
+
         category.setName(request.getName());
     }
 }

@@ -17,6 +17,11 @@ public abstract class CrudService<Entity> {
     }
 
     @Transactional(readOnly = true)
+    public boolean existsByName(@NonNull String name) {
+        return getMainRepository().existsByName(name);
+    }
+
+    @Transactional(readOnly = true)
     public List<Entity> findAll() {
         return getMainRepository().findAll();
     }
@@ -30,10 +35,7 @@ public abstract class CrudService<Entity> {
     }
 
     @Transactional
-    public void update(@NonNull Entity entity) throws EntityExistsException {
-        if (isSameEntityExists(entity)) {
-            throw new EntityExistsException("Такая запись уже существует");
-        }
+    public void update(@NonNull Entity entity) {
         getMainRepository().update(entity);
     }
 
@@ -49,6 +51,5 @@ public abstract class CrudService<Entity> {
 
     protected abstract CrudRepository<Entity> getMainRepository();
 
-    @Transactional
     public abstract boolean isSameEntityExists(@NonNull Entity entity);
 }
