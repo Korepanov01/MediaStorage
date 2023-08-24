@@ -18,7 +18,7 @@ public class HibernateCategoryRepository extends HibernateCrudRepository<Categor
     @Override
     public List<Category> findByParentCategoryId(@NonNull Long parentCategoryId) {
         ParametersSearcher searcher = this.new ParametersSearcher()
-                .select()
+                .selectFrom()
                 .where();
 
         if (parentCategoryId != 0)

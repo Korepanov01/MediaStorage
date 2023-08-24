@@ -30,7 +30,7 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
 
     public Entity findByField(@NonNull String fieldName, @NonNull Object value) {
         return this.new ParametersSearcher()
-                .select()
+                .selectFrom()
                 .where()
                 .addEqualsCondition(fieldName, value)
                 .findUnique();
@@ -54,7 +54,7 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
 
     @Override
     public List<Entity> findAll() {
-        return this.new ParametersSearcher().select().find();
+        return this.new ParametersSearcher().selectFrom().find();
     }
 
     @Override
@@ -87,13 +87,25 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
 
         private final HashMap<String, Object> queryParams = new HashMap<>();
 
+        public ParametersSearcher selectFrom() {
+            select();
+            from();
+            return this;
+        }
+
         public ParametersSearcher select() {
+            hqlBuilder.append("SELECT ").append(getAlias()).append(" ");
+            return this;
+        }
+
+        public ParametersSearcher from() {
             hqlBuilder.append("\nFROM ").append(getEntityClass().getSimpleName()).append(" ").append(getAlias()).append(" ");
             return this;
         }
 
         public ParametersSearcher count() {
-            hqlBuilder.append("\nSELECT COUNT(*)\nFROM ").append(getEntityClass().getSimpleName()).append(" ").append(getAlias()).append(" ");
+            hqlBuilder.append("\nSELECT COUNT(*)");
+            from();
             return this;
         }
 

@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -25,9 +26,6 @@ public class Tag implements Identical {
     @Size(max = 200)
     @Column(name = "name")
     private String name;
-
-    @ManyToMany(mappedBy = "tags")
-    private Set<Media> media = new HashSet<>();
 
     public Tag(String name) {
         this.name = name;

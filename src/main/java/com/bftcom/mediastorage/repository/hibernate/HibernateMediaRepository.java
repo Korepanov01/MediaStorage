@@ -22,7 +22,7 @@ public class HibernateMediaRepository extends HibernateCrudRepository<Media> imp
 
         ParametersSearcher searcher = this.new ParametersSearcher();
 
-        searcher.select();
+        searcher.selectFrom();
 
         if (byTags) {
             searcher.addStatement("JOIN m.tags t");

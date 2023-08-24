@@ -16,7 +16,7 @@ public class HibernateTagRepository extends HibernateCrudRepository<Tag> impleme
     @Transactional(readOnly = true)
     public List<Tag> findByParameters(@NonNull SearchStringParameters parameters) {
         return this.new ParametersSearcher()
-                .select()
+                .selectFrom()
                 .where()
                 .tryAddSearchStringCondition("name", parameters.getSearchString())
                 .find(parameters.getPageIndex(), parameters.getPageSize());

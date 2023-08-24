@@ -46,7 +46,7 @@ public class Media implements Identical {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "media_tag",
             joinColumns = @JoinColumn(name = "media_id"),

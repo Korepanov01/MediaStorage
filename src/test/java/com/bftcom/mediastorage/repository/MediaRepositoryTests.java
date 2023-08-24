@@ -11,7 +11,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @SpringBootTest
@@ -97,7 +96,6 @@ public class MediaRepositoryTests {
     }
 
     @Test
-    @Transactional
     public void testDeleteMedia() {
         Long mediaIdToDelete = 3L;
         Media media = mediaRepository.findById(mediaIdToDelete);

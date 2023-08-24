@@ -14,7 +14,7 @@ public class HibernateUserRepository extends HibernateCrudRepository<User> imple
     @Override
     public List<User> findByParameters(@NonNull SearchStringParameters searchStringParameters) {
         return this.new ParametersSearcher()
-                .select()
+                .selectFrom()
                 .where()
                 .tryAddSearchStringCondition("name", searchStringParameters.getSearchString())
                 .find(searchStringParameters.getPageIndex(), searchStringParameters.getPageSize());
