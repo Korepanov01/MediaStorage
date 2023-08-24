@@ -6,4 +6,4 @@ export const deleteRequest = (url, payload = undefined, params = undefined) => r
 
 export const putRequest = (url, payload) => request(url, "PUT", payload);
 
-export const postRequest = (url, payload, params = undefined) => request(url, "POST", payload, params);
+export const postRequest = (url, payload = undefined, params = undefined) => request(url, "POST", payload, params);
