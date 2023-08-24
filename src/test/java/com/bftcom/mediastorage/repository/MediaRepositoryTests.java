@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class MediaRepositoryTests {
     }
 
     @Test
+    @Transactional
     public void testFindByTags() {
         List<Long> tagsIds = List.of(1L, 2L);
         MediaSearchParameters parameters = new MediaSearchParameters();
