@@ -160,6 +160,11 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
             return this;
         }
 
+        public ParametersSearcher orderRandom() {
+            hqlBuilder.append("\nORDER BY rand() ");
+            return this;
+        }
+
         private TypedQuery<Entity> buildQuery() {
             String hql = hqlBuilder.toString();
             TypedQuery<Entity> query = getSession().createQuery(hql, getEntityClass());

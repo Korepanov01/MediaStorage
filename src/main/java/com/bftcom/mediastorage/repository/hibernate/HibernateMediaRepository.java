@@ -35,9 +35,12 @@ public class HibernateMediaRepository extends HibernateCrudRepository<Media> imp
         if (!ListUtils.isEmpty(parameters.getTypeIds()))
             searcher.and().addStatement("mediaType.id IN (:typeIds)", Collections.singletonMap("typeIds", parameters.getTypeIds()));
 
-        return searcher
-                .tryAddSearchStringCondition("name", parameters.getSearchString())
-                .find(parameters.getPageIndex(), parameters.getPageSize());
+        searcher.tryAddSearchStringCondition("name", parameters.getSearchString());
+
+        if (parameters.getRandomOrder())
+            searcher.orderRandom();
+
+        return searcher.find(parameters.getPageIndex(), parameters.getPageSize());
     }
 
     @Override
