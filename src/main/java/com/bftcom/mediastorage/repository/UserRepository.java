@@ -2,15 +2,11 @@ package com.bftcom.mediastorage.repository;
 
 import com.bftcom.mediastorage.model.entity.User;
 import lombok.NonNull;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.Optional;
 
-    User findByName(@NonNull String name);
-
-    User findByEmail(@NonNull String email);
-
-    boolean existsByName(@NonNull String name);
+public interface UserRepository extends CustomJpaRepository<User> {
+    Optional<User> findByEmail(@NonNull String email);
 
     boolean existsByEmail(@NonNull String email);
 }
