@@ -6,25 +6,22 @@ import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.entity.User;
-import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
-import com.bftcom.mediastorage.repository.ParametersSearchRepository;
+import com.bftcom.mediastorage.repository.CustomJpaRepository;
 import com.bftcom.mediastorage.repository.RoleRepository;
 import com.bftcom.mediastorage.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService extends ParameterSearchService<User, SearchStringParameters> {
+public class UserService extends CrudService<User> {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     public User register(@NonNull String name, @NonNull String email, @NonNull String password) throws EntityExistsException {
         if (userRepository.existsByName(name)) {
             throw new EntityExistsException("Имя пользователя уже занято");
@@ -40,41 +37,33 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
         return user;
     }
 
-    @Transactional
     public void updateName(@NonNull String name, @NonNull Long id) throws EntityExistsException, EntityNotFoundException {
         if (userRepository.existsByName(name)) {
             throw new EntityExistsException("Имя пользователя уже занято!");
         }
 
-        User user = userRepository.findById(id);
-
-        if (user == null)
-            throw new EntityNotFoundException("Пользователь не найден");
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
 
         user.setName(name);
     }
 
-    @Transactional
     public void updateEmail(@NonNull String email, @NonNull Long id) throws EntityExistsException, EntityNotFoundException {
         if (userRepository.existsByEmail(email)) {
             throw new EntityExistsException("Почта уже используется");
         }
 
-        User user = userRepository.findById(id);
-
-        if (user == null)
-            throw new EntityNotFoundException("Пользователь не найден");
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
 
         user.setEmail(email);
     }
 
-    @Transactional
     public void addAdminRole(@NonNull Long userId)
             throws EntityNotFoundException, EntityExistsException {
         addOrRemoveAdminRole(userId,false);
     }
 
-    @Transactional
     public void removeAdminRole(@NonNull Long userId)
             throws EntityNotFoundException, EntityExistsException {
         addOrRemoveAdminRole(userId,true);
@@ -82,13 +71,11 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
 
     private void addOrRemoveAdminRole(@NonNull Long userId, boolean isRemove)
             throws EntityNotFoundException {
-        Role adminRole = roleRepository.findByName(Role.ADMIN);
-        if (adminRole == null)
-            throw new DbDataException("в БД отсутствует роль " + Role.ADMIN);
+        Role adminRole = roleRepository.findByName(Role.ADMIN)
+                .orElseThrow(() -> new DbDataException("в БД отсутствует роль " + Role.ADMIN));
 
-        User user = userRepository.findById(userId);
-        if (user == null)
-            throw new EntityNotFoundException("Пользователь не найден");
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
 
         if (isRemove)
             user.removeRole(adminRole);
@@ -97,11 +84,9 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     }
 
     @Override
-    @Transactional
     public void delete(@NonNull Long id) throws EntityNotFoundException, IllegalOperationException {
-        User user = getMainRepository().findById(id);
-        if (user == null)
-            throw new EntityNotFoundException("Пользователь не найден");
+        User user = getMainRepository().findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
 
         if (user.getRoles().stream().anyMatch(role -> role.getName().equals(Role.SUPER_ADMIN)))
             throw new IllegalOperationException("Нельзя удалить суперадмина");
@@ -110,7 +95,7 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     }
 
     @Override
-    protected ParametersSearchRepository<User, SearchStringParameters> getMainRepository() {
+    protected CustomJpaRepository<User> getMainRepository() {
         return userRepository;
     }
 

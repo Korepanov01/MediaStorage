@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.model.entity.FileType;
-import com.bftcom.mediastorage.repository.CrudRepository;
+import com.bftcom.mediastorage.repository.CustomJpaRepository;
 import com.bftcom.mediastorage.repository.FileTypeRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ public class FileTypeService extends CrudService<FileType> {
     private final FileTypeRepository fileTypeRepository;
 
     @Override
-    protected CrudRepository<FileType> getMainRepository() {
+    protected CustomJpaRepository<FileType> getMainRepository() {
         return fileTypeRepository;
     }
 

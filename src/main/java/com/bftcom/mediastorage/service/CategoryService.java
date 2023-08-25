@@ -2,11 +2,10 @@ package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.repository.CategoryRepository;
-import com.bftcom.mediastorage.repository.CrudRepository;
+import com.bftcom.mediastorage.repository.CustomJpaRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,13 +15,12 @@ public class CategoryService extends CrudService<Category> {
 
     private final CategoryRepository categoryRepository;
 
-    @Transactional(readOnly = true)
     public List<Category> findByParentCategoryId(@NonNull Long parentCategoryId) {
         return categoryRepository.findByParentCategoryId(parentCategoryId);
     }
 
     @Override
-    protected CrudRepository<Category> getMainRepository() {
+    protected CustomJpaRepository<Category> getMainRepository() {
         return categoryRepository;
     }
 

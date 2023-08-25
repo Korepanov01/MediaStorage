@@ -3,30 +3,30 @@ package com.bftcom.mediastorage.service;
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
-import com.bftcom.mediastorage.repository.CrudRepository;
+import com.bftcom.mediastorage.repository.CustomJpaRepository;
 import lombok.NonNull;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class CrudService<Entity> {
 
-    @Transactional(readOnly = true)
-    public Entity findById(@NonNull Long id) {
+    public Optional<Entity> findById(@NonNull Long id) {
         return getMainRepository().findById(id);
     }
 
-    @Transactional(readOnly = true)
+    public Optional<Entity> findByName(@NonNull String name) {
+        return getMainRepository().findByName(name);
+    }
+
     public boolean existsByName(@NonNull String name) {
         return getMainRepository().existsByName(name);
     }
 
-    @Transactional(readOnly = true)
     public List<Entity> findAll() {
         return getMainRepository().findAll();
     }
 
-    @Transactional
     public void save(@NonNull Entity entity) throws EntityExistsException {
         if (isSameEntityExists(entity)) {
             throw new EntityExistsException("Запись уже существует");
@@ -34,17 +34,14 @@ public abstract class CrudService<Entity> {
         getMainRepository().save(entity);
     }
 
-    @Transactional
     public void delete(@NonNull Long id) throws EntityNotFoundException, IllegalOperationException {
-        Entity entity = getMainRepository().findById(id);
+        Optional<Entity> optionalEntity = getMainRepository().findById(id);
 
-        if (entity == null)
-            throw new EntityNotFoundException("Запись не найдена");
-
-        getMainRepository().delete(entity);
+        getMainRepository().delete(optionalEntity
+                .orElseThrow(() -> new EntityNotFoundException("Запись не найдена")));
     }
 
-    protected abstract CrudRepository<Entity> getMainRepository();
+    protected abstract CustomJpaRepository<Entity> getMainRepository();
 
     public abstract boolean isSameEntityExists(@NonNull Entity entity);
 }

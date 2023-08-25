@@ -9,21 +9,21 @@ import java.util.List;
 
 public interface MediaRepository extends CustomJpaRepository<Media> {
 
-    @Query("SELECT m FROM Media m " +
-            "JOIN m.tags t " +
-            "WHERE (:categoryIds IS NULL OR m.category.id IN :categoryIds) " +
-            "AND (:tagIds IS NULL OR t.id IN :tagIds) " +
-            "AND (:typeIds IS NULL OR m.mediaType.id IN :typeIds) " +
-            "AND (:searchString IS NULL OR LOWER(m.name) LIKE LOWER(concat('%', :searchString, '%'))) " +
-            "AND (:userId IS NULL OR m.user.id = :userId) " +
-            "ORDER BY CASE WHEN :randomOrder THEN RAND() ELSE m.id END")
+    @Query("SELECT m FROM Media m" +
+            "\nJOIN m.tags t" +
+            "\nWHERE (:categoryIds IS NULL OR m.category.id IN :categoryIds)" +
+            "\nAND (:tagIds IS NULL OR t.id IN :tagIds)" +
+            "\nAND (:typeIds IS NULL OR m.mediaType.id IN :typeIds)" +
+            "\nAND (:searchString IS NULL OR LOWER(m.name) LIKE LOWER(CONCAT('%', :searchString, '%')))" +
+            "\nAND (:userId IS NULL OR m.user.id = :userId)" +
+            "\nORDER BY CASE WHEN :randomSeed IS NOT NULL THEN :randomSeed ELSE m.name END")
     List<Media> findByParameters(
             @Param("categoryIds") List<Long> categoryIds,
             @Param("tagIds") List<Long> tagIds,
             @Param("typeIds") List<Long> typeIds,
             @Param("searchString") String searchString,
             @Param("userId") Long userId,
-            @Param("randomOrder") boolean randomOrder,
+            @Param("randomSeed") Integer randomSeed,
             Pageable pageable
     );
 }

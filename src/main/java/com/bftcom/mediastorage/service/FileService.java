@@ -7,14 +7,13 @@ import com.bftcom.mediastorage.model.entity.File;
 import com.bftcom.mediastorage.model.entity.FileType;
 import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.model.entity.MediaType;
-import com.bftcom.mediastorage.repository.CrudRepository;
+import com.bftcom.mediastorage.repository.CustomJpaRepository;
 import com.bftcom.mediastorage.repository.FileRepository;
 import com.bftcom.mediastorage.repository.FileTypeRepository;
 import com.bftcom.mediastorage.repository.MediaRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -37,20 +36,16 @@ public class FileService extends CrudService<File> {
                 .toUriString();
     }
 
-    @Transactional
     public File save(@NonNull MultipartFile multipartFile, @NonNull Long mediaId, @NonNull Long fileTypeId)
             throws TooManyFilesException, EntityNotFoundException, IOException, InvalidFileTypeException, IllegalOperationException {
-        Media media = mediaRepository.findById(mediaId);
-
-        if (media == null)
-            throw new EntityNotFoundException("Медиа не найдено");
+        Media media = mediaRepository.findById(mediaId).orElseThrow(
+                () -> new EntityNotFoundException("Медиа не найдено"));
 
         if (media.getFiles().size() > 5)
             throw new TooManyFilesException("Слишком много файлов");
 
-        FileType fileType = fileTypeRepository.findById(fileTypeId);
-        if (fileType == null)
-            throw new EntityNotFoundException("Тип файла не найден");
+        FileType fileType = fileTypeRepository.findById(fileTypeId)
+                .orElseThrow(() -> new EntityNotFoundException("Тип файла не найден"));
 
         File file = new File(
                 multipartFile.getOriginalFilename(),
@@ -62,7 +57,6 @@ public class FileService extends CrudService<File> {
         String contentType = file.getContentType();
         String fileTypeName = fileType.getName();
         String mediaTypeName = media.getMediaType().getName();
-
         if (fileTypeName.equals(FileType.THUMBNAIL) && media.getFiles().stream().anyMatch(mediaFile -> mediaFile.getFileType().getName().equals(FileType.THUMBNAIL)))
             throw new IllegalOperationException("Не может быть больше одного первью");
 
@@ -92,20 +86,8 @@ public class FileService extends CrudService<File> {
         return file;
     }
 
-    private boolean isValidContentType(String contentType) {
-        String[] allowedTypes = {"audio", "music", "image"};
-
-        for (String allowedType : allowedTypes) {
-            if (contentType.startsWith(allowedType)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     @Override
-    protected CrudRepository<File> getMainRepository() {
+    protected CustomJpaRepository<File> getMainRepository() {
         return fileRepository;
     }
 
