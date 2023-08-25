@@ -22,7 +22,7 @@ public class UserRoleController {
 
     @Transactional
     @PostMapping("/{id}/give_admin")
-    public ResponseEntity<?> makeAdmin(
+    public ResponseEntity<?> giveAdmin(
             @PathVariable
             Long id) {
         return addDeleteRole(id, false);
@@ -39,9 +39,9 @@ public class UserRoleController {
     private ResponseEntity<?> addDeleteRole(@NonNull Long userId, boolean isRemove) {
         try {
             if (isRemove)
-                userService.addAdminRole(userId);
-            else
                 userService.removeAdminRole(userId);
+            else
+                userService.addAdminRole(userId);
         }
         catch (EntityNotFoundException | EntityExistsException e) {
             return Response.getBadRequest(e.getMessage());

@@ -85,7 +85,7 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     }
 
     private void addOrRemoveAdminRole(@NonNull Long userId, boolean isRemove)
-            throws EntityNotFoundException, EntityExistsException {
+            throws EntityNotFoundException {
         Role adminRole = roleRepository.findByName(Role.ADMIN);
         if (adminRole == null)
             throw new DbDataException("в БД отсутствует роль " + Role.ADMIN);
