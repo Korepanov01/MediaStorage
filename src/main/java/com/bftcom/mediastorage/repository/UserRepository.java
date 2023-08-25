@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserRepository extends CustomJpaRepository<User> {
 
-    List<User> findByNameContainsIgnoreCaseOrEmailContainsIgnoreCase(String searchString, Pageable pageable);
+    List<User> findByNameContainsIgnoreCaseOrEmailContainsIgnoreCase(String nameSearchString, String emailSearchString, Pageable pageable);
 
     Optional<User> findByEmail(@NonNull String email);
 

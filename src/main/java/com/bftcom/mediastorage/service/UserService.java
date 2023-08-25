@@ -91,6 +91,7 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     public List<User> findByParameters(SearchStringParameters parameters) throws EntityNotFoundException {
         return userRepository.findByNameContainsIgnoreCaseOrEmailContainsIgnoreCase(
                 parameters.getSearchString(),
+                parameters.getSearchString(),
                 PageRequest.of(parameters.getPageIndex(), parameters.getPageSize())
         );
     }

@@ -55,7 +55,7 @@ public class MediaService extends ParameterSearchService<Media, MediaSearchParam
     @Override
     public List<Media> findByParameters(MediaSearchParameters parameters) throws EntityNotFoundException {
         return mediaRepository.findByParameters(
-                categoryService.findAllSubcategoryIds(parameters.getCategoryId()),
+                parameters.getCategoryId() != null ? categoryService.findAllSubcategoryIds(parameters.getCategoryId()) : null,
                 parameters.getTagIds(),
                 parameters.getTypeIds(),
                 parameters.getSearchString(),
