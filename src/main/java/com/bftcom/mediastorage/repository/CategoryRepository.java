@@ -2,18 +2,15 @@ package com.bftcom.mediastorage.repository;
 
 import com.bftcom.mediastorage.model.entity.Category;
 import lombok.NonNull;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface CategoryRepository extends CrudRepository<Category> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Transactional(readOnly = true)
     List<Category> findByParentCategoryId(@NonNull Long parentCategoryId);
 
-    @Transactional(readOnly = true)
     Category findByName(@NonNull String name);
 
-    @Transactional(readOnly = true)
     boolean existsByName(@NonNull String name);
 }

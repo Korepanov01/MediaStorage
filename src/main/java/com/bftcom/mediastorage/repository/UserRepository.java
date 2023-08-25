@@ -1,21 +1,16 @@
 package com.bftcom.mediastorage.repository;
 
 import com.bftcom.mediastorage.model.entity.User;
-import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import lombok.NonNull;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends ParametersSearchRepository<User, SearchStringParameters> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Transactional(readOnly = true)
     User findByName(@NonNull String name);
 
-    @Transactional(readOnly = true)
     User findByEmail(@NonNull String email);
 
-    @Transactional(readOnly = true)
     boolean existsByName(@NonNull String name);
 
-    @Transactional(readOnly = true)
     boolean existsByEmail(@NonNull String email);
 }

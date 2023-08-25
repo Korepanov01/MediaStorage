@@ -2,9 +2,9 @@ package com.bftcom.mediastorage.repository;
 
 import com.bftcom.mediastorage.model.entity.MediaType;
 import lombok.NonNull;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MediaTypeRepository extends CrudRepository<MediaType> {
-    @Transactional(readOnly = true)
+public interface MediaTypeRepository extends JpaRepository<MediaType, Long> {
+
     MediaType findByName(@NonNull String name);
 }
