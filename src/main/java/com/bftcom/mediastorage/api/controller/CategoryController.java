@@ -10,7 +10,6 @@ import com.bftcom.mediastorage.service.CategoryService;
 import com.bftcom.mediastorage.service.CrudService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +30,6 @@ public class CategoryController implements CrudController<
 
     private final CategoryService categoryService;
 
-    @Transactional(readOnly = true)
     @GetMapping("/{id}/children")
     public List<CategoryDto> getChildren(
             @PathVariable
@@ -58,9 +56,8 @@ public class CategoryController implements CrudController<
         Category parentCategory = null;
 
         if (request.getParentCategoryId() != null && request.getParentCategoryId() != 0) {
-            parentCategory = categoryService.findById(request.getParentCategoryId());
-            if (parentCategory == null)
-                throw new EntityNotFoundException("Не найдена родительская категория");
+            parentCategory = categoryService.findById(request.getParentCategoryId())
+                    .orElseThrow(() -> new EntityNotFoundException("Не найдена родительская категория"));
         }
 
         return new Category(request.getName(), parentCategory);

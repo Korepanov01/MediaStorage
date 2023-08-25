@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 public interface PutController <
         Entity,
@@ -28,12 +29,12 @@ public interface PutController <
             @Valid
             @RequestBody
             PutRequest request) {
-        Entity entity = getMainService().findById(id);
-        if (entity == null)
+        Optional<Entity> optionalEntity = getMainService().findById(id);
+        if (optionalEntity.isEmpty())
             return Response.getEntityNotFound();
 
         try {
-            updateEntity(entity, request);
+            updateEntity(optionalEntity.get(), request);
         } catch (EntityNotFoundException e) {
             return Response.getEntityNotFound(e.getMessage());
         } catch (EntityExistsException | IllegalOperationException e) {

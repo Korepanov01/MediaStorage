@@ -16,7 +16,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,7 +28,6 @@ public class UserController implements ParametersSearchController<UserDto, User,
 
     private final UserService userService;
 
-    @Transactional
     @PatchMapping("/update_name")
     public ResponseEntity<?> updateName(
             @Valid
@@ -52,7 +50,6 @@ public class UserController implements ParametersSearchController<UserDto, User,
         return Response.getOk();
     }
 
-    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(
             @PathVariable

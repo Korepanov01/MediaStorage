@@ -6,17 +6,21 @@ import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.model.entity.Role;
 import com.bftcom.mediastorage.model.entity.User;
+import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.CustomJpaRepository;
 import com.bftcom.mediastorage.repository.RoleRepository;
 import com.bftcom.mediastorage.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class UserService extends CrudService<User> {
+public class UserService extends ParameterSearchService<User, SearchStringParameters> {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -81,6 +85,14 @@ public class UserService extends CrudService<User> {
             user.removeRole(adminRole);
         else
             user.addRole(adminRole);
+    }
+
+    @Override
+    public List<User> findByParameters(SearchStringParameters parameters) throws EntityNotFoundException {
+        return userRepository.findByNameContainsIgnoreCaseOrEmailContainsIgnoreCase(
+                parameters.getSearchString(),
+                PageRequest.of(parameters.getPageIndex(), parameters.getPageSize())
+        );
     }
 
     @Override

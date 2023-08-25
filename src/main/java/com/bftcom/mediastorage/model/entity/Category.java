@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -28,6 +30,9 @@ public class Category implements Identical {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
+
+    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
+    private Set<Category> childrenCategories = new HashSet<>();
 
     public Category(String name, Category parentCategory) {
         this.name = name;

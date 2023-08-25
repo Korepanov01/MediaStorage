@@ -51,15 +51,14 @@ public class MediaController implements FullController<
     public Media fillEntity(@NonNull PostMediaRequest postMediaRequest) throws EntityNotFoundException {
         String description = StringUtils.hasText(postMediaRequest.getDescription()) ? postMediaRequest.getDescription() : null;
 
-        Category category = categoryService.findById(postMediaRequest.getCategoryId());
-        if (category == null) throw new EntityNotFoundException("Категория не найдена");
+        Category category = categoryService.findById(postMediaRequest.getCategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("Категория не найдена"));
 
-        MediaType mediaType = mediaTypeService.findById(postMediaRequest.getMediaTypeId());
-        if (mediaType == null) throw new EntityNotFoundException("Тип медиа не найден");
+        MediaType mediaType = mediaTypeService.findById(postMediaRequest.getMediaTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("Тип медиа не найден"));
 
-        User user = userService.findById(postMediaRequest.getUserId());
-        if (user == null) throw new EntityNotFoundException("Пользователь не найден");
-
+        User user = userService.findById(postMediaRequest.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
         return new Media(
                 postMediaRequest.getName(),
                 description,
@@ -73,11 +72,11 @@ public class MediaController implements FullController<
     public void updateEntity(@NonNull Media media, @NonNull PutMediaRequest request) throws EntityNotFoundException, IllegalOperationException {
         String description = StringUtils.hasText(request.getDescription()) ? request.getDescription() : null;
 
-        Category category = categoryService.findById(request.getCategoryId());
-        if (category == null) throw new EntityNotFoundException("Категория не найдена");
+        Category category = categoryService.findById(request.getCategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("Категория не найдена"));
 
-        MediaType mediaType = mediaTypeService.findById(request.getMediaTypeId());
-        if (mediaType == null) throw new EntityNotFoundException("Тип медиа не найден");
+        MediaType mediaType = mediaTypeService.findById(request.getMediaTypeId())
+                .orElseThrow(() -> new EntityNotFoundException("Тип медиа не найден"));
         if (!media.getMediaType().getId().equals(mediaType.getId()) && media.getFiles().stream().anyMatch(mediaFile -> mediaFile.getFileType().getName().equals(FileType.MAIN)))
             throw new IllegalOperationException("Нельзя менять тип, если есть файлы");
 

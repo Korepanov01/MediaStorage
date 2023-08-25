@@ -16,7 +16,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +34,6 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final UserService userService;
 
-    @Transactional(readOnly = true)
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(
             @Valid
@@ -55,7 +53,6 @@ public class AuthController {
                 .ok(new AuthDto(userDetails, roles, jwt));
     }
 
-    @Transactional
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(
             @Valid

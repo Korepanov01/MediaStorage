@@ -7,7 +7,6 @@ import com.bftcom.mediastorage.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,6 @@ public class UserRoleController {
 
     private final UserService userService;
 
-    @Transactional
     @PostMapping("/{id}/give_admin")
     public ResponseEntity<?> giveAdmin(
             @PathVariable
@@ -28,7 +26,6 @@ public class UserRoleController {
         return addDeleteRole(id, false);
     }
 
-    @Transactional
     @PostMapping("/{id}/remove_admin")
     public ResponseEntity<?> removeAdmin(
             @PathVariable

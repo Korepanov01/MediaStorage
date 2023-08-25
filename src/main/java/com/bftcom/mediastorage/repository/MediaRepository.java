@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface MediaRepository extends CustomJpaRepository<Media> {
 
@@ -18,9 +19,9 @@ public interface MediaRepository extends CustomJpaRepository<Media> {
             "\nAND (:userId IS NULL OR m.user.id = :userId)" +
             "\nORDER BY CASE WHEN :randomSeed IS NOT NULL THEN :randomSeed ELSE m.name END")
     List<Media> findByParameters(
-            @Param("categoryIds") List<Long> categoryIds,
-            @Param("tagIds") List<Long> tagIds,
-            @Param("typeIds") List<Long> typeIds,
+            @Param("categoryIds") Set<Long> categoryIds,
+            @Param("tagIds") Set<Long> tagIds,
+            @Param("typeIds") Set<Long> typeIds,
             @Param("searchString") String searchString,
             @Param("userId") Long userId,
             @Param("randomSeed") Integer randomSeed,

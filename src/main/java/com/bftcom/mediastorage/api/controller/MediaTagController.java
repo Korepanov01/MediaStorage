@@ -1,14 +1,12 @@
 package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.TooManyTagsException;
 import com.bftcom.mediastorage.service.MediaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api/media")
@@ -17,7 +15,6 @@ public class MediaTagController {
 
     private final MediaService mediaService;
 
-    @Transactional
     @PostMapping("/{id}/add_tag")
     public ResponseEntity<?> addTag(
             @PathVariable
@@ -35,7 +32,6 @@ public class MediaTagController {
         return Response.getOk();
     }
 
-    @Transactional
     @DeleteMapping("/{id}/remove_tag")
     public ResponseEntity<?> removeTag(
             @PathVariable
