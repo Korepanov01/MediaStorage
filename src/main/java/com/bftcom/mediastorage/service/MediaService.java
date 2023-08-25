@@ -52,8 +52,6 @@ public class MediaService extends ParameterSearchService<Media, MediaSearchParam
             media.removeTag(tag);
         else
             media.addTag(tag);
-
-        mediaRepository.update(media);
     }
 
     @Override

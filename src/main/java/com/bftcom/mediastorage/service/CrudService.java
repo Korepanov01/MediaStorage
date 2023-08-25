@@ -35,11 +35,6 @@ public abstract class CrudService<Entity> {
     }
 
     @Transactional
-    public void update(@NonNull Entity entity) {
-        getMainRepository().update(entity);
-    }
-
-    @Transactional
     public void delete(@NonNull Long id) throws EntityNotFoundException, IllegalOperationException {
         Entity entity = getMainRepository().findById(id);
 

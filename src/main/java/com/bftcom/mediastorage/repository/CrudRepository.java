@@ -20,8 +20,5 @@ public interface CrudRepository<Entity> {
     void save(@NonNull Entity entity);
 
     @Transactional
-    void update(@NonNull Entity entity);
-
-    @Transactional
     void delete(@NonNull Entity entity);
 }

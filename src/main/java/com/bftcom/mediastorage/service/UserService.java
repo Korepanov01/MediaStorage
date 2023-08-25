@@ -52,8 +52,6 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
             throw new EntityNotFoundException("Пользователь не найден");
 
         user.setName(name);
-
-        userRepository.update(user);
     }
 
     @Transactional
@@ -68,8 +66,6 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
             throw new EntityNotFoundException("Пользователь не найден");
 
         user.setEmail(email);
-
-        userRepository.update(user);
     }
 
     @Transactional
@@ -98,8 +94,6 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
             user.removeRole(adminRole);
         else
             user.addRole(adminRole);
-
-        userRepository.update(user);
     }
 
     @Override

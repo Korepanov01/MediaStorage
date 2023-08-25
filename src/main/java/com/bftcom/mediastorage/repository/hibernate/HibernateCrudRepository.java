@@ -70,12 +70,6 @@ public abstract class HibernateCrudRepository <Entity> implements CrudRepository
 
     @Override
     @Transactional
-    public void update(@NonNull Entity entity) {
-        getSession().update(entity);
-    }
-
-    @Override
-    @Transactional
     public void delete(@NonNull Entity entity) {
         getSession().delete(entity);
     }

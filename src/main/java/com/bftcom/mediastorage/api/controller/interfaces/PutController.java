@@ -40,8 +40,6 @@ public interface PutController <
             return Response.getBadRequest(e.getMessage());
         }
 
-        getMainService().update(entity);
-
         return Response.getOk();
     }
 
