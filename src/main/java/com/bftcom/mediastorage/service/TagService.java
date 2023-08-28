@@ -1,6 +1,5 @@
 package com.bftcom.mediastorage.service;
 
-import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
 import com.bftcom.mediastorage.repository.CustomJpaRepository;
@@ -17,10 +16,10 @@ import java.util.List;
 public class TagService extends ParameterSearchService<Tag, SearchStringParameters> {
 
     private final TagRepository tagRepository;
-    @Override
 
-    public List<Tag> findByParameters(SearchStringParameters parameters) throws EntityNotFoundException {
-        return tagRepository.findByNameContainsIgnoreCase(
+    @Override
+    public List<Tag> findByParameters(SearchStringParameters parameters) {
+        return tagRepository.findByParameters(
                 parameters.getSearchString(),
                 PageRequest.of(parameters.getPageIndex(), parameters.getPageSize()));
     }
