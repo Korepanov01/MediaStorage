@@ -1,5 +1,6 @@
 package com.bftcom.mediastorage.api.handler;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class AppResponseEntityExceptionHandler extends ResponseEntityExceptionHa
 
         List<String> errors = ex.getBindingResult().getFieldErrors()
                 .stream()
-                .map(fieldError -> String.join(": ", fieldError.getField(), fieldError.getDefaultMessage()))
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
 
         responseBody.put("errors", errors);
