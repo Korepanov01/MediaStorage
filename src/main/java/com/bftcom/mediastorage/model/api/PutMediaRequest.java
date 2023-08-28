@@ -11,10 +11,10 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode
 public class PutMediaRequest {
 
-    @NotNull(message = "Должен быть указан id категории (categoryId)")
+    @NotNull(message = "Должена быть указана категория")
     private Long categoryId;
 
-    @NotBlank(message = "Должно быть указано название (name)")
+    @NotBlank(message = "Должно быть указано название")
     @Size(max = 200, message = "Название не должно быть больше 200 символов")
     private String name;
 
