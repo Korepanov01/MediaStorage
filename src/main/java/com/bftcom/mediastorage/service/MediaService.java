@@ -8,6 +8,7 @@ import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
 import com.bftcom.mediastorage.repository.CustomJpaRepository;
 import com.bftcom.mediastorage.repository.MediaRepository;
 import com.bftcom.mediastorage.repository.TagRepository;
+import com.bftcom.mediastorage.repository.spicification.MediaSpecifications;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -53,13 +54,14 @@ public class MediaService extends ParameterSearchService<Media, MediaSearchParam
 
     @Override
     public List<Media> findByParameters(MediaSearchParameters parameters) throws EntityNotFoundException {
-        return mediaRepository.findByParameters(
-                parameters.getCategoryId() != null ? categoryService.findAllSubcategoryIds(parameters.getCategoryId()) : null,
-                parameters.getTagIds(),
-                parameters.getTypeIds(),
-                parameters.getSearchString(),
-                parameters.getUserId(),
-                //parameters.getRandomOrder() ? new Random().nextInt() : null,
+        return mediaRepository.findAll(
+                MediaSpecifications.findByParameters(
+                        parameters.getCategoryId() != null ? categoryService.findAllSubcategoryIds(parameters.getCategoryId()) : null,
+                        parameters.getTagIds(),
+                        parameters.getTypeIds(),
+                        parameters.getSearchString(),
+                        parameters.getUserId(),
+                        parameters.getRandomOrder()),
                 PageRequest.of(parameters.getPageIndex(), parameters.getPageSize()));
     }
 
