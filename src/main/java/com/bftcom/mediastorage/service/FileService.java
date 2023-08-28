@@ -83,6 +83,8 @@ public class FileService extends CrudService<File> {
 
         media.addFile(file);
 
+        mediaRepository.save(media);
+
         return file;
     }
 

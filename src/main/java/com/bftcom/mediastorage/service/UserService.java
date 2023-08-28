@@ -85,6 +85,8 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
             user.removeRole(adminRole);
         else
             user.addRole(adminRole);
+
+        userRepository.save(user);
     }
 
     @Override
