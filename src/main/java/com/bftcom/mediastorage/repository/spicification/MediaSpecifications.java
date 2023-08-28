@@ -18,31 +18,31 @@ public class MediaSpecifications {
             String searchString,
             Long userId,
             Boolean isRandom) {
-        return (Root<Media> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
+        return (Root<Media> root, CriteriaQuery<?> query, CriteriaBuilder builder) -> {
             Predicate categoryPredicate = CollectionUtils.isEmpty(categoryIds)
-                    ? criteriaBuilder.conjunction()
+                    ? builder.conjunction()
                     : root.get("category").get("id").in(categoryIds);
 
             Predicate tagPredicate = CollectionUtils.isEmpty(tagIds)
-                    ? criteriaBuilder.conjunction()
+                    ? builder.conjunction()
                     : root.join("tags").get("id").in(tagIds);
 
             Predicate typePredicate = CollectionUtils.isEmpty(typeIds)
-                    ? criteriaBuilder.conjunction()
+                    ? builder.conjunction()
                     : root.get("mediaType").get("id").in(typeIds);
 
             Predicate searchPredicate = !StringUtils.hasText(searchString)
-                    ? criteriaBuilder.conjunction()
-                    : criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + searchString.toLowerCase() + "%");
+                    ? builder.conjunction()
+                    : builder.like(builder.lower(root.get("name")), "%" + searchString.toLowerCase() + "%");
 
             Predicate userPredicate = userId == null
-                    ? criteriaBuilder.conjunction()
-                    : criteriaBuilder.equal(root.get("user").get("id"), userId);
+                    ? builder.conjunction()
+                    : builder.equal(root.get("user").get("id"), userId);
 
-            Predicate finalPredicate = criteriaBuilder.and(categoryPredicate, tagPredicate, typePredicate, searchPredicate, userPredicate);
+            Predicate finalPredicate = builder.and(categoryPredicate, tagPredicate, typePredicate, searchPredicate, userPredicate);
 
             if (BooleanUtils.isTrue(isRandom)) {
-                //TODO
+                query.orderBy(builder.asc(builder.function("RANDOM", null)));
             }
 
             return finalPredicate;
