@@ -158,7 +158,7 @@ CREATE TABLE "file"
     "content_type"  VARCHAR(50)     NOT NULL,
     "size"          BIGINT          NOT NULL,
     "data"          BYTEA           NOT NULL,
-    "file_type_id" bigint           NOT NULL
+    "file_type_id"  bigint          NOT NULL
 );
 
 CREATE INDEX idx_file_file_type_id ON "file" ("file_type_id");
