@@ -8,9 +8,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -22,16 +21,16 @@ public class CategoryService extends CrudService<Category> {
         return categoryRepository.findByParentCategoryId(parentCategoryId);
     }
 
-    public Set<Long> findAllSubcategoryIds(@NonNull Long categoryId) throws EntityNotFoundException {
+    public List<Long> findAllSubcategoryIds(@NonNull Long categoryId) throws EntityNotFoundException {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new EntityNotFoundException("Категория не найдена"));
 
-        Set<Long> subcategoryIds = new HashSet<>();
+        List<Long> subcategoryIds = new ArrayList<>();
         findAllSubcategoryIdsRecursive(category, subcategoryIds);
         return subcategoryIds;
     }
 
-    private void findAllSubcategoryIdsRecursive(Category category, Set<Long> subcategoryIds) {
+    private void findAllSubcategoryIdsRecursive(Category category, List<Long> subcategoryIds) {
         subcategoryIds.add(category.getId());
         for (Category childCategory : category.getChildrenCategories()) {
             findAllSubcategoryIdsRecursive(childCategory, subcategoryIds);
