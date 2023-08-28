@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -37,5 +38,10 @@ public class Category implements Identical {
     public Category(String name, Category parentCategory) {
         this.name = name;
         this.parentCategory = parentCategory;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
