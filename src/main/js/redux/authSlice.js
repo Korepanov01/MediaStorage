@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
-import {AuthService} from "../services/authService";
+import {createSlice} from '@reduxjs/toolkit'
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -28,7 +27,7 @@ export const authSlice = createSlice({
     },
 });
 
-export const { login, loginFail, logout } = authSlice.actions
+export const {login, loginFail, logout} = authSlice.actions
 
 export default authSlice.reducer
 

@@ -22,9 +22,9 @@ export const request = (url, method, payload = undefined, params = undefined) =>
             result.error = convertError(error);
             if (result.error.status == 401) {
                 AuthService.logout();
-            } else {
-                toastErrors(result.error.messages);
             }
+
+            toastErrors(result.error.messages);
         }))
         .then(() => result);
 };
