@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
-import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
 import com.bftcom.mediastorage.model.entity.Identical;
@@ -30,13 +30,13 @@ public interface SaveController<
         try {
             entity = fillEntity(request);
         } catch (Exception e) {
-            return Response.getBadRequest(e.getMessage());
+            return Responses.badRequest(e.getMessage());
         }
 
         try {
             getMainService().save(entity);
         } catch (EntityExistsException exception) {
-            return Response.getEntityAlreadyExists(exception.getMessage());
+            return Responses.badRequest(exception.getMessage());
         }
 
         return ResponseEntity.ok(new PostEntityResponse(entity));

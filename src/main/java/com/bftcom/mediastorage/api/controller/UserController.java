@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
-import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.api.controller.interfaces.ParametersSearchController;
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
@@ -36,18 +36,18 @@ public class UserController implements ParametersSearchController<UserDto, User,
             Authentication authentication) {
         Optional<Long> optionalUserId = AuthParser.getUserId(authentication);
         if (optionalUserId.isEmpty()) {
-            return Response.getUnauthorized();
+            return Responses.UNAUTHORIZED;
         }
 
         try {
             userService.updateName(request.getName(), optionalUserId.get());
         } catch (EntityExistsException e) {
-            return Response.getEntityAlreadyExists(e.getMessage());
+            return Responses.badRequest(e.getMessage());
         } catch (EntityNotFoundException e) {
-            return Response.getEntityNotFound(e.getMessage());
+            return Responses.notFound(e.getMessage());
         }
 
-        return Response.getOk();
+        return Responses.OK;
     }
 
     @DeleteMapping("/{id}")
@@ -58,12 +58,12 @@ public class UserController implements ParametersSearchController<UserDto, User,
         try {
             userService.delete(id);
         } catch (IllegalOperationException e) {
-            return Response.getBadRequest(e.getMessage());
+            return Responses.badRequest(e.getMessage());
         } catch (EntityNotFoundException e) {
-            return Response.getEntityNotFound(e.getMessage());
+            return Responses.notFound(e.getMessage());
         }
 
-        return Response.getOk();
+        return Responses.OK;
     }
 
     @Override

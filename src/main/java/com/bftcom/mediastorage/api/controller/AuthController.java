@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
-import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.model.api.request.LoginRequest;
 import com.bftcom.mediastorage.model.api.request.RegisterRequest;
@@ -62,7 +62,7 @@ public class AuthController {
             User user = userService.register(request.getName(), request.getEmail(), request.getPassword());
             return ResponseEntity.ok(new PostEntityResponse(user.getId()));
         } catch (EntityExistsException e) {
-            return Response.getEntityAlreadyExists(e.getMessage());
+            return Responses.badRequest(e.getMessage());
         }
     }
 }

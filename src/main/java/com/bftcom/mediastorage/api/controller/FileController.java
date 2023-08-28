@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
-import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
 import com.bftcom.mediastorage.exception.InvalidFileTypeException;
@@ -32,7 +32,7 @@ public class FileController {
         File file = fileService.findById(id).orElse(null);
 
         if (file == null) {
-            return Response.getEntityNotFound("Файл не найден");
+            return Responses.notFound("Файл не найден");
         }
 
         return ResponseEntity.ok()
@@ -52,7 +52,7 @@ public class FileController {
         try {
             file = fileService.save(multipartFile, mediaId, request.getFileTypeId());
         } catch (TooManyFilesException | IOException | InvalidFileTypeException | IllegalOperationException e) {
-            return Response.getBadRequest(e.getMessage());
+            return Responses.badRequest(e.getMessage());
         }
 
         return ResponseEntity.ok(new PostEntityResponse(file.getId()));
@@ -68,11 +68,11 @@ public class FileController {
         try {
             fileService.delete(fileId);
         } catch (IllegalOperationException e) {
-            return Response.getBadRequest(e.getMessage());
+            return Responses.badRequest(e.getMessage());
         } catch (EntityNotFoundException e) {
-            return Response.getEntityNotFound(e.getMessage());
+            return Responses.notFound(e.getMessage());
         }
 
-        return Response.getOk();
+        return Responses.OK;
     }
 }

@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
-import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.TooManyTagsException;
 import com.bftcom.mediastorage.service.MediaService;
@@ -24,12 +24,12 @@ public class MediaTagController {
         try {
             mediaService.addTag(id, tagId);
         } catch (EntityNotFoundException e) {
-            return Response.getEntityNotFound(e.getMessage());
+            return Responses.notFound(e.getMessage());
         } catch (TooManyTagsException e) {
-            return Response.getBadRequest(e.getMessage());
+            return Responses.badRequest(e.getMessage());
         }
 
-        return Response.getOk();
+        return Responses.OK;
     }
 
     @DeleteMapping("/{id}/remove_tag")
@@ -41,9 +41,9 @@ public class MediaTagController {
         try {
             mediaService.removeTag(id, tagId);
         } catch (EntityNotFoundException e) {
-            return Response.getEntityNotFound(e.getMessage());
+            return Responses.notFound(e.getMessage());
         }
 
-        return Response.getOk();
+        return Responses.OK;
     }
 }

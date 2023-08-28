@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
-import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.service.ParameterSearchService;
 import lombok.NonNull;
@@ -26,7 +26,7 @@ public interface ParametersSearchController <
                     .map(this::convertToListItemDto)
                     .collect(Collectors.toList()));
         } catch (EntityNotFoundException e) {
-            return Response.getEntityNotFound(e.getMessage());
+            return Responses.notFound(e.getMessage());
         }
     }
 

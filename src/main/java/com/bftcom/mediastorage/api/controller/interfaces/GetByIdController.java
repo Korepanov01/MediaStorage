@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
-import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.service.CrudService;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public interface GetByIdController <
             Long id) {
         Optional<Entity> optionalEntity = getMainService().findById(id);
         if (optionalEntity.isEmpty())
-            return Response.getEntityNotFound();
+            return Responses.NOT_FOUND;
         return ResponseEntity.ok(convertToDto(optionalEntity.get()));
     }
 

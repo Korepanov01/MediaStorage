@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.api.controller.interfaces;
 
-import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
@@ -31,17 +31,17 @@ public interface PutController <
             PutRequest request) {
         Optional<Entity> optionalEntity = getMainService().findById(id);
         if (optionalEntity.isEmpty())
-            return Response.getEntityNotFound();
+            return Responses.NOT_FOUND;
 
         try {
             updateEntity(optionalEntity.get(), request);
         } catch (EntityNotFoundException e) {
-            return Response.getEntityNotFound(e.getMessage());
+            return Responses.notFound(e.getMessage());
         } catch (EntityExistsException | IllegalOperationException e) {
-            return Response.getBadRequest(e.getMessage());
+            return Responses.badRequest(e.getMessage());
         }
 
-        return Response.getOk();
+        return Responses.OK;
     }
 
     void updateEntity(@NonNull Entity entity, @NonNull PutRequest putRequest) throws EntityNotFoundException, EntityExistsException, IllegalOperationException;

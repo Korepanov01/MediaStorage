@@ -1,6 +1,6 @@
 package com.bftcom.mediastorage.api.controller;
 
-import com.bftcom.mediastorage.api.Response;
+import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.service.UserService;
@@ -41,9 +41,9 @@ public class UserRoleController {
                 userService.addAdminRole(userId);
         }
         catch (EntityNotFoundException | EntityExistsException e) {
-            return Response.getBadRequest(e.getMessage());
+            return Responses.badRequest(e.getMessage());
         }
 
-        return Response.getOk();
+        return Responses.OK;
     }
 }
