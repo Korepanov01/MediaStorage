@@ -2,8 +2,8 @@ package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.controller.interfaces.CrudController;
 import com.bftcom.mediastorage.exception.EntityExistsException;
-import com.bftcom.mediastorage.model.api.request.PostCategoryRequest;
-import com.bftcom.mediastorage.model.api.request.PutCategoryRequest;
+import com.bftcom.mediastorage.model.api.PostCategoryRequest;
+import com.bftcom.mediastorage.model.api.PutCategoryRequest;
 import com.bftcom.mediastorage.model.dto.CategoryDto;
 import com.bftcom.mediastorage.model.entity.Category;
 import com.bftcom.mediastorage.service.CategoryService;

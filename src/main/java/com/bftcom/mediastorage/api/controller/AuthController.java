@@ -2,9 +2,9 @@ package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.exception.EntityExistsException;
-import com.bftcom.mediastorage.model.api.request.LoginRequest;
-import com.bftcom.mediastorage.model.api.request.RegisterRequest;
-import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
+import com.bftcom.mediastorage.model.api.LoginRequest;
+import com.bftcom.mediastorage.model.api.RegisterRequest;
+import com.bftcom.mediastorage.model.api.PostEntityResponse;
 import com.bftcom.mediastorage.model.dto.AuthDto;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.security.AppUserDetails;

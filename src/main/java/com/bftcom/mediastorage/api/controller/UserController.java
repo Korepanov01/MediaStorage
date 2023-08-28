@@ -5,7 +5,7 @@ import com.bftcom.mediastorage.api.controller.interfaces.ParametersSearchControl
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
-import com.bftcom.mediastorage.model.api.request.UpdateUserNameRequest;
+import com.bftcom.mediastorage.model.api.UpdateUserNameRequest;
 import com.bftcom.mediastorage.model.dto.UserDto;
 import com.bftcom.mediastorage.model.entity.User;
 import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;

@@ -21,11 +21,9 @@ public class SecurityUtils {
 
     public boolean checkUserOwning(Authentication authentication, Long mediaId) {
         Optional<Long> optionalAuthUserId = AuthParser.getUserId(authentication);
-        if (optionalAuthUserId.isEmpty())
-            return false;
+        Optional<Media> optionalMedia = mediaService.findById(mediaId);
 
-        Media media = mediaService.findById(mediaId).orElse(null);
-
-        return media != null && media.getUser().getId().equals(optionalAuthUserId.get());
+        return optionalAuthUserId.isPresent() && optionalMedia.isPresent()
+                && optionalMedia.get().getUser().getId().equals(optionalAuthUserId.get());
     }
 }

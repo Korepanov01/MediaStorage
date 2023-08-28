@@ -2,7 +2,7 @@ package com.bftcom.mediastorage.api.controller.interfaces;
 
 import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.exception.EntityExistsException;
-import com.bftcom.mediastorage.model.api.response.PostEntityResponse;
+import com.bftcom.mediastorage.model.api.PostEntityResponse;
 import com.bftcom.mediastorage.model.entity.Identical;
 import com.bftcom.mediastorage.service.CrudService;
 import lombok.NonNull;

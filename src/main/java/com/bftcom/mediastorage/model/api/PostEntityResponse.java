@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.api.response;
+package com.bftcom.mediastorage.model.api;
 
 import com.bftcom.mediastorage.model.entity.Identical;
 import lombok.Getter;

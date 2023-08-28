@@ -14,16 +14,9 @@ public class AuthParser {
     }
 
     public static Optional<AppUserDetails> getUserDetails(@Nullable Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
+        if (authentication == null || authentication.getPrincipal().getClass() != AppUserDetails.class) {
             return Optional.empty();
         }
-
-        if (authentication.getPrincipal().getClass() != AppUserDetails.class) {
-            return Optional.empty();
-        }
-
-        AppUserDetails userDetails = (AppUserDetails) authentication.getPrincipal();
-
-        return Optional.ofNullable(userDetails);
+        return Optional.ofNullable((AppUserDetails)authentication.getPrincipal());
     }
 }

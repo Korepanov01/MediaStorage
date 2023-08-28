@@ -1,4 +1,4 @@
-package com.bftcom.mediastorage.model.api.request;
+package com.bftcom.mediastorage.model.api;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
