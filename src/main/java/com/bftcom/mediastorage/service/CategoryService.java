@@ -18,7 +18,7 @@ public class CategoryService extends CrudService<Category> {
     private final CategoryRepository categoryRepository;
 
     public List<Category> findByParentCategoryId(@NonNull Long parentCategoryId) {
-        return categoryRepository.findByParentCategoryId(parentCategoryId);
+        return categoryRepository.findByParentCategoryId(parentCategoryId != 0 ? parentCategoryId : null);
     }
 
     public List<Long> findAllSubcategoryIds(@NonNull Long categoryId) throws EntityNotFoundException {
