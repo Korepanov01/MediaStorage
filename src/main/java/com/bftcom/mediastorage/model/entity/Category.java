@@ -15,7 +15,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "category", schema = "public")
+@Table(name = "category", schema = "public",
+        indexes = {
+            @Index(name = "idx_category_parent_category_id", columnList = "parent_category_id"),
+            @Index(name = "uidx_user_name", columnList = "name", unique = true)
+        })
 public class Category implements Identical {
 
     @Id
@@ -25,7 +29,7 @@ public class Category implements Identical {
 
     @NotBlank
     @Size(max = 200)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)

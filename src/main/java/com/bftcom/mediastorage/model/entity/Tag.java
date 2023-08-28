@@ -12,7 +12,11 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tag", schema = "public")
+@Table(name = "tag", schema = "public",
+        indexes = {
+            @Index(name = "uidx_tag_name", columnList = "name", unique = true)
+        }
+)
 public class Tag implements Identical {
 
     @Id
@@ -22,7 +26,7 @@ public class Tag implements Identical {
 
     @NotBlank
     @Size(max = 200)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     public Tag(String name) {

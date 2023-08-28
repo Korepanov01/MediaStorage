@@ -12,7 +12,10 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "role", schema = "public")
+@Table(name = "role", schema = "public",
+        indexes = {
+                @Index(name = "uidx_role_name", columnList = "name", unique = true)
+        })
 public class Role implements Identical {
 
     public static final String ADMIN = "ADMIN";
@@ -25,6 +28,6 @@ public class Role implements Identical {
 
     @NotBlank
     @Size(max = 100)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 }

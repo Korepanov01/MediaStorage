@@ -15,7 +15,12 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "media", schema = "public")
+@Table(name = "media", schema = "public",
+        indexes = {
+                @Index(name = "idx_media_name", columnList = "name"),
+                @Index(name = "idx_media_media_type_id", columnList = "media_type_id"),
+                @Index(name = "idx_media_category_id", columnList = "category_id")
+        })
 public class Media implements Identical {
 
     @Id
@@ -25,12 +30,12 @@ public class Media implements Identical {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @NotBlank
     @Size(max = 200)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Size(max = 10_000)
@@ -39,27 +44,36 @@ public class Media implements Identical {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "media_type_id")
+    @JoinColumn(name = "media_type_id", nullable = false)
     private MediaType mediaType;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToMany
     @JoinTable(
             name = "media_tag",
-            joinColumns = @JoinColumn(name = "media_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
+            schema = "public",
+            joinColumns = @JoinColumn(name = "media_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", nullable = false),
+            indexes = {
+                    @Index(name = "uidx_media_tag_media_id_tag_id", columnList = "media_id,tag_id", unique = true)
+            }
     )
     private Set<Tag> tags = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
             name = "media_file",
-            joinColumns = @JoinColumn(name = "media_id"),
-            inverseJoinColumns = @JoinColumn(name = "file_id")
+            schema = "public",
+            joinColumns = @JoinColumn(name = "media_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "file_id", nullable = false),
+            indexes = {
+                    @Index(name = "idx_media_file_media_id", columnList = "media_id"),
+                    @Index(name = "uidx_media_file_media_id_file_id", columnList = "media_id,file_id", unique = true)
+            }
     )
     private Set<File> files = new HashSet<>();
 

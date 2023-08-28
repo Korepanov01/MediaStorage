@@ -12,7 +12,11 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "media_type", schema = "public")
+@Table(name = "media_type", schema = "public",
+        indexes = {
+            @Index(name = "uidx_media_type_name", columnList = "name", unique = true)
+        }
+)
 public class MediaType implements Identical {
 
     public static final String IMAGE = "Изображение";
@@ -26,6 +30,6 @@ public class MediaType implements Identical {
 
     @NotBlank
     @Size(max = 100)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 }

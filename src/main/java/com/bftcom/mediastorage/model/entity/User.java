@@ -15,7 +15,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "user", schema = "public",
+        indexes = {
+                @Index(name = "uidx_user_name", columnList = "name", unique = true),
+                @Index(name = "uidx_user_email", columnList = "email", unique = true)
+        })
 public class User implements Identical {
 
     @Id
@@ -25,25 +29,29 @@ public class User implements Identical {
 
     @NotBlank
     @Size(max = 200)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @NotBlank
     @Size(max = 256)
-    @Column(name = "password_hash")
+    @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
     @NotBlank
     @Size(max = 500)
     @Email
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            schema = "public",
+            joinColumns = @JoinColumn(name = "user_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "role_id", nullable = false),
+            indexes = {
+                    @Index(name = "uidx_user_role_role_id_role_id", columnList = "role_id,user_id", unique = true)
+            }
     )
     private Set<Role> roles = new HashSet<>();
 

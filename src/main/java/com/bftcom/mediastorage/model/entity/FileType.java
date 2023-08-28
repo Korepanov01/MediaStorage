@@ -12,7 +12,10 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "file_type", schema = "public")
+@Table(name = "file_type", schema = "public",
+    indexes = {
+        @Index(name = "uidx_file_type_name", columnList = "name", unique = true)
+    })
 public class FileType implements Identical {
 
     public static final String THUMBNAIL = "Превью";
@@ -25,6 +28,6 @@ public class FileType implements Identical {
 
     @NotBlank
     @Size(max = 100)
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 }
