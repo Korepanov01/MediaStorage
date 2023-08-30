@@ -13,7 +13,6 @@ import com.bftcom.mediastorage.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,22 +23,6 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    public User register(@NonNull String name, @NonNull String email, @NonNull String password) throws EntityExistsException {
-        if (userRepository.existsByName(name)) {
-            throw new EntityExistsException("Имя пользователя уже занято");
-        }
-        if (userRepository.existsByEmail(email)) {
-            throw new EntityExistsException("Почта уже занята");
-        }
-
-        User user = new User(name, passwordEncoder.encode(password), email);
-
-        userRepository.save(user);
-
-        return user;
-    }
 
     public void updateName(@NonNull String name, @NonNull Long id) throws EntityExistsException, EntityNotFoundException {
         if (userRepository.existsByName(name)) {
@@ -90,7 +73,7 @@ public class UserService extends ParameterSearchService<User, SearchStringParame
     }
 
     @Override
-    public List<User> findByParameters(SearchStringParameters parameters) throws EntityNotFoundException {
+    public List<User> findByParameters(SearchStringParameters parameters) {
         return userRepository.findByParameters(
                 parameters.getSearchString(),
                 PageRequest.of(parameters.getPageIndex(), parameters.getPageSize())

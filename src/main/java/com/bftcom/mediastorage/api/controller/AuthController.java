@@ -2,55 +2,45 @@ package com.bftcom.mediastorage.api.controller;
 
 import com.bftcom.mediastorage.api.Responses;
 import com.bftcom.mediastorage.exception.EntityExistsException;
+import com.bftcom.mediastorage.exception.LoginException;
 import com.bftcom.mediastorage.model.api.LoginRequest;
-import com.bftcom.mediastorage.model.api.RegisterRequest;
 import com.bftcom.mediastorage.model.api.PostEntityResponse;
+import com.bftcom.mediastorage.model.api.RegisterRequest;
 import com.bftcom.mediastorage.model.dto.AuthDto;
 import com.bftcom.mediastorage.model.entity.User;
-import com.bftcom.mediastorage.security.AppUserDetails;
-import com.bftcom.mediastorage.security.JwtUtils;
-import com.bftcom.mediastorage.service.UserService;
+import com.bftcom.mediastorage.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
-    private final UserService userService;
+    private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(
             @Valid
             @RequestBody
             LoginRequest request) {
+        AuthService.LoginInfo loginInfo;
+        try {
+            loginInfo = authService.login(request.getEmail(), request.getPassword());
+        } catch (LoginException e) {
+            return Responses.badRequest(e.getMessage());
+        }
 
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        AppUserDetails userDetails = (AppUserDetails) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        return ResponseEntity
-                .ok(new AuthDto(userDetails, roles, jwt));
+        return ResponseEntity.ok(new AuthDto(
+                loginInfo.getUserDetails(),
+                loginInfo.getRoles(),
+                loginInfo.getJwt()));
     }
 
     @PostMapping("/register")
@@ -59,7 +49,7 @@ public class AuthController {
             @RequestBody
             RegisterRequest request) {
         try {
-            User user = userService.register(request.getName(), request.getEmail(), request.getPassword());
+            User user = authService.register(request.getName(), request.getEmail(), request.getPassword());
             return ResponseEntity.ok(new PostEntityResponse(user.getId()));
         } catch (EntityExistsException e) {
             return Responses.badRequest(e.getMessage());
