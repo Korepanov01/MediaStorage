@@ -3,10 +3,8 @@ import {Button, Form, FormGroup, Modal} from "react-bootstrap";
 import {getMediaTypes} from "../../apis/mediaTypeAPI";
 import {Formik} from "formik";
 import {object, string} from "yup";
-import {CategorySelector} from "../selectors/categorySelector";
-
-
-export function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
+import CategorySelector from "../selectors/categorySelector";
+export default function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
     const [types, setTypes] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(media?.category);
 
@@ -17,8 +15,8 @@ export function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
     }, []);
 
     const validationSchema = object({
-        name: string().required("Введите имя").max(200, "Название должно быть меньше 200 символов"),
-        description: string().max(10000, "Описание должно быть меньше 10 тыс. символов")
+        name: string().required(Text.validationErrors.nameRequired).max(200, Text.validationErrors.mediaNameTooLong),
+        description: string().max(10000, Text.validationErrors.mediaDescriptionTooLong)
     });
 
     return (
@@ -37,7 +35,7 @@ export function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
                         {({handleChange, handleSubmit, values, errors, touched}) => (
                             <Form onSubmit={handleSubmit}>
                                 <FormGroup>
-                                    <Form.Label>Название</Form.Label>
+                                    <Form.Label>{Text.formLabels.name}</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="name"
@@ -48,7 +46,7 @@ export function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
                                     <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Form.Label>Описание</Form.Label>
+                                    <Form.Label>{Text.formLabels.description}</Form.Label>
                                     <Form.Control
                                         as="textarea"
                                         name="description"
@@ -59,7 +57,7 @@ export function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
                                     <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Form.Label>Тип</Form.Label>
+                                    <Form.Label>{Text.formLabels.type}</Form.Label>
                                     <Form.Select
                                         name="mediaTypeId"
                                         onChange={handleChange}
@@ -71,11 +69,11 @@ export function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
                                     </Form.Select>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Form.Label>Категория</Form.Label>
+                                    <Form.Label>{Text.formLabels.category}</Form.Label>
                                     <CategorySelector selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
                                 </FormGroup>
                                 <FormGroup className={"d-flex justify-content-end"}>
-                                    <Button type="submit">Готово</Button>
+                                    <Button type="submit">{Text.buttons.submit}</Button>
                                 </FormGroup>
                             </Form>
                         )}

@@ -1,8 +1,8 @@
 import React, {useLayoutEffect, useState} from "react";
 import {Button, ListGroup, Row, Col, Form, Badge} from "react-bootstrap";
-import {PageSelector} from "../selectors/pageSelector";
+import PageSelector from "../selectors/pageSelector";
 import {toast} from "react-toastify";
-import {SearchBar} from "../selectors/searchBar";
+import SearchBar from "../selectors/searchBar";
 import {deleteUser, getUsers} from "../../apis/userAPI";
 import {Roles} from "../../enums/roles";
 import {giveAdmin, removeAdmin} from "../../apis/userRoleAPI";

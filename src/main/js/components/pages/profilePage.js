@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {MediaCards} from "../mediaCards";
-import {PageSelector} from "../selectors/pageSelector";
+import MediaCards from "../mediaCards";
+import PageSelector from "../selectors/pageSelector";
 import {Button, Col, Row} from "react-bootstrap";
-import {MediaFormPopup} from "../popups/mediaFormPopup";
+import MediaFormPopup from "../popups/mediaFormPopup";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {getMedias, postMedia} from "../../apis/mediaAPI";
-import {InfoCard} from "../decor/infoCard";
+import InfoCard from "../decor/infoCard";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;
 
-export function ProfilePage() {
+export default function ProfilePage() {
     const [medias, setMedias] = useState([])
     const [pageIndex, setPageIndex] = useState(0);
     const [showMediaForm, setShowMediaForm] = useState(false);

@@ -1,11 +1,10 @@
 import React from "react";
 import {Badge, Carousel} from "react-bootstrap";
+import {Properties} from "../properties";
 
-const CAROUSEL_INTERVAL_MS = 2000;
-
-export function TagsCarousel({tags}) {
+export default function TagsCarousel({tags}) {
     return (
-        <Carousel interval={CAROUSEL_INTERVAL_MS} controls = {false}>
+        <Carousel interval={Properties.tagsCarouselIntervalMs} controls = {false}>
             {tags.map((tag) => (
                 <Carousel.Item key={tag.id}>
                     <div className={'d-flex justify-content-center'}>

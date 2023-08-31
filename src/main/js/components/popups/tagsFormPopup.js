@@ -1,17 +1,17 @@
 import React from 'react';
 import {Form, FormGroup, Modal} from "react-bootstrap";
-import {TagsSelector} from "../selectors/tagsSelector";
+import TagsSelector from "../selectors/tagsSelector";
 import {toast} from "react-toastify";
-import {Title} from "../decor/title";
+import Title from "../decor/title";
 import {addTagToMedia, removeTagFromMedia} from "../../apis/mediaAPI";
 
-export function TagsFormPopup({show, setShow, setMedia, media}) {
+export default function TagsFormPopup({show, setShow, setMedia, media}) {
 
     function handleSelect(tag) {
         addTagToMedia(media.id, tag.id).then(({error}) => {
             if (!error) {
                 setMedia({...media, tags: media.tags.concat([tag])});
-                toast.success(`Тег "${tag.name}" добавлен`);
+                toast.success(Text.toastsMessages.successAddTag(tag.name));
             }
         });
     }

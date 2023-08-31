@@ -1,22 +1,18 @@
+import React from "react";
 import Pagination from 'react-bootstrap/Pagination';
 
-import React from "react";
-
-const NEXT_BUTTON_TEXT = "Далее";
-const PREVIOUS_BUTTON_TEXT = "Назад";
-
-export function PageSelector({ onPageChange: onPageChange, pageIndex: pageIndex}) {
+export default function PageSelector({ onPageChange: onPageChange, pageIndex: pageIndex}) {
 
     return (
         <Pagination className="justify-content-between">
             <Pagination.Prev onClick={ () => { if (pageIndex > 0) onPageChange(pageIndex - 1)} } active={ pageIndex > 0 }>
-                { PREVIOUS_BUTTON_TEXT }
+                {Text.buttons.previousPage}
             </Pagination.Prev>
-            <Pagination.Item>
-                { pageIndex + 1 }
-            </Pagination.Item>
+
+            <Pagination.Item>{pageIndex + 1}</Pagination.Item>
+
             <Pagination.Next onClick={ () => { onPageChange(pageIndex + 1)} } active>
-                { NEXT_BUTTON_TEXT }
+                {Text.buttons.nextPage}
             </Pagination.Next>
         </Pagination>
     );

@@ -4,31 +4,33 @@ import {Formik} from 'formik';
 import {object, string, ref} from 'yup';
 import {AuthService} from '../../services/authService';
 import {toast} from 'react-toastify';
+import {Text} from "../../text";
+import Title from "../decor/title";
 
-export function RegisterPopup({show, setShow}) {
+export default function RegisterPopup({show, setShow}) {
 
     function handleRegisterClick(values) {
         AuthService.register(values.name, values.email, values.password)
             .then(({error}) => {
                 if (!error) {
                     setShow(false);
-                    toast.success('Упешная регистрация');
+                    toast.success(Text.toastsMessages.successRegister);
                 }
             });
     }
 
     const validationSchema = object({
-        name: string().required('Введите имя').max(200, 'Имя должно быть не больше 200 символов'),
-        email: string().required('Введите почту').email('Некорректный адрес электронной почты').max(500, 'Почта должна быть не больше 500 символов'),
-        password: string().required('Введите пароль').min(8, 'Пароль должен иметь больше 8 символов').max(100, 'Пароль не должен быть больше 100 символов'),
-        repeatPassword: string().required('Повторите пароль')
-            .oneOf([ref('password')], 'Пароли должны совпадать')
+        name: string().required(Text.validationErrors.nameRequired).max(200, Text.validationErrors.userNameTooLong),
+        email: string().required(Text.validationErrors.emailRequired).email(Text.validationErrors.invalidEmail).max(500, Text.validationErrors.emailTooLong),
+        password: string().required(Text.validationErrors.passwordRequired).min(8, Text.validationErrors.passwordTooShort).max(100, Text.validationErrors.passwordTooLong),
+        repeatPassword: string().required(Text.validationErrors.repeatPasswordRequired)
+            .oneOf([ref('password')], Text.validationErrors.passwordsAreNotTheSame)
     });
 
     return (
         <Modal show={show} onHide={() => setShow(false)}>
             <Modal.Header>
-                <h1 className='text-center w-100'>Регистрация</h1>
+                <Title>{Text.titles.register}</Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik
@@ -50,7 +52,7 @@ export function RegisterPopup({show, setShow}) {
                                 <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                             </FormGroup>
                             <FormGroup>
-                                <Form.Label>Почта</Form.Label>
+                                <Form.Label>{Text.formLabels.email}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="email"
@@ -61,7 +63,7 @@ export function RegisterPopup({show, setShow}) {
                                 <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                             </FormGroup>
                             <FormGroup>
-                                <Form.Label>Пароль</Form.Label>
+                                <Form.Label>{Text.formLabels.password}</Form.Label>
                                 <Form.Control
                                     type="password"
                                     name="password"
@@ -72,7 +74,7 @@ export function RegisterPopup({show, setShow}) {
                                 <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                             </FormGroup>
                             <FormGroup>
-                                <Form.Label>Повторите пароль</Form.Label>
+                                <Form.Label>{Text.formLabels.repeatPassword}</Form.Label>
                                 <Form.Control
                                     type="password"
                                     name="repeatPassword"
@@ -83,7 +85,7 @@ export function RegisterPopup({show, setShow}) {
                                 <Form.Control.Feedback type="invalid">{errors.repeatPassword}</Form.Control.Feedback>
                             </FormGroup>
                             <FormGroup>
-                                <Button className="w-100" type="submit">Зарегистрироваться</Button>
+                                <Button className="w-100" type="submit">{Text.buttons.register}</Button>
                             </FormGroup>
                         </Form>
                     )}

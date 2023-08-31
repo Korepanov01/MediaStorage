@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
-import {ButtonGroup, Button, Card} from "react-bootstrap";
-import {FilesFormPopup} from "./popups/filesFormPopup";
-import {MediaFormPopup} from "./popups/mediaFormPopup";
-import {TagsFormPopup} from "./popups/tagsFormPopup";
+import {ButtonGroup, Button} from "react-bootstrap";
+import FilesFormPopup from "./popups/filesFormPopup";
+import MediaFormPopup from "./popups/mediaFormPopup";
+import TagsFormPopup from "./popups/tagsFormPopup";
 import {useNavigate} from "react-router-dom";
 import {deleteMedia, putMedia} from "../apis/mediaAPI";
 import {toast} from "react-toastify";
-import {InfoCard} from "./decor/infoCard";
+import InfoCard from "./decor/infoCard";
 import {getMediaTypeById} from "../apis/mediaTypeAPI";
+import {Text} from "../text";
 
-export function MediaRedactor({media, setMedia}) {
+export default function MediaRedactor({media, setMedia}) {
     const [showMediaForm, setShowMediaForm] = useState(false);
     const [showFilesForm, setShowFilesForm] = useState(false);
     const [showTagsForm, setShowTagsForm] = useState(false);
@@ -21,7 +22,7 @@ export function MediaRedactor({media, setMedia}) {
             .then(({error}) => {
                 if (!error) {
                     navigate("/");
-                    toast.success(`Медиа "${media.name}" удалено`)
+                    toast.success(Text.toastsMessages.successDeleteMedia(media.name))
                 }
             });
     };
@@ -39,7 +40,7 @@ export function MediaRedactor({media, setMedia}) {
                     if (!getMediaTypeError) {
                         setMedia({...media, mediaType: mediaType, name: values.name, description: values.description, category: values.category});
                         setShowMediaForm(false);
-                        toast.success('Данные изменены');
+                        toast.success(Text.toastsMessages.successDataChanged);
                     }
                 });
             }
@@ -52,12 +53,12 @@ export function MediaRedactor({media, setMedia}) {
             <FilesFormPopup show={showFilesForm} setShow={setShowFilesForm} setMedia={setMedia} media={media}/>
             <TagsFormPopup show={showTagsForm} setShow={setShowTagsForm} setMedia={setMedia} media={media}/>
 
-            <InfoCard title={"Изменить"}>
+            <InfoCard title={Text.titles.changeDataMenu}>
                 <ButtonGroup vertical className={"w-100"}>
-                    <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>Основное</Button>
-                    <Button className={"w-100"} onClick={() => setShowFilesForm(true)}>Файлы</Button>
-                    <Button className={"w-100"} onClick={() => setShowTagsForm(true)}>Теги</Button>
-                    <Button variant={"danger"} className={"w-100"} onClick={handleDeleteButtonClick}>Удалить</Button>
+                    <Button className={"w-100"} onClick={() => setShowMediaForm(true)}>{Text.buttons.changeMediaMainData}</Button>
+                    <Button className={"w-100"} onClick={() => setShowFilesForm(true)}>{Text.buttons.changeMediaFiles}</Button>
+                    <Button className={"w-100"} onClick={() => setShowTagsForm(true)}>{Text.buttons.changeMediaTags}</Button>
+                    <Button variant={"danger"} className={"w-100"} onClick={handleDeleteButtonClick}>{Text.buttons.delete}</Button>
                 </ButtonGroup>
             </InfoCard>
         </>

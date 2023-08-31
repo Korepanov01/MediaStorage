@@ -1,9 +1,9 @@
 import React from "react";
-import {CategorySelector} from "../selectors/categorySelector";
+import CategorySelector from "../selectors/categorySelector";
 import {useState} from "react";
 import {Button, ButtonGroup} from "react-bootstrap";
 import {deleteCategory, postCategory, putCategory} from "../../apis/categoryAPI";
-import {ChangeCategoryPopup} from "../popups/changeCategoryPopup";
+import ChangeCategoryPopup from "../popups/changeCategoryPopup";
 import {toast} from "react-toastify";
 
 export default function CategoryRedactor() {

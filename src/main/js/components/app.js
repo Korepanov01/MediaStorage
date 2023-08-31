@@ -2,18 +2,18 @@ import Container from "react-bootstrap/Container";
 
 const React = require('react');
 
-import {SearchMediaPage} from "./pages/SearchMediaPage";
+import SearchMediaPage from "./pages/SearchMediaPage";
 import {Routes, Route} from 'react-router-dom';
-import {MainPage} from "./pages/mainPage";
-import {ProfilePage} from "./pages/profilePage";
-import {MediaPage} from "./pages/mediaPage";
-import {AppNavbar} from "./appNavbar";
-import {AdminPage} from "./pages/adminPage";
+import MainPage from "./pages/mainPage";
+import ProfilePage from "./pages/profilePage";
+import MediaPage from "./pages/mediaPage";
+import Navigation from "./navigation";
+import AdminPage from "./pages/adminPage";
 
-export function App() {
+export default function App() {
     return (
         <Container>
-            <AppNavbar/>
+            <Navigation/>
             <Routes>
                 <Route path="/" element={<MainPage/>}/>
                 <Route path="search" element={<SearchMediaPage/>}/>

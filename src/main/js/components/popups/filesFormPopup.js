@@ -8,7 +8,7 @@ import {Formik} from "formik";
 import {MediaTypes} from "../../enums/mediaTypes";
 import {FileTypes} from "../../enums/fileTypes";
 
-export function FilesFormPopup({show, setShow, setMedia, media}) {
+export default function FilesFormPopup({show, setShow, setMedia, media}) {
     const [fileTypes, setFileTypes] = useState([]);
 
     const [selectedFile, setSelectedFile] = useState(null);
@@ -24,7 +24,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
     function handleDeleteFile(fileId) {
         deleteFile(media.id, fileId).then(({error}) => {
             if (!error) {
-                toast.success("Файл удалён");
+                toast.success(Text.toastsMessages.successDeleteFile);
                 setMedia({...media, files: media.files.filter(file => file.id !== fileId)});
             }
         });
@@ -33,7 +33,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
     function handleAddFile({fileTypeId}) {
         postFile(selectedFile, fileTypeId, media.id).then(({error, data}) => {
             if (!error) {
-                toast.success("Файл добавлен");
+                toast.success(Text.toastsMessages.successAddedFile);
                 setMedia({...media, files: [{
                         id: data.id,
                         type: fileTypes.find(fileType => fileType.id == fileTypeId).name,
@@ -57,7 +57,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
         const errors = {};
 
         if (!selectedFile) {
-            errors.file = 'Не выбран файл';
+            errors.file = Text.validationErrors.fileDoesntPicked;
         }
 
         return errors;
@@ -75,7 +75,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
                         {({ handleChange, handleSubmit, values, errors, touched }) => (
                             <Form onSubmit={handleSubmit} className={"w-100"}>
                                 <FormGroup>
-                                    <Form.Label>Файл</Form.Label>
+                                    <Form.Label>{Text.formLabels.file}</Form.Label>
                                     <Form.Control
                                         type="file"
                                         onChange={(e) => setSelectedFile(e.target.files[0])}
@@ -84,7 +84,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
                                     <Form.Control.Feedback type="invalid">{errors.file}</Form.Control.Feedback>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Form.Label>Тип</Form.Label>
+                                    <Form.Label>{Text.formLabels.type}</Form.Label>
                                     <Form.Select
                                         name={"fileTypeId"}
                                         onChange={handleChange}
@@ -98,7 +98,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
                                     <Form.Control.Feedback type="invalid">{errors.fileTypeId}</Form.Control.Feedback>
                                 </FormGroup>
                                 <FormGroup>
-                                    <Button type={"submit"} className={"w-100"} >Добавить</Button>
+                                    <Button type={"submit"} className={"w-100"}>{Text.buttons.add}</Button>
                                 </FormGroup>
                             </Form>
                         )}
@@ -126,7 +126,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
                                             }
                                         </Card.Body>
                                         <Card.Footer className={"w-100"}>
-                                            <Button onClick={() => handleDeleteFile(file.id)} className={"w-100"} variant={"danger"}>Удалить</Button>
+                                            <Button onClick={() => handleDeleteFile(file.id)} className={"w-100"} variant={"danger"}>{Text.buttons.delete}</Button>
                                         </Card.Footer>
                                     </Card>
                                 ))}
@@ -136,7 +136,7 @@ export function FilesFormPopup({show, setShow, setMedia, media}) {
             }
             <Modal.Footer>
                 <Button className={"w-100"} variant="secondary" onClick={() => setShow(false)}>
-                    Закрыть
+                    {Text.buttons.close}
                 </Button>
             </Modal.Footer>
         </Modal>

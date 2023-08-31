@@ -5,7 +5,7 @@ import {object, string} from "yup"
 import {toast} from "react-toastify";
 import {postTag} from "../../apis/tagAPI";
 
-export function AddTagForm({onSubmit: handleSubmit}) {
+export default function AddTagForm({onSubmit: handleSubmit}) {
     const initialValues={tagName: ""};
 
     function handlePostLogic(values, resetForm) {

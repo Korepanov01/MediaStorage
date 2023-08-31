@@ -1,11 +1,11 @@
 import React, {useLayoutEffect, useState} from "react";
 import {Button, ListGroup, Row, Col, ButtonGroup} from "react-bootstrap";
 import {deleteTag, getTags,} from "../../apis/tagAPI";
-import {PageSelector} from "../selectors/pageSelector";
+import PageSelector from "../selectors/pageSelector";
 import {toast} from "react-toastify";
-import {ChangeTagFormPopup} from "../popups/changeTagFormPopup";
-import {AddTagForm} from "../forms/addTagForm";
-import {SearchBar} from "../selectors/searchBar";
+import ChangeTagFormPopup from "../popups/changeTagFormPopup";
+import AddTagForm from "../forms/addTagForm";
+import SearchBar from "../selectors/searchBar";
 
 const PAGE_SIZE = 100;
 

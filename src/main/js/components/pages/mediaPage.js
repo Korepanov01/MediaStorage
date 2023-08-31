@@ -2,14 +2,14 @@ import React, {useLayoutEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Badge, Col, Row, Spinner} from "react-bootstrap";
 import {getMediaById} from "../../apis/mediaAPI";
-import {Files} from "../files";
+import Files from "../files";
 import {FileTypes} from "../../enums/fileTypes";
-import {MediaRedactor} from "../mediaRedactor";
+import MediaRedactor from "../mediaRedactor";
 import {useSelector} from "react-redux";
-import {Title} from "../decor/title";
-import {InfoCard} from "../decor/infoCard";
+import Title from "../decor/title";
+import InfoCard from "../decor/infoCard";
 
-export function MediaPage() {
+export default function MediaPage() {
     const {id} = useParams();
 
     const authUserId = useSelector(state => state.auth.user?.id);

@@ -8,7 +8,7 @@ import {Roles} from "../../enums/roles";
 import UsersTable from "../admintables/usersTable";
 import CategoryRedactor from "../admintables/categoryRedactor";
 
-export function AdminPage() {
+export default function AdminPage() {
     const navigate = useNavigate()
     const user = useSelector(state => state.auth.user);
 

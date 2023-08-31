@@ -1,9 +1,9 @@
 import React from "react";
-import { MediaCard } from './mediaCard';
+import MediaCard from './mediaCard';
 import {CardGroup, Col, Row} from "react-bootstrap";
 import {getChunks} from "../utils";
 
-export function MediaCards({medias, cardsInRow}) {
+export default function MediaCards({medias, cardsInRow}) {
     return (
         <CardGroup>
             {getChunks(medias, cardsInRow).map((chunk, chunkIndex) => (

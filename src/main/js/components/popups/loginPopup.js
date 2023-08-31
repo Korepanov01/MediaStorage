@@ -4,9 +4,10 @@ import {Formik} from "formik";
 import {object, string} from "yup"
 import {useNavigate} from "react-router-dom";
 import {AuthService} from "../../services/authService";
-import {toast} from "react-toastify";
+import {Text} from "../../text";
+import Title from "../decor/title";
 
-export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
+export default function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
 
     const navigate = useNavigate();
 
@@ -16,23 +17,19 @@ export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
                 if (!error) {
                     handleChangeShow(false);
                     navigate("/profile");
-                } else {
-                    if (error.status == 401) {
-                        toast.error("Неправильный логин или пароль");
-                    }
                 }
             });
     }
 
     const validationSchema = object({
-        email: string().required("Введите почту"),
-        password: string().required("Введите пароль")
+        email: string().required(Text.validationErrors.emailRequired),
+        password: string().required(Text.validationErrors.passwordRequired)
     });
 
     return (
         <Modal show={show} onHide={() => handleChangeShow(false)}>
             <Modal.Header>
-                <h1 className={"text-center w-100"}>Вход</h1>
+                <Title>{Text.titles.login}</Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik
@@ -43,7 +40,7 @@ export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
                     {({ handleChange, handleSubmit, values, errors, touched }) => (
                         <Form onSubmit={handleSubmit}>
                             <FormGroup>
-                                <Form.Label>Почта</Form.Label>
+                                <Form.Label>{Text.formLabels.email}</Form.Label>
                                 <Form.Control
                                     type="text"
                                     name="email"
@@ -54,7 +51,7 @@ export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
                                 <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                             </FormGroup>
                             <FormGroup>
-                                <Form.Label>Пароль</Form.Label>
+                                <Form.Label>{Text.formLabels.password}</Form.Label>
                                 <Form.Control
                                     type="password"
                                     name="password"
@@ -65,7 +62,7 @@ export function LoginPopup({show: show, onChangeShow: handleChangeShow}) {
                                 <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                             </FormGroup>
                             <FormGroup>
-                                <Button className="w-100" type="submit">Войти</Button>
+                                <Button className="w-100" type="submit">{Text.buttons.login}</Button>
                             </FormGroup>
                         </Form>
                     )}

@@ -3,7 +3,7 @@ import {useState} from "react";
 import {Form} from "react-bootstrap";
 import {getMediaTypes} from "../../apis/mediaTypeAPI";
 
-export function MediaTypeSelector({setSelectedTypesIds, selectedTypesIds}) {
+export default function MediaTypeSelector({setSelectedTypesIds, selectedTypesIds}) {
     const [types, setTypes] = useState([]);
 
     useEffect(() => {

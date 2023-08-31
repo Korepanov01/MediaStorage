@@ -1,6 +1,6 @@
 import React from "react";
 
-export function Title({ level = 4, children }) {
+export default function Title({ level = 4, children }) {
     const Heading = `h${level}`;
 
     return (

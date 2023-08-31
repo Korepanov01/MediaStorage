@@ -1,12 +1,12 @@
 import React from "react";
 import {Card, ListGroup} from "react-bootstrap";
-import {TagsCarousel} from "./tagsCarousel";
+import TagsCarousel from "./tagsCarousel";
 import {Link} from "react-router-dom";
 import {defaults} from "../enums/defaults";
 
-export function MediaCard({media}) {
+export default function MediaCard({media}) {
     return (
-        <Link to={`/media/${media.id}`} style={{ textDecoration: 'none' }}>
+        <Link to={`/media/${media.id}`} style={{textDecoration: 'none'}}>
             <Card className={"flex-fill"} style={{margin: "5px"}}>
                 <Card.Img src={media.thumbnailUrl ?? defaults.defaultImageUrl}/>
                 <Card.Body>

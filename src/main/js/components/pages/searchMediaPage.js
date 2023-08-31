@@ -1,17 +1,17 @@
 import React, {useLayoutEffect, useState} from 'react';
-import {MediaCards} from "../mediaCards";
-import {PageSelector} from "../selectors/pageSelector";
+import MediaCards from "../mediaCards";
+import PageSelector from "../selectors/pageSelector";
 import {Button, Card, Col, Form, Row} from "react-bootstrap";
 import {getMedias} from "../../apis/mediaAPI";
-import {Title} from "../decor/title";
-import {TagsSelector} from "../selectors/tagsSelector";
-import {MediaTypeSelector} from "../selectors/mediaTypeSelector";
-import {CategorySelector} from "../selectors/categorySelector";
+import Title from "../decor/title";
+import TagsSelector from "../selectors/tagsSelector";
+import MediaTypeSelector from "../selectors/mediaTypeSelector";
+import CategorySelector from "../selectors/categorySelector";
 
 const PAGE_SIZE = 9;
 const CARDS_IN_ROW = 3;
 
-export function SearchMediaPage() {
+export default function SearchMediaPage() {
     const [medias, setMedias] = useState([])
 
     const [pageIndex, setPageIndex] = useState(0);

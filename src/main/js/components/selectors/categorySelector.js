@@ -2,7 +2,7 @@ import React, {useLayoutEffect, useState} from "react";
 import {getChildrenCategory} from "../../apis/categoryAPI";
 import {Badge, Card} from "react-bootstrap";
 
-export function CategorySelector({selectedCategory, setSelectedCategory, parentsState= undefined, childrenState=undefined, resetOnChange = false}) {
+export default function CategorySelector({selectedCategory, setSelectedCategory, parentsState= undefined, childrenState=undefined, resetOnChange = false}) {
     const [parents, setParents] = !parentsState ? useState([]) : parentsState;
     const [children, setChildren] = !childrenState ? useState([]) : childrenState;
 
