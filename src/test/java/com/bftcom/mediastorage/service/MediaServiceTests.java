@@ -67,7 +67,6 @@ public class MediaServiceTests {
 
     @Test
     public void removeTag_ValidTag_Success() {
-        // Arrange
         Media media = mediaRepository.findById(1L).orElseThrow();
 
         Tag tag = new Tag(UUID.randomUUID().toString());
