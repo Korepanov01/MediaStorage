@@ -5,6 +5,7 @@ import com.bftcom.mediastorage.exception.TooManyTagsException;
 import com.bftcom.mediastorage.model.entity.Media;
 import com.bftcom.mediastorage.model.entity.Tag;
 import com.bftcom.mediastorage.model.searchparameters.MediaSearchParameters;
+import com.bftcom.mediastorage.repository.CategoryRepository;
 import com.bftcom.mediastorage.repository.CustomJpaRepository;
 import com.bftcom.mediastorage.repository.MediaRepository;
 import com.bftcom.mediastorage.repository.TagRepository;
@@ -21,7 +22,7 @@ import java.util.List;
 public class MediaService extends ParameterSearchService<Media, MediaSearchParameters> {
 
     private final MediaRepository mediaRepository;
-    private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
 
     public void addTag(@NonNull Long mediaId, @NonNull Long tagId)
@@ -58,7 +59,7 @@ public class MediaService extends ParameterSearchService<Media, MediaSearchParam
     public List<Media> findByParameters(MediaSearchParameters parameters) throws EntityNotFoundException {
         return mediaRepository.findAll(
                 MediaSpecifications.findByParameters(
-                        parameters.getCategoryId() != null ? categoryService.findAllSubcategoryIds(parameters.getCategoryId()) : null,
+                        parameters.getCategoryId() != null ? categoryRepository.findAllSubcategoryIds(parameters.getCategoryId()) : null,
                         parameters.getTagIds(),
                         parameters.getTypeIds(),
                         parameters.getSearchString(),
