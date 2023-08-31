@@ -21,14 +21,16 @@ export default function TagsSelector({onSelect: handleSelect, onUnselect: handle
                 <SearchBar onSearchStringChange={(searchString) => setTagSearchParameters({...tagSearchParameters, pageIndex: 0, searchString: searchString})}/>
             </Row>
             <Row>
-                {selectedTags.map((selectedTag) => (
-                    <Badge
-                        onClick={() => handleUnselect(selectedTag)}
-                        size={"sm"}
-                        key={selectedTag.id}>
-                        {selectedTag.name}
-                    </Badge>
-                ))}
+                <div>
+                    {selectedTags.map((selectedTag) => (
+                        <Badge
+                            onClick={() => handleUnselect(selectedTag)}
+                            size={"sm"}
+                            key={selectedTag.id}>
+                            {selectedTag.name}
+                        </Badge>
+                    ))}
+                </div>
             </Row>
             <Row>
                 {tags.map((tag) => (

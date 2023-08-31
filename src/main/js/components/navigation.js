@@ -8,6 +8,8 @@ import {Roles} from "../enums/roles";
 import LoginPopup from "./popups/loginPopup";
 import {AuthService} from "../services/authService";
 import RegisterPopup from "./popups/registerPopup";
+import {Text} from "../text";
+
 
 export default function Navigation() {
     const [showLoginForm, setShowLoginForm] = useState(false);

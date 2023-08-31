@@ -7,6 +7,7 @@ import Container from "react-bootstrap/Container";
 import {Formik} from "formik";
 import {MediaTypes} from "../../enums/mediaTypes";
 import {FileTypes} from "../../enums/fileTypes";
+import {Text} from "../../text";
 
 export default function FilesFormPopup({show, setShow, setMedia, media}) {
     const [fileTypes, setFileTypes] = useState([]);

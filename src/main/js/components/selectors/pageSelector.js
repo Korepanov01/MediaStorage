@@ -1,5 +1,7 @@
 import React from "react";
 import Pagination from 'react-bootstrap/Pagination';
+import {Text} from "../../text";
+
 
 export default function PageSelector({ onPageChange: onPageChange, pageIndex: pageIndex}) {
 

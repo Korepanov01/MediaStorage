@@ -4,6 +4,9 @@ import {getMediaTypes} from "../../apis/mediaTypeAPI";
 import {Formik} from "formik";
 import {object, string} from "yup";
 import CategorySelector from "../selectors/categorySelector";
+import {Text} from "../../text";
+
+
 export default function MediaFormPopup({show, setShow, onSubmit: handleSubmit, media}) {
     const [types, setTypes] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(media?.category);

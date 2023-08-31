@@ -5,6 +5,7 @@ import {object, string} from "yup"
 import {putTag} from "../../apis/tagAPI";
 import {toast} from "react-toastify";
 import Title from "../decor/title";
+import {Text} from "../../text";
 
 export default function ChangeTagFormPopup({show, onChangeShow: handleChangeShow, tag, onSubmit: handleSubmit}) {
 

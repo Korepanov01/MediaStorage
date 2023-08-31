@@ -4,6 +4,8 @@ import TagsSelector from "../selectors/tagsSelector";
 import {toast} from "react-toastify";
 import Title from "../decor/title";
 import {addTagToMedia, removeTagFromMedia} from "../../apis/mediaAPI";
+import {Text} from "../../text";
+
 
 export default function TagsFormPopup({show, setShow, setMedia, media}) {
 
