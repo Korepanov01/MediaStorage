@@ -60,8 +60,8 @@ export const Text = {
         file: "Файл",
         type: "Тип",
         email: "Почта",
-        description: "Категория",
-        category: "Описание",
+        description: "Описание",
+        category: "Категория",
         password: "Пароль",
         repeatPassword: "Повторите пароль"
     }
