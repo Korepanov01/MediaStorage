@@ -54,8 +54,20 @@ public class FileService extends CrudService<File> {
                 multipartFile.getBytes(),
                 fileType);
 
+        validateFileType(file, media);
+
+        fileRepository.save(file);
+
+        media.addFile(file);
+
+        mediaRepository.save(media);
+
+        return file;
+    }
+
+    private void validateFileType(File file, Media media) throws InvalidFileTypeException, IllegalOperationException {
         String contentType = file.getContentType();
-        String fileTypeName = fileType.getName();
+        String fileTypeName = file.getFileType().getName();
         String mediaTypeName = media.getMediaType().getName();
         if (fileTypeName.equals(FileType.THUMBNAIL) && media.getFiles().stream().anyMatch(mediaFile -> mediaFile.getFileType().getName().equals(FileType.THUMBNAIL)))
             throw new IllegalOperationException("Не может быть больше одного первью");
@@ -73,19 +85,10 @@ public class FileService extends CrudService<File> {
             } else if (contentType.startsWith("video")) {
                 if (!mediaTypeName.equals(MediaType.VIDEO))
                     throw new InvalidFileTypeException("Видео может быть только в медиа типа '" + MediaType.VIDEO + "'");
-            }
-            else {
+            } else {
                 throw new InvalidFileTypeException("Недопустимый тип файла");
             }
         }
-
-        fileRepository.save(file);
-
-        media.addFile(file);
-
-        mediaRepository.save(media);
-
-        return file;
     }
 
     @Override
