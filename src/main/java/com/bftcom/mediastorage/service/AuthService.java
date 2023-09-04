@@ -2,10 +2,10 @@ package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.exception.LoginException;
-import com.bftcom.mediastorage.model.entity.User;
-import com.bftcom.mediastorage.repository.UserRepository;
-import com.bftcom.mediastorage.security.AppUserDetails;
-import com.bftcom.mediastorage.security.JwtUtils;
+import com.bftcom.mediastorage.data.entity.User;
+import com.bftcom.mediastorage.data.repository.UserRepository;
+import com.bftcom.mediastorage.web.security.AppUserDetails;
+import com.bftcom.mediastorage.web.security.JwtUtils;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

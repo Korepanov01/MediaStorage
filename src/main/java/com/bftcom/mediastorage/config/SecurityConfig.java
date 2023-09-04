@@ -1,10 +1,10 @@
 package com.bftcom.mediastorage.config;
 
-import com.bftcom.mediastorage.model.entity.Role;
-import com.bftcom.mediastorage.security.AppUserDetailsService;
-import com.bftcom.mediastorage.security.AuthEntryPointJwt;
-import com.bftcom.mediastorage.security.AuthTokenFilter;
-import com.bftcom.mediastorage.security.JwtUtils;
+import com.bftcom.mediastorage.data.entity.Role;
+import com.bftcom.mediastorage.web.security.AppUserDetailsService;
+import com.bftcom.mediastorage.web.security.AuthEntryPointJwt;
+import com.bftcom.mediastorage.web.security.AuthTokenFilter;
+import com.bftcom.mediastorage.web.security.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;

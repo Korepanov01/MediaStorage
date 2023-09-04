@@ -1,8 +1,8 @@
 package com.bftcom.mediastorage.service;
 
-import com.bftcom.mediastorage.model.entity.FileType;
-import com.bftcom.mediastorage.repository.CustomJpaRepository;
-import com.bftcom.mediastorage.repository.FileTypeRepository;
+import com.bftcom.mediastorage.data.entity.FileType;
+import com.bftcom.mediastorage.data.repository.CustomJpaRepository;
+import com.bftcom.mediastorage.data.repository.FileTypeRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

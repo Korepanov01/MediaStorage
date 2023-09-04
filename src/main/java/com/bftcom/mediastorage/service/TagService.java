@@ -1,9 +1,9 @@
 package com.bftcom.mediastorage.service;
 
-import com.bftcom.mediastorage.model.entity.Tag;
-import com.bftcom.mediastorage.model.searchparameters.SearchStringParameters;
-import com.bftcom.mediastorage.repository.CustomJpaRepository;
-import com.bftcom.mediastorage.repository.TagRepository;
+import com.bftcom.mediastorage.data.entity.Tag;
+import com.bftcom.mediastorage.web.model.parameter.SearchStringParameters;
+import com.bftcom.mediastorage.data.repository.CustomJpaRepository;
+import com.bftcom.mediastorage.data.repository.TagRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

@@ -1,8 +1,8 @@
 package com.bftcom.mediastorage.service;
 
-import com.bftcom.mediastorage.model.entity.Role;
-import com.bftcom.mediastorage.repository.CustomJpaRepository;
-import com.bftcom.mediastorage.repository.RoleRepository;
+import com.bftcom.mediastorage.data.entity.Role;
+import com.bftcom.mediastorage.data.repository.CustomJpaRepository;
+import com.bftcom.mediastorage.data.repository.RoleRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

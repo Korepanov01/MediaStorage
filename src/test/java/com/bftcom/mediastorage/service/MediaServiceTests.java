@@ -1,10 +1,10 @@
 package com.bftcom.mediastorage.service;
 
 import com.bftcom.mediastorage.exception.TooManyTagsException;
-import com.bftcom.mediastorage.model.entity.Media;
-import com.bftcom.mediastorage.model.entity.Tag;
-import com.bftcom.mediastorage.repository.MediaRepository;
-import com.bftcom.mediastorage.repository.TagRepository;
+import com.bftcom.mediastorage.data.entity.Media;
+import com.bftcom.mediastorage.data.entity.Tag;
+import com.bftcom.mediastorage.data.repository.MediaRepository;
+import com.bftcom.mediastorage.data.repository.TagRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

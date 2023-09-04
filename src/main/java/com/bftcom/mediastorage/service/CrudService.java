@@ -3,7 +3,7 @@ package com.bftcom.mediastorage.service;
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.exception.EntityNotFoundException;
 import com.bftcom.mediastorage.exception.IllegalOperationException;
-import com.bftcom.mediastorage.repository.CustomJpaRepository;
+import com.bftcom.mediastorage.data.repository.CustomJpaRepository;
 import lombok.NonNull;
 
 import java.util.List;
