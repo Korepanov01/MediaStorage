@@ -1,10 +1,10 @@
 package com.bftcom.mediastorage.web.controller.interfaces;
 
-import com.bftcom.mediastorage.data.entity.Identical;
+import com.bftcom.mediastorage.data.entity.BaseEntity;
 
 public interface CrudController <
         Dto,
-        Entity extends Identical,
+        Entity extends BaseEntity,
         PostRequest,
         PutRequest
         >

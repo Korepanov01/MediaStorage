@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.data.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -12,20 +12,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "user", schema = "public",
         indexes = {
                 @Index(name = "uidx_user_name", columnList = "name", unique = true),
                 @Index(name = "uidx_user_email", columnList = "email", unique = true)
         })
-public class User implements Identical {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class User extends BaseEntity {
 
     @NotBlank
     @Size(max = 200)

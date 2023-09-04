@@ -2,6 +2,7 @@ package com.bftcom.mediastorage.data.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
@@ -11,19 +12,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "file", schema = "public",
     indexes = {
         @Index(name = "idx_file_file_type_id", columnList = "file_type_id")
     })
-public class File implements Identical {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class File extends BaseEntity {
 
     @NotBlank
     @Size(max = 200)
@@ -49,12 +46,4 @@ public class File implements Identical {
     @ManyToOne
     @JoinColumn(name = "file_type_id", nullable = false)
     private FileType fileType;
-
-    public File(String name, String contentType, Long size, @NotNull byte[] data, FileType fileType) {
-        this.name = name;
-        this.contentType = contentType;
-        this.size = size;
-        this.data = data;
-        this.fileType = fileType;
-    }
 }

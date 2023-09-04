@@ -2,13 +2,18 @@ package com.bftcom.mediastorage.data.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -17,19 +22,10 @@ import javax.validation.constraints.Size;
             @Index(name = "uidx_tag_name", columnList = "name", unique = true)
         }
 )
-public class Tag implements Identical {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class Tag extends BaseEntity {
 
     @NotBlank
     @Size(max = 200)
     @Column(name = "name", nullable = false)
     private String name;
-
-    public Tag(String name) {
-        this.name = name;
-    }
 }

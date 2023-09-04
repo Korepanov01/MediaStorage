@@ -1,9 +1,9 @@
 package com.bftcom.mediastorage.web.controller.interfaces;
 
+import com.bftcom.mediastorage.data.entity.BaseEntity;
 import com.bftcom.mediastorage.web.Responses;
 import com.bftcom.mediastorage.exception.EntityExistsException;
 import com.bftcom.mediastorage.web.model.response.PostEntityResponse;
-import com.bftcom.mediastorage.data.entity.Identical;
 import com.bftcom.mediastorage.service.CrudService;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
 public interface SaveController<
-        Entity extends Identical,
+        Entity extends BaseEntity,
         PostRequest> {
 
     CrudService<Entity> getMainService();

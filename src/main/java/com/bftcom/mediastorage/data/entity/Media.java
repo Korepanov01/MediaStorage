@@ -1,7 +1,7 @@
 package com.bftcom.mediastorage.data.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -12,8 +12,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "media", schema = "public",
         indexes = {
@@ -21,12 +21,7 @@ import java.util.Set;
                 @Index(name = "idx_media_media_type_id", columnList = "media_type_id"),
                 @Index(name = "idx_media_category_id", columnList = "category_id")
         })
-public class Media implements Identical {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class Media extends BaseEntity {
 
     @NotNull
     @ManyToOne

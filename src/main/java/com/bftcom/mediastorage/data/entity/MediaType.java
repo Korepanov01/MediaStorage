@@ -2,13 +2,18 @@ package com.bftcom.mediastorage.data.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -17,16 +22,11 @@ import javax.validation.constraints.Size;
             @Index(name = "uidx_media_type_name", columnList = "name", unique = true)
         }
 )
-public class MediaType implements Identical {
+public class MediaType extends BaseEntity {
 
     public static final String IMAGE = "Изображение";
     public static final String VIDEO = "Видео";
     public static final String AUDIO = "Аудио";
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
 
     @NotBlank
     @Size(max = 100)
